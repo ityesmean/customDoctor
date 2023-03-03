@@ -14,4 +14,11 @@ Figma 제작 (아이디어 폐기됨) <br>
 ![Figma](./Figma.PNG)
 
 
-test입니다
+- 판결문 AI 모델
+
+[AI-Hub](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=580)
+
+
+- 법률 지식 베이스 AI 모델
+
+[AI-Hub](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=99)
