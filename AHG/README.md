@@ -8,3 +8,7 @@
 - 인구 관련 통계 사이트 ( 엑셀로 다운로드해서 추출하는 형식 )
 
 [KOSIS](https://kosis.kr/statHtml/statHtml.do?orgId=350&tblId=DT_35007_N130)
+
+
+Figma 제작 (아이디어 폐기됨)
+![Figma](./Figma.PNG)
