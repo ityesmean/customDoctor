@@ -10,5 +10,5 @@
 [KOSIS](https://kosis.kr/statHtml/statHtml.do?orgId=350&tblId=DT_35007_N130)
 
 
-Figma 제작 (아이디어 폐기됨)
+Figma 제작 (아이디어 폐기됨) <br>
 ![Figma](./Figma.PNG)
