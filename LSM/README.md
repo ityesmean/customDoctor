@@ -51,6 +51,10 @@ ex) 실시간 마케팅 캠페인, 온라인 상품 추천, 사이버 보안분�
 ![image](assets/title.PNG)
 
 
+# 2주차
+
 ## 03 / 06 (월)
-- 기획 PPT 제작
-![ppt](assets/ppt.pdf)
+- 기획 PPT 제작 (assets 폴더 업로드)
+- 주제 최종 확정
+- 병원 관련 주제 기능 명세서 작성
+![image](assets/img2.PNG)
