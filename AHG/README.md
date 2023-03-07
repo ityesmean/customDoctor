@@ -22,3 +22,7 @@ Figma 제작 (아이디어 폐기됨) <br>
 - 법률 지식 베이스 AI 모델
 
 [AI-Hub](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=99)
+
+
+Figma2 제작
+![Figma2](./Figma_20230307.PNG)
