@@ -28,4 +28,3 @@ Figma2 제작
 ![Figma2](./Figma_20230307.PNG)
 
 
-push test 입니다
