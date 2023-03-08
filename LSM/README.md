@@ -63,3 +63,7 @@ ex) 실시간 마케팅 캠페인, 온라인 상품 추천, 사이버 보안분�
 - 기능 명세서 작성 완료
 - API Docs 작성
 ![image](assets/api.PNG)
+
+## 03 / 08 (수)
+- ERD 설계 진행
+![image](assets/erd.PNG)
