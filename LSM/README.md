@@ -77,3 +77,11 @@ ex) 실시간 마케팅 캠페인, 온라인 상품 추천, 사이버 보안분�
 ## 03 / 10 (금)
 - ERD 수정
 ![image](assets/erd3.png)
+
+
+## 03 / 13 (월)
+- ubuntu hadoop 설정
+![image](assets/hadoop.PNG)
+
+- 맵리듀스 eclipse 예제 실행
+![image](assets/eclipse.PNG)
