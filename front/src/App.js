@@ -3,7 +3,12 @@ import { RouterProvider } from 'react-router-dom';
 import router from './Router';
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <div>Hello</div>
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;
