@@ -1,38 +1,60 @@
-1. 윈도우에서 리눅스로 데이터 옮기기
+- 참고 페이지
     
-    [[Linux] 윈도우에서 리눅스 서버에 파일 전송하기](https://baekh-93.tistory.com/50)
+    [hive sql 실습](https://m.blog.naver.com/PostView.naver?blogId=1231jjong&logNo=222301609556&categoryNo=0&proxyReferer=)
     
-    ```bash
-    1. PowerShell 실행.
-    
-    2. 전송할 파일 경로로 이동.
-    
-    3. 리눅스 서버로 파일 전송.(리눅스 서버의 ID, IP, PW 필요)
-    명령어: scp 파일명 서버계정ID@서버계정IP:받을경로
-    ex) scp text.csv hadoop@xxx.xxx.xx.xxx:home/hadoop/data
-    # 서버계정ID 확인
-    whoami 
-    # 서버계정IP 확인
-    hostname -I 
-    ```
+    [[HIVE] (Hive 실습)Hadoop ETL with (HiveQL)HQL파일,HQL파일로 hadoop에 job제출하기](https://spidyweb.tistory.com/302)
     
 
-1. HDFS 서버에 데이터 올리기
+hive 3.1.2 설치
+
+[[Hive] virtual box linux [ubuntu 18.04]에 하이브 설치,다운로드 4.ubuntu 에 Hive(하이브) 다운로드](https://spidyweb.tistory.com/215)
+
+### 1. 윈도우에서 리눅스로 데이터 옮기기
+
+[[Linux] 윈도우에서 리눅스 서버에 파일 전송하기](https://baekh-93.tistory.com/50)
+
+```bash
+1. PowerShell 실행.
+
+2. 전송할 파일 경로로 이동.
+
+3. 리눅스 서버로 파일 전송.(리눅스 서버의 ID, IP, PW 필요)
+명령어: scp 파일명 서버계정ID@서버계정IP:받을경로
+ex) scp text.csv hadoop@xxx.xxx.xx.xxx:home/hadoop/data
+# 서버계정ID 확인
+whoami 
+# 서버계정IP 확인
+hostname -I 
+```
+
+### 2. HDFS 서버에 데이터 올리기
+
+```bash
+1. 하둡 실행
+명령어: start-all.sh
+jps 실행해서 Resource Manager가 없으면 start-yarn.sh
+
+2. hdfs에 디렉토리 생성
+명령어: hdfs dfs -mkdir /user/hive/warehouse/data
+
+3. 디렉토리에 파일 붙여넣기
+복사할 파일이 있는 경로로 이동 후,
+명령어: hdfs dfs -put XXX.csv /user/hive/warehouse/data
+```
+
+1. HQL 파일 작성하기
     
-    ```bash
-    1. 하둡 실행
-    명령어: start-all.sh
-    jps 실행해서 Resource Manager가 없으면 start-yarn.sh
+    ```sql
+    -- hive 들어가서 설정해주자 성능을 높여야해
     
-    2. hdfs에 디렉토리 생성
-    명령어: hdfs dfs -mkdir /user/hive/warehouse/data
+    hive> set hive.auto.convert.join=true;
+    hive> set hive.auto.convert.join.noconditionaltask=true;
+    hive> set hive.auto.convert.join.noconditionaltask.size=10000000;
     
-    3. 디렉토리에 파일 붙여넣기
-    복사할 파일이 있는 경로로 이동 후,
-    명령어: hdfs dfs -put XXX.csv /user/hive/warehouse/data
+    -- job 당 실행할 전체 reduce task의 수
+    hive> set mapred.reduce.tasks=1;
     ```
     
-2. HQL 파일 작성하기
     - a) csv파일 hive 테이블에 넣기
         
         ```sql
@@ -60,24 +82,26 @@
         ```
         
         ```sql
+        -- JOIN은 부하가 크다 되도록이면 JOIN을 쓰지않고 분석을 할 수 있도록 설계해보자
+        
         -- aaa 테이블이 있다면 삭제
-        DROP TABLE IF EXISTS aaa;
+        DROP TABLE IF EXISTS pharmacy_join;
         
-        CREATE EXTERNAL TABLE IF NOT EXISTS aaa ( # 외부테이블로 생성
-        code STRING,
+        CREATE EXTERNAL TABLE IF NOT EXISTS pharmacy_join(
         name STRING,
-        number INT,
-        rate DOUBLE)
+        region STRING,
+        tel STRING,
+        terminal STRING)
         STORED AS ORC
-        LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/data/join';
+        LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/join';
         
-        INSERT OVERWRITE TABLE aaa
-        SELECT a.code, 
-        a.name , 
-        b.number, 
-        b.rate
-        FROM aaa a left join bbb b
-        on a.code = b.code;
+        INSERT OVERWRITE TABLE pharmacy_join
+        SELECT test.name,
+        NVL(test.region_code_name, " "),
+        NVL(test.tel, " "),
+        NVL(traffic.traffic_terminal, " ")
+        FROM pharmacy_test test LEFT JOIN pharmacy_traffic traffic
+        ON test.code = traffic.code;
         ```
         
     - 참고) 테이블 타입
@@ -109,17 +133,18 @@
         **AVRO**: 데이터 직렬화 시스템. 하둡의 직렬화 방식의 단점인 언어 이식성을 해결하기 위해 만들어진 프로젝트.
         
     
-3. HQL 실행하기
-    
-    ```bash
-    명령어: hive -f hql파일이 있는 디렉토리/hql파일명.hql
-    xe) hive -f /home/hadoop/data/test.hql
-    ```
-    
-4. hive 접속 및 테이블 조회, 데이터 조회
-    
-    ```bash
-    hive
-    > show tables;
-    > select * from aaa limit 10;
-    ```
+
+### 3. HQL 실행하기
+
+```bash
+명령어: hive -f hql파일이 있는 디렉토리/hql파일명.hql
+xe) hive -f /home/hadoop/data/test.hql
+```
+
+### 4. hive 접속 및 테이블 조회, 데이터 조회
+
+```bash
+hive
+> show tables;
+> select * from aaa limit 10;
+```
