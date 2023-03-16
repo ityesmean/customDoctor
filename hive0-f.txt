@@ -1,0 +1,44 @@
+sqoop export --connect jdbc:mysql://127.0.0.1:3307/test --table hospital --export-dir /user/hive/warehouse/hospital/result/000000_0 --username hive --P
+
+
+sqoop export --connect jdbc:mysql://127.0.0.1:3307/test --table dept2 --export-dir /user/hive/warehouse/test01/part-m-00000 --username hive --P
+
+
+sqoop export --connect jdbc:mysql://127.0.0.1:3307/test \
+--username hive --P \
+--export-dir /user/hive/warehouse/hospital/result/000000_0 \
+--input-fields-terminated-by '\001' \
+--input-lines-terminated-by '\n' \
+--input-null-string '' \
+--input-null-non-string '' \
+--columns 'hospital_index, hospital_name, hospital_code, hospital_x, hospital_y, hospital_tel, hospital_star' -m 1 \
+--table hospital 
+
+
+yarn logs -applicationId application_1678941918072_0001
+
+
+
+sqoop export --connect jdbc:mysql://127.0.0.1:3307/test \
+--table hospital \
+--username hive --P \
+--export-dir /user/hive/warehouse/hospital/result/000000_0 \
+--input-escaped-by '\\' \
+--input-fields-terminated-by '\001' \
+--input-lines-terminated-by '\n' \
+--input-null-string '\\N' \
+--input-null-non-string '\\N' \
+--columns 'hospital_index, hospital_name, hospital_code, hospital_x, hospital_y, hospital_tel, hospital_star' -m 1 \
+--verbose \
+-- \
+--ctrl-chars \
+--trunc-string \
+
+
+
+sqoop export --connect jdbc:mysql://127.0.0.1:3307/test \
+--table hospital \
+--username hive --P \
+--export-dir /user/hive/warehouse/hospital/result/000000_0 \
+--input-fields-terminated-by '|' \
+--input-lines-terminated-by '\n'
