@@ -85,3 +85,90 @@ ssh -i [pem파일] [계정]@[도메인주소]
 
 - 중간발표용 아키텍처 설계도 작성 완료
 ![중간발표 설계도](./시스템아키텍처_설계도.png)
+
+## 2023-03-16
+
+- 쿠버네티스 예제 작성 + 테스트
+- 프로젝트 적용 여부 검토중..
+
+#### front
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: test-front
+spec:
+        selector:
+                matchLabels:
+                        app: test-front
+        replicas: 3
+        template:
+                 metadata:
+                    labels:
+                       app: test-front
+                 spec:
+                      containers:
+                          - name : t-front
+                            image: anhyogwan/matdoc:front5
+                            imagePullPolicy : Always
+                            ports:
+                               - containerPort: 3000
+                                 protocol: TCP
+```
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-front-service
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: test-front
+~                                                    
+```
+
+
+#### back
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: test-app
+spec:
+        selector:
+                matchLabels:
+                        app: test-application
+        replicas: 3
+        template:
+                metadata:
+                  labels:
+                          app: test-application
+                spec:
+                        containers:
+                                - name : core
+                                  image : anhyogwan/matdoc:latest
+                                  imagePullPolicy: Always
+                                  ports:
+                                          - containerPort: 8080
+                                            protocol: TCP
+```
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-service
+spec:
+  type: ClusterIp
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: test-application
+```
