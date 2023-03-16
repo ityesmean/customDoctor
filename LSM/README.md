@@ -99,3 +99,10 @@ ex) 실시간 마케팅 캠페인, 온라인 상품 추천, 사이버 보안분�
 - 중간 발표 PPT 제작
 ![image](assets/ppt01.PNG)
 ![image](assets/ppt02.PNG)
+
+
+## 03 / 16 (목)
+- PPT 첨삭 및 수정 (assets 폴더에 mid_ppt.pdf 첨부)
+![ppt](assets/go1.PNG)
+![ppt](assets/go2.PNG)
+![ppt](assets/go3.PNG)
