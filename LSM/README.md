@@ -106,3 +106,10 @@ ex) 실시간 마케팅 캠페인, 온라인 상품 추천, 사이버 보안분�
 ![ppt](assets/go1.PNG)
 ![ppt](assets/go2.PNG)
 ![ppt](assets/go3.PNG)
+
+
+## 03 / 17 (금)
+![ppt](assets/yarn.png)
+![ppt](assets/hive1.png)
+![ppt](assets/hive2.png)
+![ppt](assets/hive3.png)
