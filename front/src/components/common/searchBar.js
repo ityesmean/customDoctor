@@ -63,7 +63,7 @@ function searchBar() {
         <SearchInput
           value={inputValue}
           onChange={onChangeSearch}
-          placeholder="병원명을 입력하세요"
+          placeholder="병원명을 입력하세요."
           autoFocus
         />
       </SearchForm>
