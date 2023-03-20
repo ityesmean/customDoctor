@@ -8,7 +8,7 @@ function Home() {
     <div>
       <img src={Pill} alt="" />
 
-      {/* <SearchBar /> */}
+      <SearchBar />
     </div>
   );
 }

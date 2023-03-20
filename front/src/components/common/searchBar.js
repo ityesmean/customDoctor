@@ -52,11 +52,6 @@ function searchBar() {
     setInputValue('');
   };
 
-  const OnSubmit = () => {
-    // console.log(inputValue);
-    setInputValue('');
-  };
-
   return (
     <SearchContainer>
       <SearchForm onSubmit={handleSubmit}>
@@ -68,7 +63,7 @@ function searchBar() {
         />
       </SearchForm>
 
-      <SearchBtn onClick={OnSubmit}>
+      <SearchBtn onClick={handleSubmit}>
         {/* <div> */}
         <img src={Vec} alt="" />
       </SearchBtn>
