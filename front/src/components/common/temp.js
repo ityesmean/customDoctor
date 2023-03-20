@@ -1,7 +1,8 @@
 import React from 'react';
+// import Smallvector from '../../assets/SmallVector.png';
 
-function tempCommon() {
-  return <div>temp</div>;
+function temp() {
+  return <div>{/* <span>anj</span> */}</div>;
 }
 
-export default tempCommon;
+export default temp;
