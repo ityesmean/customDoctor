@@ -1,0 +1,26 @@
+DROP TABLE IF EXISTS drug_avoid;
+CREATE EXTERNAL TABLE IF NOT EXISTS drug_avoid(
+	drug_avoid_id int,
+	drug_id int,
+	drug_avoid_b int,
+	drug_avoid_desc string                                                                                                                                
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE 
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/drug/result_avoid';
+
+INSERT OVERWRITE TABLE drug_avoid
+        SELECT
+	row_sequence(), 
+	drug_a.drug_id,
+	drug_b.drug_id,
+	avoid.drug_avoid_
+        FROM
+	drug_avoid_tmp AS avoid,
+	(SELECT drug.drug_id, drug.drug_ingrecode FROM drug_avoid_tmp, drug WHERE drug.drug_ingrecode = drug_avoid_tmp.drug_avoid_ingrecodeA) AS drug_a,
+	(SELECT drug.drug_id, drug.drug_ingrecode FROM drug_avoid_tmp, drug WHERE drug.drug_ingrecode = drug_avoid_tmp.drug_avoid_ingrecodeB) AS drug_b
+        WHERE
+	avoid.drug_avoid_ingrecodeA = drug_a.drug_ingrecode AND
+	avoid.drug_avoid_ingrecodeB = drug_b.drug_ingrecode;
