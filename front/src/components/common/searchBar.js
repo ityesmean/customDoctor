@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 // eslint-disable-next-line no-unused-vars
-import Vec from '../../assets/SmallVector.png';
+import Vec from '../../assets/Vector.svg';
 
 const SearchContainer = styled.div`
   width: 90vw;
@@ -69,6 +69,7 @@ function searchBar() {
       </SearchForm>
 
       <SearchBtn onClick={OnSubmit}>
+        {/* <div> */}
         <img src={Vec} alt="" />
       </SearchBtn>
     </SearchContainer>
