@@ -34,8 +34,7 @@ ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
-LOCATION 'hdfs://127.0.0.1:9000/user/drug/detail'
-tblproperties ("skip.header.line.count"="1"); 
+LOCATION 'hdfs://127.0.0.1:9000/user/drug/detail'; 
 
 
 
@@ -113,7 +112,7 @@ CREATE EXTERNAL TABLE drug_avoid_tmp (
 	drug_avoid_n string,
 	drug_avoid_o string,
 	drug_avoid_p string,
-	drug_avoid_q string
+	drug_avoid_sideE string
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
