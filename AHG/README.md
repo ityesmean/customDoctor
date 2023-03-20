@@ -172,3 +172,70 @@ spec:
   selector:
     app: test-application
 ```
+
+### 2023-03-20
+
+Ingress 파일 작성과 Ingress Controller 적용 및 외부 로드밸런서 테스트
+
+
+__Ingress.yaml__
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+        name: nginx-ingress
+        namespace: ingress-nginx
+        annotations:
+                nginx.ingress.kubernetes.io/rewrite-target: /
+                nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+        rules:
+              - host: j8b108.p.ssafy.io
+                http:
+                        paths:
+                        - path: /
+                          pathType: Prefix
+                          backend:
+                            service:
+                                 name: test-front-service
+                                 port:
+                                    number: 80
+        ingressClassName: nginx
+```
+
+Aws NLB(Network LoadBalancer를 불러와 Ingress의 외부 로드밸런서로 적용 시도 )
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/aws/deploy.yaml
+```
+-> NLB가 External IP를 못가져와서 실패<br>
+-> 못가져온 이유는 EKS가 아닌 kubeadm으로 설치가 되있기 떄문에 AWS에서의 클러스터 구축으로 인식을 못하므로 AWS에서 제공해주는 로드밸런서가 적용이 불가능하기 때문
+
+AWS ALB(Application LoadBalancer)
+-> 마찬가지로 실패<br>
+-> NLB의 문제도 있고, ALB의 경우 IAM권한을 이용해 Role을 정해줘야 하는데 SSAFY에서 제공해주는 EC2의 특성 상 IAM권한 생성을 위한 AWS Console 접근이 불가능
+
+### 결론
+__방법 1. Ingress nginx Controller를 NodePort방식으로 사용__
+- 현재 배포하고 있는 방식
+- 단, 접속할때 80,443 포트이용이 불가능하고 30000~32xxx 번의 포트를 반드시 입력해 줘야 하기 때문에 포트포워딩이 필수
+- 매우매우 마음에 안듬..
+
+__방법 2. hostNetworrName=true 설정__
+- 모든컨테이너들이 노드의 네트워크 namespace와 동일한 네트워크를 사용하게 만드는것
+- 이 방법을 사용 할 시 원하는 형태의 주소는 사용이 가능하지만 파드의 IP 주소가 노출 될 우려가 있어 상당히 꺼려짐 (보안상으로 매우 안좋음)
+- 정말 최후의 수단으로만 사용할법한 느낌
+
+__방법 3. ALB,NLB 외의 다른 외부 로드밸런서 찾기__
+- 현재 시도중인 방안 
+- Bare Metal이나 oci 등의 외부 로드밸런서를 가지고와 배포를 하는 방식
+- Private 환경 전용의 로드밸런서가 많기 때문에 과연 Public Cloud 환경인 EC2에서 정상적으로 작동 할 지가 미지수
+
+__방법 4. Ingress를 사용하지 않고 배포하는 방식__
+- 정확하게 알아보진 않음
+- Ingress를 사용하지 않고 Service만 사용하여 배포하는 방식
+- 서비스 IP가 노출되어 보안상 취약점이 생기고 확장성이 너무 구져짐
+- 하지만 현재의 환경에선 그나마 제일 최신의 방법이 아닐까 생각은 하는중
+
+
+그 외의 방법들을 찾아보고 뒤져보고 하는중
+
