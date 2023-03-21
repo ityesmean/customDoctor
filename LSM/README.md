@@ -78,6 +78,7 @@ ex) 실시간 마케팅 캠페인, 온라인 상품 추천, 사이버 보안분�
 - ERD 수정
 ![image](assets/erd3.png)
 
+# 3주차
 
 ## 03 / 13 (월)
 - ubuntu hadoop 설정
@@ -114,7 +115,92 @@ ex) 실시간 마케팅 캠페인, 온라인 상품 추천, 사이버 보안분�
 ![ppt](assets/hive2.png)
 ![ppt](assets/hive3.png)
 
+# 4주차
 
 ## 03 / 20 (월)
 - 엔티티 매핑 및 스프링 환경설정 및 전체적 프로젝트 구조 수정
 ![entity](assets/entity.PNG)
+
+## 03 / 21 (화)
+- drug 코드 일부 발췌
+```
+package com.roller.doc.db.entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Builder
+@Table(name="drug")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Drug {
+	@Id
+	@Column(name="drug_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long drug_id;
+
+	@Column(name="drug_name",columnDefinition = "VARCHAR(100)")
+	private String drug_name;
+
+	@Column(name="drug_img",columnDefinition = "VARCHAR(100)")
+	private String drug_img;
+
+	@Column(name="drug_markf",columnDefinition = "VARCHAR(100)")
+	private String drug_markf;
+
+	@Column(name="drug_markb",columnDefinition = "VARCHAR(100)")
+	private String drug_markb;
+
+	@Column(name="drug_type",columnDefinition = "VARCHAR(20)")
+	private String drug_type;
+
+	@Column(name="drug_colorf",columnDefinition = "VARCHAR(20)")
+	private String drug_colorf;
+
+	@Column(name="drug_colorb",columnDefinition = "VARCHAR(20)")
+	private String drug_colorb;
+
+	@Column(name="drug_line",columnDefinition = "VARCHAR(10)")
+	private String drug_line;
+
+	@Column(name="drug_ingre",columnDefinition = "VARCHAR(50)")
+	private String drug_ingre;
+
+	@OneToMany(mappedBy = "drug")
+	List<DrugMyPill> drugMyPills = new ArrayList<DrugMyPill>();
+
+	public void addDrugMyPill(DrugMyPill drugMyPill) {
+		drugMyPills.add(drugMyPill);
+		drugMyPill.setDrug(this);
+	}
+
+	@OneToMany(mappedBy = "drug")
+	List<DrugAvoid> drugAvoids = new ArrayList<DrugAvoid>();
+
+	public void addDrugAvoid(DrugAvoid drugAvoid) {
+		drugAvoids.add(drugAvoid);
+		drugAvoid.setDrug(this);
+	}
+
+	@OneToOne(mappedBy = "drug")
+	private DrugDesc drugDesc;
+}
+```
