@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Vec from '../../assets/Vector.svg';
 
 const SearchContainer = styled.div`
-  width: 90vw;
+  width: 100vw;
   height: 10vw;
   display: flex;
   justify-content: center;
