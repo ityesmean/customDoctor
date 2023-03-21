@@ -1,7 +1,53 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import HospitalList from '../components/common/HospitalList';
+import Back from '../assets/Back.png';
+import Vec from '../assets/Vector.svg';
+
+const SBack = styled.img`
+  width: 8vw;
+  margin-bottom: 2vh;
+  margin-left: 3vw;
+`;
+
+const SLink = styled(Link)`
+  text-decoration: none;
+`;
+
+const SSearchContainer = styled.div`
+  width: 100vw;
+  height: 10vw;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4vh;
+`;
+
+const SSearchInput = styled.input`
+  justify-content: center;
+  text-align: center;
+  width: 80vw;
+  height: 10vw;
+  border: solid 1px #00c192;
+  border-radius: 10vw;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+`;
+
+const SSearchButton = styled.button`
+  background-image: url('../assets/SmallVectors.png');
+  background-color: white;
+  width: 10vw;
+  height: 10vw;
+  border: solid 1px #00c192;
+  border-radius: 50%;
+  margin-left: 5vw;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  :active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+`;
 
 const SFilterBox = styled.div`
   display: flex;
@@ -57,6 +103,17 @@ function HospitalSearchResult() {
 
   return (
     <>
+      <SLink to="/hospital/search">
+        <SBack src={Back} alt="Back" />
+      </SLink>
+      <SSearchContainer>
+        <SLink to="/hospital/search">
+          <SSearchInput placeholder="검색어를 입력해 주세요." />
+          <SSearchButton>
+            <img src={Vec} alt="search" />
+          </SSearchButton>
+        </SLink>
+      </SSearchContainer>
       <SFilterBox>
         {option.map(value => (
           <SOption key={value}>
