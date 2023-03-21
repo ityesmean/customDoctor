@@ -31,7 +31,7 @@ public class DrugMyPill {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="drug_my_id")
-	private DrugMy drugMy;
+	private DrugMy drug_my;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="drug_id")

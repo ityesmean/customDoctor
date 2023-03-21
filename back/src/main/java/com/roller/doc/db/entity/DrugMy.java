@@ -54,6 +54,6 @@ public class DrugMy {
 
 	public void addDrugMyPill(DrugMyPill drugMyPill) {
 		drugMyPills.add(drugMyPill);
-		drugMyPill.setDrugMy(this);
+		drugMyPill.setDrug_my(this);
 	}
 }

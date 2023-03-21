@@ -1,5 +1,7 @@
 package com.roller.doc.db.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +23,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class HospitalDesc {
+public class HospitalDesc implements Serializable {
 
 	@Id
 	@OneToOne
