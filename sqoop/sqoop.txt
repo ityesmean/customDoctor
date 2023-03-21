@@ -1,0 +1,83 @@
+# hospital
+sqoop export \
+--connect jdbc:mysql://{IPaddress}/doc \
+--table hospital \
+--username hive --password {password} \
+--export-dir /user/hospital/hospital/000000_0 \
+--m 1 \
+--driver com.mysql.jdbc.Driver \
+--fields-terminated-by ',' \
+--lines-terminated-by '\n' \
+--input-null-string '\\N' \
+--input-null-non-string '\\N' \
+--columns 'hospital_id, hospital_index, hospital_name, hospital_code, hospital_x, hospital_y, hospital_tel, hospital_star'
+
+# hospital_desc
+sqoop export \
+--connect jdbc:mysql://{IPaddress}/doc \
+--table hospital_desc \
+--username hive --password {password} \
+--export-dir /user/hospital/desc/000000_0 \
+--m 1 \
+--driver com.mysql.jdbc.Driver \
+--fields-terminated-by ',' \
+--lines-terminated-by '\n' \
+--input-null-string '\\N' \
+--input-null-non-string '\\N' \
+--columns 'hospital_id, hospital_desc_add, hospital_desc_parking, hospital_desc_device, hospital_desc_special'
+
+# hospital_part
+sqoop export \
+--connect jdbc:mysql://{IPaddress}/doc \
+--table hospital_part \
+--username hive --password {password} \
+--export-dir /user/hospital/part/000000_0 \
+--m 1 \
+--driver com.mysql.jdbc.Driver \
+--fields-terminated-by ',' \
+--lines-terminated-by '\n' \
+--input-null-string '\\N' \
+--input-null-non-string '\\N' \
+--columns 'hospital_part_id, hospital_id, hospital_part_name, hospital_part_doctor'
+
+# drug
+sqoop export \
+--connect jdbc:mysql://{IPaddress}/doc \
+--table drug \
+--username hive --password {password} \
+--export-dir /user/drug/drug/000000_0 \
+--m 1 \
+--driver com.mysql.jdbc.Driver \
+--fields-terminated-by ',' \
+--lines-terminated-by '\n' \
+--input-null-string '\\N' \
+--input-null-non-string '\\N' \
+--columns 'drug_id, drug_name, drug_img, drug_markf, drug_markb, drug_type, drug_colorf, drug_colorb, drug_line, drug_ingre'
+
+# drug_avoid
+sqoop export \
+--connect jdbc:mysql://{IPaddress}/doc \
+--table drug_avoid \
+--username hive --password {password} \
+--export-dir /user/hive/warehouse/drug/result_avoid/000000_0 \
+--m 1 \
+--driver com.mysql.jdbc.Driver \
+--fields-terminated-by ',' \
+--lines-terminated-by '\n' \
+--input-null-string '\\N' \
+--input-null-non-string '\\N' \
+--columns 'drug_avoid_id, drug_id, drug_avoid_b, drug_avoid_desc'
+
+# drug_desc
+sqoop export \
+--connect jdbc:mysql://{IPaddress}/doc \
+--table drug_desc \
+--username hive --password {password} \
+--export-dir /user/drug/desc/000000_0 \
+--m 1 \
+--driver com.mysql.jdbc.Driver \
+--fields-terminated-by ',' \
+--lines-terminated-by '\n' \
+--input-null-string '\\N' \
+--input-null-non-string '\\N' \
+--columns 'drug_id, drug_desc_cat, drug_desc_shape, drug_desc_com, drug_desc_safety, drug_desc_effect, drug_desc_use'
