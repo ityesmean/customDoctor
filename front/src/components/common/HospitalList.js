@@ -41,7 +41,11 @@ function HospitalList(props) {
       {hospitalList ? (
         <>
           {hospitalList.map((hospitalCard, index) => (
-            <HospitalCard card={hospitalCard} index={index} />
+            <HospitalCard
+              card={hospitalCard}
+              index={index}
+              key={hospitalCard.hospitalName}
+            />
           ))}
         </>
       ) : null}
