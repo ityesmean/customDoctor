@@ -70,6 +70,7 @@ const SCircle = styled.div`
 const SOpen = styled.div`
   font-weight: bold;
   font-size: 1em;
+  margin-left: 1vw;
 `;
 
 const SLine = styled.div`

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+import Header from '../components/common/Header';
 import HospitalList from '../components/common/HospitalList';
 import Back from '../assets/Back.png';
 import Vec from '../assets/Vector.svg';
@@ -103,6 +104,7 @@ function HospitalSearchResult() {
 
   return (
     <>
+      <Header />
       <SLink to="/hospital/search">
         <SBack src={Back} alt="Back" />
       </SLink>
