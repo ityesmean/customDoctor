@@ -1,5 +1,7 @@
 package com.roller.doc.api.response.hospital;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,15 +15,18 @@ public class HospitalRes {
     private String hospitalCode; //병원분류
     private String hospitalTel; // 전화번호
     private double hospitalStar; //별점
+    private List<String> hospitalTime; //진료시간
 
     @Builder
-    public HospitalRes(int hospitalId, int hospitalIndex, String hospitalName, String hospitalCode, String hospitalTel, double hospitalStar) {
+    public HospitalRes(int hospitalId, int hospitalIndex, String hospitalName, String hospitalCode, String hospitalTel,
+        double hospitalStar, List<String> hospitalTime) {
         this.hospitalId = hospitalId;
         this.hospitalIndex = hospitalIndex;
         this.hospitalName = hospitalName;
         this.hospitalCode = hospitalCode;
         this.hospitalTel = hospitalTel;
         this.hospitalStar = hospitalStar;
+        this.hospitalTime = hospitalTime;
     }
 }
 
