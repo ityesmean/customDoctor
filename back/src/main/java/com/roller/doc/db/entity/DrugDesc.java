@@ -40,12 +40,12 @@ public class DrugDesc implements Serializable {
 	@Column(name="drug_desc_com",columnDefinition = "VARCHAR(20)")
 	private String drug_desc_com;
 
-	@Column(name="drug_desc_safety",columnDefinition = "VARCHAR(300)")
+	@Column(name="drug_desc_safety",columnDefinition = "TEXT")
 	private String drug_desc_safety;
 
-	@Column(name="drug_desc_effect",columnDefinition = "VARCHAR(300)")
+	@Column(name="drug_desc_effect",columnDefinition = "TEXT")
 	private String drug_desc_effect;
 
-	@Column(name="drug_desc_use",columnDefinition = "VARCHAR(300)")
+	@Column(name="drug_desc_use",columnDefinition = "TEXT")
 	private String drug_desc_use;
 }
