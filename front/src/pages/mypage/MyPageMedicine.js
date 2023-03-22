@@ -73,7 +73,6 @@ const SMenu = styled.div`
   /* padding: 3rem; */
   /* border-radius: 1rem; */
 `;
-
 // eslint-disable-next-line no-unused-vars
 function MyPageMedicine(props) {
   const pillLists = [
@@ -103,36 +102,34 @@ function MyPageMedicine(props) {
         <SBack src={Back} alt="Back" />
       </SLink>
       <SPageSelectBox>
-        <SLink to="">
-          <SPageBox>
+        <SPageBox>
+          <SLink to="/mypage/hospitallist">
             <SBox>
               <ImgBox>
                 <SImg src={BlackHospital} alt="BlackHospital" />
               </ImgBox>
               <SText>병원리스트</SText>
             </SBox>
-          </SPageBox>
-        </SLink>
-        <SLink to="">
-          <SPageBox>
-            <SBox>
-              <ImgBox>
-                <SImg src={GreenMedicine} alt="GreenMedicine" />
-              </ImgBox>
-              <SBoldText>나의 약봉지</SBoldText>
-            </SBox>
-          </SPageBox>
-        </SLink>
-        <SLink to="">
-          <SPageBox>
+          </SLink>
+        </SPageBox>
+        <SPageBox>
+          <SBox>
+            <ImgBox>
+              <SImg src={GreenMedicine} alt="GreenMedicine" />
+            </ImgBox>
+            <SBoldText>나의 약봉지</SBoldText>
+          </SBox>
+        </SPageBox>
+        <SPageBox>
+          <SLink to="/mypage/basket">
             <SBox>
               <ImgBox>
                 <SImg src={BlackBasket} alt="BlackBasket" />
               </ImgBox>
               <SText>약 바구니</SText>
             </SBox>
-          </SPageBox>
-        </SLink>
+          </SLink>
+        </SPageBox>
       </SPageSelectBox>
       <SLine />
       <SContainer>
