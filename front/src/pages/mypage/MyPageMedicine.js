@@ -11,6 +11,7 @@ import BlackBasket from '../../assets/MyPage/BlackBasket.png';
 
 const SLink = styled(Link)`
   text-decoration: none;
+  color: black;
 `;
 
 const SBack = styled.img`
@@ -73,6 +74,7 @@ const SMenu = styled.div`
   /* padding: 3rem; */
   /* border-radius: 1rem; */
 `;
+
 // eslint-disable-next-line no-unused-vars
 function MyPageMedicine(props) {
   const pillLists = [

@@ -13,6 +13,7 @@ import BlackBasket from '../../assets/MyPage/BlackBasket.png';
 
 const SLink = styled(Link)`
   text-decoration: none;
+  color: black;
 `;
 
 const SBack = styled.img`

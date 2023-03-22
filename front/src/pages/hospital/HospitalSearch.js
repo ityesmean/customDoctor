@@ -41,20 +41,21 @@ const SMedicalDepartmentBox = styled.div`
 `;
 
 const SOption = styled.div`
-  padding: 4vw;
+  padding: 4.2vw;
 `;
 const SMedicalDepartmentLabel = styled.label`
   display: block;
   width: 20vw;
   background-color: #f1f3f4;
   border-radius: 100px;
-  padding-top: 0.7vh;
-  padding-bottom: 0.7vh;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-weight: bold;
   text-align: center;
+  font-size: 0.9em;
 `;
 
 const SMedicalDepartmentInput = styled.input.attrs({ type: 'radio' })`
@@ -89,11 +90,12 @@ const SNightOrDayoffLabel = styled.label`
   border-radius: 100px;
   padding-top: 0.7vh;
   padding-bottom: 0.7vh;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-weight: bold;
   text-align: center;
+  font-size: 0.9em;
 `;
 
 const SNightOrDayoffInput = styled.input.attrs({ type: 'radio' })`
@@ -147,11 +149,12 @@ const SDistanceLabel = styled.label`
   border-radius: 100px;
   padding-top: 0.7vh;
   padding-bottom: 0.7vh;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-weight: bold;
   text-align: center;
+  font-size: 0.9em;
 `;
 
 const SDistanceInput = styled.input.attrs({ type: 'radio' })`

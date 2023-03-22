@@ -21,4 +21,31 @@ const hospitalSearchSelectedOption = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export { isDarkModeAtom, isUserAtom, hospitalSearchSelectedOption };
+const myBasket = atom({
+  key: 'myMedicine',
+  default: [
+    {
+      name: '아토르반정',
+    },
+    {
+      name: '에페린정',
+    },
+    {
+      name: '가나모티에스알정15mg'
+    },
+    {
+      name: '타이레놀',
+    },
+    {
+      name: '약1',
+    },
+    {
+      name: '약2',
+    }
+  ],
+  effects_UNSTABLE: [persistAtom]
+})
+
+
+
+export { isDarkModeAtom, isUserAtom, hospitalSearchSelectedOption, myBasket };
