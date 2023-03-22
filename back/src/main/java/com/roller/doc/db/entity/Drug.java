@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -58,6 +60,7 @@ public class Drug {
 	@Column(name="drug_ingre",columnDefinition = "VARCHAR(50)")
 	private String drug_ingre;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "drug")
 	List<DrugMyPill> drugMyPills = new ArrayList<DrugMyPill>();
 
@@ -66,6 +69,7 @@ public class Drug {
 		drugMyPill.setDrug(this);
 	}
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "drug")
 	List<DrugAvoid> drugAvoids = new ArrayList<DrugAvoid>();
 
@@ -74,6 +78,7 @@ public class Drug {
 		drugAvoid.setDrug(this);
 	}
 
+	@JsonIgnore
 	@OneToOne(mappedBy = "drug")
 	private DrugDesc drugDesc;
 }
