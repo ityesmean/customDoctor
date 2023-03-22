@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import HospitalDeleteButton from '../common/HospitalDeleteButton';
+
 import Star from '../../assets/IsOpen/Star.png';
 
 const SCard = styled.div`
@@ -38,6 +40,7 @@ const SStarAndDistance = styled.div`
 
 const SStar = styled.img`
   width: 3vw;
+  height: 3vw;
 `;
 
 const SStarScore = styled.div`
@@ -55,8 +58,16 @@ const SPhoneNumber = styled.div``;
 
 const SOpenInformation = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   width: 20vw;
+  text-align: right;
+`;
+
+const SRightBox = styled.div`
+  display: flex;
+  text-align: right;
+  margin-left: auto;
 `;
 
 const SCircle = styled.div`
@@ -85,12 +96,12 @@ const SLine = styled.div`
 function HospitalCard({ card }) {
   //   const [IsMyPage, setIsMypage] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
-  // props 에서 mypage인지 여부 전달 받아서 IsMyPage 상태 변경
+
   return (
     <>
       <SCard>
         <SInformation>
-          <SHospitalName>병원이름ddddddddd</SHospitalName>
+          <SHospitalName>병원이름 병원이름 병원이름 병원이름</SHospitalName>
           <SMedicalDepartment>{card.medicalDepartment}</SMedicalDepartment>
           <SStarAndDistance>
             <SStar src={Star} alt="Star" />
@@ -101,24 +112,15 @@ function HospitalCard({ card }) {
           <SPhoneNumber>012-345-6789</SPhoneNumber>
         </SInformation>
         <SOpenInformation>
-          <SCircle color={isOpen}></SCircle>
-          <SOpen>진료중</SOpen>
+          <SRightBox>
+            <SCircle color={isOpen}></SCircle>
+            <SOpen>진료중</SOpen>
+          </SRightBox>
+          {/* 로그인 한 유저라면 카드에 삭제버튼 있어야 하므로 현재 페이지가 마이페이지 인가? */}
+          {window.location.pathname === '/mypage/hospitallist' ? (
+            <HospitalDeleteButton />
+          ) : null}
         </SOpenInformation>
-        {/* <SHospitalInformation>
-        <div>병원명</div>
-        <div>진료과목</div>
-        <SDetailInformation>
-          <div>별</div>
-          <div>평점</div>
-          <div>거리</div>
-        </SDetailInformation>
-        <div>주소</div>
-        <div>전화번호</div>
-      </SHospitalInformation>
-      <SIsOpen>
-        <div>색깔 동그라미</div>
-        <div>진료여부</div>
-      </SIsOpen> */}
       </SCard>
       <SLine> </SLine>
     </>

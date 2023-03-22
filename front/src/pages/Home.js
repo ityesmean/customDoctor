@@ -77,10 +77,12 @@ function Home() {
           <SSubTitle>약 검색</SSubTitle>
         </SCardBox>
 
-        <SCardBox>
-          <SMypageImg src={MypageMain} alt="Mypage" />
-          <SSubTitle>마이페이지</SSubTitle>
-        </SCardBox>
+        <SLink to="/mypage/hospitallist">
+          <SCardBox>
+            <SMypageImg src={MypageMain} alt="Mypage" />
+            <SSubTitle>마이페이지</SSubTitle>
+          </SCardBox>
+        </SLink>
       </SButtonBox>
     </>
   );
