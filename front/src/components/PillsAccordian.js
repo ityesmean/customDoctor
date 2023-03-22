@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+// import Under from '../assets/Under.png';
+// import Up from '../assets/Up.png';
+
 const SContainer = styled.div`
   display: flex;
   position: relative;
@@ -10,13 +13,14 @@ const SContainer = styled.div`
   border-radius: 5px;
   border: 1px solid gray;
   /* width: 100%; */
+  margin: 5vw 0 0 0;
 `;
 
 const SHeader = styled.div`
   display: flex;
   align-items: center;
-  height: 5vw;
-  width: 100%;
+  height: 8vw;
+  width: 70vw;
   margin: 0 10vw 0 2.5vw;
 `;
 
@@ -48,6 +52,10 @@ const Simage = styled.div`
   padding: 2vw 1vw 2vw 1vw;
 `;
 
+// const SImg = styled.img`
+//   width: 5vw;
+// `;
+
 const SBox = styled.div``;
 
 const Stext = styled.div`
@@ -63,7 +71,11 @@ const SButton = styled.div`
   right: 8px;
   font-size: 3vw;
   position: absolute;
+  display: flex;
+  align-items: center;
 `;
+
+// const SUnder = styled.Under``
 
 function PillsAccordian({ data }) {
   const parentRef = React.useRef(null);
@@ -88,7 +100,8 @@ function PillsAccordian({ data }) {
   );
 
   const parentRefHeight = parentRef.current?.style.height ?? '0px';
-  const buttonText = parentRefHeight === '0px' ? '열기' : '닫기';
+  const buttonText = parentRefHeight === '0px' ? '▲' : '▼';
+  // const buttonText = parentRefHeight === '0px' ? '열기' : '닫기';
 
   return (
     <SContainer>
