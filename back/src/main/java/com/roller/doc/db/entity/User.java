@@ -44,9 +44,9 @@ public class User {
 	@Column(name="user_deleted",columnDefinition = "BOOLEAN", nullable = false)
 	private Boolean user_deleted;
 
-	@Column(name="grant")
+	@Column(name="user_role")
 	@Enumerated(EnumType.STRING)
-	private Role grant;
+	private Role user_role;
 
 	@OneToMany(mappedBy = "user")
 	List<DrugMy> drugMIES = new ArrayList<DrugMy>();
