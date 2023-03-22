@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import BackButton from '../components/common/BackButton';
+import BackButton from '../../components/common/BackButton';
 
-import Header from '../components/common/Header';
-import SearchBar from '../components/common/SearchBar';
+import Header from '../../components/common/Header';
+import SearchBar from '../../components/common/SearchBar';
 
 const SLink = styled(Link)`
   text-decoration: none;

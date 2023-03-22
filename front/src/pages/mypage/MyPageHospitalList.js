@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import Header from '../components/common/Header';
-import Back from '../assets/Back.png';
-import Favorite from '../assets/MyPage/Favorite.png';
-import MedicineBag from '../assets/MyPage/MedicineBag.png';
-import GreenMedicineBasket from '../assets/MyPage/GreenMedicineBasket.png';
+import Header from '../../components/common/Header';
+import Back from '../../assets/Back.png';
+import GreenHospital from '../../assets/MyPage/GreenHospital.png';
+import BlackMedicine from '../../assets/MyPage/BlackMedicine.png';
+import BlackBasket from '../../assets/MyPage/BlackBasket.png';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -60,7 +60,7 @@ const SLine = styled.div`
   background-color: #f1f3f4;
 `;
 
-function MyPageBasket() {
+function MyPageHospitalList() {
   return (
     <>
       <Header />
@@ -72,7 +72,7 @@ function MyPageBasket() {
           <SPageBox>
             <SBox>
               <ImgBox>
-                <SImg src={Favorite} alt="Favorite" />
+                <SImg src={GreenHospital} alt="GreenHospital" />
               </ImgBox>
               <SBoldText>병원리스트</SBoldText>
             </SBox>
@@ -82,7 +82,7 @@ function MyPageBasket() {
           <SPageBox>
             <SBox>
               <ImgBox>
-                <SImg src={MedicineBag} alt="MedicineBag" />
+                <SImg src={BlackMedicine} alt="BlackMedicine" />
               </ImgBox>
               <SText>나의 약봉지</SText>
             </SBox>
@@ -92,7 +92,7 @@ function MyPageBasket() {
           <SPageBox>
             <SBox>
               <ImgBox>
-                <SImg src={GreenMedicineBasket} alt="GreenMedicineBasket" />
+                <SImg src={BlackBasket} alt="BlackBasket" />
               </ImgBox>
               <SText>약 바구니</SText>
             </SBox>
@@ -104,4 +104,4 @@ function MyPageBasket() {
   );
 }
 
-export default MyPageBasket;
+export default MyPageHospitalList;

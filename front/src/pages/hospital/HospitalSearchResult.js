@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Header from '../components/common/Header';
-import HospitalList from '../components/hospital/HospitalList';
-import BackButton from '../components/common/BackButton';
-import Vec from '../assets/Vector.svg';
+import Header from '../../components/common/Header';
+import HospitalList from '../../components/hospital/HospitalList';
+import BackButton from '../../components/common/BackButton';
+import Vec from '../../assets/Vector.svg';
 
 const SLink = styled(Link)`
   text-decoration: none;
