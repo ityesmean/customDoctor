@@ -1,6 +1,6 @@
-/* eslint-disable array-callback-return */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/prop-types */
 import React from 'react';
-// import { useTable } from 'react-table';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -47,33 +47,26 @@ const SCount = styled.div`
   vertical-align: middle;
 `;
 
-function Table({ headers, items }) {
-  // eslint-disable-next-line react/prop-types
+function HospitalSpecialTable({ headers, items }) {
   const headerKey = headers.map(header => header.value);
   return (
     <STable>
       <SThead>
         <STr>
-          {
-            // eslint-disable-next-line react/prop-types
-            headers.map(header => (
-              <STheader key={header.text}>
-                <SText>
-                  {header.text} {/* 컬럼명 바인딩 */}
-                </SText>
-              </STheader>
-            ))
-          }
+          {headers.map(header => (
+            <STheader key={header.text}>
+              <SText>
+                {header.text} {/* 컬럼명 바인딩 */}
+              </SText>
+            </STheader>
+          ))}
         </STr>
       </SThead>
       <STbody>
-        {/* eslint-disable-next-line react/prop-types */}
         {items.map((item, index) => (
-          // eslint-disable-next-line react/no-array-index-key
           <STr key={index}>
             {/* headerKey를 순회하면서 key를 가져옴 */}
             {headerKey.map(key => (
-              // eslint-disable-next-line react/no-array-index-key
               <STd key={key + index}>
                 <SCount>
                   {item[key]} {/* key로 객체의 값을 출력 */}
@@ -87,22 +80,20 @@ function Table({ headers, items }) {
   );
 }
 
-Table.propTypes = {
-  // eslint-disable-next-line react/require-default-props
+HospitalSpecialTable.propTypes = {
   headers: PropTypes.shape({
     text: PropTypes.string,
     value: PropTypes.string,
   }),
-  // eslint-disable-next-line react/require-default-props
   items: PropTypes.shape({
     Name: PropTypes.string,
     Count: PropTypes.number,
   }),
 };
 
-Table.defaultProps = {
+HospitalSpecialTable.defaultProps = {
   headers: null,
   items: null,
 };
 
-export default Table;
+export default HospitalSpecialTable;
