@@ -239,3 +239,17 @@ __방법 4. Ingress를 사용하지 않고 배포하는 방식__
 
 그 외의 방법들을 찾아보고 뒤져보고 하는중
 
+
+### 2023-03-22
+
+Kubernetes 에서 Mysql Operator 에 대한 공부 및 적용
+
+- Operator란 사용자 정의 리소스(CR)을 사용하여 어플리 케이션 및 해당 컴포넌트를 관리하는 쿠버네티스의 소프트웨어 익스텐션
+- 컨트롤 루프(CC)를 따른다
+- 간단하게 생각하면 쿠버네티스의 선언적 형상관리를 DB도 사용자가 직접 지정해서 쿠버네티스한테 맡기는것
+
+메뉴얼 (mysql doc의 Mysql Operator for Kubernetes)
+```
+https://dev.mysql.com/doc/mysql-operator/en/
+```
+
