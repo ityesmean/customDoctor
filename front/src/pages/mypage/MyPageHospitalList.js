@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+
+import HospitalList from '../../components/hospital/HospitalList';
 
 import Header from '../../components/common/Header';
 import Back from '../../assets/Back.png';
@@ -98,6 +101,7 @@ function MyPageHospitalList() {
         </SPageBox>
       </SPageSelectBox>
       <SLine />
+      <HospitalList />
     </>
   );
 }
