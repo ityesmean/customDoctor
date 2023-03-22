@@ -26,3 +26,7 @@
     - sqoop으로 리눅스 내 mysql에 데이터 옮기고 그 데이터를 dump 해서 서버에 올리는 것 까지 완료.
     - 스프링부트 프로젝트 환경설정해서 개발 시작
     
+    ### 3 / 22 (수)
+    - 스프링부트 DTO 구현
+    - searchByHospitalNamer과 findHospitalDesc 구현. 
+        -  이름으로 검색에서 repositpory에 추가한 query가 실행되지 않는 문제 발생 point형으로 쓴 좌표와 경도위도 사이의 거리를 검색하는 함수인 st_distance_sphere가 jpa에서 읽히지 않는 것 같다.. 그래서 nativeQuery 옵션을 줬는데, 이는 JPQL을 쓰는것이 아니라 SQL을 바로 넣는것이다보니까 변수를 넣을 수 없는 문제가 생겼다. 내일 방언으로 함수를 만들어 다시 시도해 볼 예정
