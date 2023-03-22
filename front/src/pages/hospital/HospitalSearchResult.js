@@ -2,16 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Header from '../components/common/Header';
-import HospitalList from '../components/common/HospitalList';
-import Back from '../assets/Back.png';
-import Vec from '../assets/Vector.svg';
-
-const SBack = styled.img`
-  width: 8vw;
-  margin-bottom: 2vh;
-  margin-left: 3vw;
-`;
+import Header from '../../components/common/Header';
+import HospitalList from '../../components/hospital/HospitalList';
+import BackButton from '../../components/common/BackButton';
+import Vec from '../../assets/Vector.svg';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -26,8 +20,9 @@ const SSearchContainer = styled.div`
 `;
 
 const SSearchInput = styled.input`
-  justify-content: center;
-  text-align: center;
+  &::placeholder {
+    padding-left: 5vw;
+  }
   width: 80vw;
   height: 10vw;
   border: solid 1px #00c192;
@@ -56,11 +51,6 @@ const SFilterBox = styled.div`
   justify-content: space-around;
   margin-top: 3vh;
   margin-bottom: 3vh;
-`;
-
-const SLine = styled.div`
-  height: 1vh;
-  background-color: #f1f3f4;
 `;
 
 const SOption = styled.div``;
@@ -94,6 +84,11 @@ const SInput = styled.input.attrs({ type: 'radio' })`
   display: none;
 `;
 
+const SLine = styled.div`
+  height: 1vh;
+  background-color: #f1f3f4;
+`;
+
 function HospitalSearchResult() {
   const option = ['거리순', '별점순', '영업중'];
   const [selectedValue, setSelectedValue] = useState('');
@@ -106,7 +101,7 @@ function HospitalSearchResult() {
     <>
       <Header />
       <SLink to="/hospital/search">
-        <SBack src={Back} alt="Back" />
+        <BackButton />
       </SLink>
       <SSearchContainer>
         <SLink to="/hospital/search">

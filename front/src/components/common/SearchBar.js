@@ -1,27 +1,29 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// eslint-disable-next-line no-unused-vars
 import Vec from '../../assets/Vector.svg';
 
-const SearchContainer = styled.div`
+const SSearchContainer = styled.div`
   width: 100vw;
   height: 10vw;
   display: flex;
   justify-content: center;
+  margin-bottom: 4vh;
   align-items: center;
 `;
 
-const SearchInput = styled.input`
-  /* type: 'text'; */
-  width: 65vw;
+const SSearchInput = styled.input`
+  &::placeholder {
+    padding-left: 5vw;
+  }
+  width: 80vw;
   height: 10vw;
   border: solid 1px #00c192;
   border-radius: 10vw;
-  padding-left: 5vw;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 `;
 
-const SearchBtn = styled.button`
+const SSearchBtn = styled.button`
   /* type: 'button'; */
   background-image: url('../assets/SmallVectors.png');
   background-color: white;
@@ -37,9 +39,9 @@ const SearchBtn = styled.button`
   }
 `;
 
-const SearchForm = styled.form``;
+const SSearchForm = styled.form``;
 
-function searchBar() {
+function SearchBar() {
   const [inputValue, setInputValue] = useState('');
   const onChangeSearch = e => {
     setInputValue(e.target.value);
@@ -53,21 +55,21 @@ function searchBar() {
   };
 
   return (
-    <SearchContainer>
-      <SearchForm onSubmit={handleSubmit}>
-        <SearchInput
+    <SSearchContainer>
+      <SSearchForm onSubmit={handleSubmit}>
+        <SSearchInput
           value={inputValue}
           onChange={onChangeSearch}
           placeholder="병원명을 입력하세요."
           autoFocus
         />
-      </SearchForm>
+      </SSearchForm>
 
-      <SearchBtn onClick={handleSubmit}>
+      <SSearchBtn onClick={handleSubmit}>
         {/* <div> */}
         <img src={Vec} alt="" />
-      </SearchBtn>
-    </SearchContainer>
+      </SSearchBtn>
+    </SSearchContainer>
   );
 }
-export default searchBar;
+export default SearchBar;
