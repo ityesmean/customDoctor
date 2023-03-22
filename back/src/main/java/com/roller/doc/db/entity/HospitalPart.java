@@ -27,7 +27,7 @@ public class HospitalPart {
 	@Id
 	@Column(name="hospital_part_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long hospital_part_id;
+	private int hospital_part_id;
 
 	@Column(name="hospital_part_name",columnDefinition = "INT")
 	private int hospital_part_name;

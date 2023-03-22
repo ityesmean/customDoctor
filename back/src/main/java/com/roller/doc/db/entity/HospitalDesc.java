@@ -34,7 +34,7 @@ public class HospitalDesc implements Serializable {
 	private String hospital_desc_add;
 
 	@Column(name="hospital_desc_parking",columnDefinition = "INT")
-	private String hospital_desc_parking;
+	private int hospital_desc_parking;
 
 	@Column(name="hospital_desc_device",columnDefinition = "VARCHAR(300)")
 	private String hospital_desc_device;

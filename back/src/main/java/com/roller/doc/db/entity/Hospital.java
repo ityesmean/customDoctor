@@ -21,66 +21,63 @@ import lombok.Setter;
 
 @Entity
 @Builder
-@Table(name="hospital")
+@Table(name = "hospital")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Hospital {
 
-	@Id
-	@Column(name="hospital_id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long hospital_id;
+    @Id
+    @Column(name = "hospital_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int hospital_id;
 
-	@Column(name="hospital_index",columnDefinition = "INT")
-	private int hospital_index;
+    @Column(name = "hospital_location", columnDefinition = "point")
+    private Double hospital_location;
 
-	@Column(name="hospital_name",columnDefinition = "VARCHAR(50)")
-	private String hospital_name;
+    @Column(name = "hospital_index", columnDefinition = "INT")
+    private int hospital_index;
 
-	@Column(name="hospital_code",columnDefinition = "VARCHAR(20)")
-	private String hospital_code;
+    @Column(name = "hospital_name", columnDefinition = "VARCHAR(50)")
+    private String hospital_name;
 
-	@Column(name="hospital_x",columnDefinition = "DOUBLE")
-	private Double hospital_x;
+    @Column(name = "hospital_code", columnDefinition = "VARCHAR(20)")
+    private String hospital_code;
 
-	@Column(name="hospital_y",columnDefinition = "DOUBLE")
-	private Double hospital_y;
+    @Column(name = "hospital_tel", columnDefinition = "VARCHAR(50)")
+    private String hospital_tel;
 
-	@Column(name="hospital_tel",columnDefinition = "VARCHAR(50)")
-	private String hospital_tel;
+    @Column(name = "hospital_star", columnDefinition = "DOUBLE")
+    private Double hospital_star;
 
-	@Column(name="hospital_star",columnDefinition = "DOUBLE")
-	private Double hospital_star;
+    @OneToMany(mappedBy = "hospital")
+    List<HospitalMy> hospitalMIES = new ArrayList<HospitalMy>();
 
-	@OneToMany(mappedBy = "hospital")
-	List<HospitalMy> hospitalMIES = new ArrayList<HospitalMy>();
+    public void addHospitalMy(HospitalMy hospitalMy) {
+        hospitalMIES.add(hospitalMy);
+        hospitalMy.setHospital(this);
+    }
 
-	public void addHospitalMy(HospitalMy hospitalMy) {
-		hospitalMIES.add(hospitalMy);
-		hospitalMy.setHospital(this);
-	}
+    @OneToMany(mappedBy = "hospital")
+    List<HospitalPart> hospitalParts = new ArrayList<HospitalPart>();
 
-	@OneToMany(mappedBy = "hospital")
-	List<HospitalPart> hospitalParts = new ArrayList<HospitalPart>();
+    public void addHospitalPart(HospitalPart hospitalPart) {
+        hospitalParts.add(hospitalPart);
+        hospitalPart.setHospital(this);
+    }
 
-	public void addHospitalPart(HospitalPart hospitalPart) {
-		hospitalParts.add(hospitalPart);
-		hospitalPart.setHospital(this);
-	}
+    @OneToMany(mappedBy = "hospital")
+    List<HospitalReview> hospitalReviews = new ArrayList<HospitalReview>();
 
-	@OneToMany(mappedBy = "hospital")
-	List<HospitalReview> hospitalReviews = new ArrayList<HospitalReview>();
+    public void addHospitalReview(HospitalReview hospitalReview) {
+        hospitalReviews.add(hospitalReview);
+        hospitalReview.setHospital(this);
+    }
 
-	public void addHospitalReview(HospitalReview hospitalReview) {
-		hospitalReviews.add(hospitalReview);
-		hospitalReview.setHospital(this);
-	}
+    @OneToOne(mappedBy = "hospital")
+    private HospitalTime hospitalTime;
 
-	@OneToOne(mappedBy = "hospital")
-	private HospitalTime hospitalTime;
-
-	@OneToOne(mappedBy = "hospital")
-	private HospitalDesc hospitalDesc;
+    @OneToOne(mappedBy = "hospital")
+    private HospitalDesc hospitalDesc;
 }
