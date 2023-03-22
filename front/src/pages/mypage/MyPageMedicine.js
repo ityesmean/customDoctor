@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import PillsAccordian from '../components/PillsAccordian';
+import PillsAccordian from '../../components/PillsAccordian';
 
-import Header from '../components/common/Header';
-import Back from '../assets/Back.png';
-import Favorite from '../assets/MyPage/Favorite.png';
-import GreenMedicineBag from '../assets/MyPage/GreenMedicineBag.png';
-import MedicineBasket from '../assets/MyPage/MedicineBasket.png';
+import Header from '../../components/common/Header';
+import Back from '../../assets/Back.png';
+import BlackHospital from '../../assets/MyPage/BlackHospital.png';
+import GreenMedicine from '../../assets/MyPage/GreenMedicine.png';
+import BlackBasket from '../../assets/MyPage/BlackBasket.png';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -75,7 +75,7 @@ const SMenu = styled.div`
 `;
 
 // eslint-disable-next-line no-unused-vars
-function MyPageMedicineBag(props) {
+function MyPageMedicine(props) {
   const pillLists = [
     {
       title: '감기약 처방전',
@@ -107,7 +107,7 @@ function MyPageMedicineBag(props) {
           <SPageBox>
             <SBox>
               <ImgBox>
-                <SImg src={Favorite} alt="Favorite" />
+                <SImg src={BlackHospital} alt="BlackHospital" />
               </ImgBox>
               <SText>병원리스트</SText>
             </SBox>
@@ -117,7 +117,7 @@ function MyPageMedicineBag(props) {
           <SPageBox>
             <SBox>
               <ImgBox>
-                <SImg src={GreenMedicineBag} alt="GreenMedicineBag" />
+                <SImg src={GreenMedicine} alt="GreenMedicine" />
               </ImgBox>
               <SBoldText>나의 약봉지</SBoldText>
             </SBox>
@@ -127,7 +127,7 @@ function MyPageMedicineBag(props) {
           <SPageBox>
             <SBox>
               <ImgBox>
-                <SImg src={MedicineBasket} alt="MedicineBasket" />
+                <SImg src={BlackBasket} alt="BlackBasket" />
               </ImgBox>
               <SText>약 바구니</SText>
             </SBox>
@@ -150,4 +150,4 @@ function MyPageMedicineBag(props) {
   );
 }
 
-export default MyPageMedicineBag;
+export default MyPageMedicine;

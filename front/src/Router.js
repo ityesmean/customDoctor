@@ -1,11 +1,11 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
-import HospitalSearchResult from './pages/HospitalSearchResult';
-import HospitalSearch from './pages/HospitalSearch';
-import MyPageMedicineBag from './pages/MyPageMedicineBag';
-import MyPageFavorite from './pages/MyPageFavorite';
-import MyPageBasket from './pages/MyPageBasket';
+import HospitalSearchResult from './pages/hospital/HospitalSearchResult';
+import HospitalSearch from './pages/hospital/HospitalSearch';
+import MyPageMedicine from './pages/mypage/MyPageMedicine';
+import MyPageHospitalList from './pages/mypage/MyPageHospitalList';
+import MyPageBasket from './pages/mypage/MyPageBasket';
 
 const router = createBrowserRouter([
   {
@@ -21,12 +21,12 @@ const router = createBrowserRouter([
     element: <HospitalSearch />,
   },
   {
-    path: '/mypage/medicinebag',
-    element: <MyPageMedicineBag />,
+    path: '/mypage/medicine',
+    element: <MyPageMedicine />,
   },
   {
-    path: '/mypage/favorite',
-    element: <MyPageFavorite />,
+    path: '/mypage/hospitallist',
+    element: <MyPageHospitalList />,
   },
   {
     path: '/mypage/basket',
