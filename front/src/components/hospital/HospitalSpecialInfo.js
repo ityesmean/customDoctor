@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import HospitalSpecialTable from './HospitalSpecialTable';
+import HospitalSpecialVote from './HospitalSpecialVote';
 
 const SgraphContainer = styled.div``;
 
-function HospitalSpecialList() {
+function HospitalSpecialInfo() {
   const headers = [
     {
       text: '의료장비명',
@@ -37,9 +37,9 @@ function HospitalSpecialList() {
 
   return (
     <SgraphContainer>
-      <HospitalSpecialTable headers={headers} items={items} />
+      <HospitalSpecialVote headers={headers} items={items} />
     </SgraphContainer>
   );
 }
 
-export default HospitalSpecialList;
+export default HospitalSpecialInfo;
