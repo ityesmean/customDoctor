@@ -235,13 +235,20 @@ function HospitalSearch() {
     options.push(selectedMedicalDepartment);
     options.push(selectedNightOrDayoff);
     options.push(selectedDistance);
+
+    if ('' in options) {
+      alert('빈값을 채워주세요');
+      console.log('경고');
+    } else {
+      navigate('/hospital/search/result');
+    }
+
     setSelectedOption(options);
-    navigate('/hospital/search/result');
   };
 
-  console.log(selectedMedicalDepartment);
-  console.log(selectedNightOrDayoff);
-  console.log(selectedDistance);
+  // console.log(selectedMedicalDepartment);
+  // console.log(selectedNightOrDayoff);
+  // console.log(selectedDistance);
 
   return (
     <>
