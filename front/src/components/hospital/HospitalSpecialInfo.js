@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import HospitalSpecialVote from './HospitalSpecialVote';
+import HospitalSpecialTal from './HospitalSpecialTal';
 
 const SgraphContainer = styled.div``;
 
@@ -37,7 +37,7 @@ function HospitalSpecialInfo() {
 
   return (
     <SgraphContainer>
-      <HospitalSpecialVote headers={headers} items={items} />
+      <HospitalSpecialTal headers={headers} items={items} />
     </SgraphContainer>
   );
 }

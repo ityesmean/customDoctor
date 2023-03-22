@@ -47,7 +47,7 @@ const SCount = styled.div`
   vertical-align: middle;
 `;
 
-function HospitalSpecialVote({ headers, items }) {
+function HospitalSpecialTal({ headers, items }) {
   const headerKey = headers.map(header => header.value);
   return (
     <STable>
@@ -80,7 +80,7 @@ function HospitalSpecialVote({ headers, items }) {
   );
 }
 
-HospitalSpecialVote.propTypes = {
+HospitalSpecialTal.propTypes = {
   headers: PropTypes.shape({
     text: PropTypes.string,
     value: PropTypes.string,
@@ -91,9 +91,9 @@ HospitalSpecialVote.propTypes = {
   }),
 };
 
-HospitalSpecialVote.defaultProps = {
+HospitalSpecialTal.defaultProps = {
   headers: null,
   items: null,
 };
 
-export default HospitalSpecialVote;
+export default HospitalSpecialTal;
