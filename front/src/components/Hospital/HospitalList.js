@@ -1,5 +1,4 @@
 import React from 'react';
-
 import HospitalCard from './HospitalCard';
 
 // props 로는 선택된 필터 버튼의 값이 전달된다. ex) distance, star, open

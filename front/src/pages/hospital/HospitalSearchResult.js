@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -6,6 +7,8 @@ import Header from '../../components/common/Header';
 import HospitalList from '../../components/hospital/HospitalList';
 import BackButton from '../../components/common/BackButton';
 import Vec from '../../assets/Vector.svg';
+
+import { hospitalSearchSelectedOption } from '../../atoms';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -90,12 +93,17 @@ const SLine = styled.div`
 `;
 
 function HospitalSearchResult() {
+  const resultOptions = useRecoilValue(hospitalSearchSelectedOption);
   const option = ['거리순', '별점순', '영업중'];
   const [selectedValue, setSelectedValue] = useState('');
 
   const handleSelectedValue = e => {
     setSelectedValue(e.target.value);
   };
+
+  useEffect(() => {
+    console.log(resultOptions);
+  }, []);
 
   return (
     <>

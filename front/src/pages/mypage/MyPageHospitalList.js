@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+
+import HospitalList from '../../components/hospital/HospitalList';
 
 import Header from '../../components/common/Header';
 import Back from '../../assets/Back.png';
@@ -68,38 +71,37 @@ function MyPageHospitalList() {
         <SBack src={Back} alt="Back" />
       </SLink>
       <SPageSelectBox>
-        <SLink to="">
-          <SPageBox>
-            <SBox>
-              <ImgBox>
-                <SImg src={GreenHospital} alt="GreenHospital" />
-              </ImgBox>
-              <SBoldText>병원리스트</SBoldText>
-            </SBox>
-          </SPageBox>
-        </SLink>
-        <SLink to="">
-          <SPageBox>
+        <SPageBox>
+          <SBox>
+            <ImgBox>
+              <SImg src={GreenHospital} alt="GreenHospital" />
+            </ImgBox>
+            <SBoldText>병원리스트</SBoldText>
+          </SBox>
+        </SPageBox>
+        <SPageBox>
+          <SLink to="/mypage/medicine">
             <SBox>
               <ImgBox>
                 <SImg src={BlackMedicine} alt="BlackMedicine" />
               </ImgBox>
               <SText>나의 약봉지</SText>
             </SBox>
-          </SPageBox>
-        </SLink>
-        <SLink to="">
-          <SPageBox>
+          </SLink>
+        </SPageBox>
+        <SPageBox>
+          <SLink to="/mypage/basket">
             <SBox>
               <ImgBox>
                 <SImg src={BlackBasket} alt="BlackBasket" />
               </ImgBox>
               <SText>약 바구니</SText>
             </SBox>
-          </SPageBox>
-        </SLink>
+          </SLink>
+        </SPageBox>
       </SPageSelectBox>
       <SLine />
+      <HospitalList />
     </>
   );
 }

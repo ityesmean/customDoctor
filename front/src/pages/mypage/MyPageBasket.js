@@ -68,36 +68,34 @@ function MyPageBasket() {
         <SBack src={Back} alt="Back" />
       </SLink>
       <SPageSelectBox>
-        <SLink to="">
-          <SPageBox>
+        <SPageBox>
+          <SLink to="">
             <SBox>
               <ImgBox>
                 <SImg src={BlackHospital} alt="BlackHospital" />
               </ImgBox>
               <SBoldText>병원리스트</SBoldText>
             </SBox>
-          </SPageBox>
-        </SLink>
-        <SLink to="">
-          <SPageBox>
+          </SLink>
+        </SPageBox>
+        <SPageBox>
+          <SLink to="/mypage/medicine">
             <SBox>
               <ImgBox>
                 <SImg src={BlackMedicine} alt="BlackMedicine" />
               </ImgBox>
               <SText>나의 약봉지</SText>
             </SBox>
-          </SPageBox>
-        </SLink>
-        <SLink to="">
-          <SPageBox>
-            <SBox>
-              <ImgBox>
-                <SImg src={GreenBasket} alt="GreenBasket" />
-              </ImgBox>
-              <SText>약 바구니</SText>
-            </SBox>
-          </SPageBox>
-        </SLink>
+          </SLink>
+        </SPageBox>
+        <SPageBox>
+          <SBox>
+            <ImgBox>
+              <SImg src={GreenBasket} alt="GreenBasket" />
+            </ImgBox>
+            <SText>약 바구니</SText>
+          </SBox>
+        </SPageBox>
       </SPageSelectBox>
       <SLine />
     </>
