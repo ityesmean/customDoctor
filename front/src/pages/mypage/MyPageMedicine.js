@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import PillsAccordian from '../../components/PillsAccordian';
+import PillsAccordian from '../../components/myPage/PillsAccordian';
 
 import Header from '../../components/common/Header';
 import Back from '../../assets/Back.png';
