@@ -27,8 +27,13 @@ public class HospitalController {
 
     @GetMapping("/search/{word}")
     public ResponseEntity searchByWord(@PathVariable("word") String word) {
-        System.out.println(word);
         ResponseDTO responseDTO = hospitalService.searchByHospitalName(word);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+    }
+
+    @GetMapping("/desc/{id}")
+    public  ResponseEntity findHospitalDetail(@PathVariable("id") int id){
+        ResponseDTO responseDTO = hospitalService.detailedHospital(id);
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 }

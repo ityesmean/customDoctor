@@ -18,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.geo.Point;
 
 @Entity
 @Builder
@@ -33,8 +34,8 @@ public class Hospital {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int hospital_id;
 
-    @Column(name = "hospital_location", columnDefinition = "point")
-    private Double hospital_location;
+//    @Column(name = "hospital_location", columnDefinition = "point")
+//    private Point hospital_location;
 
     @Column(name = "hospital_index", columnDefinition = "INT")
     private int hospital_index;
@@ -44,6 +45,12 @@ public class Hospital {
 
     @Column(name = "hospital_code", columnDefinition = "VARCHAR(20)")
     private String hospital_code;
+
+    @Column(name = "hospital_x", columnDefinition = "DOUBLE")
+    private String hospital_x;
+
+    @Column(name = "hospital_y", columnDefinition = "DOUBLE")
+    private String hospital_y;
 
     @Column(name = "hospital_tel", columnDefinition = "VARCHAR(50)")
     private String hospital_tel;

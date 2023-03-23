@@ -16,12 +16,11 @@ public class HospitalRes {
     private double hospitalStar; //별점
     private List<String> hospitalTime; //진료시간
     private List<String> hospitalPart; //진료과목
-    private int hospitalDistance; //병원까지의 거리
 
     @Builder
 
     public HospitalRes(int hospitalId, String hospitalName, String hospitalCode, String hospitalTel, double hospitalStar,
-                       List<String> hospitalTime, List<String> hospitalPart, int hospitalDistance) {
+                       List<String> hospitalTime, List<String> hospitalPart) {
         this.hospitalId = hospitalId;
         this.hospitalName = hospitalName;
         this.hospitalCode = hospitalCode;
@@ -29,7 +28,6 @@ public class HospitalRes {
         this.hospitalStar = hospitalStar;
         this.hospitalTime = hospitalTime;
         this.hospitalPart = hospitalPart;
-        this.hospitalDistance = hospitalDistance;
     }
 }
 

@@ -44,9 +44,8 @@ public class HospitalServiceImpl implements HospitalService {
     public ResponseDTO searchByHospitalName(String word) {
         ResponseDTO responseDTO = new ResponseDTO();
         List<Hospital> hospitalList = hospitalRepository.searchByHospitalName(word);
-//        System.out.println(hospitalList.get(0).getHospital_name());
-        if (hospitalList.size() == 0) { //반환값이 없으면 실패
-            responseDTO.setStatus_code(200);
+        if (hospitalList.size()==0) { //반환값이 없으면 실패
+            responseDTO.setStatus_code(400);
             responseDTO.setMessage("검색 결과가 없습니다");
             responseDTO.setData(null);
         } else {
@@ -55,17 +54,12 @@ public class HospitalServiceImpl implements HospitalService {
             for (int i = 0; i < hospitalList.size(); i++) {
                 int id = hospitalList.get(i).getHospital_id();
                 List<HospitalPart> partList = hospitalRepository.findHospitalPart(id); //진료과목
-//                System.out.println("------------------------------------------");
                 List<String> partResult = new ArrayList<>();
-                if (partList.size() == 0) {
-                    responseDTO.setStatus_code(0);
-                    responseDTO.setMessage("검색 결과가 없습니다");
-                    responseDTO.setData(null);
-                } else {
+                if (partList.size() > 0){
                     for (int j = 0; j < partList.size(); j++) {
-                        int partNo = partList.get(i).getHospital_part_name();
+                        int partNo = partList.get(j).getHospital_part_name();
                         partResult.add(findPart(partNo)); //진료과목 찾아서 넣기
-                        partResult.add(partList.get(i).getHospital_part_doctor() + ""); //의사수
+                        partResult.add(partList.get(j).getHospital_part_doctor() + ""); //의사수
                     }
                 }
                 HospitalRes hospitalRes = HospitalRes.builder()
@@ -74,25 +68,23 @@ public class HospitalServiceImpl implements HospitalService {
                         .hospitalCode(hospitalList.get(i).getHospital_code())
                         .hospitalTel(hospitalList.get(i).getHospital_tel())
                         .hospitalStar(hospitalList.get(i).getHospital_star())
-                        .hospitalTime(partResult) //운영시간없음
                         .hospitalPart(partResult)
-                        .hospitalDistance(0) //거리없음
                         .build();
                 result.add(hospitalRes);
             }
-            responseDTO.setStatus_code(200);
-            responseDTO.setMessage("이름으로 병원찾기 검색 결과 리스트");
-            responseDTO.setData(result);
+                responseDTO.setStatus_code(200);
+                responseDTO.setMessage("이름으로 병원찾기 검색 결과 리스트");
+                responseDTO.setData(result);
         }
         return responseDTO;
 
     }
 
     private String findPart(int partNo) {
-        String[] arr = {"내과", "신경과", "정신건강의학과", "외과", "정형외과", "신경외과", "심장혈관흉부외과", "성형외과", "마취통증의학과", "산부인과",
+        String[] arr = {"0", "내과", "신경과", "정신건강의학과", "외과", "정형외과", "신경외과", "심장혈관흉부외과", "성형외과", "마취통증의학과", "산부인과",
                 "소아청소년과", "안과", "이비인후과", "피부과", "비뇨의학과", "영상의학과", "방사선종양학과", "병리과", "진단검사의학과", "결핵과", "재활의학과"
                 , "핵의학과", "가정의학과", "응급의학과", "직업환경의학과", "예방의학과", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
-                "40", "보건", "보건기관치과", "보건기관한방", "치과", "구강악안면외과", "치과보철과", "소아치과", "치주과", "치과보존과", "구강내과",
+                "약국", "보건", "보건기관치과", "43", "보건기관한방", "45", "46", "47", "48", "치과", "구강악안면외과", "치과보철과", "소아치과", "치주과", "치과보존과", "구강내과",
                 "영상치의학과", "구강병리과", "예방치과", "치과소계", "통합치의학과", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71"
                 , "72", "73", "74", "75", "76", "77", "78", "79", "한방내과", "한방부인과", "한방소아과", "한방안·이비인후·피부과", "한방신경정신과"
                 , "침구과", "한방재활의학과", "사상체질과", "한방응급"};
@@ -106,10 +98,12 @@ public class HospitalServiceImpl implements HospitalService {
         try {
             HospitalDesc hospitalDesc = hospitalRepository.findHospitalDesc(id);
             if (hospitalDesc == null) {
-                responseDTO.setStatus_code(0);
+                responseDTO.setStatus_code(400);
                 responseDTO.setMessage("상세보기가 없습니다");
+                responseDTO.setData(null);
             } else {
                 HospitalDescRes hospitalDescRes = HospitalDescRes.builder()
+                        .hospitalId(id)
                         .hospitalAdd(hospitalDesc.getHospital_desc_add())
                         .hospitalParking(hospitalDesc.getHospital_desc_parking())
                         .hospitalDevice(hospitalDesc.getHospital_desc_device())
