@@ -6,6 +6,7 @@ import HospitalSearch from './pages/hospital/HospitalSearch';
 import MyPageMedicine from './pages/mypage/MyPageMedicine';
 import MyPageHospitalList from './pages/mypage/MyPageHospitalList';
 import MyPageBasket from './pages/mypage/MyPageBasket';
+import PillDetail from './pages/pill/PillDetail';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: '/mypage/basket',
     element: <MyPageBasket />,
+  },
+  {
+    path: '/pill/detail',
+    element: <PillDetail />,
   },
 ]);
 
