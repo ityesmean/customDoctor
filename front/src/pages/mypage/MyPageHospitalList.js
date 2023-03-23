@@ -7,9 +7,9 @@ import HospitalList from '../../components/hospital/HospitalList';
 
 import Header from '../../components/common/Header';
 import Back from '../../assets/Back.png';
-import GreenHospital from '../../assets/MyPage/GreenHospital.png';
-import BlackMedicine from '../../assets/MyPage/BlackMedicine.png';
-import BlackBasket from '../../assets/MyPage/BlackBasket.png';
+import GreenHospital from '../../assets/Mypage/GreenHospital.png';
+import BlackMedicine from '../../assets/Mypage/BlackMedicine.png';
+import BlackBasket from '../../assets/Mypage/BlackBasket.png';
 
 const SLink = styled(Link)`
   text-decoration: none;
