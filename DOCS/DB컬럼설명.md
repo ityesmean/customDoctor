@@ -16,7 +16,7 @@
 
 삭제여부
 
-### grant
+### user_role
 
 관리자여부(등급)
 
@@ -28,6 +28,9 @@
 
 자체적으로 생성한 고유 병원id
 
+### hospital_location
+point 형으로 저장된 병원의 좌표값
+
 ### hospital_name
 
 요양기관명
@@ -35,14 +38,6 @@
 ### hospital_code
 
 종별코드
-
-### hospital_x
-
-x좌표, 경도
-
-### hospital_y
-
-y좌표, 위도
 
 ### hospital_tel
 
