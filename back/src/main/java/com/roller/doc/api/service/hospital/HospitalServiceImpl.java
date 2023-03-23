@@ -41,9 +41,9 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     @Override
-    public ResponseDTO searchByHospitalName(String word, double x, double y) {
+    public ResponseDTO searchByHospitalName(String word) {
         ResponseDTO responseDTO = new ResponseDTO();
-        List<Hospital> hospitalList = hospitalRepository.searchByHospitalName(word,x, y);
+        List<Hospital> hospitalList = hospitalRepository.searchByHospitalName(word);
 //        System.out.println(hospitalList.get(0).getHospital_name());
         if (hospitalList.size() == 0) { //반환값이 없으면 실패
             responseDTO.setStatus_code(200);

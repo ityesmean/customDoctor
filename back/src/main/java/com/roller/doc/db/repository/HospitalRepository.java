@@ -9,14 +9,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     //이름으로 병원검색하기
-    @Query(value = "SELECT h.hospital_id,h.hospital_name,h.hospital_code,h.hospital_tel,h.hospital_star" +
-            " FROM hospital h WHERE ST_Distance_Sphere(h.hospital_location, point(:x, :y))<=3000 " +
-            "AND h.hospital_name LIKE '%:word%' ORDER BY ST_Distance_Sphere(h.hospital_location, point(:x, :y))", nativeQuery = true)
-    List<Hospital> searchByHospitalName(@Param("word") String word,@Param("x") double x, @Param("y") double y);
+    @Query(value = "SELECT h FROM Hospital h WHERE h.hospital_name like %:word%")
+    List<Hospital> searchByHospitalName(@Param("word") String word);
+
+    //이름으로 병원검색하기
+//    List<Hospital> findHospitalByHospital_nameContains(String word);
 
     //[filter]NKm 안의 병원찾기 default=3000
     @Query(value = "SELECT h FROM Hospital h WHERE ST_Distance_Sphere(h.hospital_location, point(:x, :y))<:d" +

@@ -5,7 +5,7 @@ import com.roller.doc.api.response.hospital.HospitalDescRes;
 import com.roller.doc.api.response.hospital.HospitalRes;
 
 public interface HospitalService {
-    ResponseDTO searchByHospitalName(String word, double x, double y); //병원이름으로 검색
+    ResponseDTO searchByHospitalName(String word); //병원이름으로 검색
 
     ResponseDTO searchByHospitalLocation(double x, double y, int d); //거리로 검색
 
