@@ -28,5 +28,10 @@
     
     ### 3 / 22 (수)
     - 스프링부트 DTO 구현
-    - searchByHospitalNamer과 findHospitalDesc 구현. 
+    - searchByHospitalName과 findHospitalDesc 구현. 
         -  이름으로 검색에서 repositpory에 추가한 query가 실행되지 않는 문제 발생 point형으로 쓴 좌표와 경도위도 사이의 거리를 검색하는 함수인 st_distance_sphere가 jpa에서 읽히지 않는 것 같다.. 그래서 nativeQuery 옵션을 줬는데, 이는 JPQL을 쓰는것이 아니라 SQL을 바로 넣는것이다보니까 변수를 넣을 수 없는 문제가 생겼다. 내일 방언으로 함수를 만들어 다시 시도해 볼 예정
+
+    ### 3 / 23 (목)
+    - searchByHospitalName 에러 원인 발견
+        - 수요일의 문제를 오전내내 뜯어본 결과 nativeQuery문제가 아니라 JPA에서 point자체를 읽지 못하는게 문제다. 그리고 st_distance_sphere가 jpa에 있는데 MySql에선 지원을 안한다고 한다. 그래서 DB자체를 옮겨야 할지도 모르지만.. 일단 스프링 개발이 급해 두 문제는 내일 해결하기로 했다.. 로컬DB에서 point를 쓰지 않고 hosptial의 id값만 가져다가 findHospitalDesc 와 searchByHospitalName 구현을 완료하고 API작성도 1차적으로 마무리했다.
+    - 전문가미팅 : 하둡과 하이브가 실무에서 어떻게 사용되는지 질문했는데 확실히 우리가 쓰고있는 느낌은 아니었다. 데이터를 분산해서 저장해 빠르게 읽고 연산하는 것이 핵심인데 우리는 분산할만한 데이터 양이 되지도 않고.. 그저 맵리듀스를 써본다는 데 의의를 둔 것 같다. 
