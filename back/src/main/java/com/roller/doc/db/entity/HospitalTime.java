@@ -30,6 +30,9 @@ public class HospitalTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long hospital_time_id;
 
+	@Column(name="hospital_id", columnDefinition = "INT")
+	private long hospital_id;
+
 	@Column(name="hospital_time_mon_s",columnDefinition = "VARCHAR(50)")
 	private String hospital_time_mon_s;
 
@@ -72,7 +75,4 @@ public class HospitalTime {
 	@Column(name="hospital_time_sun_e",columnDefinition = "VARCHAR(50)")
 	private String hospital_time_sun_e;
 
-	@OneToOne
-	@JoinColumn(name="hospital_id")
-	private Hospital hospital;
 }

@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,10 +33,7 @@ public class Hospital {
     @Id
     @Column(name = "hospital_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int hospital_id;
-
-//    @Column(name = "hospital_location", columnDefinition = "point")
-//    private Point hospital_location;
+    private long hospital_id;
 
     @Column(name = "hospital_index", columnDefinition = "INT")
     private int hospital_index;
@@ -47,10 +45,10 @@ public class Hospital {
     private String hospital_code;
 
     @Column(name = "hospital_x", columnDefinition = "DOUBLE")
-    private String hospital_x;
+    private double hospital_x;
 
     @Column(name = "hospital_y", columnDefinition = "DOUBLE")
-    private String hospital_y;
+    private double hospital_y;
 
     @Column(name = "hospital_tel", columnDefinition = "VARCHAR(50)")
     private String hospital_tel;
@@ -58,33 +56,4 @@ public class Hospital {
     @Column(name = "hospital_star", columnDefinition = "DOUBLE")
     private Double hospital_star;
 
-    @OneToMany(mappedBy = "hospital")
-    List<HospitalMy> hospitalMIES = new ArrayList<HospitalMy>();
-
-    public void addHospitalMy(HospitalMy hospitalMy) {
-        hospitalMIES.add(hospitalMy);
-        hospitalMy.setHospital(this);
-    }
-
-    @OneToMany(mappedBy = "hospital")
-    List<HospitalPart> hospitalParts = new ArrayList<HospitalPart>();
-
-    public void addHospitalPart(HospitalPart hospitalPart) {
-        hospitalParts.add(hospitalPart);
-        hospitalPart.setHospital(this);
-    }
-
-    @OneToMany(mappedBy = "hospital")
-    List<HospitalReview> hospitalReviews = new ArrayList<HospitalReview>();
-
-    public void addHospitalReview(HospitalReview hospitalReview) {
-        hospitalReviews.add(hospitalReview);
-        hospitalReview.setHospital(this);
-    }
-
-    @OneToOne(mappedBy = "hospital")
-    private HospitalTime hospitalTime;
-
-    @OneToOne(mappedBy = "hospital")
-    private HospitalDesc hospitalDesc;
 }

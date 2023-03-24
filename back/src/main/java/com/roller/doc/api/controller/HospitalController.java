@@ -1,9 +1,8 @@
 package com.roller.doc.api.controller;
 
-import com.roller.doc.api.request.SearchByWordReq;
+import com.roller.doc.api.request.HospitalFilter;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.service.hospital.HospitalService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +33,12 @@ public class HospitalController {
     @GetMapping("/desc/{id}")
     public  ResponseEntity findHospitalDetail(@PathVariable("id") int id){
         ResponseDTO responseDTO = hospitalService.detailedHospital(id);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity filteringHospital(@RequestBody HospitalFilter hospitalFilter){
+        ResponseDTO responseDTO=hospitalService.filteringHospital(hospitalFilter.getE(), hospitalFilter.getW(), hospitalFilter.getS(), hospitalFilter.getN(), hospitalFilter.getPart());
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 }

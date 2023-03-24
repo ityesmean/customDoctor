@@ -32,13 +32,13 @@ public class HospitalReview {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long hospital_review_id;
 
+	@Column(name = "hospital_id", columnDefinition = "INT")
+	private long hospital_id;
+
 	@Column(name="hospital_review_con",columnDefinition = "VARCHAR(300)")
 	private String hospital_review_con;
 
 	@Column(name="hospital_review_time",columnDefinition = "VARCHAR(20)")
 	private String hospital_review_time;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="hospital_id")
-	private Hospital hospital;
 }
