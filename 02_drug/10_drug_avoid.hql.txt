@@ -1,0 +1,17 @@
+DROP TABLE IF EXISTS drug_avoid_tmp2;
+CREATE EXTERNAL TABLE IF NOT EXISTS drug_avoid_tmp2(
+	drug_id int,
+	drug_avoid_ingrecodeB String,
+	drug_avoid_desc string                                                                                                                                
+);
+
+INSERT OVERWRITE TABLE drug_avoid_tmp2
+        SELECT
+	drug_a.drug_id,
+	avoid.drug_avoid_ingrecodeB,
+	avoid.drug_avoid_desc
+        FROM
+	drug_avoid_tmp1 AS avoid,
+	drug_tmp AS drug_a
+        WHERE
+	avoid.drug_avoid_ingrecodeA = drug_a.drug_ingrecode;

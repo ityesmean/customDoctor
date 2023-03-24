@@ -1,0 +1,26 @@
+DROP TABLE IF EXISTS drug_avoid_tmp;
+CREATE EXTERNAL TABLE drug_avoid_tmp (
+	drug_avoid_type string,
+	drug_avoid_ingrenameA string,
+	drug_avoid_ingrecodeA string,
+	drug_avoid_codeetc1A int,
+	drug_avoid_nameA string,
+	drug_avoid_comA string,
+	drug_avoid_etc1A string,
+	drug_avoid_ingrenameB string,
+	drug_avoid_ingrecodeB string,
+	drug_avoid_codeetc1B string,
+	drug_avoid_nameB string,
+	drug_avoid_comB string,
+	drug_avoid_etc1B string,
+	drug_avoid_regnum string,
+	drug_avoid_regdate string,
+	drug_avoid_desc string,
+	drug_avoid_sideE string
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/drug/avoid/'
+tblproperties ("skip.header.line.count"="1");

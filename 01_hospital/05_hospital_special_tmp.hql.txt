@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS hospital_special_tmp;
+CREATE EXTERNAL TABLE hospital_special_tmp (
+	hospital_special_secu string,
+	hospital_special_name string,
+	hospital_special_code string,
+	hospital_special_special string
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/hospital/special/'
+tblproperties ("skip.header.line.count"="1"); 

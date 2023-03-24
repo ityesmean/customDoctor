@@ -1,0 +1,43 @@
+DROP TABLE IF EXISTS hospital_detail_tmp;
+CREATE EXTERNAL TABLE hospital_detail_tmp (
+	hospital_detail_secu string,
+	hospital_detail_name string,
+	hospital_detail_spot string,
+	hospital_detail_dis string,
+	hospital_detail_len string,
+	hospital_detail_parking int,
+	hospital_detail_price string,
+	hospital_detail_parkingetc string,
+	hospital_detail_sunday string,
+	hospital_detail_holiday string,
+	hospital_detail_er1 string,
+	hospital_detail_er2 string,
+	hospital_detail_er3 string,
+	hospital_detail_er4 string,
+	hospital_detail_er5 string,
+	hospital_detail_er6 string,
+	hospital_detail_lunch1 string,
+	hospital_detail_lunch2 string,
+	hospital_detail_enter1 string,
+	hospital_detail_enter2 string,
+	hospital_detail_start1 string,
+	hospital_detail_end1 string,
+	hospital_detail_start2 string,
+	hospital_detail_end2 string,
+	hospital_detail_start3 string,
+	hospital_detail_end3 string,
+	hospital_detail_start4 string,
+	hospital_detail_end4 string,
+	hospital_detail_start5 string,
+	hospital_detail_end5 string,
+	hospital_detail_start6 string,
+	hospital_detail_end6 string,
+	hospital_detail_start7 string,
+	hospital_detail_end7 string
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/hospital/detail/'
+tblproperties ("skip.header.line.count"="1"); 

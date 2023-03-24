@@ -1,0 +1,22 @@
+DROP TABLE IF EXISTS drug_info_tmp;
+CREATE EXTERNAL TABLE drug_info_tmp (
+	drug_info_secu string, 
+	drug_info_name string,
+	drug_info_com string,
+	drug_info_ingre string, 
+	drug_info_effect string,
+	drug_info_use string,
+	drug_info_know string,
+	drug_info_safety string,
+	drug_info_food string,
+	drug_info_wrong string,
+	drug_info_keep string,
+	drug_info_regdate string,
+	drug_info_changedate string
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/drug/info'
+tblproperties ("skip.header.line.count"="1"); 

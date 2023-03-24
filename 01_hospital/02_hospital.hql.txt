@@ -1,0 +1,28 @@
+DROP TABLE IF EXISTS hospital;
+CREATE EXTERNAL TABLE IF NOT EXISTS hospital(
+		hospital_id int,
+		hospital_y double,
+		hospital_x double,
+    hospital_name string,
+    hospital_code string,
+    hospital_tel string,
+    hospital_star double,
+		hospital_secu string
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE 
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/hospital/result/hospital';
+
+INSERT OVERWRITE TABLE hospital
+	SELECT
+		row_sequence(), 
+		hospital_info_y,
+		hospital_info_x,
+		hospital_info_name, 
+		hospital_info_code,
+		hospital_info_tel,
+		0,
+		hospital_info_secu
+	FROM hospital_info_tmp;

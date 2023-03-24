@@ -1,0 +1,32 @@
+DROP TABLE IF EXISTS hospital_desc;
+CREATE EXTERNAL TABLE IF NOT EXISTS hospital_desc(
+    hospital_id int,
+    hospital_desc_add string,
+    hospital_desc_parking int,
+    hospital_desc_device string,
+    hospital_desc_special string
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE 
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/hospital/result/hospital_desc';
+
+INSERT OVERWRITE TABLE hospital_desc
+        SELECT
+                h.hospital_id
+                ,ht.hospital_info_add
+                ,ht4.hospital_detail_parking
+                ,(select concat_ws('/', collect_list(hospital_equipment_codename))
+                        from hospital_equipment_tmp
+                        where h.hospital_secu=hospital_equipment_secu
+                        group by hospital_equipment_secu) as hospital_desc_device
+                ,(select concat_ws('/' , collect_list(hospital_special_special))
+                        from hospital_special_tmp
+                        where h.hospital_secu=hospital_special_secu
+                        group by hospital_special_secu) as hospital_desc_special
+        FROM hospital h,
+                hospital_info_tmp ht,
+                hospital_detail_tmp ht4
+        where h.hospital_secu=ht.hospital_info_secu
+                and h.hospital_secu=ht4.hospital_detail_secu;

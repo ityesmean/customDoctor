@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS drug_tmp;
+CREATE EXTERNAL TABLE IF NOT EXISTS drug_tmp(
+ 	drug_id int,
+	drug_name string,
+	drug_secu string,
+	drug_ingrecode string
+);
+
+INSERT OVERWRITE TABLE drug_tmp
+        SELECT
+	drug_id,
+	drug_name,
+    	drug_secu,
+	drug_ingrecode
+        FROM
+	drug
+        WHERE
+	length(drug_ingrecode) > 1;

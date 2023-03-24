@@ -1,0 +1,9 @@
+create table if not exists hospital_part(
+    hospital_part_id int,
+    hospital_id int default 0,
+    hospital_part_name int default 0,
+    hospital_part_doctor int default 0,
+    primary key(hospital_part_id),
+    foreign key (hospital_id)
+    references hospital(hospital_id) on update cascade
+)ENGINE=MYISAM CHARSET=utf8;

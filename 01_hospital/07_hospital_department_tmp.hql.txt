@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS hospital_department_tmp;
+
+CREATE EXTERNAL TABLE hospital_department_tmp (
+	hospital_department_secu string,
+	hospital_department_name string,
+	hospital_department_part int,
+	hospital_department_part_name string,
+	hospital_department_doctor int,
+	hospital_department_dtc int
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/hospital/department/'
+tblproperties ("skip.header.line.count"="1"); 

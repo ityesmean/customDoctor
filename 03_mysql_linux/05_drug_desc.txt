@@ -1,0 +1,11 @@
+create table if not exists drug_desc(
+    drug_id int,
+    drug_desc_cat varchar(100) default 'null',
+    drug_desc_shape varchar(300) default 'null',
+    drug_desc_com varchar(20) default 'null',
+    drug_desc_safety text,
+    drug_desc_effect text,
+    drug_desc_use text,
+    foreign key (drug_id)
+    references drug(drug_id) on update cascade
+)ENGINE=MYISAM CHARSET=utf8;

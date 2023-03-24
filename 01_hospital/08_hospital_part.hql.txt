@@ -1,0 +1,22 @@
+DROP TABLE IF EXISTS hospital_part;
+CREATE EXTERNAL TABLE IF NOT EXISTS hospital_part(
+    hospital_part_id int,
+    hospital_id int,
+    hospital_part_name int,
+    hospital_part_doctor int
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE 
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/hospital/result/hospital_part';
+
+INSERT OVERWRITE TABLE hospital_part
+        SELECT
+	row_sequence(), 
+	h.hospital_id,
+	ht5.hospital_department_part,
+	ht5.hospital_department_doctor
+        FROM hospital h,
+                hospital_department_tmp ht5
+        where h.hospital_secu=ht5.hospital_department_secu;

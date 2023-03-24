@@ -1,0 +1,39 @@
+INSERT OVERWRITE TABLE drug_detail_tmp
+        SELECT
+        drug_detail_secu ,
+        drug_detail_name ,
+        drug_detail_comcode ,
+        drug_detail_com ,
+        drug_detail_shape ,
+        drug_detail_img ,
+        drug_detail_markf ,
+        drug_detail_markb ,
+        drug_detail_type ,
+        drug_detail_colorf ,
+        drug_detail_colorb ,
+        case
+            when(drug_detail_markf not like '%분할선%') then '@'
+            else drug_detail_linef
+            end as drug_detail_linef,
+        case
+            when(drug_detail_markb not like '%분할선%') then '@'
+            else drug_detail_lineb
+            end as drug_detail_lineb,
+        drug_detail_size1 ,
+        drug_detail_size2 ,
+        drug_detail_size3 ,
+        drug_detail_imgdate ,
+        drug_detail_catnum ,
+        drug_detail_cat ,
+        drug_detail_criteria ,
+        drug_detail_appdate ,
+        drug_detail_typename ,
+        drug_detail_etc1 ,
+        drug_detail_etc2 ,
+        drug_detail_etc3 ,
+        drug_detail_etc4 ,
+        drug_detail_etc5 ,
+        drug_detail_etc6 ,
+        drug_detail_changedate 
+        FROM
+        drug_detail_tmp;

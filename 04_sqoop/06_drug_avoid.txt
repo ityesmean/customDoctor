@@ -1,0 +1,12 @@
+sqoop export \
+--connect jdbc:mysql://127.0.0.1:3307/doc \
+--table drug_avoid \
+--username hive --password ssafy1234 \
+--export-dir /user/hive/warehouse/drug/result/drug_avoid/000000_0 \
+--m 1 \
+--driver com.mysql.jdbc.Driver \
+--fields-terminated-by ',' \
+--lines-terminated-by '\n' \
+--input-null-string '\\N' \
+--input-null-non-string '\\N' \
+--columns 'drug_avoid_id, drug_id, drug_avoid_b, drug_avoid_name_b, drug_avoid_desc'

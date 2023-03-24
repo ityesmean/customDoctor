@@ -1,0 +1,10 @@
+create table if not exists hospital(
+    hospital_id int,
+    hospital_y double default 0,
+    hospital_x double default 0,
+    hospital_name varchar(50) default 'null',
+    hospital_code varchar(20) default 'null',
+    hospital_tel varchar(50) default 'null',
+    hospital_star double default 0,
+    primary key(hospital_id)
+)ENGINE=MYISAM CHARSET=utf8;
