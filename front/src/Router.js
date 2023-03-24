@@ -7,6 +7,7 @@ import MyPageMedicine from './pages/mypage/MyPageMedicine';
 import MyPageHospitalList from './pages/mypage/MyPageHospitalList';
 import MyPageBasket from './pages/mypage/MyPageBasket';
 import PillDetail from './pages/pill/PillDetail';
+import GeolocationTest from './pages/GeolocationTest';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: '/pill/detail',
     element: <PillDetail />,
+  },
+  {
+    path: '/geolocationtest',
+    element: <GeolocationTest />,
   },
 ]);
 

@@ -4,15 +4,12 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import { collection, getDocs } from 'firebase/firestore';
 import MypageSearch from '../../assets/Mypage/MypageSearch.png';
 
 import { myBasket } from '../../atoms';
 import MyLikeMedicineItem from './MyLikeMedicineItem';
-
-import { fireStore } from '../../Firebase';
 
 const SBox = styled.div`
   display: flex;
@@ -93,19 +90,6 @@ function MyLikeMedicineSearchAndList() {
       setCheckedItems(checkedItems);
     }
   };
-
-  // //  파이어 베이스로 나의 약 목록 가져오기
-  const getMyMedicine = async () => {
-    await getDocs(collection(fireStore, 'MyMedicine')).then(res =>
-      console.log(
-        res.docs[0]._document.data.value.mapValue.fields.isChecked.booleanValue,
-      ),
-    );
-  };
-
-  useEffect(() => {
-    getMyMedicine();
-  }, []);
 
   return (
     <SBox>

@@ -182,24 +182,23 @@ function HospitalSearch() {
   );
 
   const medicalDepartment = [
-    '전체',
-    '내과',
-    '소아과',
-    '안과',
-    '치과',
-    '외과',
-    '피부과',
-    '신경과',
-    '정형외과',
-    '신경외과',
-    '산부인과',
-    '비뇨기과',
-    '성형외과',
-    '이비인후과',
-    '가정의학과',
-    '마취통증과',
-    '정신의학과',
-    '한의원',
+    ['전체', 0],
+    ['내과', 1],
+    ['소아과', 11],
+    ['치과', 49],
+    ['외과', 4],
+    ['피부과', 14],
+    ['신경과', 2],
+    ['정형외과', 5],
+    ['신경외과', 6],
+    ['산부인과', 10],
+    ['비뇨기과', 15],
+    ['성형외과', 8],
+    ['이비인후과', 13],
+    ['가정의학과', 23],
+    ['마취통증과', 9],
+    ['정신의학과', 3],
+    ['한의원', 100],
   ];
 
   const nightOrDayoff = [
@@ -235,7 +234,7 @@ function HospitalSearch() {
   // 검색 버튼 클릭시 실행되는 함수
   const handleSearch = () => {
     const options = [];
-    options.push(selectedMedicalDepartment);
+    options.push(Number(selectedMedicalDepartment));
     options.push(selectedNightOrDayoff);
     options.push(selectedDistance);
 
@@ -271,12 +270,12 @@ function HospitalSearch() {
             <SMedicalDepartmentInput
               type="radio"
               onChange={handleSelectedMedicalDepartment}
-              value={value}
+              value={value[1]}
               name="filter"
               id={`${value}` + '진료과목'}
             />
             <SMedicalDepartmentLabel htmlFor={`${value}` + '진료과목'}>
-              {value}
+              {value[0]}
             </SMedicalDepartmentLabel>
           </SOption>
         ))}
