@@ -26,10 +26,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HospitalMy {
+
 	@Id
 	@Column(name="hospital_my_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long hospital_my_id;
+
+	@Column(name = "hospital_id", columnDefinition = "INT")
+	private long hospital_id;
 
 	@ColumnDefault("false")
 	@Column(name="hospital_my_del",columnDefinition = "BOOLEAN", nullable = false)
@@ -38,8 +42,4 @@ public class HospitalMy {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User user;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="hospital_id")
-	private Hospital hospital;
 }

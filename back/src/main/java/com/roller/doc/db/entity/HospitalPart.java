@@ -18,24 +18,24 @@ import lombok.Setter;
 
 @Entity
 @Builder
-@Table(name="hospital_part")
+@Table(name = "hospital_part")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class HospitalPart {
-	@Id
-	@Column(name="hospital_part_id", nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long hospital_part_id;
+    @Id
+    @Column(name = "hospital_part_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int hospital_part_id;
 
-	@Column(name="hospital_part_name",columnDefinition = "INT")
-	private int hospital_part_name;
+    @Column(name = "hospital_id", columnDefinition = "INT")
+    private long hospital_id;
 
-	@Column(name="hospital_part_doctor",columnDefinition = "INT")
-	private int hospital_part_doctor;
+    @Column(name = "hospital_part_name", columnDefinition = "INT")
+    private int hospital_part_name;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="hospital_id")
-	private Hospital hospital;
+    @Column(name = "hospital_part_doctor", columnDefinition = "INT")
+    private int hospital_part_doctor;
+
 }
