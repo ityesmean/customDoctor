@@ -19,23 +19,24 @@ public class HospitalController {
         this.hospitalService = hospitalService;
     }
 
+    /** 연결 테스트*/
     @GetMapping("/test/{word}")
     public ResponseEntity test(@PathVariable("word") String word) {
         return ResponseEntity.status(HttpStatus.OK).body(word);
     }
-
+    /** 이름으로 병원 검색*/
     @GetMapping("/search/{word}")
     public ResponseEntity searchByWord(@PathVariable("word") String word) {
         ResponseDTO responseDTO = hospitalService.searchByHospitalName(word);
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
-
+    /** 병원 상세보기*/
     @GetMapping("/desc/{id}")
     public  ResponseEntity findHospitalDetail(@PathVariable("id") int id){
         ResponseDTO responseDTO = hospitalService.detailedHospital(id);
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
-
+    /** 필터를 통한 병원검색*/
     @GetMapping("/find")
     public ResponseEntity filteringHospital(@RequestBody HospitalFilter hospitalFilter){
         ResponseDTO responseDTO=hospitalService.filteringHospital(hospitalFilter.getE(), hospitalFilter.getW(), hospitalFilter.getS(), hospitalFilter.getN(), hospitalFilter.getPart());
