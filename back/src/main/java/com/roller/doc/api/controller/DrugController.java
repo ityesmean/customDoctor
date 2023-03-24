@@ -25,26 +25,33 @@ public class DrugController {
 	private final DrugService drugService;
 
 	@GetMapping("/{drugName}")
-	public ResponseEntity<?> getName(@PathVariable("drugName") String drugName) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-
+	public ResponseEntity getName(@PathVariable("drugName") String drugName) throws Exception {
 		ResponseDTO result = drugService.findOneByName(drugName);
-
-		map.put("data", result);
-
-		return ResponseEntity.status(HttpStatus.OK).body(map);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("/{drugType}/{drugLine}/{drugColor}/{drugMark}")
-	public ResponseEntity<?> getDrug(@PathVariable("drugType")String drugType, @PathVariable("drugLine")String drugLine,
+	public ResponseEntity getDrug(@PathVariable("drugType")String drugType, @PathVariable("drugLine")String drugLine,
 		@PathVariable("drugColor")String drugColor, @PathVariable("drugMark")String drugMark) throws Exception {
-
-		Map<String, Object> map = new HashMap<String, Object>();
-
 		ResponseDTO result = drugService.findDrug(drugType, drugLine, drugColor, drugMark);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 
-		map.put("data", result);
+	@GetMapping("/info/{drugId}")
+	public ResponseEntity selectDrug(@PathVariable("drugId") Long drugId) throws Exception {
+		ResponseDTO result = drugService.selectDrug(Long.valueOf(drugId));
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 
-		return ResponseEntity.status(HttpStatus.OK).body(map);
+	@GetMapping("/descinfo/{drugId}")
+	public ResponseEntity selectDrugDesc(@PathVariable("drugId") int drugId) throws Exception {
+		ResponseDTO result = drugService.selectDrugDesc(drugId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
+	@GetMapping("/avoidinfo/{drugId}")
+	public ResponseEntity selectDrugAvoid(@PathVariable("drugId") Long drugId) throws Exception {
+		ResponseDTO result = drugService.selectDrugAvoid(Long.valueOf(drugId));
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 }
