@@ -21,4 +21,15 @@ const hospitalSearchSelectedOption = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export { isDarkModeAtom, isUserAtom, hospitalSearchSelectedOption };
+const pillSearchSelectedOption = atom({
+  key: 'pillSearchSelectedOption',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+export {
+  isDarkModeAtom,
+  isUserAtom,
+  hospitalSearchSelectedOption,
+  pillSearchSelectedOption,
+};
