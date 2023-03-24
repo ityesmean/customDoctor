@@ -1,3 +1,5 @@
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -10,7 +12,11 @@ const SLabel = styled.label`
 `;
 
 function MyLikeMedicineItem({ medicine, temp, checkedItemHandler }) {
-  const [bChecked, setChecked] = useState(false);
+  const [bChecked, setChecked] = useState(
+    medicine.isChecked === 'unChecked' ? false : true,
+  );
+
+  // const [bChecked, setChecked] = useState(false);
 
   const checkHandler = ({ target }) => {
     setChecked(!bChecked);
@@ -19,6 +25,7 @@ function MyLikeMedicineItem({ medicine, temp, checkedItemHandler }) {
 
   return (
     <SItem>
+      {/* <div>{medicine}</div> */}
       <input
         type="checkbox"
         id={temp}
@@ -33,6 +40,7 @@ function MyLikeMedicineItem({ medicine, temp, checkedItemHandler }) {
 MyLikeMedicineItem.propTypes = {
   medicine: PropTypes.shape({
     name: PropTypes.string,
+    isChecked: PropTypes.string,
   }),
   temp: PropTypes.string,
   checkedItemHandler: PropTypes.func,

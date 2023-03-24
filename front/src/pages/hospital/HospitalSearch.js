@@ -1,3 +1,6 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-else-return */
+/* eslint-disable no-alert */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-concat */
 import React, { useState } from 'react';
@@ -212,9 +215,9 @@ function HospitalSearch() {
   const distance = ['1km이내', '3km이내', '5km이내', '10km이내'];
 
   const [selectedMedicalDepartment, setSelectedMedicalDepartment] =
-    useState('');
-  const [selectedNightOrDayoff, setSelectedNightOrDayoff] = useState('');
-  const [selectedDistance, setSelectedDistance] = useState('');
+    useState(null);
+  const [selectedNightOrDayoff, setSelectedNightOrDayoff] = useState(null);
+  const [selectedDistance, setSelectedDistance] = useState(null);
 
   // 진료과목 선택시 실행되는 함수
   const handleSelectedMedicalDepartment = e => {
@@ -234,23 +237,22 @@ function HospitalSearch() {
   // 검색 버튼 클릭시 실행되는 함수
   const handleSearch = () => {
     const options = [];
-    options.push(Number(selectedMedicalDepartment));
+    options.push(selectedMedicalDepartment);
     options.push(selectedNightOrDayoff);
     options.push(selectedDistance);
 
-    if ('' in options) {
-      alert('빈값을 채워주세요');
-      console.log('경고');
-    } else {
-      navigate('/hospital/search/result');
+    // 선택 안한 옵션이 발견되면 경고
+    for (const option of options) {
+      if (option === null) {
+        alert('모든 항목을 선택해 주세요.');
+        return;
+      }
     }
+
+    navigate('/hospital/search/result');
 
     setSelectedOption(options);
   };
-
-  // console.log(selectedMedicalDepartment);
-  // console.log(selectedNightOrDayoff);
-  // console.log(selectedDistance);
 
   return (
     <>

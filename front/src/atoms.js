@@ -26,39 +26,51 @@ const myBasket = atom({
   default: [
     {
       name: '아토르반정',
+      isChecked: 'unChecked',
     },
     {
       name: '에페린정',
+      isChecked: 'unChecked',
     },
     {
       name: '가나모티에스알정15mg',
+      isChecked: 'unChecked',
     },
     {
       name: '타이레놀',
+      isChecked: 'unChecked',
     },
     {
       name: '약1',
+      isChecked: 'unChecked',
     },
     {
       name: '약2',
+      isChecked: 'unChecked',
     },
     {
       name: '약3',
+      isChecked: 'unChecked',
     },
     {
       name: '약4',
+      isChecked: 'unChecked',
     },
     {
       name: '약5',
+      isChecked: 'unChecked',
     },
     {
       name: '약6',
+      isChecked: 'unChecked',
     },
     {
       name: '약7',
+      isChecked: 'unChecked',
     },
   ],
-  effects_UNSTABLE: [persistAtom],
+  // effects_UNSTABLE: [persistAtom],
+  dangerouslyAllowMutability: true,
 });
 
 export { isDarkModeAtom, isUserAtom, hospitalSearchSelectedOption, myBasket };

@@ -69,52 +69,6 @@ const SLine = styled.div`
   background-color: #f1f3f4;
 `;
 
-// const SInputWrapper = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   margin-top: 2vh;
-// `;
-// const SSearchImg = styled.img`
-//   position: absolute;
-//   left: 10vw;
-//   width: 1em;
-//   z-index: 999;
-//   margin-top: 1vh;
-// `;
-
-// const SMyMedicineInput = styled.input`
-//   &::placeholder {
-//     padding-left: 5vw;
-//   }
-//   &:focus {
-//     outline-color: #00c192;
-//   }
-//   position: relative;
-//   width: 80vw;
-//   padding: 1vh;
-//   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-//   border-radius: 10px;
-//   border: none;
-//   margin-bottom: 3vh;
-// `;
-
-// const SMedicineListWrapper = styled.div`
-//   display: flex;
-//   justify-content: center;
-// `;
-
-// const SMedicineListBox = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   height: 30vh;
-//   width: 80vw;
-//   padding: 2.5vw;
-//   border-radius: 10px;
-//   /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
-//   overflow: scroll;
-//   font-weight: bold;
-// `;
-
 const SSubTitle = styled.div`
   font-weight: bold;
   font-size: 7vw;

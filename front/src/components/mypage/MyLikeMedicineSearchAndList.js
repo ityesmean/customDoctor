@@ -1,11 +1,12 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-else-return */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import { collection, getDocs } from 'firebase/firestore';
 import MypageSearch from '../../assets/Mypage/MypageSearch.png';
 
 import { myBasket } from '../../atoms';
@@ -58,35 +59,50 @@ const SListWrapper = styled.div`
 `;
 
 function MyLikeMedicineSearchAndList() {
-  const myMedicines = useRecoilValue(myBasket);
+  const [myMedicines, setMyMedicines] = useRecoilState(myBasket);
 
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [filteredArr, setFilteredArr] = useState([...myMedicines]);
   const [searchWord, setSearchWord] = useState('');
-  //   const [selected, setSelected] = useState([]);
 
   const handleSearchWord = e => {
     setSearchWord(e.target.value);
     // console.log(filteredArr);
     const result = myMedicines.filter(medicine => {
       if (medicine.name.indexOf(e.target.value) === -1) {
+        // console.log(medicine.name.indexOf(e.target.value));
         return false;
       } else {
+        // console.log(medicine.name.indexOf(e.target.value));
         return true;
       }
     });
     setFilteredArr(result);
+    // console.log(result);
   };
 
   const checkedItemHandler = (name, isChecked) => {
     if (isChecked) {
       checkedItems.add(name);
       console.log(checkedItems);
+      setMyMedicines(old => {
+        let _test = [...old];
+        const index = _test.findIndex(val => val.name === name);
+        _test[index].isChecked = 'checked';
+        return _test;
+      });
       setCheckedItems(checkedItems);
+
       // 여기에 받은 name을 기준으로 mymedicines 안에 있는 요소를 체크
     } else if (!isChecked && checkedItems.has(name)) {
       checkedItems.delete(name);
       console.log(checkedItems);
+      setMyMedicines(old => {
+        let _test = [...old];
+        const index = _test.findIndex(val => val.name === name);
+        _test[index].isChecked = 'unChecked';
+        return _test;
+      });
       setCheckedItems(checkedItems);
     }
   };
