@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import HospitalList from '../../components/Hospital/HospitalList';
+import HospitalList from '../../components/hospital/HospitalList';
 
 import Header from '../../components/common/Header';
 import Back from '../../assets/Back.png';
