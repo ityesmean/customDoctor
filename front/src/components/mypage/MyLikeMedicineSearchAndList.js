@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 
-import MypageSearch from '../../assets/Mypage/MypageSearch.png';
+import MypageSearch from '../../assets/MyPage/MypageSearch.png';
 
 import { myBasket } from '../../atoms';
 import MyLikeMedicineItem from './MyLikeMedicineItem';

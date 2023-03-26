@@ -9,9 +9,9 @@ import Back from '../../assets/Back.png';
 // import MyLikeMedicineList from '../../components/mypage/MyLikeMedicineList';
 import MyLikeMedicineSearchAndList from '../../components/mypage/MyLikeMedicineSearchAndList';
 
-import BlackHospital from '../../assets/Mypage/BlackHospital.png';
-import BlackMedicine from '../../assets/Mypage/BlackMedicine.png';
-import GreenBasket from '../../assets/Mypage/GreenBasket.png';
+import BlackHospital from '../../assets/MyPage/BlackHospital.png';
+import BlackMedicine from '../../assets/MyPage/BlackMedicine.png';
+import GreenBasket from '../../assets/MyPage/GreenBasket.png';
 // import MypageSearch from '../../assets/MyPage/MypageSearch.png';
 
 // import { myBasket } from '../../atoms';
