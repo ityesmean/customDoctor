@@ -142,8 +142,8 @@ const SCreateBasketButton = styled.button`
 
 function MyPageBasket() {
   const navigate = useNavigate();
-  const [myMedicines, setMyMedicines] = useRecoilState(myBasket);
 
+  const [myMedicines, setMyMedicines] = useRecoilState(myBasket);
   const [basketName, setBasketName] = useState('');
   const [basketMemo, setBasketMemo] = useState('');
   const [likedMedicines, setLikedMedicines] = useState([]);
