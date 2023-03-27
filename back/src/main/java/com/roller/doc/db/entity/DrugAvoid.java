@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,9 +34,13 @@ public class DrugAvoid {
 	@Column(name="drug_avoid_b",columnDefinition = "INT")
 	private int drug_avoid_b;
 
+	@Column(name="drug_avoid_name_b",columnDefinition = "VARCHAR(300)")
+	private String drug_avoid_name_b;
+
 	@Column(name="drug_avoid_desc",columnDefinition = "VARCHAR(300)")
 	private String drug_avoid_desc;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="drug_id")
 	private Drug drug;
