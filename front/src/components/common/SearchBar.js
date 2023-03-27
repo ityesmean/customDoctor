@@ -16,6 +16,9 @@ const SSearchInput = styled.input`
   &::placeholder {
     padding-left: 5vw;
   }
+  &:focus {
+    outline-color: #00c192;
+  }
   width: 80vw;
   height: 10vw;
   border: solid 1px #00c192;

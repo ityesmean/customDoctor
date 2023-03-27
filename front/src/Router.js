@@ -3,10 +3,13 @@ import { createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import HospitalSearchResult from './pages/hospital/HospitalSearchResult';
 import HospitalSearch from './pages/hospital/HospitalSearch';
+import HospitalDetail from './pages/hospital/HospitalDetail';
 import MyPageMedicine from './pages/mypage/MyPageMedicine';
 import MyPageHospitalList from './pages/mypage/MyPageHospitalList';
 import MyPageBasket from './pages/mypage/MyPageBasket';
 import PillDetail from './pages/pill/PillDetail';
+import GeolocationTest from './pages/GeolocationTest';
+import KakaoMap from './components/kakao/KakaoMap';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: '/hospital/search',
     element: <HospitalSearch />,
+  },
+  {
+    path: '/hospital/:hospitalId',
+    element: <HospitalDetail />,
   },
   {
     path: '/mypage/medicine',
@@ -37,6 +44,14 @@ const router = createBrowserRouter([
     path: '/pill/detail',
     element: <PillDetail />,
   },
+  {
+    path: '/geolocationtest',
+    element: <GeolocationTest />,
+  },
+  {
+    path: 'kakaomap',
+    element: <KakaoMap />,
+  }
 ]);
 
 export default router;

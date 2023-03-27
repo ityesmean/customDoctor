@@ -7,12 +7,13 @@ import HospitalList from '../../components/hospital/HospitalList';
 
 import Header from '../../components/common/Header';
 import Back from '../../assets/Back.png';
-import GreenHospital from '../../assets/MyPage/GreenHospital.png';
-import BlackMedicine from '../../assets/MyPage/BlackMedicine.png';
-import BlackBasket from '../../assets/MyPage/BlackBasket.png';
+import GreenHospital from '../../assets/mypage/GreenHospital.png';
+import BlackMedicine from '../../assets/mypage/BlackMedicine.png';
+import BlackBasket from '../../assets/mypage/BlackBasket.png';
 
 const SLink = styled(Link)`
   text-decoration: none;
+  color: black;
 `;
 
 const SBack = styled.img`

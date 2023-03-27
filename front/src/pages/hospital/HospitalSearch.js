@@ -1,3 +1,6 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-else-return */
+/* eslint-disable no-alert */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-concat */
 import React, { useState } from 'react';
@@ -41,20 +44,21 @@ const SMedicalDepartmentBox = styled.div`
 `;
 
 const SOption = styled.div`
-  padding: 4vw;
+  padding: 4.2vw;
 `;
 const SMedicalDepartmentLabel = styled.label`
   display: block;
   width: 20vw;
   background-color: #f1f3f4;
   border-radius: 100px;
-  padding-top: 0.7vh;
-  padding-bottom: 0.7vh;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-weight: bold;
   text-align: center;
+  font-size: 0.9em;
 `;
 
 const SMedicalDepartmentInput = styled.input.attrs({ type: 'radio' })`
@@ -89,11 +93,12 @@ const SNightOrDayoffLabel = styled.label`
   border-radius: 100px;
   padding-top: 0.7vh;
   padding-bottom: 0.7vh;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-weight: bold;
   text-align: center;
+  font-size: 0.9em;
 `;
 
 const SNightOrDayoffInput = styled.input.attrs({ type: 'radio' })`
@@ -147,11 +152,12 @@ const SDistanceLabel = styled.label`
   border-radius: 100px;
   padding-top: 0.7vh;
   padding-bottom: 0.7vh;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.6em;
+  padding-right: 0.6em;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-weight: bold;
   text-align: center;
+  font-size: 0.9em;
 `;
 
 const SDistanceInput = styled.input.attrs({ type: 'radio' })`
@@ -179,24 +185,23 @@ function HospitalSearch() {
   );
 
   const medicalDepartment = [
-    '전체',
-    '내과',
-    '소아과',
-    '안과',
-    '치과',
-    '외과',
-    '피부과',
-    '신경과',
-    '정형외과',
-    '신경외과',
-    '산부인과',
-    '비뇨기과',
-    '성형외과',
-    '이비인후과',
-    '가정의학과',
-    '마취통증과',
-    '정신의학과',
-    '한의원',
+    ['전체', 0],
+    ['내과', 1],
+    ['소아과', 11],
+    ['치과', 49],
+    ['외과', 4],
+    ['피부과', 14],
+    ['신경과', 2],
+    ['정형외과', 5],
+    ['신경외과', 6],
+    ['산부인과', 10],
+    ['비뇨기과', 15],
+    ['성형외과', 8],
+    ['이비인후과', 13],
+    ['가정의학과', 23],
+    ['마취통증과', 9],
+    ['정신의학과', 3],
+    ['한의원', 100],
   ];
 
   const nightOrDayoff = [
@@ -210,9 +215,9 @@ function HospitalSearch() {
   const distance = ['1km이내', '3km이내', '5km이내', '10km이내'];
 
   const [selectedMedicalDepartment, setSelectedMedicalDepartment] =
-    useState('');
-  const [selectedNightOrDayoff, setSelectedNightOrDayoff] = useState('');
-  const [selectedDistance, setSelectedDistance] = useState('');
+    useState(null);
+  const [selectedNightOrDayoff, setSelectedNightOrDayoff] = useState(null);
+  const [selectedDistance, setSelectedDistance] = useState(null);
 
   // 진료과목 선택시 실행되는 함수
   const handleSelectedMedicalDepartment = e => {
@@ -236,19 +241,18 @@ function HospitalSearch() {
     options.push(selectedNightOrDayoff);
     options.push(selectedDistance);
 
-    if ('' in options) {
-      alert('빈값을 채워주세요');
-      console.log('경고');
-    } else {
-      navigate('/hospital/search/result');
+    // 선택 안한 옵션이 발견되면 경고
+    for (const option of options) {
+      if (option === null) {
+        alert('모든 항목을 선택해 주세요.');
+        return;
+      }
     }
+
+    navigate('/hospital/search/result');
 
     setSelectedOption(options);
   };
-
-  // console.log(selectedMedicalDepartment);
-  // console.log(selectedNightOrDayoff);
-  // console.log(selectedDistance);
 
   return (
     <>
@@ -268,12 +272,12 @@ function HospitalSearch() {
             <SMedicalDepartmentInput
               type="radio"
               onChange={handleSelectedMedicalDepartment}
-              value={value}
+              value={value[1]}
               name="filter"
               id={`${value}` + '진료과목'}
             />
             <SMedicalDepartmentLabel htmlFor={`${value}` + '진료과목'}>
-              {value}
+              {value[0]}
             </SMedicalDepartmentLabel>
           </SOption>
         ))}

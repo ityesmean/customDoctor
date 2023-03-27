@@ -21,4 +21,52 @@ const hospitalSearchSelectedOption = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export { isDarkModeAtom, isUserAtom, hospitalSearchSelectedOption };
+const myBasket = atom({
+  key: 'myBasket',
+  default: [
+    {
+      name: '약1',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '약2',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '약3',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '약4',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '약5',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '약6',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '약7',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '약8',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '가나모티에스알정15mg',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '타이레놀',
+      isChecked: 'unChecked',
+    },
+  ],
+  // effects_UNSTABLE: [persistAtom],
+  dangerouslyAllowMutability: true,
+});
+
+export { isDarkModeAtom, isUserAtom, hospitalSearchSelectedOption, myBasket };
