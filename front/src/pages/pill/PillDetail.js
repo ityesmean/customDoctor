@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import AddBasket from '../../assets/pilldata/AddBasket.png';
 
-import PillTab from '../../components/Pill/PillTab';
+import PillTab from '../../components/pill/PillTab';
 
 import Back from '../../assets/Back.png';
 
