@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import MypageSearch from '../../assets/mypage/MypageSearch.png';
 
@@ -58,7 +59,7 @@ const SListWrapper = styled.div`
   overflow: scroll;
 `;
 
-function MyLikeMedicineSearchAndList() {
+function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
   const [myMedicines, setMyMedicines] = useRecoilState(myBasket);
 
   const [checkedItems, setCheckedItems] = useState(new Set());
@@ -84,7 +85,7 @@ function MyLikeMedicineSearchAndList() {
   const checkedItemHandler = (name, isChecked) => {
     if (isChecked) {
       checkedItems.add(name);
-      console.log(checkedItems);
+      // console.log(checkedItems);
       setMyMedicines(old => {
         let _test = [...old];
         const index = _test.findIndex(val => val.name === name);
@@ -92,11 +93,11 @@ function MyLikeMedicineSearchAndList() {
         return _test;
       });
       setCheckedItems(checkedItems);
-
+      likedMedicinesHandler(checkedItems);
       // 여기에 받은 name을 기준으로 mymedicines 안에 있는 요소를 체크
     } else if (!isChecked && checkedItems.has(name)) {
       checkedItems.delete(name);
-      console.log(checkedItems);
+      // console.log(checkedItems);
       setMyMedicines(old => {
         let _test = [...old];
         const index = _test.findIndex(val => val.name === name);
@@ -131,5 +132,13 @@ function MyLikeMedicineSearchAndList() {
     </SBox>
   );
 }
+
+MyLikeMedicineSearchAndList.propTypes = {
+  likedMedicinesHandler: PropTypes.func,
+};
+
+MyLikeMedicineSearchAndList.defaultProps = {
+  likedMedicinesHandler: null,
+};
 
 export default MyLikeMedicineSearchAndList;

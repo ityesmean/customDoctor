@@ -25,22 +25,6 @@ const myBasket = atom({
   key: 'myBasket',
   default: [
     {
-      name: '아토르반정',
-      isChecked: 'unChecked',
-    },
-    {
-      name: '에페린정',
-      isChecked: 'unChecked',
-    },
-    {
-      name: '가나모티에스알정15mg',
-      isChecked: 'unChecked',
-    },
-    {
-      name: '타이레놀',
-      isChecked: 'unChecked',
-    },
-    {
       name: '약1',
       isChecked: 'unChecked',
     },
@@ -66,6 +50,18 @@ const myBasket = atom({
     },
     {
       name: '약7',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '약8',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '가나모티에스알정15mg',
+      isChecked: 'unChecked',
+    },
+    {
+      name: '타이레놀',
       isChecked: 'unChecked',
     },
   ],
