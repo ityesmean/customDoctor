@@ -10,6 +10,8 @@ import MyPageBasket from './pages/mypage/MyPageBasket';
 import PillDetail from './pages/pill/PillDetail';
 import GeolocationTest from './pages/GeolocationTest';
 import KakaoMap from './components/kakao/KakaoMap';
+import PillSearchResult from './pages/pill/PillSearchResult';
+import PillSearch from './pages/pill/PillSearch';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,14 @@ const router = createBrowserRouter([
     element: <MyPageBasket />,
   },
   {
+    path: '/pill/search',
+    element: <PillSearch />,
+  },
+  {
+    path: '/pill/result',
+    element: <PillSearchResult />,
+  },
+  {
     path: '/pill/detail',
     element: <PillDetail />,
   },
@@ -51,7 +61,7 @@ const router = createBrowserRouter([
   {
     path: 'kakaomap',
     element: <KakaoMap />,
-  }
+  },
 ]);
 
 export default router;
