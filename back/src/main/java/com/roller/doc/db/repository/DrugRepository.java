@@ -23,10 +23,4 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
 
 	@Query(value = "SELECT * FROM drug WHERE drug_id =:drugId", nativeQuery = true)
 	Drug selectDrug(@Param("drugId")Long drug_id);
-
-	@Query(value = "SELECT * FROM drug_desc WHERE drug_id =:drugId", nativeQuery = true)
-	DrugDesc selectDrugDesc(@Param("drugId")int drug_id);
-
-	@Query(value = "SELECT * FROM drug_avoid WHERE drug_id =:drugId", nativeQuery = true)
-	List<DrugAvoid> selectDrugAvoid(@Param("drugId")Long drug_id);
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.roller.doc.api.response.ResponseDTO;
+import com.roller.doc.api.response.drug.DrugMyRes;
 import com.roller.doc.api.response.drug.DrugRes;
 import com.roller.doc.api.service.drug.DrugService;
 
@@ -43,15 +44,27 @@ public class DrugController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@GetMapping("/descinfo/{drugId}")
-	public ResponseEntity selectDrugDesc(@PathVariable("drugId") int drugId) throws Exception {
-		ResponseDTO result = drugService.selectDrugDesc(drugId);
-		return ResponseEntity.status(HttpStatus.OK).body(result);
-	}
+	// @GetMapping("/descinfo/{drugId}")
+	// public ResponseEntity selectDrugDesc(@PathVariable("drugId") int drugId) throws Exception {
+	// 	ResponseDTO result = drugService.selectDrugDesc(drugId);
+	// 	return ResponseEntity.status(HttpStatus.OK).body(result);
+	// }
 
 	@GetMapping("/avoidinfo/{drugId}")
 	public ResponseEntity selectDrugAvoid(@PathVariable("drugId") Long drugId) throws Exception {
 		ResponseDTO result = drugService.selectDrugAvoid(Long.valueOf(drugId));
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
+	@GetMapping("/my/{userId}")
+	public ResponseEntity findList(@PathVariable("userId") Long userId) throws Exception {
+		ResponseDTO result = drugService.findList(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
+	@GetMapping("/mypill/{drugMyId}")
+	public ResponseEntity findPillList(@PathVariable("drugMyId") Long drugMyId) throws Exception {
+		ResponseDTO result = drugService.findMyPillList(drugMyId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 }
