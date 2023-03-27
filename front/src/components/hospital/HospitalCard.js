@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import Star from '../../assets/IsOpen/Star.png';
+import Star from '../../assets/isopen/Star.png';
 
 const SCard = styled.div`
   display: flex;

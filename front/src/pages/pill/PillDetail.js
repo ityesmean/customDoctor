@@ -3,7 +3,7 @@ import styled from 'styled-components';
 // import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import AddBasket from '../../assets/PillData/AddBasket.png';
+import AddBasket from '../../assets/pilldata/AddBasket.png';
 
 import PillTab from '../../components/Pill/PillTab';
 

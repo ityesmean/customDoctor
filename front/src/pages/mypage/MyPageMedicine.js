@@ -5,9 +5,9 @@ import PillsAccordian from '../../components/mypage/PillsAccordian';
 
 import Header from '../../components/common/Header';
 import Back from '../../assets/Back.png';
-import BlackHospital from '../../assets/MyPage/BlackHospital.png';
-import GreenMedicine from '../../assets/MyPage/GreenMedicine.png';
-import BlackBasket from '../../assets/MyPage/BlackBasket.png';
+import BlackHospital from '../../assets/mypage/BlackHospital.png';
+import GreenMedicine from '../../assets/mypage/GreenMedicine.png';
+import BlackBasket from '../../assets/mypage/BlackBasket.png';
 
 const SLink = styled(Link)`
   text-decoration: none;
