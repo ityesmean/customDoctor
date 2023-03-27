@@ -21,6 +21,12 @@ const hospitalSearchSelectedOption = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+const pillSearchSelectedOption = atom({
+  key: 'pillSearchSelectedOption',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
 const myBasket = atom({
   key: 'myBasket',
   default: [
@@ -69,4 +75,10 @@ const myBasket = atom({
   dangerouslyAllowMutability: true,
 });
 
-export { isDarkModeAtom, isUserAtom, hospitalSearchSelectedOption, myBasket };
+export {
+  isDarkModeAtom,
+  isUserAtom,
+  hospitalSearchSelectedOption,
+  pillSearchSelectedOption,
+  myBasket,
+};
