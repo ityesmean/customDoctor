@@ -1,0 +1,274 @@
+import time
+import random
+import selenium
+import pandas as pd
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+# 검색할 데이터 임포트
+import csv
+
+# 상세페이지에서 작업
+def inDetail():
+    time.sleep( random.uniform(1,4) )
+    # 전화번호 출력
+    tel = driver.find_elements(By.CSS_SELECTOR, '.xlx7Q ')
+    if not tel:
+        print("전화번호 정보 없음\n")
+    else:
+        print(tel[0].text)
+        telList.append(tel[0].text)
+    
+    # 상세페이지에서 영업시간 열기 클릭
+    details = driver.find_elements(By.CSS_SELECTOR, '.RMgN0 ')
+    
+    # 404인지 체크
+    error = driver.find_elements(By.TAG_NAME, 'center')
+    while error:
+        time.sleep( random.uniform(1,4) )
+                        
+    if not details:
+        lineDetails = driver.find_elements(By.CSS_SELECTOR, '.gKP9i')
+        if not lineDetails:
+            print("영업시간 정보 없음\n")
+        else:
+            linehours = driver.find_elements(By.CSS_SELECTOR, '.U7pYf')
+            etc = ""
+            for linehour in linehours:
+                etc = etc + linehour.text.split("\n")[0] + "/"
+                time.sleep( random.uniform(1,4) )
+            print(etc)
+            print('\n')
+            etcList.append(etc)
+    else:
+        details[0].send_keys(Keys.ENTER)
+        
+        # 404인지 체크
+        error = driver.find_elements(By.TAG_NAME, 'center')
+        while error:
+            time.sleep( random.uniform(1,4) )
+        
+        time.sleep( random.uniform(1,4) )
+        # 요일이 있는지 확인
+        days = driver.find_elements(By.CSS_SELECTOR, '.i8cJw ')
+        
+        # 영업시간 리스트에 등록
+        def insertHour(num, str):
+            if days[num].text == '월':
+                monList.append(str)
+            elif days[num].text == '화':
+                tueList.append(str)
+            elif days[num].text == '수':
+                wedList.append(str)
+            elif days[num].text == '목':
+                thuList.append(str)
+            elif days[num].text == '금':
+                friList.append(str)
+            elif days[num].text == '토':
+                satList.append(str)
+            elif days[num].text == '일':
+                sunList.append(str)
+        
+        if not days:
+            hours = driver.find_elements(By.CSS_SELECTOR, '.A_cdD ')
+            etc = ""
+            for hour in hours:
+                etc = etc + hour.text.split("\n")[0] + "/"
+                time.sleep( random.uniform(1,4) )
+            print(etc)
+            print('\n')
+            etcList.append(etc)
+        else:
+            # 영업시간 출력 
+            hours = driver.find_elements(By.CSS_SELECTOR, '.w9QyJ ')
+            
+            # 404인지 체크
+            error = driver.find_elements(By.TAG_NAME, 'center')
+            while error:
+                time.sleep( random.uniform(1,4) )
+                
+            idx = 0
+            for hour in hours:
+                if idx == 0:
+                    idx = idx + 1
+                    continue
+                thisHour = hour.find_elements(By.CSS_SELECTOR, '.H3ua4 ')
+                if not thisHour:
+                    continue
+                else:
+                    if thisHour[0].text != '':
+                        print(days[idx - 1].text, end=' ')
+                        print(thisHour[0].text.split("\n")[0], end='/')
+                        insertHour(idx - 1, thisHour[0].text.split("\n")[0])
+                    else:
+                        t = thisHour[0].find_element(By.TAG_NAME, 'span')
+                        print(days[idx - 1].text, end=' ')
+                        print(t.text.split("\n")[0], end='/')
+                        insertHour(idx - 1, t.text.split("\n")[0])                
+                    idx = idx + 1
+            print('\n')
+            
+# 목록페이지 -> 상세페이지 이동
+def goDetail():
+    # 404인지 체크
+    error = driver.find_elements(By.TAG_NAME, 'center')
+    while error:
+        time.sleep( random.uniform(1,4) )
+            
+    time.sleep( random.uniform(1,4) )
+    print(items[0].get_attribute('data-title'))
+    # 검색 결과 리스트의 a태그 클릭
+    links = items[0].find_elements(By.CSS_SELECTOR, '.a_item ')
+    links[0].send_keys(Keys.ENTER) 
+    time.sleep(1)
+
+# 병원 이름이 맞는지 체크
+def checkHospital():
+    # 404인지 체크
+    error = driver.find_elements(By.TAG_NAME, 'center')
+    while error:
+        time.sleep( random.uniform(1,4) )
+        
+    time.sleep( random.uniform(1,4) )
+    name = driver.find_elements(By.CSS_SELECTOR, '.Fc1rA ')
+    dbname = line[3]
+    namestr = name[0].text
+    if namestr[-3:] in dbname:
+        return True
+    else:
+        return False
+
+for filenum in range (203, 400):
+    secuList = [] # 암호화코드
+    telList = [] # 전화번호
+    monList = [] # 월요일 운영시간
+    tueList = [] # 화요일 운영시간
+    wedList = [] # 수요일 운영시간
+    thuList = [] # 목요일 운영시간
+    friList = [] # 금요일 운영시간
+    satList = [] # 토요일 운영시간
+    sunList = [] # 일요일 운영시간
+    etcList = [] # 기타
+
+    f = open('data_for_crawling/DataCrawling' + str(filenum) + '.csv', 'r', encoding='utf-8')
+    rdr = csv.reader(f)
+
+    number = -1
+    for line in rdr:
+        number = number + 1
+        if number == 0:
+            continue
+
+        print("-------", end=' ')
+        print(number, end=' ')
+        print(line[3], end=' ')
+        print("-------\n")
+
+        secuList.append(line[1])
+
+        # 전화번호로 검색
+        data = line[2]
+        driver.get(f"https://m.map.naver.com/search2/search.naver?query="+ data)
+        driver.implicitly_wait(3)
+
+        # 404인지 체크
+        error = driver.find_elements(By.TAG_NAME, 'center')
+        while error:
+            time.sleep( random.uniform(1,4) )
+                
+        # 검색 결과 리스트
+        items = driver.find_elements(By.CSS_SELECTOR, '._item ')
+
+        # 검색 결과가 없다면
+        if not items:
+                print("주소+이름으로 다시 검색합니다.\n")
+
+                # 주소+이름으로 검색
+                data = line[3]
+                driver.get(f"https://m.map.naver.com/search2/search.naver?query="+ data)
+                driver.implicitly_wait(3)
+                
+                # 404인지 체크
+                error = driver.find_elements(By.TAG_NAME, 'center')
+                while error:
+                    time.sleep( random.uniform(1,4) )
+
+                # 검색 결과 리스트
+                items = driver.find_elements(By.CSS_SELECTOR, '._item ')
+                # 검색 결과가 없다면
+                if not items:
+                    print("검색결과 정보 없음\n")
+                    etcList.append("정보 없음")
+                # 검색 결과가 있다면
+                else:
+                    # 목록페이지 -> 상세페이지 이동
+                    goDetail()
+                    # 상세페이지에서 작업
+                    inDetail()
+
+        # 검색 결과가 있다면
+        else:
+            goDetail()
+            # 병원 이름이 맞는지 체크
+            if not checkHospital():
+                print("주소+이름으로 다시 검색합니다.\n")
+
+                # 주소+이름으로 검색
+                data = line[3]
+                driver.get(f"https://m.map.naver.com/search2/search.naver?query="+ data)
+                driver.implicitly_wait(3)
+                    
+                # 검색 결과 리스트
+                items = driver.find_elements(By.CSS_SELECTOR, '._item ')
+                # 검색 결과가 없다면
+                if not items:
+                    print("검색결과 정보 없음\n")
+                    etcList.append("정보 없음")
+                # 검색 결과가 있다면
+                else:
+                    # 목록페이지 -> 상세페이지 이동
+                    goDetail()
+                    # 상세페이지에서 작업
+                    inDetail()
+
+            # 병원 이름이 맞다면
+            else:
+                inDetail()
+
+        if len(secuList) == number-1:
+            secuList.append("null")
+        if len(telList) == number-1:
+            telList.append("null")
+        if len(monList) == number-1:
+            monList.append("null")
+        if len(tueList) == number-1:
+            tueList.append("null")
+        if len(wedList) == number-1:
+            wedList.append("null")
+        if len(thuList) == number-1:
+            thuList.append("null")
+        if len(friList) == number-1:
+            friList.append("null")
+        if len(satList) == number-1:
+            satList.append("null")
+        if len(sunList) == number-1:
+            sunList.append("null")
+        if len(etcList) == number-1:
+            etcList.append("null")
+        
+        print(str(len(secuList)) + " " + str(len(telList)) + " " + str(len(monList)) + " " + str(len(tueList)) + " " + str(len(wedList)) + " " + str(len(thuList)) + " " + str(len(friList)) + " " + str(len(satList)) + " " + str(len(sunList)) + " " + str(len(etcList)))
+
+    f.close()
+
+    print(str(len(secuList)) + " " + str(len(telList)) + " " + str(len(monList)) + " " + str(len(tueList)) + " " + str(len(wedList)) + " " + str(len(thuList)) + " " + str(len(friList)) + " " + str(len(satList)) + " " + str(len(sunList)) + " " + str(len(etcList)))
+
+    data = {"secu":secuList, "tel":telList, "mon":monList, "tue":tueList, "wed":wedList, "thu":thuList, "fri":friList, "sat":satList, "sun":sunList, "etc":etcList}
+    df = pd.DataFrame(data)
+    print(df.head(5))
+
+    df.to_csv("result/result" + str(filenum) + ".csv", encoding = "utf-8-sig")
