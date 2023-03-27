@@ -180,6 +180,8 @@ const SDistanceInput = styled.input.attrs({ type: 'radio' })`
 
 function HospitalSearch() {
   const navigate = useNavigate();
+
+  const [searchWord, setSearchWord] = useState('');
   const [selectedOption, setSelectedOption] = useRecoilState(
     hospitalSearchSelectedOption,
   );
@@ -252,6 +254,10 @@ function HospitalSearch() {
     navigate('/hospital/search/result');
 
     setSelectedOption(options);
+  };
+
+  const onChangeSearchWordHandler = temp => {
+    setSearchWord(temp);
   };
 
   return (
