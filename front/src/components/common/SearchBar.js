@@ -1,7 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+
 import Vec from '../../assets/Vector.svg';
+
+import { API_URL_HOSPITAL } from '../../api/api';
 
 const SSearchContainer = styled.div`
   width: 100vw;
@@ -13,15 +17,13 @@ const SSearchContainer = styled.div`
 `;
 
 const SSearchInput = styled.input`
-  &::placeholder {
-    padding-left: 5vw;
-  }
   &:focus {
     outline-color: #00c192;
   }
-  width: 80vw;
+  width: 70vw;
   height: 10vw;
-  /* padding-left: 5vw; */
+  font-size: 5vw;
+  padding-left: 5vw;
   border: solid 1px #00c192;
   border-radius: 10vw;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
@@ -48,13 +50,19 @@ const SSearchForm = styled.form``;
 function SearchBar() {
   const [inputValue, setInputValue] = useState('');
   const onChangeSearch = e => {
-    setInputValue(e.target.value);
     // console.log('INPUT', inputValue);
+    setInputValue(e.target.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log(inputValue);
+    console.log(typeof inputValue);
+
+    axios
+      .get(`${API_URL_HOSPITAL}/search/${inputValue}`)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+
     setInputValue('');
   };
 
