@@ -1,13 +1,15 @@
-import React from 'react';
+/* eslint-disable no-return-await */
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Link, useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 import AddBasket from '../../assets/pilldata/AddBasket.png';
+import Back from '../../assets/Back.png';
 
 import PillTab from '../../components/pill/PillTab';
-
-import Back from '../../assets/Back.png';
+import { DrugDataApi } from '../../api/drug/DrugDetailApi';
 
 const SBack = styled.img`
   width: 8vw;
@@ -87,6 +89,20 @@ const SThinLine = styled.div`
 // const SUnderTab = styled.div``;
 
 function PillDetail() {
+  const { id } = useParams();
+  const { data: detailDrug } = useQuery(
+    'detailDrug',
+    async () => await DrugDataApi(id),
+  );
+
+  const [detailInfo, setDetailInfo] = useState(null);
+  useEffect(() => {
+    async function stateSet() {
+      await setDetailInfo(detailDrug);
+    }
+    stateSet();
+  }, [detailInfo]);
+
   return (
     <SContainer>
       <SHeader>
@@ -98,7 +114,7 @@ function PillDetail() {
       </SHeader>
       <SMedicineImg>이미지 위치</SMedicineImg>
       <SDetailBox>
-        <SName>가나모티에스알정</SName>
+        <SName>{detailDrug.data.drug_name}</SName>
         <SThinLine />
         <STextBox>
           <SSmallTextBox>
@@ -125,27 +141,27 @@ function PillDetail() {
   );
 }
 
-// PillDetail.proptype = {
-//   data: PropTypes.shape({
-//     status_code: PropTypes.number,
-//     message: PropTypes.string,
-//     data: PropTypes.shape({
-//       drug_id: PropTypes.number,
-//       drug_name: PropTypes.string,
-//       drug_img: PropTypes.string,
-//       drug_markf: PropTypes.string,
-//       drug_markb: PropTypes.string,
-//       drug_type: PropTypes.string,
-//       drug_colorf: PropTypes.string,
-//       drug_colorb: PropTypes.string,
-//       drug_line: PropTypes.string,
-//       drug_ingre: PropTypes.string,
-//     }),
-//   }),
-// };
+PillDetail.proptype = {
+  data: PropTypes.shape({
+    status_code: PropTypes.number,
+    message: PropTypes.string,
+    data: PropTypes.shape({
+      drug_id: PropTypes.number,
+      drug_name: PropTypes.string,
+      drug_img: PropTypes.string,
+      drug_markf: PropTypes.string,
+      drug_markb: PropTypes.string,
+      drug_type: PropTypes.string,
+      drug_colorf: PropTypes.string,
+      drug_colorb: PropTypes.string,
+      drug_line: PropTypes.string,
+      drug_ingre: PropTypes.string,
+    }),
+  }),
+};
 
-// PillDetail.defaultProps = {
-//   data: null,
-// };
+PillDetail.defaultProps = {
+  data: null,
+};
 
 export default PillDetail;

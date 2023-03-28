@@ -75,6 +75,12 @@ const myBasket = atom({
   dangerouslyAllowMutability: true,
 });
 
+export const UserIdState = atom({
+  key: 'UserIdState',
+  default: 0,
+  effects_UNSTABLE: [persistAtom],
+});
+
 export {
   isDarkModeAtom,
   isUserAtom,
