@@ -16,6 +16,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,8 +37,8 @@ public class DrugMy {
 	@Column(name="drug_my_id", nullable = false)
 	private Long drug_my_id;
 
-	@Column(name="drug_my_time",columnDefinition = "VARCHAR(20)")
-	private String drug_my_time;
+	@Column(name="drug_my_title",columnDefinition = "VARCHAR(100)")
+	private String drug_my_title;
 
 	@Column(name="drug_my_memo",columnDefinition = "VARCHAR(300)")
 	private String drug_my_memo;
@@ -45,10 +47,12 @@ public class DrugMy {
 	@Column(name="drug_my_del",columnDefinition = "BOOLEAN", nullable = false)
 	private Boolean drug_my_del;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	private User user;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "drug_my")
 	List<DrugMyPill> drugMyPills = new ArrayList<DrugMyPill>();
 
