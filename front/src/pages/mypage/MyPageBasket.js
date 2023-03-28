@@ -142,6 +142,7 @@ function MyPageBasket() {
   const [basketMemo, setBasketMemo] = useState('');
   const [likedMedicines, setLikedMedicines] = useState([]);
 
+  console.log(myMedicines);
   // 약 봉지 제목 handler
   const onChangeBasketNameHandler = e => {
     setBasketName(e.target.value);

@@ -66,15 +66,15 @@ function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
   const [filteredArr, setFilteredArr] = useState([...myMedicines]);
   const [searchWord, setSearchWord] = useState('');
 
+  useEffect(() => {});
+
   const handleSearchWord = e => {
     setSearchWord(e.target.value);
     // console.log(filteredArr);
     const result = myMedicines.filter(medicine => {
       if (medicine.name.indexOf(e.target.value) === -1) {
-        // console.log(medicine.name.indexOf(e.target.value));
         return false;
       } else {
-        // console.log(medicine.name.indexOf(e.target.value));
         return true;
       }
     });
@@ -82,6 +82,7 @@ function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
     // console.log(result);
   };
 
+  // 목록에서 약이 체크되면 실행되는 함수
   const checkedItemHandler = (name, isChecked) => {
     if (isChecked) {
       checkedItems.add(name);
@@ -108,6 +109,18 @@ function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
     }
   };
 
+  const deleteItemHandler = name => {
+    const afterDeleteMedicineList = myMedicines.filter(item => {
+      if (item.name === name) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    setMyMedicines(afterDeleteMedicineList);
+    // console.log(myMedicines);
+  };
+
   return (
     <SBox>
       <SInputWrapper>
@@ -126,6 +139,7 @@ function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
             medicine={medicine}
             temp={medicine.name}
             checkedItemHandler={checkedItemHandler}
+            deleteItemHandler={deleteItemHandler}
           />
         ))}
       </SListWrapper>
