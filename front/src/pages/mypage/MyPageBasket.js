@@ -10,7 +10,7 @@ import axios from 'axios';
 import { API_URL_DRUG } from '../../api/api';
 
 import Header from '../../components/common/Header';
-import Back from '../../assets/Back.png';
+import BackButton from '../../components/common/BackButton';
 import MyLikeMedicineSearchAndList from '../../components/mypage/MyLikeMedicineSearchAndList';
 
 import BlackHospital from '../../assets/mypage/BlackHospital.png';
@@ -22,12 +22,6 @@ import { myBasket } from '../../atoms';
 const SLink = styled(Link)`
   text-decoration: none;
   color: black;
-`;
-
-const SBack = styled.img`
-  width: 8vw;
-  margin-bottom: 2vh;
-  margin-left: 3vw;
 `;
 
 const ImgBox = styled.div`
@@ -194,7 +188,7 @@ function MyPageBasket() {
     <>
       <Header />
       <SLink to="/">
-        <SBack src={Back} alt="Back" />
+        <BackButton />
       </SLink>
       <SPageSelectBox>
         <SPageBox>
