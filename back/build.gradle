@@ -7,6 +7,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.9'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+//	id "io.franzbecker.gradle-lombok" version "3.0.0"
 }
 
 jar {
@@ -51,12 +53,17 @@ tasks.named('test') {
 def querydslDir = "$buildDir/generated/querydsl"
 
 querydsl { //dsl
+	library = "com.querydsl:querydsl-apt"
 	jpa = true
 	querydslSourcesDir = querydslDir
 }
 
 sourceSets { //dsl
-	main.java.srcDir querydslDir
+	main {
+		java {
+			srcDirs = ['src/main/java', querydslDir]
+		}
+	}
 }
 
 configurations { //dsl
