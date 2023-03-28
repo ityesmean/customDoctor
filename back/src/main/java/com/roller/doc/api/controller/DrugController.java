@@ -6,8 +6,10 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,7 @@ import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.response.drug.DrugMyRes;
 import com.roller.doc.api.response.drug.DrugRes;
 import com.roller.doc.api.service.drug.DrugService;
+import com.roller.doc.db.entity.DrugMy;
 
 import lombok.RequiredArgsConstructor;
 
@@ -69,4 +72,11 @@ public class DrugController {
 		ResponseDTO result = drugService.findMyPillList(drugMyId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
+
+	// @DeleteMapping()
+	// public ResponseEntity deleteDrugMy(@RequestBody DrugMyRes drugMyRes) throws Exception {
+	// 	ResponseDTO result = drugService.deleteDrugMy(drugMyRes.getDrug_my_id());
+	// 	return ResponseEntity.status(HttpStatus.OK).body(result);
+	// }
+
 }

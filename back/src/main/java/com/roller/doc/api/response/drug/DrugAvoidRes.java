@@ -2,25 +2,27 @@ package com.roller.doc.api.response.drug;
 import com.roller.doc.db.entity.Drug;
 import com.roller.doc.db.entity.DrugAvoid;
 
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Data
 @Getter
+@NoArgsConstructor
 public class DrugAvoidRes {
-	private Long drug_avoid_id;
-	private int drug_avoid_b;
-	private String drug_avoid_name_b;
-	private String drug_avoid_desc;
-	private Long drug_id;
+	private Long drugAvoidId;
+	private Long drugId;
+	private int drugAvoidB;
+	private String drugAvoidNameB;
+	private String drugAvoidDesc;
 
-	public DrugAvoidRes() {
-	}
-
-	public DrugAvoidRes(DrugAvoid drugAvoid) {
-		Drug drug = drugAvoid.getDrug();
-		this.drug_id = drug.getDrug_id();
-		this.drug_avoid_id = drugAvoid.getDrug_avoid_id();
-		this.drug_avoid_b = drugAvoid.getDrug_avoid_b();
-		this.drug_avoid_name_b = drugAvoid.getDrug_avoid_name_b();
-		this.drug_avoid_desc = drugAvoid.getDrug_avoid_desc();
+	@Builder
+	public DrugAvoidRes(Long drugAvoidId, Long drugId, int drugAvoidB, String drugAvoidNameB, String drugAvoidDesc) {
+		this.drugAvoidId = drugAvoidId;
+		this.drugId = drugId;
+		this.drugAvoidB = drugAvoidB;
+		this.drugAvoidNameB = drugAvoidNameB;
+		this.drugAvoidDesc = drugAvoidDesc;
 	}
 }
