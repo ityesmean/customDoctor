@@ -1,7 +1,15 @@
-// eslint-disable-next-line no-unused-vars
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+
 import Vec from '../../assets/Vector.svg';
+
+import { API_URL_DRUG, API_URL_HOSPITAL } from '../../api/api';
+import { medicineSearchResult } from '../../atoms';
 
 const SSearchContainer = styled.div`
   width: 100vw;
@@ -9,18 +17,17 @@ const SSearchContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 4vh;
-  align-items: center;
+  /* align-items: center; */
 `;
 
 const SSearchInput = styled.input`
-  &::placeholder {
-    padding-left: 5vw;
-  }
   &:focus {
     outline-color: #00c192;
   }
-  width: 80vw;
+  width: 70vw;
   height: 10vw;
+  font-size: 5vw;
+  padding-left: 5vw;
   border: solid 1px #00c192;
   border-radius: 10vw;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
@@ -44,16 +51,39 @@ const SSearchBtn = styled.button`
 
 const SSearchForm = styled.form``;
 
-function SearchBar() {
+function SearchBar({ searchType }) {
+  const navigate = useNavigate();
+  const searchCategory = searchType;
+  // const [inputPlaceholder, setInputPlaceholder] = useState({searchType === 'hospital' ? '병원명을 입력해 주세요.' : '약 이름을 검색해 주세요.'});
+
+  const [medicineList, setMedicineList] = useRecoilState(medicineSearchResult);
   const [inputValue, setInputValue] = useState('');
   const onChangeSearch = e => {
-    setInputValue(e.target.value);
     // console.log('INPUT', inputValue);
+    setInputValue(e.target.value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log(inputValue);
+    // console.log(typeof inputValue);
+
+    if (searchCategory === 'hospital') {
+      axios
+        .get(`${API_URL_HOSPITAL}/search/${inputValue}`)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    } else if (searchCategory === 'drug') {
+      axios
+        .get(`${API_URL_DRUG}/${inputValue}`)
+        .then(res => {
+          setMedicineList(res.data.data);
+          setInputValue('');
+          navigate('/pill/result');
+          // console.log(res.data.data);
+        })
+        .catch(err => console.log(err));
+    }
+
     setInputValue('');
   };
 
@@ -63,7 +93,7 @@ function SearchBar() {
         <SSearchInput
           value={inputValue}
           onChange={onChangeSearch}
-          placeholder="병원명을 입력하세요."
+          placeholder="검색해 주세요."
           autoFocus
         />
       </SSearchForm>
@@ -75,4 +105,12 @@ function SearchBar() {
     </SSearchContainer>
   );
 }
+
+SearchBar.propTypes = {
+  searchType: PropTypes.string,
+};
+
+SearchBar.defaultProps = {
+  searchType: null,
+};
 export default SearchBar;

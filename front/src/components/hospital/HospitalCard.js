@@ -104,21 +104,6 @@ function HospitalCard({ card }) {
           <SCircle color={isOpen}></SCircle>
           <SOpen>진료중</SOpen>
         </SOpenInformation>
-        {/* <SHospitalInformation>
-        <div>병원명</div>
-        <div>진료과목</div>
-        <SDetailInformation>
-          <div>별</div>
-          <div>평점</div>
-          <div>거리</div>
-        </SDetailInformation>
-        <div>주소</div>
-        <div>전화번호</div>
-      </SHospitalInformation>
-      <SIsOpen>
-        <div>색깔 동그라미</div>
-        <div>진료여부</div>
-      </SIsOpen> */}
       </SCard>
       <SLine> </SLine>
     </>

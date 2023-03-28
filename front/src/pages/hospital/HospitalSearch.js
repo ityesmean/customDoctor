@@ -180,6 +180,8 @@ const SDistanceInput = styled.input.attrs({ type: 'radio' })`
 
 function HospitalSearch() {
   const navigate = useNavigate();
+
+  const [searchWord, setSearchWord] = useState('');
   const [selectedOption, setSelectedOption] = useRecoilState(
     hospitalSearchSelectedOption,
   );
@@ -254,6 +256,10 @@ function HospitalSearch() {
     setSelectedOption(options);
   };
 
+  const onChangeSearchWordHandler = temp => {
+    setSearchWord(temp);
+  };
+
   return (
     <>
       <Header />
@@ -261,7 +267,7 @@ function HospitalSearch() {
         <BackButton />
       </SLink>
       <STitle>병원명으로 검색</STitle>
-      <SearchBar />
+      <SearchBar searchType="hospital" />
       <SLine> </SLine>
       <STitle>조건으로 검색</STitle>
 
