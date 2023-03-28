@@ -18,7 +18,7 @@ import com.roller.doc.db.entity.DrugDesc;
 import com.roller.doc.db.entity.DrugMy;
 import com.roller.doc.db.entity.DrugMyPill;
 import com.roller.doc.db.repository.DrugAvoidRepository;
-// import com.roller.doc.db.repository.DrugDescRepository;
+import com.roller.doc.db.repository.DrugDescRepository;
 import com.roller.doc.db.repository.DrugMyPillRepository;
 import com.roller.doc.db.repository.DrugMyRepository;
 import com.roller.doc.db.repository.DrugRepository;
@@ -32,7 +32,7 @@ public class DrugServiceImpl implements DrugService {
 
 	private final DrugRepository drugRepository;
 	private final DrugAvoidRepository drugAvoidRepository;
-	// private final DrugDescRepository drugDescRepository;
+	private final DrugDescRepository drugDescRepository;
 
 	private final DrugMyRepository drugMyRepository;
 	private final DrugMyPillRepository drugMyPillRepository;
@@ -115,30 +115,30 @@ public class DrugServiceImpl implements DrugService {
 		return responseDTO;
 	}
 
-	// @Override
-	// public ResponseDTO selectDrugDesc(int drug_id) throws Exception {
-	// 	DrugDescRes drugDescRes = new DrugDescRes();
-	// 	ResponseDTO responseDTO = new ResponseDTO();
-	//
-	// 	try {
-	// 		DrugDesc drugDesc = drugDescRepository.selectDrugDesc(drug_id);
-	//
-	// 		if (drugDesc == null) {
-	// 			// responseDTO.setData(drug);
-	// 			responseDTO.setMessage("검색 실패");
-	// 			responseDTO.setStatus_code(400);
-	// 		}
-	// 		else {
-	// 			responseDTO.setData(drugDesc);
-	// 			responseDTO.setMessage("약 상세정보 검색 성공");
-	// 			responseDTO.setStatus_code(200);
-	// 		}
-	// 	} catch (Exception e) {
-	// 		e.printStackTrace();
-	// 	}
-	//
-	// 	return responseDTO;
-	// }
+	@Override
+	public ResponseDTO selectDrugDesc(int drug_id) throws Exception {
+		DrugDescRes drugDescRes = new DrugDescRes();
+		ResponseDTO responseDTO = new ResponseDTO();
+
+		try {
+			DrugDesc drugDesc = drugDescRepository.selectDrugDesc(drug_id);
+
+			if (drugDesc == null) {
+				// responseDTO.setData(drug);
+				responseDTO.setMessage("검색 실패");
+				responseDTO.setStatus_code(400);
+			}
+			else {
+				responseDTO.setData(drugDesc);
+				responseDTO.setMessage("약 상세정보 검색 성공");
+				responseDTO.setStatus_code(200);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseDTO;
+	}
 
 	@Override
 	public ResponseDTO selectDrugAvoid(Long drug_id) throws Exception {
