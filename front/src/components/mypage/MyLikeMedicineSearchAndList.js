@@ -4,14 +4,14 @@
 /* eslint-disable no-else-return */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil'
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+
+import MyLikeMedicineItem from './MyLikeMedicineItem';
+
+import { myBasketState } from '../../atoms';
 
 import MypageSearch from '../../assets/mypage/MypageSearch.png';
-
-import { myBasket } from '../../atoms';
-import MyLikeMedicineItem from './MyLikeMedicineItem';
 
 const SBox = styled.div`
   display: flex;
@@ -59,67 +59,15 @@ const SListWrapper = styled.div`
   overflow: scroll;
 `;
 
-function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
-  const [myMedicines, setMyMedicines] = useRecoilState(myBasket);
+function MyLikeMedicineSearchAndList() {
 
-  const [checkedItems, setCheckedItems] = useState(new Set());
-  const [filteredArr, setFilteredArr] = useState([...myMedicines]);
-  const [searchWord, setSearchWord] = useState('');
+  const myBasket = useRecoilValue(myBasketState)
 
-  useEffect(() => {});
+  const [searchWord, setSearchWord] = useState('')
 
-  const handleSearchWord = e => {
-    setSearchWord(e.target.value);
-    // console.log(filteredArr);
-    const result = myMedicines.filter(medicine => {
-      if (medicine.name.indexOf(e.target.value) === -1) {
-        return false;
-      } else {
-        return true;
-      }
-    });
-    setFilteredArr(result);
-    // console.log(result);
-  };
-
-  // 목록에서 약이 체크되면 실행되는 함수
-  const checkedItemHandler = (name, isChecked) => {
-    if (isChecked) {
-      checkedItems.add(name);
-      // console.log(checkedItems);
-      setMyMedicines(old => {
-        let _test = [...old];
-        const index = _test.findIndex(val => val.name === name);
-        _test[index].isChecked = 'checked';
-        return _test;
-      });
-      setCheckedItems(checkedItems);
-      likedMedicinesHandler(checkedItems);
-      // 여기에 받은 name을 기준으로 mymedicines 안에 있는 요소를 체크
-    } else if (!isChecked && checkedItems.has(name)) {
-      checkedItems.delete(name);
-      // console.log(checkedItems);
-      setMyMedicines(old => {
-        let _test = [...old];
-        const index = _test.findIndex(val => val.name === name);
-        _test[index].isChecked = 'unChecked';
-        return _test;
-      });
-      setCheckedItems(checkedItems);
-    }
-  };
-
-  const deleteItemHandler = name => {
-    const afterDeleteMedicineList = myMedicines.filter(item => {
-      if (item.name === name) {
-        return false;
-      } else {
-        return true;
-      }
-    });
-    setMyMedicines(afterDeleteMedicineList);
-    // console.log(myMedicines);
-  };
+  const onChangeSearchWordHandler = e => {
+    setSearchWord(e.target.value)
+  }
 
   return (
     <SBox>
@@ -128,31 +76,20 @@ function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
         {searchWord ? null : <SSearchImg src={MypageSearch} />}
         <SMyMedicineInput
           placeholder="바구니에서 약 찾기"
-          onChange={handleSearchWord}
+          onChange={onChangeSearchWordHandler}
         />
       </SInputWrapper>
 
       <SListWrapper>
-        {filteredArr.map(medicine => (
+        {myBasket.map(medicine => (
           <MyLikeMedicineItem
             key={medicine.name}
             medicine={medicine}
-            temp={medicine.name}
-            checkedItemHandler={checkedItemHandler}
-            deleteItemHandler={deleteItemHandler}
           />
         ))}
       </SListWrapper>
     </SBox>
   );
 }
-
-MyLikeMedicineSearchAndList.propTypes = {
-  likedMedicinesHandler: PropTypes.func,
-};
-
-MyLikeMedicineSearchAndList.defaultProps = {
-  likedMedicinesHandler: null,
-};
 
 export default MyLikeMedicineSearchAndList;

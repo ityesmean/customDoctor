@@ -17,7 +17,7 @@ import BlackHospital from '../../assets/mypage/BlackHospital.png';
 import BlackMedicine from '../../assets/mypage/BlackMedicine.png';
 import GreenBasket from '../../assets/mypage/GreenBasket.png';
 
-import { myBasket } from '../../atoms';
+import { myBasketState } from '../../atoms';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -137,12 +137,11 @@ const SCreateBasketButton = styled.button`
 function MyPageBasket() {
   const navigate = useNavigate();
 
-  const [myMedicines, setMyMedicines] = useRecoilState(myBasket);
+  const [myMedicines, setMyMedicines] = useRecoilState(myBasketState);
   const [basketName, setBasketName] = useState('');
   const [basketMemo, setBasketMemo] = useState('');
   const [likedMedicines, setLikedMedicines] = useState([]);
 
-  console.log(myMedicines);
   // 약 봉지 제목 handler
   const onChangeBasketNameHandler = e => {
     setBasketName(e.target.value);
@@ -223,9 +222,7 @@ function MyPageBasket() {
       </SPageSelectBox>
       <SLine />
 
-      <MyLikeMedicineSearchAndList
-        likedMedicinesHandler={likedMedicinesHandler}
-      />
+      <MyLikeMedicineSearchAndList />
 
       <SSubTitle>약봉지 생성</SSubTitle>
 

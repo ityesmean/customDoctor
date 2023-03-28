@@ -1,4 +1,12 @@
-import { atom } from 'recoil';
+/* eslint-disable eqeqeq */
+/* eslint-disable no-empty */
+/* eslint-disable no-cond-assign */
+/* eslint-disable no-else-return */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
+import * as _ from 'lodash'
+import { atom, selector } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
@@ -27,7 +35,7 @@ const pillSearchSelectedOption = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-const myBasket = atom({
+const myBasketState = atom({
   key: 'myBasket',
   default: [
     {
@@ -36,7 +44,7 @@ const myBasket = atom({
     },
     {
       name: '약2',
-      isChecked: 'unChecked',
+      isChecked: 'checked',
     },
     {
       name: '약3',
@@ -44,7 +52,7 @@ const myBasket = atom({
     },
     {
       name: '약4',
-      isChecked: 'unChecked',
+      isChecked: 'checked',
     },
     {
       name: '약5',
@@ -71,9 +79,61 @@ const myBasket = atom({
       isChecked: 'unChecked',
     },
   ],
-  // effects_UNSTABLE: [persistAtom],
+  effects_UNSTABLE: [persistAtom],
   dangerouslyAllowMutability: true,
 });
+
+const deleteMyBasketSelector = selector({
+  key: 'deleteMyBasketSelector',
+  get: ({ get }) => {
+    const myBasket = get(myBasketState)
+    return myBasket
+  },
+  set: ({ set, get }, deleteValue) => {
+
+    const myBasket = get(myBasketState)
+
+    const deletedMyBasket = myBasket.filter((item) => {
+      if (item === deleteValue) {
+        return false
+      } else {
+        return true
+      }
+    })
+    set(myBasketState, deletedMyBasket)
+  }
+});
+
+const checkMyBasketSelector = selector({
+  key: 'checkMyBasketSelector',
+  get: ({ get }) => {
+    const myBasket = get(myBasketState)
+    return myBasket
+  },
+  set: ({ set, get }, checkValue) => {
+    const myBasket = get(myBasketState)
+
+    const test = _.cloneDeep(myBasket)
+    console.log(test)
+    test.forEach((item) => {
+      if (item = checkValue) {
+        console.log(item, 'item')
+        console.log(checkValue, 'checkValue')
+        console.log('성공')
+        // console.log('here1')
+      } else {
+        console.log(item, 'item')
+        console.log(checkValue, 'checkValue')
+        console.log('실패')
+        // console.log(item)
+        // console.log(checkValue)
+        // console.log('here2')
+      }
+    })
+    set(myBasket, test)
+  }
+})
+
 
 const medicineSearchResult = atom({
   key: 'medicineSearchResult',
@@ -85,6 +145,8 @@ export {
   isUserAtom,
   hospitalSearchSelectedOption,
   pillSearchSelectedOption,
-  myBasket,
+  myBasketState,
+  deleteMyBasketSelector,
+  checkMyBasketSelector,
   medicineSearchResult,
 };

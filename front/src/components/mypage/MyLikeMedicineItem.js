@@ -1,9 +1,15 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-else-return */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { deleteMyBasketSelector, checkMyBasketSelector } from '../../atoms';
+
 
 const SItem = styled.div`
   display: flex;
@@ -27,40 +33,31 @@ const SDeleteButton = styled.div`
   border-radius: 10px;
 `;
 
-function MyLikeMedicineItem({
-  medicine,
-  temp,
-  checkedItemHandler,
-  deleteItemHandler,
-}) {
-  const [bChecked, setChecked] = useState(
-    medicine.isChecked === 'unChecked' ? false : true,
-  );
+function MyLikeMedicineItem({ medicine }) {
 
-  // const [bChecked, setChecked] = useState(false);
+  const [myBasket, setMyBasket] = useRecoilState(deleteMyBasketSelector)
+  const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
+  // const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
 
-  const checkHandler = ({ target }) => {
-    setChecked(!bChecked);
-    checkedItemHandler(medicine.name, target.checked);
-  };
+  const onChangeCheckHandler = () => {
+    setMyBasketCheck(medicine)
+  }
 
-  // 약 삭제 버튼 누르면 실행되는 함수
-  const onClickDeleteDrugHandler = () => {
-    deleteItemHandler(medicine.name);
-  };
+  const onClickDeleteHandler = () => {
+    setMyBasket(medicine)
+  }
 
   return (
     <SItem>
       <SCheckboxAndLabelBox>
         <input
           type="checkbox"
-          id={temp}
-          checked={bChecked}
-          onChange={e => checkHandler(e)}
+          id={medicine.name}
+          onChange={onChangeCheckHandler}
         />
-        <SLabel htmlFor={temp}>{medicine.name}</SLabel>
+        <SLabel htmlFor={medicine.name}>{medicine.name}</SLabel>
       </SCheckboxAndLabelBox>
-      <SDeleteButton onClick={onClickDeleteDrugHandler}>삭제</SDeleteButton>
+      <SDeleteButton onClick={onClickDeleteHandler}>삭제</SDeleteButton>
     </SItem>
   );
 }
@@ -68,18 +65,13 @@ function MyLikeMedicineItem({
 MyLikeMedicineItem.propTypes = {
   medicine: PropTypes.shape({
     name: PropTypes.string,
-    isChecked: PropTypes.string,
-  }),
-  temp: PropTypes.string,
-  checkedItemHandler: PropTypes.func,
-  deleteItemHandler: PropTypes.func,
-};
+    isChecked: PropTypes.string
+  })
+}
 
 MyLikeMedicineItem.defaultProps = {
   medicine: null,
-  temp: null,
-  checkedItemHandler: null,
-  deleteItemHandler: null,
-};
+}
+
 
 export default MyLikeMedicineItem;
