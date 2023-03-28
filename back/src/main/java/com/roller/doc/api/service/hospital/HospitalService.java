@@ -1,5 +1,6 @@
 package com.roller.doc.api.service.hospital;
 
+import com.roller.doc.api.request.HospitalReq;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.response.hospital.HospitalDescRes;
 import com.roller.doc.api.response.hospital.HospitalRes;
@@ -8,7 +9,7 @@ public interface HospitalService {
     /**
      * 병원이름으로 검색
      */
-    ResponseDTO searchByHospitalName(String word);
+    ResponseDTO searchByHospitalName(String word, HospitalReq hospitalReq);
 
     /**
      * 필터로 병원검색

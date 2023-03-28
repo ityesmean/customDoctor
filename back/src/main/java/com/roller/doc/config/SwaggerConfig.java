@@ -1,4 +1,4 @@
-package com.roller.doc.api;
+package com.roller.doc.config;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.springdoc.core.GroupedOpenApi;

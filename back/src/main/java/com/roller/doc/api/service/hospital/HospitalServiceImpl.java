@@ -1,11 +1,13 @@
 package com.roller.doc.api.service.hospital;
 
+import com.roller.doc.api.request.HospitalReq;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.response.hospital.HospitalDescRes;
 import com.roller.doc.api.response.hospital.HospitalRes;
 import com.roller.doc.db.entity.Hospital;
 import com.roller.doc.db.entity.HospitalDesc;
 import com.roller.doc.db.entity.HospitalPart;
+import com.roller.doc.db.repository.HospitalCustomRepo;
 import com.roller.doc.db.repository.HospitalRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,12 @@ import java.util.*;
 public class HospitalServiceImpl implements HospitalService {
 
     private final HospitalRepository hospitalRepository;
+    private final HospitalCustomRepo hospitalCustomRepo;
 
     @Autowired
-    public HospitalServiceImpl(HospitalRepository hospitalRepository) {
+    public HospitalServiceImpl(HospitalRepository hospitalRepository, HospitalCustomRepo hospitalCustomRepo) {
         this.hospitalRepository = hospitalRepository;
+        this.hospitalCustomRepo = hospitalCustomRepo;
     }
 
     /**
@@ -31,16 +35,15 @@ public class HospitalServiceImpl implements HospitalService {
      * @return
      */
     @Override
-    public ResponseDTO searchByHospitalName(String word) {
+    public ResponseDTO searchByHospitalName(String word, HospitalReq h) {
         ResponseDTO responseDTO = new ResponseDTO();
-        List<Hospital> hospitalList = hospitalRepository.searchByHospitalName(word);
+        List<Hospital> hospitalList = hospitalCustomRepo.searchByHospitalName(word, h.getE(), h.getW(), h.getS(), h.getN());
         if (hospitalList.size() == 0) { //반환값이 없으면 실패
             responseDTO.setStatus_code(400);
             responseDTO.setMessage("검색 결과가 없습니다");
             responseDTO.setData("null");
         } else {
             List<HospitalRes> result = new ArrayList<>();
-            //거리 안에 있는 이름 검색결과로 view 리스트 반환
             for (int i = 0; i < hospitalList.size(); i++) {
                 long id = hospitalList.get(i).getHospital_id();
                 List<HospitalPart> partList = hospitalRepository.findHospitalPart(id); //진료과목

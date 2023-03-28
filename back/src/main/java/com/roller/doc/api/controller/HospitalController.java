@@ -1,6 +1,7 @@
 package com.roller.doc.api.controller;
 
 import com.roller.doc.api.request.HospitalFilter;
+import com.roller.doc.api.request.HospitalReq;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.service.hospital.HospitalService;
 import org.springframework.http.HttpStatus;
@@ -20,15 +21,15 @@ public class HospitalController {
         this.hospitalService = hospitalService;
     }
 
-    /** 연결 테스트*/
-    @GetMapping("/test/{word}")
-    public ResponseEntity test(@PathVariable("word") String word) {
-        return ResponseEntity.status(HttpStatus.OK).body(word);
-    }
+//    /** 연결 테스트*/
+//    @GetMapping("/test/{word}")
+//    public ResponseEntity test(@PathVariable("word") String word) {
+//        return ResponseEntity.status(HttpStatus.OK).body(word);
+//    }
     /** 이름으로 병원 검색*/
     @GetMapping("/search/{word}")
-    public ResponseEntity searchByWord(@PathVariable("word") String word) {
-        ResponseDTO responseDTO = hospitalService.searchByHospitalName(word);
+    public ResponseEntity searchByWord(@PathVariable("word") String word, @RequestBody HospitalReq hospitalReq) {
+        ResponseDTO responseDTO = hospitalService.searchByHospitalName(word, hospitalReq);
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
     /** 병원 상세보기*/
