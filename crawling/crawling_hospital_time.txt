@@ -8,6 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 # 검색할 데이터 임포트
@@ -15,45 +16,39 @@ import csv
 
 # 상세페이지에서 작업
 def inDetail():
-    time.sleep( random.uniform(1,4) )
+    time.sleep( random.uniform(1, 2) )
     # 전화번호 출력
     tel = driver.find_elements(By.CSS_SELECTOR, '.xlx7Q ')
     if not tel:
-        print("전화번호 정보 없음\n")
+        print("\n")
+#         print("전화번호 정보 없음\n")
     else:
-        print(tel[0].text)
+#         print(tel[0].text)
         telList.append(tel[0].text)
     
     # 상세페이지에서 영업시간 열기 클릭
     details = driver.find_elements(By.CSS_SELECTOR, '.RMgN0 ')
-    
-    # 404인지 체크
-    error = driver.find_elements(By.TAG_NAME, 'center')
-    while error:
-        time.sleep( random.uniform(1,4) )
+    time.sleep( random.uniform(1, 2) )
                         
     if not details:
         lineDetails = driver.find_elements(By.CSS_SELECTOR, '.gKP9i')
         if not lineDetails:
-            print("영업시간 정보 없음\n")
+            print("\n")
+#             print("영업시간 정보 없음\n")
         else:
             linehours = driver.find_elements(By.CSS_SELECTOR, '.U7pYf')
             etc = ""
             for linehour in linehours:
                 etc = etc + linehour.text.split("\n")[0] + "/"
-                time.sleep( random.uniform(1,4) )
-            print(etc)
-            print('\n')
+#             print(etc)
+#             print('\n')
             etcList.append(etc)
+        time.sleep( random.uniform(1, 2) )
+        
     else:
         details[0].send_keys(Keys.ENTER)
+        time.sleep( random.uniform(1, 2) )
         
-        # 404인지 체크
-        error = driver.find_elements(By.TAG_NAME, 'center')
-        while error:
-            time.sleep( random.uniform(1,4) )
-        
-        time.sleep( random.uniform(1,4) )
         # 요일이 있는지 확인
         days = driver.find_elements(By.CSS_SELECTOR, '.i8cJw ')
         
@@ -79,18 +74,14 @@ def inDetail():
             etc = ""
             for hour in hours:
                 etc = etc + hour.text.split("\n")[0] + "/"
-                time.sleep( random.uniform(1,4) )
-            print(etc)
-            print('\n')
+                
+#             print(etc)
+#             print('\n')
             etcList.append(etc)
+            time.sleep( random.uniform(1, 2) )
         else:
             # 영업시간 출력 
             hours = driver.find_elements(By.CSS_SELECTOR, '.w9QyJ ')
-            
-            # 404인지 체크
-            error = driver.find_elements(By.TAG_NAME, 'center')
-            while error:
-                time.sleep( random.uniform(1,4) )
                 
             idx = 0
             for hour in hours:
@@ -102,48 +93,57 @@ def inDetail():
                     continue
                 else:
                     if thisHour[0].text != '':
-                        print(days[idx - 1].text, end=' ')
-                        print(thisHour[0].text.split("\n")[0], end='/')
+#                         print(days[idx - 1].text, end=' ')
+#                         print(thisHour[0].text.split("\n")[0], end='/')
                         insertHour(idx - 1, thisHour[0].text.split("\n")[0])
                     else:
                         t = thisHour[0].find_element(By.TAG_NAME, 'span')
-                        print(days[idx - 1].text, end=' ')
-                        print(t.text.split("\n")[0], end='/')
+#                         print(days[idx - 1].text, end=' ')
+#                         print(t.text.split("\n")[0], end='/')
                         insertHour(idx - 1, t.text.split("\n")[0])                
                     idx = idx + 1
-            print('\n')
+#             print('\n')
+                time.sleep( random.uniform(1, 2) )
             
 # 목록페이지 -> 상세페이지 이동
-def goDetail():
-    # 404인지 체크
-    error = driver.find_elements(By.TAG_NAME, 'center')
-    while error:
-        time.sleep( random.uniform(1,4) )
-            
-    time.sleep( random.uniform(1,4) )
-    print(items[0].get_attribute('data-title'))
+def goDetail():            
+    time.sleep( random.uniform(1, 2) )
+#     print(items[0].get_attribute('data-title'))
     # 검색 결과 리스트의 a태그 클릭
     links = items[0].find_elements(By.CSS_SELECTOR, '.a_item ')
     links[0].send_keys(Keys.ENTER) 
-    time.sleep(1)
 
 # 병원 이름이 맞는지 체크
-def checkHospital():
-    # 404인지 체크
-    error = driver.find_elements(By.TAG_NAME, 'center')
-    while error:
-        time.sleep( random.uniform(1,4) )
-        
-    time.sleep( random.uniform(1,4) )
+def checkHospital():       
+    time.sleep( random.uniform(1, 2) )
     name = driver.find_elements(By.CSS_SELECTOR, '.Fc1rA ')
     dbname = line[3]
     namestr = name[0].text
     if namestr[-3:] in dbname:
+        time.sleep( random.uniform(1, 2) )
         return True
     else:
+        time.sleep( random.uniform(1, 2) )
         return False
 
-for filenum in range (203, 400):
+# alert창 체크
+# def checkAlert():
+#     time.sleep( random.uniform(1, 2) )
+#     try:
+#         alert = driver.switch_to.alert()
+#         alert.dismiss()
+#     except:
+#         pass
+    
+# 몇 번 파일부터 몇 번 파일까지 돌릴건지
+for filenum in range (215, 400):
+    
+    if filenum % 3 == 2:
+        print("휴식")
+        rest = random.uniform(1000, 1400)
+        time.sleep( rest )
+        print("휴식 끝 ... " + str(rest))
+    
     secuList = [] # 암호화코드
     telList = [] # 전화번호
     monList = [] # 월요일 운영시간
@@ -164,10 +164,30 @@ for filenum in range (203, 400):
         if number == 0:
             continue
 
-        print("-------", end=' ')
-        print(number, end=' ')
-        print(line[3], end=' ')
-        print("-------\n")
+        if line[2] == "063-644-1101":
+            if len(secuList) == number - 1:
+                secuList.append(line[1])
+            if len(telList) == number - 1:
+                telList.append("null")
+            if len(monList) == number - 1:
+                monList.append("null")
+            if len(tueList) == number - 1:
+                tueList.append("null")
+            if len(wedList) == number - 1:
+                wedList.append("null")
+            if len(thuList) == number - 1:
+                thuList.append("null")
+            if len(friList) == number - 1:
+                friList.append("null")
+            if len(satList) == number - 1:
+                satList.append("null")
+            if len(sunList) == number - 1:
+                sunList.append("null")
+            if len(etcList) == number - 1:
+                etcList.append("null")
+            continue
+            
+        print("------- " + str(number) + " : " + line[3] + " -------")
 
         secuList.append(line[1])
 
@@ -175,34 +195,26 @@ for filenum in range (203, 400):
         data = line[2]
         driver.get(f"https://m.map.naver.com/search2/search.naver?query="+ data)
         driver.implicitly_wait(3)
-
-        # 404인지 체크
-        error = driver.find_elements(By.TAG_NAME, 'center')
-        while error:
-            time.sleep( random.uniform(1,4) )
-                
-        # 검색 결과 리스트
+#         checkAlert()
+        
+        # 검색 결과 리스트1
         items = driver.find_elements(By.CSS_SELECTOR, '._item ')
 
         # 검색 결과가 없다면
         if not items:
-                print("주소+이름으로 다시 검색합니다.\n")
+#                 print("주소+이름으로 다시 검색합니다.\n")
 
                 # 주소+이름으로 검색
                 data = line[3]
                 driver.get(f"https://m.map.naver.com/search2/search.naver?query="+ data)
                 driver.implicitly_wait(3)
-                
-                # 404인지 체크
-                error = driver.find_elements(By.TAG_NAME, 'center')
-                while error:
-                    time.sleep( random.uniform(1,4) )
+#                 checkAlert()
 
-                # 검색 결과 리스트
+                # 검색 결과 리스트2
                 items = driver.find_elements(By.CSS_SELECTOR, '._item ')
                 # 검색 결과가 없다면
                 if not items:
-                    print("검색결과 정보 없음\n")
+#                     print("검색결과 정보 없음\n")
                     etcList.append("정보 없음")
                 # 검색 결과가 있다면
                 else:
@@ -216,18 +228,19 @@ for filenum in range (203, 400):
             goDetail()
             # 병원 이름이 맞는지 체크
             if not checkHospital():
-                print("주소+이름으로 다시 검색합니다.\n")
+#                 print("주소+이름으로 다시 검색합니다.\n")
 
                 # 주소+이름으로 검색
                 data = line[3]
                 driver.get(f"https://m.map.naver.com/search2/search.naver?query="+ data)
                 driver.implicitly_wait(3)
+#                 checkAlert()
                     
-                # 검색 결과 리스트
+                # 검색 결과 리스트3
                 items = driver.find_elements(By.CSS_SELECTOR, '._item ')
                 # 검색 결과가 없다면
                 if not items:
-                    print("검색결과 정보 없음\n")
+#                     print("검색결과 정보 없음\n")
                     etcList.append("정보 없음")
                 # 검색 결과가 있다면
                 else:
@@ -240,32 +253,30 @@ for filenum in range (203, 400):
             else:
                 inDetail()
 
-        if len(secuList) == number-1:
+        if len(secuList) == number - 1:
             secuList.append("null")
-        if len(telList) == number-1:
+        if len(telList) == number - 1:
             telList.append("null")
-        if len(monList) == number-1:
+        if len(monList) == number - 1:
             monList.append("null")
-        if len(tueList) == number-1:
+        if len(tueList) == number - 1:
             tueList.append("null")
-        if len(wedList) == number-1:
+        if len(wedList) == number - 1:
             wedList.append("null")
-        if len(thuList) == number-1:
+        if len(thuList) == number - 1:
             thuList.append("null")
-        if len(friList) == number-1:
+        if len(friList) == number - 1:
             friList.append("null")
-        if len(satList) == number-1:
+        if len(satList) == number - 1:
             satList.append("null")
-        if len(sunList) == number-1:
+        if len(sunList) == number - 1:
             sunList.append("null")
-        if len(etcList) == number-1:
+        if len(etcList) == number - 1:
             etcList.append("null")
         
-        print(str(len(secuList)) + " " + str(len(telList)) + " " + str(len(monList)) + " " + str(len(tueList)) + " " + str(len(wedList)) + " " + str(len(thuList)) + " " + str(len(friList)) + " " + str(len(satList)) + " " + str(len(sunList)) + " " + str(len(etcList)))
+#         print(str(len(secuList)) + " " + str(len(telList)) + " " + str(len(monList)) + " " + str(len(tueList)) + " " + str(len(wedList)) + " " + str(len(thuList)) + " " + str(len(friList)) + " " + str(len(satList)) + " " + str(len(sunList)) + " " + str(len(etcList)))
 
     f.close()
-
-    print(str(len(secuList)) + " " + str(len(telList)) + " " + str(len(monList)) + " " + str(len(tueList)) + " " + str(len(wedList)) + " " + str(len(thuList)) + " " + str(len(friList)) + " " + str(len(satList)) + " " + str(len(sunList)) + " " + str(len(etcList)))
 
     data = {"secu":secuList, "tel":telList, "mon":monList, "tue":tueList, "wed":wedList, "thu":thuList, "fri":friList, "sat":satList, "sun":sunList, "etc":etcList}
     df = pd.DataFrame(data)
