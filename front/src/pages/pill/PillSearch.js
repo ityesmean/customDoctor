@@ -368,7 +368,6 @@ function PillSearch() {
 
     if ('' in options) {
       alert('빈 값을 채워주세요');
-      console.log('되돌아가기');
     } else {
       navigate('/pill/result');
     }
@@ -376,10 +375,10 @@ function PillSearch() {
     setpillselectedOption(options);
   };
 
-  console.log(selectPillColor);
-  console.log(selectPillShape);
-  console.log(selectPillLine);
-  console.log(inputValue);
+  // console.log(selectPillColor);
+  // console.log(selectPillShape);
+  // console.log(selectPillLine);
+  // console.log(inputValue);
 
   return (
     <>

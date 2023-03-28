@@ -75,10 +75,16 @@ const myBasket = atom({
   dangerouslyAllowMutability: true,
 });
 
+const medicineSearchResult = atom({
+  key: 'medicineSearchResult',
+  default: [],
+});
+
 export {
   isDarkModeAtom,
   isUserAtom,
   hospitalSearchSelectedOption,
   pillSearchSelectedOption,
   myBasket,
+  medicineSearchResult,
 };

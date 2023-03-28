@@ -1,5 +1,7 @@
-// eslint-disable-next-line no-unused-vars
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -7,6 +9,7 @@ import axios from 'axios';
 import Vec from '../../assets/Vector.svg';
 
 import { API_URL_DRUG, API_URL_HOSPITAL } from '../../api/api';
+import { medicineSearchResult } from '../../atoms';
 
 const SSearchContainer = styled.div`
   width: 100vw;
@@ -49,9 +52,11 @@ const SSearchBtn = styled.button`
 const SSearchForm = styled.form``;
 
 function SearchBar({ searchType }) {
+  const navigate = useNavigate();
   const searchCategory = searchType;
   // const [inputPlaceholder, setInputPlaceholder] = useState({searchType === 'hospital' ? '병원명을 입력해 주세요.' : '약 이름을 검색해 주세요.'});
 
+  const [medicineList, setMedicineList] = useRecoilState(medicineSearchResult);
   const [inputValue, setInputValue] = useState('');
   const onChangeSearch = e => {
     // console.log('INPUT', inputValue);
@@ -70,7 +75,12 @@ function SearchBar({ searchType }) {
     } else if (searchCategory === 'drug') {
       axios
         .get(`${API_URL_DRUG}/${inputValue}`)
-        .then(res => console.log(res))
+        .then(res => {
+          setMedicineList(res.data.data);
+          setInputValue('');
+          navigate('/pill/result');
+          // console.log(res.data.data);
+        })
         .catch(err => console.log(err));
     }
 
