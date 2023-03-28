@@ -125,7 +125,7 @@ const checkMyBasketSelector = selector({
         console.log(item, 'item')
         console.log(checkValue, 'checkValue')
         console.log('실패')
-        // console.log(item)
+        console.log(item)
         // console.log(checkValue)
         // console.log('here2')
       }
