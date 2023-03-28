@@ -50,6 +50,7 @@ const SSearchForm = styled.form``;
 
 function SearchBar({ searchType }) {
   const searchCategory = searchType;
+  // const [inputPlaceholder, setInputPlaceholder] = useState({searchType === 'hospital' ? '병원명을 입력해 주세요.' : '약 이름을 검색해 주세요.'});
 
   const [inputValue, setInputValue] = useState('');
   const onChangeSearch = e => {
@@ -57,17 +58,18 @@ function SearchBar({ searchType }) {
     setInputValue(e.target.value);
   };
 
-  const handleSubmit = async () => {
-    console.log(typeof inputValue);
+  const handleSubmit = e => {
+    e.preventDefault();
+    // console.log(typeof inputValue);
 
     if (searchCategory === 'hospital') {
-      await axios
+      axios
         .get(`${API_URL_HOSPITAL}/search/${inputValue}`)
         .then(res => console.log(res))
         .catch(err => console.log(err));
     } else if (searchCategory === 'drug') {
-      await axios
-        .get(`${API_URL_DRUG}/search/${inputValue}`)
+      axios
+        .get(`${API_URL_DRUG}/${inputValue}`)
         .then(res => console.log(res))
         .catch(err => console.log(err));
     }
@@ -81,7 +83,7 @@ function SearchBar({ searchType }) {
         <SSearchInput
           value={inputValue}
           onChange={onChangeSearch}
-          placeholder="병원명을 입력하세요."
+          placeholder="검색해 주세요."
           autoFocus
         />
       </SSearchForm>

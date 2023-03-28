@@ -468,7 +468,6 @@ function PillSearch() {
               value={inputValue}
               onChange={onChangeSearch}
               placeholder="약에 음각된 문자를 입력해주세요."
-              autoFocus
             />
           </SWordSearchContainer>
         </SSelectBox>

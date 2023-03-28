@@ -23,9 +23,6 @@ const SSearchContainer = styled.div`
 `;
 
 const SSearchInput = styled.input`
-  &::placeholder {
-    /* padding-left: 5vw; */
-  }
   width: 70vw;
   height: 10vw;
   padding-left: 5vw;
