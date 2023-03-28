@@ -11,7 +11,7 @@ public interface DrugService {
 
 	ResponseDTO selectDrug(Long drug_id) throws Exception;
 
-	// ResponseDTO selectDrugDesc(int drug_id) throws Exception;
+	ResponseDTO selectDrugDesc(int drug_id) throws Exception;
 
 	ResponseDTO selectDrugAvoid(Long drug_id) throws Exception;
 	ResponseDTO findList(Long user_id) throws Exception;
