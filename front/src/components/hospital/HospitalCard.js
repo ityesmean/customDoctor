@@ -84,7 +84,7 @@ const SLine = styled.div`
 
 function HospitalCard({ card }) {
   //   const [IsMyPage, setIsMypage] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState('true');
   // props 에서 mypage인지 여부 전달 받아서 IsMyPage 상태 변경
   return (
     <>

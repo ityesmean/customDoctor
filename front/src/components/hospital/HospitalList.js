@@ -6,7 +6,7 @@ import HospitalCard from './HospitalCard';
 const SLink = styled(Link)`
   text-decoration: none;
   color: black;
-`
+`;
 
 // props 로는 선택된 필터 버튼의 값이 전달된다. ex) distance, star, open
 function HospitalList(props) {
@@ -53,19 +53,17 @@ function HospitalList(props) {
       {hospitalList ? (
         <>
           {hospitalList.map((hospitalCard, index) => (
-            <SLink to={`/hospital/${hospitalCard.hospitalId}`}
-              state={{ information: hospitalCard }}>
-              <HospitalCard
-                card={hospitalCard}
-                index={index}
-                key={hospitalCard.hospitalName}
-              />
+            <SLink
+              to={`/hospital/${hospitalCard.hospitalId}`}
+              key={hospitalCard.hospitalName}
+              state={{ information: hospitalCard }}
+            >
+              <HospitalCard card={hospitalCard} index={index} />
             </SLink>
           ))}
         </>
-      ) : null
-      }
-    </div >
+      ) : null}
+    </div>
   );
 }
 
