@@ -250,10 +250,9 @@ function HospitalSearch() {
         return;
       }
     }
-
-    navigate('/hospital/search/result');
-
     setSelectedOption(options);
+    // 옵션 없는 값 검사하고 통과시 검색 결과로 이동
+    navigate('/hospital/search/result');
   };
 
   const onChangeSearchWordHandler = temp => {
