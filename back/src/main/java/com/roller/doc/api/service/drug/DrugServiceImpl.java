@@ -1,5 +1,6 @@
 package com.roller.doc.api.service.drug;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +25,10 @@ import com.roller.doc.db.repository.DrugMyRepository;
 import com.roller.doc.db.repository.DrugRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
+@Log4j2
 @Transactional
 @RequiredArgsConstructor
 public class DrugServiceImpl implements DrugService {
@@ -39,9 +42,9 @@ public class DrugServiceImpl implements DrugService {
 
 	@Override
 	public ResponseDTO findOneByName(String drug_name) throws Exception {
-		DrugRes drugRes = new DrugRes();
-		ResponseDTO responseDTO = new ResponseDTO();
 
+		ResponseDTO responseDTO = new ResponseDTO();
+		List<DrugRes> result = new ArrayList<>();
 		try {
 			List<Drug> drug = drugRepository.findOneByName(drug_name);
 
@@ -51,7 +54,23 @@ public class DrugServiceImpl implements DrugService {
 				responseDTO.setStatus_code(400);
 			}
 			else {
-				responseDTO.setData(drug);
+				for (int i = 0; i < drug.size(); i++) {
+					DrugRes drugRes = DrugRes.builder()
+						.drugId(drug.get(i).getDrug_id())
+						.drugName(drug.get(i).getDrug_name())
+						.drugImg(drug.get(i).getDrug_img())
+						.drugMarkf(drug.get(i).getDrug_markf())
+						.drugMarkb(drug.get(i).getDrug_markb())
+						.drugType(drug.get(i).getDrug_type())
+						.drugColorf(drug.get(i).getDrug_colorf())
+						.drugColorb(drug.get(i).getDrug_colorb())
+						.drugLine(drug.get(i).getDrug_line())
+						.drugIngre(drug.get(i).getDrug_ingre())
+						.build();
+					result.add(drugRes);
+				}
+
+				responseDTO.setData(result);
 				responseDTO.setMessage("약 이름으로 검색 성공");
 				responseDTO.setStatus_code(200);
 			}
@@ -66,7 +85,7 @@ public class DrugServiceImpl implements DrugService {
 	public ResponseDTO findDrug(String drug_type, String drug_line, String drug_color,
 		String drug_mark) throws Exception {
 
-		DrugRes drugRes = new DrugRes();
+		List<DrugRes> result = new ArrayList<>();
 		ResponseDTO responseDTO = new ResponseDTO();
 
 		try {
@@ -78,7 +97,22 @@ public class DrugServiceImpl implements DrugService {
 				responseDTO.setStatus_code(400);
 			}
 			else {
-				responseDTO.setData(drug);
+				for (int i = 0; i < drug.size(); i++) {
+					DrugRes drugRes = DrugRes.builder()
+						.drugId(drug.get(i).getDrug_id())
+						.drugName(drug.get(i).getDrug_name())
+						.drugImg(drug.get(i).getDrug_img())
+						.drugMarkf(drug.get(i).getDrug_markf())
+						.drugMarkb(drug.get(i).getDrug_markb())
+						.drugType(drug.get(i).getDrug_type())
+						.drugColorf(drug.get(i).getDrug_colorf())
+						.drugColorb(drug.get(i).getDrug_colorb())
+						.drugLine(drug.get(i).getDrug_line())
+						.drugIngre(drug.get(i).getDrug_ingre())
+						.build();
+					result.add(drugRes);
+				}
+				responseDTO.setData(result);
 				responseDTO.setMessage("약 조건으로 검색 성공");
 				responseDTO.setStatus_code(200);
 			}
@@ -92,7 +126,6 @@ public class DrugServiceImpl implements DrugService {
 
 	@Override
 	public ResponseDTO selectDrug(Long drug_id) throws Exception {
-		DrugRes drugRes = new DrugRes();
 		ResponseDTO responseDTO = new ResponseDTO();
 
 		try {
@@ -104,7 +137,20 @@ public class DrugServiceImpl implements DrugService {
 				responseDTO.setStatus_code(400);
 			}
 			else {
-				responseDTO.setData(drug);
+				DrugRes drugRes = DrugRes.builder()
+					.drugId(drug.getDrug_id())
+					.drugName(drug.getDrug_name())
+					.drugImg(drug.getDrug_img())
+					.drugMarkf(drug.getDrug_markf())
+					.drugMarkb(drug.getDrug_markb())
+					.drugType(drug.getDrug_type())
+					.drugColorf(drug.getDrug_colorf())
+					.drugColorb(drug.getDrug_colorb())
+					.drugLine(drug.getDrug_line())
+					.drugIngre(drug.getDrug_ingre())
+					.build();
+
+				responseDTO.setData(drugRes);
 				responseDTO.setMessage("약 검색 성공");
 				responseDTO.setStatus_code(200);
 			}
@@ -117,7 +163,6 @@ public class DrugServiceImpl implements DrugService {
 
 	@Override
 	public ResponseDTO selectDrugDesc(int drug_id) throws Exception {
-		DrugDescRes drugDescRes = new DrugDescRes();
 		ResponseDTO responseDTO = new ResponseDTO();
 
 		try {
@@ -129,7 +174,17 @@ public class DrugServiceImpl implements DrugService {
 				responseDTO.setStatus_code(400);
 			}
 			else {
-				responseDTO.setData(drugDesc);
+				DrugDescRes drugDescRes = DrugDescRes.builder()
+					.drugId(drugDesc.getDrug_id())
+					.drugDescCat(drugDesc.getDrug_desc_cat())
+					.drugDescShape(drugDesc.getDrug_desc_shape())
+					.drugDescCom(drugDesc.getDrug_desc_com())
+					.drugDescSafety(drugDesc.getDrug_desc_safety())
+					.drugDescEffect(drugDesc.getDrug_desc_effect())
+					.drugDescUse(drugDesc.getDrug_desc_use())
+					.build();
+
+				responseDTO.setData(drugDescRes);
 				responseDTO.setMessage("약 상세정보 검색 성공");
 				responseDTO.setStatus_code(200);
 			}
@@ -142,9 +197,8 @@ public class DrugServiceImpl implements DrugService {
 
 	@Override
 	public ResponseDTO selectDrugAvoid(Long drug_id) throws Exception {
-		DrugAvoidRes drugAvoidRes = new DrugAvoidRes();
+		List<DrugAvoidRes> result = new ArrayList<>();
 		ResponseDTO responseDTO = new ResponseDTO();
-
 		try {
 			List<DrugAvoid> drugAvoid = drugAvoidRepository.selectDrugAvoid(drug_id);
 
@@ -154,7 +208,18 @@ public class DrugServiceImpl implements DrugService {
 				responseDTO.setStatus_code(400);
 			}
 			else {
-				responseDTO.setData(drugAvoid);
+				for (int i = 0; i < drugAvoid.size(); i++) {
+					DrugAvoidRes drugAvoidRes = DrugAvoidRes.builder()
+						.drugAvoidId(drugAvoid.get(i).getDrug_avoid_id())
+						.drugId(drug_id)
+						.drugAvoidB(drugAvoid.get(i).getDrug_avoid_b())
+						.drugAvoidNameB(drugAvoid.get(i).getDrug_avoid_name_b())
+						.drugAvoidDesc(drugAvoid.get(i).getDrug_avoid_desc())
+						.build();
+					result.add(drugAvoidRes);
+				}
+
+				responseDTO.setData(result);
 				responseDTO.setMessage("약 검색 성공");
 				responseDTO.setStatus_code(200);
 			}
@@ -167,7 +232,7 @@ public class DrugServiceImpl implements DrugService {
 
 	@Override
 	public ResponseDTO findList(Long user_id) throws Exception {
-		DrugMyRes drugMyRes = new DrugMyRes();
+		List<DrugMyRes> result = new ArrayList<>();
 		ResponseDTO responseDTO = new ResponseDTO();
 
 		try {
@@ -177,7 +242,17 @@ public class DrugServiceImpl implements DrugService {
 				responseDTO.setStatus_code(400);
 			}
 			else {
-				responseDTO.setData(drugMIES);
+				for (int i = 0; i < drugMIES.size(); i++) {
+					DrugMyRes drugMyRes = DrugMyRes.builder()
+						.drugMyId(drugMIES.get(i).getDrug_my_id())
+						.drugMyDel(drugMIES.get(i).getDrug_my_del())
+						.drugMyMemo(drugMIES.get(i).getDrug_my_memo())
+						.drugMyTitle(drugMIES.get(i).getDrug_my_title())
+						.userId(user_id)
+						.build();
+					result.add(drugMyRes);
+				}
+				responseDTO.setData(result);
 				responseDTO.setMessage("나의 약봉지 목록 출력 성공");
 				responseDTO.setStatus_code(200);
 			}
@@ -190,7 +265,7 @@ public class DrugServiceImpl implements DrugService {
 
 	@Override
 	public ResponseDTO findMyPillList(Long drug_my_id) throws Exception {
-		DrugMyPillRes drugMyPillRes = new DrugMyPillRes();
+		List<DrugMyPillRes> result = new ArrayList<>();
 		ResponseDTO responseDTO = new ResponseDTO();
 
 		try {
@@ -200,7 +275,15 @@ public class DrugServiceImpl implements DrugService {
 				responseDTO.setStatus_code(400);
 			}
 			else {
-				responseDTO.setData(drugMyPills);
+				for (int i = 0; i < drugMyPills.size(); i++) {
+					DrugMyPillRes drugMyPillRes = DrugMyPillRes.builder()
+						.drugMyPillId(drugMyPills.get(i).getDrug_my_pill_id())
+						.drugId(drugMyPills.get(i).getDrug())
+						.drugMyId(drug_my_id)
+						.build();
+					result.add(drugMyPillRes);
+				}
+				responseDTO.setData(result);
 				responseDTO.setMessage("나의 약봉지 속 약 출력 성공");
 				responseDTO.setStatus_code(200);
 			}
@@ -210,4 +293,28 @@ public class DrugServiceImpl implements DrugService {
 
 		return responseDTO;
 	}
+
+	// @Override
+	// public ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception {
+	//
+	// 	ResponseDTO responseDTO = new ResponseDTO();
+	//
+	// 	try {
+	// 		int result = drugMyRepository.deleteDrugMyById(drug_my_id);
+	// 		System.out.println(result);
+	// 		if (result == 1) {
+	// 			responseDTO.setData(result);
+	// 			responseDTO.setMessage("나의 약봉지 삭제 성공");
+	// 			responseDTO.setStatus_code(200);
+	// 		} else {
+	// 			responseDTO.setMessage("출력 실패");
+	// 			responseDTO.setStatus_code(400);
+	// 		}
+	//
+	// 	} catch (Exception e) {
+	// 		e.printStackTrace();
+	// 	}
+	//
+	// 	return responseDTO;
+	// }
 }
