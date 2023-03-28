@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import com.roller.doc.api.service.drug.DrugService;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin
 @RestController
 @ResponseBody
 @RequiredArgsConstructor
@@ -44,11 +46,11 @@ public class DrugController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	// @GetMapping("/descinfo/{drugId}")
-	// public ResponseEntity selectDrugDesc(@PathVariable("drugId") int drugId) throws Exception {
-	// 	ResponseDTO result = drugService.selectDrugDesc(drugId);
-	// 	return ResponseEntity.status(HttpStatus.OK).body(result);
-	// }
+	@GetMapping("/descinfo/{drugId}")
+	public ResponseEntity selectDrugDesc(@PathVariable("drugId") int drugId) throws Exception {
+		ResponseDTO result = drugService.selectDrugDesc(drugId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 
 	@GetMapping("/avoidinfo/{drugId}")
 	public ResponseEntity selectDrugAvoid(@PathVariable("drugId") Long drugId) throws Exception {
