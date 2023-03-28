@@ -1,11 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import Vec from '../../assets/Vector.svg';
 
-import { API_URL_HOSPITAL } from '../../api/api';
+import { API_URL_DRUG, API_URL_HOSPITAL } from '../../api/api';
 
 const SSearchContainer = styled.div`
   width: 100vw;
@@ -47,21 +48,29 @@ const SSearchBtn = styled.button`
 
 const SSearchForm = styled.form``;
 
-function SearchBar() {
+function SearchBar({ searchType }) {
+  const searchCategory = searchType;
+
   const [inputValue, setInputValue] = useState('');
   const onChangeSearch = e => {
     // console.log('INPUT', inputValue);
     setInputValue(e.target.value);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     console.log(typeof inputValue);
 
-    axios
-      .get(`${API_URL_HOSPITAL}/search/${inputValue}`)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    if (searchCategory === 'hospital') {
+      await axios
+        .get(`${API_URL_HOSPITAL}/search/${inputValue}`)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    } else if (searchCategory === 'drug') {
+      await axios
+        .get(`${API_URL_DRUG}/search/${inputValue}`)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    }
 
     setInputValue('');
   };
@@ -84,4 +93,12 @@ function SearchBar() {
     </SSearchContainer>
   );
 }
+
+SearchBar.propTypes = {
+  searchType: PropTypes.string,
+};
+
+SearchBar.defaultProps = {
+  searchType: null,
+};
 export default SearchBar;

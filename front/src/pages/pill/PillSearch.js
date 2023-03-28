@@ -388,8 +388,8 @@ function PillSearch() {
         <SLink to="/">
           <BackButton />
         </SLink>
-        <STitle>병원명으로 검색</STitle>
-        <SearchBar />
+        <STitle>약 이름으로 검색</STitle>
+        <SearchBar searchType="drug" />
         <SLine />
         <STitle>조건으로 검색</STitle>
         <SSelectBox>

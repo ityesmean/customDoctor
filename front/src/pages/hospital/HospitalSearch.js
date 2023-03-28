@@ -267,7 +267,7 @@ function HospitalSearch() {
         <BackButton />
       </SLink>
       <STitle>병원명으로 검색</STitle>
-      <SearchBar />
+      <SearchBar searchType="hospital" />
       <SLine> </SLine>
       <STitle>조건으로 검색</STitle>
 
