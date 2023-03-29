@@ -2,30 +2,32 @@ package com.roller.doc.api.response.drug;
 import com.roller.doc.db.entity.Drug;
 import com.roller.doc.db.entity.DrugDesc;
 
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Data
 @Getter
+@NoArgsConstructor
 public class DrugDescRes {
-	private String drug_desc_cat;
-	private String drug_desc_com;
-	private String drug_desc_effect;
-	private String drug_desc_safety;
-	private String drug_desc_shape;
-	private String drug_desc_use;
-	private Long drug_id;
+	private Long drugId;
+	private String drugDescCat;
+	private String drugDescShape;
+	private String drugDescCom;
+	private String drugDescSafety;
+	private String drugDescEffect;
+	private String drugDescUse;
 
-	public DrugDescRes() {
-
-	}
-
-	public DrugDescRes(DrugDesc drugDesc) {
-		Drug drug = drugDesc.getDrug();
-		this.drug_id = drug.getDrug_id();
-		this.drug_desc_cat = drugDesc.getDrug_desc_cat();
-		this.drug_desc_com = drugDesc.getDrug_desc_com();
-		this.drug_desc_effect = drugDesc.getDrug_desc_effect();
-		this.drug_desc_safety = drugDesc.getDrug_desc_safety();
-		this.drug_desc_shape = drugDesc.getDrug_desc_shape();
-		this.drug_desc_use = drugDesc.getDrug_desc_use();
+	@Builder
+	public DrugDescRes(Long drugId, String drugDescCat, String drugDescShape, String drugDescCom, String drugDescSafety,
+		String drugDescEffect, String drugDescUse) {
+		this.drugId = drugId;
+		this.drugDescCat = drugDescCat;
+		this.drugDescShape = drugDescShape;
+		this.drugDescCom = drugDescCom;
+		this.drugDescSafety = drugDescSafety;
+		this.drugDescEffect = drugDescEffect;
+		this.drugDescUse = drugDescUse;
 	}
 }
