@@ -1,10 +1,12 @@
 /* eslint-disable prefer-const */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-else-return */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import MyLikeMedicineItem from './MyLikeMedicineItem';
@@ -59,14 +61,80 @@ const SListWrapper = styled.div`
   overflow: scroll;
 `;
 
-function MyLikeMedicineSearchAndList() {
+function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
 
-  const myBasket = useRecoilValue(myBasketState)
-
+  const [myBasket, setMyBasket] = useRecoilState(myBasketState)
+  const [filteredArr, setFilteredArr] = useState([...myBasket]);
   const [searchWord, setSearchWord] = useState('')
+  const [checkedItems, setCheckedItems] = useState(new Set())
+
+  // const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
 
   const onChangeSearchWordHandler = e => {
     setSearchWord(e.target.value)
+
+    const result = myBasket.filter((medicine) => {
+      if (medicine.name.indexOf(e.target.value) === -1) {
+        return false
+      } else {
+        return true
+      }
+    })
+
+    setFilteredArr(result)
+  }
+
+  const onClickDeleteHandler = (target) => {
+    const tempBasket = [...myBasket];
+    const newObj = []
+    tempBasket.forEach((item) => {
+      newObj.push(JSON.parse(JSON.stringify(item)))
+    })
+    console.log(newObj, 'newObj', '전')
+    const deletedArr = newObj.filter((item, index) => {
+      console.log(JSON.stringify(item) === JSON.stringify(target))
+      if (JSON.stringify(item) === JSON.stringify(target)) {
+
+        return false
+      } else {
+
+        return true
+      }
+    })
+    console.log(deletedArr, '후')
+    setFilteredArr(deletedArr)
+    setMyBasket(deletedArr)
+    // location.reload(); 
+  }
+
+  const onChangeCheckHandler = (target) => {
+    const tempBasket = [...myBasket];
+    const newObj = []
+    tempBasket.forEach((item) => {
+      newObj.push(JSON.parse(JSON.stringify(item)))
+    })
+    newObj.forEach((item) => {
+      if (JSON.stringify(item) === JSON.stringify(target)) {
+        console.log('오긴하냐 ?')
+        if (item.isChecked === 'unChecked') {
+          // console.log('여기로 들어옴1')
+          item.isChecked = 'checked'
+          checkedItems.add(item.name)
+          console.log(checkedItems)
+          likedMedicinesHandler(checkedItems)
+        } else if (item.isChecked === 'checked') {
+          item.isChecked = 'unChecked'
+          // console.log('여기로 들어옴1')
+          console.log('잇냐')
+          checkedItems.delete(item.name)
+          console.log(checkedItems)
+          likedMedicinesHandler(checkedItems)
+        }
+      }
+    })
+    console.log(newObj)
+    setFilteredArr(newObj)
+    setMyBasket(newObj)
   }
 
   return (
@@ -81,15 +149,25 @@ function MyLikeMedicineSearchAndList() {
       </SInputWrapper>
 
       <SListWrapper>
-        {myBasket.map(medicine => (
+        {filteredArr.map(medicine => (
           <MyLikeMedicineItem
             key={medicine.name}
             medicine={medicine}
+            onChangeCheckHandler={onChangeCheckHandler}
+            onClickDeleteHandler={onClickDeleteHandler}
           />
         ))}
       </SListWrapper>
     </SBox>
   );
+}
+
+MyLikeMedicineSearchAndList.propTypes = {
+  likedMedicinesHandler: PropTypes.func
+}
+
+MyLikeMedicineSearchAndList.defaultProps = {
+  likedMedicinesHandler: null,
 }
 
 export default MyLikeMedicineSearchAndList;

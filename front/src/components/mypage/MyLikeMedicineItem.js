@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable prefer-const */
 /* eslint-disable no-else-return */
 /* eslint-disable no-underscore-dangle */
@@ -8,7 +9,7 @@ import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { deleteMyBasketSelector, checkMyBasketSelector } from '../../atoms';
+import { deleteMyBasketSelector } from '../../atoms';
 
 
 const SItem = styled.div`
@@ -33,19 +34,25 @@ const SDeleteButton = styled.div`
   border-radius: 10px;
 `;
 
-function MyLikeMedicineItem({ medicine }) {
+function MyLikeMedicineItem({ medicine, onChangeCheckHandler, onClickDeleteHandler }) {
 
   const [myBasket, setMyBasket] = useRecoilState(deleteMyBasketSelector)
-  const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
   // const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
+  // const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
+  const [bChecked, setChecked] = useState(
+    medicine.isChecked === 'unChecked' ? false : true,
+  );
 
-  const onChangeCheckHandler = () => {
-    setMyBasketCheck(medicine)
+  const onClickDeleteItem = () => {
+    onClickDeleteHandler(medicine)
   }
 
-  const onClickDeleteHandler = () => {
-    setMyBasket(medicine)
+  const onChangeCheckItem = () => {
+    setChecked(!bChecked)
+    onChangeCheckHandler(medicine)
   }
+
+
 
   return (
     <SItem>
@@ -53,11 +60,12 @@ function MyLikeMedicineItem({ medicine }) {
         <input
           type="checkbox"
           id={medicine.name}
-          onChange={onChangeCheckHandler}
+          checked={bChecked}
+          onChange={onChangeCheckItem}
         />
         <SLabel htmlFor={medicine.name}>{medicine.name}</SLabel>
       </SCheckboxAndLabelBox>
-      <SDeleteButton onClick={onClickDeleteHandler}>삭제</SDeleteButton>
+      <SDeleteButton onClick={onClickDeleteItem}>삭제</SDeleteButton>
     </SItem>
   );
 }
@@ -66,11 +74,15 @@ MyLikeMedicineItem.propTypes = {
   medicine: PropTypes.shape({
     name: PropTypes.string,
     isChecked: PropTypes.string
-  })
+  }),
+  onChangeCheckHandler: PropTypes.func,
+  onClickDeleteHandler: PropTypes.func
 }
 
 MyLikeMedicineItem.defaultProps = {
   medicine: null,
+  onChangeCheckHandler: null,
+  onClickDeleteHandler: null,
 }
 
 
