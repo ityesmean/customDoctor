@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import React from 'react';
 import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -64,7 +65,7 @@ function PillSearchResult() {
   const resultOptions = useRecoilValue(pillSearchSelectedOption);
 
   useEffect(() => {
-    console.log(resultOptions);
+    // console.log(resultOptions);
   }, []);
 
   return (

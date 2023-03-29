@@ -23,11 +23,9 @@ const SSearchContainer = styled.div`
 `;
 
 const SSearchInput = styled.input`
-  &::placeholder {
-    padding-left: 5vw;
-  }
-  width: 80vw;
+  width: 70vw;
   height: 10vw;
+  padding-left: 5vw;
   border: solid 1px #00c192;
   border-radius: 10vw;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;

@@ -43,15 +43,15 @@ const router = createBrowserRouter([
     element: <MyPageBasket />,
   },
   {
-    path: '/drug/search',
+    path: '/pill/search',
     element: <PillSearch />,
   },
   {
-    path: '/drug/result',
+    path: '/pill/result',
     element: <PillSearchResult />,
   },
   {
-    path: '/drug/:drugId',
+    path: '/pill/:drugId',
     element: <PillDetail />,
   },
   {

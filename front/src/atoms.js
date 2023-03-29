@@ -27,6 +27,17 @@ const pillSearchSelectedOption = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+const drugDetailInfo = atom({
+  key: 'drugDetailInfo',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+const drugAvoidInfo = atom({
+  key: 'drugAvoidInfo',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
 const myBasket = atom({
   key: 'myBasket',
   default: [
@@ -75,10 +86,9 @@ const myBasket = atom({
   dangerouslyAllowMutability: true,
 });
 
-export const UserIdState = atom({
-  key: 'UserIdState',
-  default: 0,
-  effects_UNSTABLE: [persistAtom],
+const medicineSearchResult = atom({
+  key: 'medicineSearchResult',
+  default: [],
 });
 
 export {
@@ -87,4 +97,7 @@ export {
   hospitalSearchSelectedOption,
   pillSearchSelectedOption,
   myBasket,
+  medicineSearchResult,
+  drugDetailInfo,
+  drugAvoidInfo,
 };

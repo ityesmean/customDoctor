@@ -368,7 +368,6 @@ function PillSearch() {
 
     if ('' in options) {
       alert('빈 값을 채워주세요');
-      console.log('되돌아가기');
     } else {
       navigate('/pill/result');
     }
@@ -376,10 +375,10 @@ function PillSearch() {
     setpillselectedOption(options);
   };
 
-  console.log(selectPillColor);
-  console.log(selectPillShape);
-  console.log(selectPillLine);
-  console.log(inputValue);
+  // console.log(selectPillColor);
+  // console.log(selectPillShape);
+  // console.log(selectPillLine);
+  // console.log(inputValue);
 
   return (
     <>
@@ -388,8 +387,8 @@ function PillSearch() {
         <SLink to="/">
           <BackButton />
         </SLink>
-        <STitle>병원명으로 검색</STitle>
-        <SearchBar />
+        <STitle>약 이름으로 검색</STitle>
+        <SearchBar searchType="drug" />
         <SLine />
         <STitle>조건으로 검색</STitle>
         <SSelectBox>
@@ -468,7 +467,6 @@ function PillSearch() {
               value={inputValue}
               onChange={onChangeSearch}
               placeholder="약에 음각된 문자를 입력해주세요."
-              autoFocus
             />
           </SWordSearchContainer>
         </SSelectBox>

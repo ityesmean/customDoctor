@@ -72,10 +72,12 @@ function Home() {
           </SCardBox>
         </SLink>
 
-        <SCardBox>
-          <img src={PillMain} alt="Pill" />
-          <SSubTitle>약 검색</SSubTitle>
-        </SCardBox>
+        <SLink to="/pill/search">
+          <SCardBox>
+            <img src={PillMain} alt="Pill" />
+            <SSubTitle>약 검색</SSubTitle>
+          </SCardBox>
+        </SLink>
 
         <SLink to="/mypage/hospitallist">
           <SCardBox>
