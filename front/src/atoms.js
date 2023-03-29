@@ -27,6 +27,17 @@ const pillSearchSelectedOption = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+const drugDetailInfo = atom({
+  key: 'drugDetailInfo',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+const drugAvoidInfo = atom({
+  key: 'drugAvoidInfo',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
 const myBasket = atom({
   key: 'myBasket',
   default: [
@@ -87,4 +98,6 @@ export {
   pillSearchSelectedOption,
   myBasket,
   medicineSearchResult,
+  drugDetailInfo,
+  drugAvoidInfo,
 };
