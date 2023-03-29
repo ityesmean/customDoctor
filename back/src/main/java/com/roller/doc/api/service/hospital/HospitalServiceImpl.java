@@ -1,6 +1,5 @@
 package com.roller.doc.api.service.hospital;
 
-import com.roller.doc.api.request.HospitalReq;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.response.hospital.HospitalDescRes;
 import com.roller.doc.api.response.hospital.HospitalRes;
@@ -35,9 +34,9 @@ public class HospitalServiceImpl implements HospitalService {
      * @return
      */
     @Override
-    public ResponseDTO searchByHospitalName(String word, HospitalReq h) {
+    public ResponseDTO searchByHospitalName(String word, double e, double w, double s, double n) {
         ResponseDTO responseDTO = new ResponseDTO();
-        List<Hospital> hospitalList = hospitalCustomRepo.searchByHospitalName(word, h.getE(), h.getW(), h.getS(), h.getN());
+        List<Hospital> hospitalList = hospitalCustomRepo.searchByHospitalName(word, e, w, s, n);
         if (hospitalList.size() == 0) { //반환값이 없으면 실패
             responseDTO.setStatus_code(400);
             responseDTO.setMessage("검색 결과가 없습니다");
@@ -62,7 +61,6 @@ public class HospitalServiceImpl implements HospitalService {
                         .hospitalX(hospitalList.get(i).getHospital_x())
                         .hospitalY(hospitalList.get(i).getHospital_y())
                         .hospitalTel(hospitalList.get(i).getHospital_tel())
-                        .hospitalStar(hospitalList.get(i).getHospital_star())
                         .hospitalPart(partResult)
                         .build();
                 result.add(hospitalRes);
@@ -76,48 +74,22 @@ public class HospitalServiceImpl implements HospitalService {
 
     /**
      * 필터로 병원찾기
-     *
-     * @param e
-     * @param w
-     * @param s
-     * @param n
-     * @param part
-     * @return
      */
     @Override
-    public ResponseDTO filteringHospital(double e, double w, double s, double n, int part) {
+    public ResponseDTO filteringHospital(double e, double w, double s, double n, int p1, int p2, int p3, int p4, int p5, int sat, int sun, int holiday, int night) {
         ResponseDTO responseDTO = new ResponseDTO();
         List<HospitalRes> result = new ArrayList<>();
         Set<Long> location = new HashSet<>();
         try {
-            //5km 내의 병원들 구하기
-            List<Hospital> hospitalList = hospitalRepository.findHospitalLocation(e, w, s, n);
+            List<Hospital> hospitalList = hospitalCustomRepo.useFilterHospital(e, w, s, n, p1, p2, p3, p4, p5, sat, sun, holiday, night);
             if (hospitalList.size() == 0) {
                 responseDTO.setStatus_code(400);
-                responseDTO.setMessage("범위 내에 병원이 없습니다");
+                responseDTO.setMessage("필터로 병원찾기: 일치하는 병원이 없습니다");
                 responseDTO.setData("null");
             } else {
-                //과목 필터
-                if (part != 0) {
-                    for (int i = 0; i < hospitalList.size(); i++) {
-                        location.add(hospitalList.get(i).getHospital_id());
-                        List<HospitalPart> partList = hospitalRepository.searchByHospitalPart(hospitalList.get(i).getHospital_id(), part);
-                        if (partList.size() == 0) { //진료과목 안맞으면 삭제
-                            location.remove(hospitalList.get(i));
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < hospitalList.size(); i++) {
-                        location.add(hospitalList.get(i).getHospital_id());
-                    }
-                }
-                // 운영시간 필터
-
                 // id로 병원 찾기
-                for (long k : location) {
-                    System.out.println(k);
-                    Optional<Hospital> hospital = hospitalRepository.findById(k);
-                    List<HospitalPart> partList = hospitalRepository.findHospitalPart(k); //진료과목
+                for (Hospital hospital : hospitalList) {
+                    List<HospitalPart> partList = hospitalRepository.findHospitalPart(hospital.getHospital_id()); //진료과목
                     List<String> partResult = new ArrayList<>();
                     if (partList.size() > 0) {
                         for (int j = 0; j < partList.size(); j++) {
@@ -127,19 +99,18 @@ public class HospitalServiceImpl implements HospitalService {
                         }
                     }
                     HospitalRes hospitalRes = HospitalRes.builder()
-                            .hospitalId(hospital.get().getHospital_id())
-                            .hospitalName(hospital.get().getHospital_name())
-                            .hospitalCode(hospital.get().getHospital_code())
-                            .hospitalX(hospital.get().getHospital_x())
-                            .hospitalY(hospital.get().getHospital_y())
-                            .hospitalTel(hospital.get().getHospital_tel())
-                            .hospitalStar(hospital.get().getHospital_star())
+                            .hospitalId(hospital.getHospital_id())
+                            .hospitalName(hospital.getHospital_name())
+                            .hospitalCode(hospital.getHospital_code())
+                            .hospitalX(hospital.getHospital_x())
+                            .hospitalY(hospital.getHospital_y())
+                            .hospitalTel(hospital.getHospital_tel())
                             .hospitalPart(partResult)
                             .build();
                     result.add(hospitalRes);
                 }
                 responseDTO.setStatus_code(200);
-                responseDTO.setMessage("5키로 안의 병원들 목록");
+                responseDTO.setMessage("필터로 병원찾기 목록");
                 responseDTO.setData(result);
             }
         } catch (

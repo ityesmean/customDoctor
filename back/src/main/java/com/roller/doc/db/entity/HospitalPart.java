@@ -29,8 +29,8 @@ public class HospitalPart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int hospital_part_id;
 
-    @Column(name = "hospital_id", columnDefinition = "INT")
-    private long hospital_id;
+//    @Column(name = "hospital_id", columnDefinition = "INT")
+//    private long hospital_id;
 
     @Column(name = "hospital_part_name", columnDefinition = "INT")
     private int hospital_part_name;
@@ -38,4 +38,7 @@ public class HospitalPart {
     @Column(name = "hospital_part_doctor", columnDefinition = "INT")
     private int hospital_part_doctor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="hospital_id")
+    private Hospital hospital;
 }

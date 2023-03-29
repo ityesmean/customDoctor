@@ -35,9 +35,6 @@ public class Hospital {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long hospital_id;
 
-    @Column(name = "hospital_index", columnDefinition = "INT")
-    private int hospital_index;
-
     @Column(name = "hospital_name", columnDefinition = "VARCHAR(50)")
     private String hospital_name;
 
@@ -53,7 +50,15 @@ public class Hospital {
     @Column(name = "hospital_tel", columnDefinition = "VARCHAR(50)")
     private String hospital_tel;
 
-    @Column(name = "hospital_star", columnDefinition = "DOUBLE")
-    private Double hospital_star;
+    @JsonIgnore
+    @OneToMany(mappedBy = "hospital")
+    List<HospitalPart> hospitalParts = new ArrayList<>();
 
+    public void addHospitalParts(HospitalPart hospitalPart) {
+        hospitalParts.add(hospitalPart);
+    }
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "hospital")
+    private HospitalTime hospitalTime;
 }

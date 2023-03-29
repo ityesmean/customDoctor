@@ -1,15 +1,6 @@
 package com.roller.doc.db.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,8 +21,11 @@ public class HospitalTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long hospital_time_id;
 
-	@Column(name="hospital_id", columnDefinition = "INT")
-	private long hospital_id;
+	@JoinColumn(name="hospital_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	private Hospital hospital;
+//	@Column(name="hospital_id", columnDefinition = "INT")
+//	private long hospital_id;
 
 	@Column(name="hospital_time_mon_s",columnDefinition = "VARCHAR(50)")
 	private String hospital_time_mon_s;
@@ -74,5 +68,8 @@ public class HospitalTime {
 
 	@Column(name="hospital_time_sun_e",columnDefinition = "VARCHAR(50)")
 	private String hospital_time_sun_e;
+
+	@Column(name = "hospital_time_etc",columnDefinition = "text")
+	private String hospital_time_etc;
 
 }
