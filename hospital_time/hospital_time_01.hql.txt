@@ -1,0 +1,69 @@
+DROP TABLE IF EXISTS hospital_time_01;
+CREATE EXTERNAL TABLE IF NOT EXISTS hospital_time_01(
+	hospital_time_id int,
+	hospital_id int,
+	hospital_time_mon string,
+	hospital_time_tue string,
+	hospital_time_wed string,
+	hospital_time_thu string,
+	hospital_time_fri string,
+	hospital_time_sat string,
+	hospital_time_sun string,
+	hospital_time_mon_night boolean,
+	hospital_time_tue_night boolean,
+	hospital_time_wed_night boolean,
+	hospital_time_thu_night boolean,
+	hospital_time_fri_night boolean,
+	hospital_time_sat_night boolean,
+	hospital_time_sun_night boolean,
+	hospital_time_holiday boolean,
+	hospital_time_etc string
+);
+
+INSERT OVERWRITE TABLE hospital_time_01
+	SELECT 
+		row_sequence(),
+		h.hospital_id,
+		CASE WHEN substring(t.hospital_time_etc, 1, 2) = '평일' AND substring(t.hospital_time_etc, 4, 2) > substring(12, 2) THEN concat_ws('', array( substring(t.hospital_time_etc, 4, 5), '~', substring(t.hospital_time_etc, 12, 2) + 2, substring(t.hospital_time_etc, 14, 3) ))
+			WHEN substring(t.hospital_time_etc, 1, 2) = '평일' THEN replace(substring(t.hospital_time_etc, 4, 13), ' - ', '~')
+			WHEN substring(t.hospital_time_mon, 1, 1) IN ('0', '1') THEN replace(t.hospital_time_mon, ' - ', '~')
+			ELSE 'null' END,
+		CASE WHEN substring(t.hospital_time_etc, 1, 2) = '평일' AND substring(t.hospital_time_etc, 4, 2) > substring(12, 2) THEN concat_ws('', array( substring(t.hospital_time_etc, 4, 5), '~', substring(t.hospital_time_etc, 12, 2) + 2, substring(t.hospital_time_etc, 14, 3) ))
+			WHEN substring(t.hospital_time_etc, 1, 2) = '평일' THEN replace(substring(t.hospital_time_etc, 4, 13), ' - ', '~')
+			WHEN substring(t.hospital_time_tue, 1, 1) IN ('0', '1') THEN replace(t.hospital_time_tue, ' - ', '~')
+			ELSE 'null' END,
+		CASE WHEN substring(t.hospital_time_etc, 1, 2) = '평일' AND substring(t.hospital_time_etc, 4, 2) > substring(12, 2) THEN concat_ws('', array( substring(t.hospital_time_etc, 4, 5), '~', substring(t.hospital_time_etc, 12, 2) + 2, substring(t.hospital_time_etc, 14, 3) ))
+			WHEN substring(t.hospital_time_etc, 1, 2) = '평일' THEN replace(substring(t.hospital_time_etc, 4, 13), ' - ', '~')
+			WHEN substring(t.hospital_time_wed, 1, 1) IN ('0', '1') THEN replace(t.hospital_time_wed, ' - ', '~')
+			ELSE 'null' END,
+		CASE WHEN substring(t.hospital_time_etc, 1, 2) = '평일' AND substring(t.hospital_time_etc, 4, 2) > substring(12, 2) THEN concat_ws('', array( substring(t.hospital_time_etc, 4, 5), '~', substring(t.hospital_time_etc, 12, 2) + 2, substring(t.hospital_time_etc, 14, 3) ))
+			WHEN substring(t.hospital_time_etc, 1, 2) = '평일' THEN replace(substring(t.hospital_time_etc, 4, 13), ' - ', '~')
+			WHEN substring(t.hospital_time_thu, 1, 1) IN ('0', '1') THEN replace(t.hospital_time_thu, ' - ', '~')
+			ELSE 'null' END,
+		CASE WHEN substring(t.hospital_time_etc, 1, 2) = '평일' AND substring(t.hospital_time_etc, 4, 2) > substring(12, 2) THEN concat_ws('', array( substring(t.hospital_time_etc, 4, 5), '~', substring(t.hospital_time_etc, 12, 2) + 2, substring(t.hospital_time_etc, 14, 3) ))
+			WHEN substring(t.hospital_time_etc, 1, 2) = '평일' THEN replace(substring(t.hospital_time_etc, 4, 13), ' - ', '~')
+			WHEN substring(t.hospital_time_fri, 1, 1) IN ('0', '1') THEN replace(t.hospital_time_fri, ' - ', '~')
+			ELSE 'null' END,
+		CASE WHEN substring(t.hospital_time_sat, 1, 1) IN ('0', '1') THEN replace(t.hospital_time_sat, ' - ', '~')
+			ELSE 'null' END,
+		CASE WHEN substring(t.hospital_time_sun, 1, 1) IN ('0', '1') THEN replace(t.hospital_time_sun, ' - ', '~')
+			ELSE 'null' END,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		CASE WHEN substring(t.hospital_time_etc, 1, 2) = '평일' THEN replace( replace(t.hospital_time_etc, ' / ', '/'), concat( split(replace(t.hospital_time_etc, ' / ', '/'), '/')[0], '/'), '' )
+		ELSE replace(t.hospital_time_etc, ' / ', '/') END
+	FROM hospital_time_tmp t, hospital h
+	WHERE t.hospital_time_secu = h.hospital_secu;
+
+
+
+
+
+
+
