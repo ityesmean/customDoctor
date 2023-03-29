@@ -90,21 +90,17 @@ function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
     tempBasket.forEach((item) => {
       newObj.push(JSON.parse(JSON.stringify(item)))
     })
-    console.log(newObj, 'newObj', '전')
     const deletedArr = newObj.filter((item, index) => {
-      console.log(JSON.stringify(item) === JSON.stringify(target))
       if (JSON.stringify(item) === JSON.stringify(target)) {
-
+        checkedItems.delete(item.name)
         return false
       } else {
 
         return true
       }
     })
-    console.log(deletedArr, '후')
     setFilteredArr(deletedArr)
     setMyBasket(deletedArr)
-    // location.reload(); 
   }
 
   const onChangeCheckHandler = (target) => {
@@ -115,24 +111,17 @@ function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
     })
     newObj.forEach((item) => {
       if (JSON.stringify(item) === JSON.stringify(target)) {
-        console.log('오긴하냐 ?')
         if (item.isChecked === 'unChecked') {
-          // console.log('여기로 들어옴1')
           item.isChecked = 'checked'
           checkedItems.add(item.name)
-          console.log(checkedItems)
           likedMedicinesHandler(checkedItems)
         } else if (item.isChecked === 'checked') {
           item.isChecked = 'unChecked'
-          // console.log('여기로 들어옴1')
-          console.log('잇냐')
           checkedItems.delete(item.name)
-          console.log(checkedItems)
           likedMedicinesHandler(checkedItems)
         }
       }
     })
-    console.log(newObj)
     setFilteredArr(newObj)
     setMyBasket(newObj)
   }

@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+/* eslint-disable prefer-template */
+/* eslint-disable prefer-arrow-callback */
+import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,6 +12,8 @@ import Vec from '../../assets/Vector.svg';
 
 import { API_URL_DRUG, API_URL_HOSPITAL } from '../../api/api';
 import { medicineSearchResult } from '../../atoms';
+
+const { kakao } = window;
 
 const SSearchContainer = styled.div`
   width: 100vw;
@@ -52,6 +56,20 @@ const SSearchBtn = styled.button`
 const SSearchForm = styled.form``;
 
 function SearchBar({ searchType }) {
+
+
+  const successLocation = (position) => {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+    // 위도 경도 변수 선언
+  }
+
+  const failLocation = () => {
+    alert('위치 불러오기 실패')
+  }
+
+  navigator.geolocation.getCurrentPosition(successLocation, failLocation)
+
   const navigate = useNavigate();
   const searchCategory = searchType;
   // const [inputPlaceholder, setInputPlaceholder] = useState({searchType === 'hospital' ? '병원명을 입력해 주세요.' : '약 이름을 검색해 주세요.'});
@@ -69,7 +87,7 @@ function SearchBar({ searchType }) {
 
     if (searchCategory === 'hospital') {
       axios
-        .get(`${API_URL_HOSPITAL}/search/${inputValue}`)
+        .get(`${API_URL_HOSPITAL}/search/${inputValue}/${}`)
         .then(res => console.log(res))
         .catch(err => console.log(err));
     } else if (searchCategory === 'drug') {
@@ -79,7 +97,7 @@ function SearchBar({ searchType }) {
           setMedicineList(res.data.data);
           setInputValue('');
           navigate('/pill/result');
-          // console.log(res.data.data);
+          // console.log(res.data.data[0]);
         })
         .catch(err => console.log(err));
     }

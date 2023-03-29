@@ -51,7 +51,7 @@ const router = createBrowserRouter([
     element: <PillSearchResult />,
   },
   {
-    path: '/pill/detail',
+    path: '/pill/:drugId',
     element: <PillDetail />,
   },
   {

@@ -1,13 +1,20 @@
-import React from 'react';
+/* eslint-disable prefer-template */
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Link, useLocation } from 'react-router-dom';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import axios from 'axios';
+import { drugDetailInfo, drugAvoidInfo } from '../../atoms';
+import { API_URL_DRUG } from '../../api/api';
 
 import AddBasket from '../../assets/pilldata/AddBasket.png';
+import Back from '../../assets/Back.png';
 
 import PillTab from '../../components/pill/PillTab';
-
-import Back from '../../assets/Back.png';
 
 const SBack = styled.img`
   width: 8vw;
@@ -35,13 +42,9 @@ const SImg = styled.img`
   margin-right: 2vw;
 `;
 
-const SMedicineImg = styled.div`
+const SMedicineImg = styled.img`
   width: 100vw;
   height: 20vh;
-  background-color: gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding-top: 15vw;
 `;
 
@@ -87,6 +90,33 @@ const SThinLine = styled.div`
 // const SUnderTab = styled.div``;
 
 function PillDetail() {
+  // state 받아오기
+  const location = useLocation();
+
+  // 약 상세정보 가져오기
+  const [basicInfo, setBasicInfo] = useState(null);
+  const [detailInfo, setDetailInfo] = useState(null);
+  const [detailPassInfo, setDetailPassInfo] = useRecoilState(drugDetailInfo);
+  const [avoidInfo, setAvoidInfo] = useRecoilState(drugAvoidInfo);
+
+  useEffect(() => {
+    axios
+      .all([
+        axios.get(`${API_URL_DRUG}/info/${location.state}`),
+        axios.get(`${API_URL_DRUG}/descinfo/${location.state}`),
+        axios.get(`${API_URL_DRUG}/avoidinfo/${location.state}`),
+      ])
+      .then(
+        axios.spread((res1, res2, res3) => {
+          setBasicInfo(res1.data);
+          setDetailInfo(res2.data);
+          setDetailPassInfo(res2.data);
+          setAvoidInfo(res3.data);
+        }),
+      )
+      .catch(error => console.log(error));
+  }, []);
+
   return (
     <SContainer>
       <SHeader>
@@ -96,26 +126,31 @@ function PillDetail() {
         <SName>정보</SName>
         <SImg src={AddBasket} alt="AddBasket" />
       </SHeader>
-      <SMedicineImg>이미지 위치</SMedicineImg>
+      {basicInfo && (
+        <SMedicineImg
+          src={'https://' + basicInfo.data.drug_img}
+          alt={basicInfo.data.drug_img}
+        />
+      )}
       <SDetailBox>
-        <SName>가나모티에스알정</SName>
+        {basicInfo && <SName>{basicInfo.data.drug_name}</SName>}
         <SThinLine />
         <STextBox>
           <SSmallTextBox>
             <SBoldText>성분</SBoldText>
-            <SText>모사</SText>
+            <SText>{}</SText>
           </SSmallTextBox>
           <SSmallTextBox>
             <SBoldText>성상</SBoldText>
-            <SText>분홍</SText>
+            {basicInfo && <SText>{basicInfo.data.drug_colorf}</SText>}
           </SSmallTextBox>
           <SSmallTextBox>
             <SBoldText>제형</SBoldText>
-            <SText>타원형</SText>
+            {basicInfo && <SText>{basicInfo.data.drug_type}</SText>}
           </SSmallTextBox>
           <SSmallTextBox>
             <SBoldText>업체명</SBoldText>
-            <SText>이연제약</SText>
+            {detailInfo && <SText>{detailInfo.data.drug_desc_com}</SText>}
           </SSmallTextBox>
         </STextBox>
       </SDetailBox>
@@ -141,11 +176,44 @@ function PillDetail() {
 //       drug_line: PropTypes.string,
 //       drug_ingre: PropTypes.string,
 //     }),
+//     descdata: PropTypes.shape({
+//       status_code: PropTypes.number,
+//       message: PropTypes.string,
+//       data: PropTypes.shape({
+//         drugId: PropTypes.number,
+//         drugDescCat: PropTypes.string,
+//         drugDescShape: PropTypes.string,
+//         drugDescCom: PropTypes.string,
+//         drugDescSafety: PropTypes.string,
+//         drugDescEffect: PropTypes.string,
+//         drugDescUse: PropTypes.string,
+//       }),
+//     }),
 //   }),
 // };
+// PillDetail.proptype = {
+// data: PropTypes.shape({
+//   status_code: PropTypes.number,
+//   message: PropTypes.string,
+//   data: PropTypes.shape({
+//     drugId: PropTypes.number,
+//     drugDescCat: PropTypes.string,
+//     drugDescShape: PropTypes.string,
+//     drugDescCom: PropTypes.string,
+//     drugDescSafety: PropTypes.string,
+//     drugDescEffect: PropTypes.string,
+//     drugDescUse: PropTypes.string,
+//   }),
+// }),
+//   // };
 
 // PillDetail.defaultProps = {
 //   data: null,
+//   // descdata: null,
+// };
+// PillDetail.defaultProps = {
+//   // data: null,
+//   descdata: null,
 // };
 
 export default PillDetail;

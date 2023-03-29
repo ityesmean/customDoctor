@@ -1,6 +1,8 @@
+/* eslint-disable prefer-template */
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+// import { useNavigate } from 'react-router-dom';
 
 import { PillBasket } from '../../assets/pilldata/index';
 
@@ -11,14 +13,14 @@ const SPillCard = styled.div`
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   display: flex;
   align-items: center;
-  padding: 5vw;
+  padding: 2vw 2vw 2vw 5vw;
   border-radius: 4vw;
 `;
 
-const SImg = styled.div`
-  width: 60vw;
+const SImg = styled.img`
+  width: 50vw;
   height: 30vw;
-  background-color: gray;
+  /* background-color: gray; */
   border-radius: 5vw;
 `;
 
@@ -71,14 +73,19 @@ function DrugCard({ card }) {
   return (
     <div>
       <SPillCard>
-        <SImg>이미지</SImg>
+        <SImg src={'https://' + card.drug_img} alt={card.drug_img} />
         <SRightBox>
           <SNameText>{card.drug_name}</SNameText>
           <SBox>
-            {card.drug_ingre !== 'null' ? (
+            {/* {card.drug_ingre !== 'null' ? (
               <SIngreText>{card.drug_ingre}</SIngreText>
             ) : (
               <SIngreText>정보없음</SIngreText>
+            )} */}
+            {card.drug_ingre.length < 7 ? (
+              <SIngreText>{card.drug_ingre}</SIngreText>
+            ) : (
+              <SIngreText>{card.drug_ingre.slice(0, 7) + '...'}</SIngreText>
             )}
             {/* <SIngreText>{card.drug_ingre}</SIngreText> */}
             <SBasketButton>
@@ -94,13 +101,17 @@ function DrugCard({ card }) {
 
 DrugCard.propTypes = {
   card: PropTypes.shape({
+    drug_id: PropTypes.number,
     drug_name: PropTypes.string,
     drug_ingre: PropTypes.string,
+    drug_img: PropTypes.string,
   }),
 };
 
 DrugCard.defaultProps = {
   card: {
+    drug_id: null,
+    drug_img: null,
     drug_name: null,
     drug_ingre: null,
   },

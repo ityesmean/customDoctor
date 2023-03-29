@@ -35,8 +35,19 @@ const pillSearchSelectedOption = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+const drugDetailInfo = atom({
+  key: 'drugDetailInfo',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+const drugAvoidInfo = atom({
+  key: 'drugAvoidInfo',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
 const myBasketState = atom({
-  key: 'myBasket',
+  key: 'myBasketState',
   default: [
     {
       name: '약1',
@@ -104,37 +115,6 @@ const deleteMyBasketSelector = selector({
   }
 });
 
-// const checkMyBasketSelector = selector({
-//   key: 'checkMyBasketSelector',
-//   get: ({ get }) => {
-//     const myBasket = get(myBasketState)
-//     return myBasket
-//   },
-//   set: ({ set, get }, checkValue) => {
-//     const myBasket = get(myBasketState)
-
-//     const test = _.cloneDeep(myBasket)
-//     console.log(test)
-//     test.forEach((item) => {
-//       if (item = checkValue) {
-//         // console.log(item, 'item')
-//         // console.log(checkValue, 'checkValue')
-//         // console.log('성공')
-//         // console.log('here1')
-//       } else {
-//         // console.log(item, 'item')
-//         // console.log(checkValue, 'checkValue')
-//         // console.log('실패')
-//         // console.log(item)
-//         // console.log(checkValue)
-//         // console.log('here2')
-//       }
-//     })
-//     set(myBasket, test)
-//   }
-// })
-
-
 const medicineSearchResult = atom({
   key: 'medicineSearchResult',
   default: [],
@@ -147,6 +127,7 @@ export {
   pillSearchSelectedOption,
   myBasketState,
   deleteMyBasketSelector,
-  // checkMyBasketSelector,
   medicineSearchResult,
+  drugDetailInfo,
+  drugAvoidInfo,
 };
