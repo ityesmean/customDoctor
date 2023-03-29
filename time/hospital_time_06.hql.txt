@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS hospital_time_06;
-CREATE EXTERNAL TABLE IF NOT EXISTS hospital_time_06(
+DROP TABLE IF EXISTS hospital_time;
+CREATE EXTERNAL TABLE IF NOT EXISTS hospital_time(
 	hospital_time_id int,
 	hospital_id int,
 	hospital_time_mon string,
@@ -18,10 +18,15 @@ CREATE EXTERNAL TABLE IF NOT EXISTS hospital_time_06(
 	hospital_time_sun_night boolean,
 	hospital_time_holiday boolean,
 	hospital_time_etc string
-);
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE 
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/hospital/result/hospital_time';
 
 
-INSERT OVERWRITE TABLE hospital_time_06
+INSERT OVERWRITE TABLE hospital_time
 	SELECT 
 		hospital_time_id,
 		hospital_id,
@@ -40,6 +45,9 @@ INSERT OVERWRITE TABLE hospital_time_06
 		hospital_time_sat_night,
 		hospital_time_sun_night,
 		CASE WHEN hospital_time_etc LIKE '%공휴일 휴무%' THEN false
+			WHEN hospital_time_etc LIKE '%공휴일휴무%' THEN false
 			ELSE hospital_time_holiday END,
-		hospital_time_etc
+		CASE WHEN hospital_time_etc = '정보 없음' THEN 'null'
+			WHEN length(hospital_time_etc) = 0 THEN 'null'
+			ELSE hospital_time_etc END
 	FROM hospital_time_05;
