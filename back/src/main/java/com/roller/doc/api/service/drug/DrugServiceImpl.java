@@ -294,27 +294,48 @@ public class DrugServiceImpl implements DrugService {
 		return responseDTO;
 	}
 
-	// @Override
-	// public ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception {
-	//
-	// 	ResponseDTO responseDTO = new ResponseDTO();
-	//
-	// 	try {
-	// 		int result = drugMyRepository.deleteDrugMyById(drug_my_id);
-	// 		System.out.println(result);
-	// 		if (result == 1) {
-	// 			responseDTO.setData(result);
-	// 			responseDTO.setMessage("나의 약봉지 삭제 성공");
-	// 			responseDTO.setStatus_code(200);
-	// 		} else {
-	// 			responseDTO.setMessage("출력 실패");
-	// 			responseDTO.setStatus_code(400);
-	// 		}
-	//
-	// 	} catch (Exception e) {
-	// 		e.printStackTrace();
-	// 	}
-	//
-	// 	return responseDTO;
-	// }
+	@Override
+	public DrugMyRes createDrugMy(DrugMyRes drugMyRes) throws Exception {
+		DrugMy drugMy = new DrugMy();
+
+		DrugMyRes result = new DrugMyRes();
+		Long user_id = drugMyRes.getUserId();
+
+		try {
+			drugMy.setDrug_my_del(false);
+			drugMy.setDrug_my_memo(drugMyRes.getDrugMyMemo());
+			drugMy.setDrug_my_title(drugMyRes.getDrugMyTitle());
+
+			result = new DrugMyRes(drugMyRepository.save(drugMy));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	@Override
+	public ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+
+		try {
+			int result = drugMyRepository.deleteDrugMyById(drug_my_id);
+			System.out.println(result);
+			if (result == 1) {
+				responseDTO.setData(result);
+				responseDTO.setMessage("나의 약봉지 삭제 성공");
+				responseDTO.setStatus_code(200);
+			} else {
+				responseDTO.setMessage("출력 실패");
+				responseDTO.setStatus_code(400);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseDTO;
+	}
 }

@@ -1,6 +1,10 @@
 package com.roller.doc.api.response.drug;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.roller.doc.db.entity.DrugMy;
+import com.roller.doc.db.entity.DrugMyPill;
 import com.roller.doc.db.entity.User;
 
 import lombok.Builder;
@@ -17,6 +21,18 @@ public class DrugMyRes {
 	private String drugMyMemo;
 	private String drugMyTitle;
 	private Long userId;
+
+	public DrugMyRes(DrugMy drugMy) {
+		User user = drugMy.getUser();
+		List<DrugMyPillRes> list = new ArrayList<>();
+		list.add(new DrugMyPillRes(drugMy));
+
+		this.userId = user.getUser_id();
+		this.drugMyId = drugMy.getDrug_my_id();
+		this.drugMyDel = drugMy.getDrug_my_del();
+		this.drugMyMemo = drugMy.getDrug_my_memo();
+		this.drugMyTitle = drugMy.getDrug_my_title();
+	}
 
 	@Builder
 	public DrugMyRes(Long drugMyId, Boolean drugMyDel, String drugMyMemo, String drugMyTitle, Long userId) {
