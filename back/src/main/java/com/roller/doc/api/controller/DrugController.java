@@ -5,10 +5,13 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -73,10 +76,15 @@ public class DrugController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	// @DeleteMapping()
-	// public ResponseEntity deleteDrugMy(@RequestBody DrugMyRes drugMyRes) throws Exception {
-	// 	ResponseDTO result = drugService.deleteDrugMy(drugMyRes.getDrug_my_id());
-	// 	return ResponseEntity.status(HttpStatus.OK).body(result);
-	// }
+	@PutMapping("/delete/{drugMyId}")
+	public ResponseEntity deleteDrugMy(@PathVariable("drugMyId") Long drugMyId) throws Exception {
+		ResponseDTO result = drugService.deleteDrugMy(drugMyId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 
+	@PostMapping("/plus")
+	private ResponseEntity createDrugMy(@RequestBody DrugMyRes drugMyRes) throws Exception {
+		DrugMyRes result = drugService.createDrugMy(drugMyRes);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 }

@@ -16,5 +16,6 @@ public interface DrugService {
 	ResponseDTO selectDrugAvoid(Long drug_id) throws Exception;
 	ResponseDTO findList(Long user_id) throws Exception;
 	ResponseDTO findMyPillList(Long drug_my_id) throws Exception;
-	// ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception;
+	ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception;
+	DrugMyRes createDrugMy(DrugMyRes drugMyRes) throws Exception;
 }
