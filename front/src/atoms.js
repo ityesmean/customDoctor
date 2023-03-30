@@ -5,7 +5,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
-import * as _ from 'lodash'
+import * as _ from 'lodash';
 import { atom, selector } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
@@ -97,22 +97,21 @@ const myBasketState = atom({
 const deleteMyBasketSelector = selector({
   key: 'deleteMyBasketSelector',
   get: ({ get }) => {
-    const myBasket = get(myBasketState)
-    return myBasket
+    const myBasket = get(myBasketState);
+    return myBasket;
   },
   set: ({ set, get }, deleteValue) => {
+    const myBasket = get(myBasketState);
 
-    const myBasket = get(myBasketState)
-
-    const deletedMyBasket = myBasket.filter((item) => {
+    const deletedMyBasket = myBasket.filter(item => {
       if (item === deleteValue) {
-        return false
+        return false;
       } else {
-        return true
+        return true;
       }
-    })
-    set(myBasketState, deletedMyBasket)
-  }
+    });
+    set(myBasketState, deletedMyBasket);
+  },
 });
 
 const medicineSearchResult = atom({
