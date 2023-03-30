@@ -28,56 +28,56 @@ public class HospitalTime {
 //	private long hospital_id;
 
     @Column(name = "hospital_time_mon", columnDefinition = "VARCHAR(100)")
-    private String hospital_time_mon;
+    private String hospitalTimeMon;
 
 
     @Column(name = "hospital_time_tue", columnDefinition = "VARCHAR(100)")
-    private String hospital_time_tue;
+    private String hospitalTimeTue;
 
 
     @Column(name = "hospital_time_wed", columnDefinition = "VARCHAR(100)")
-    private String hospital_time_wed;
+    private String hospitalTimeWed;
 
 
     @Column(name = "hospital_time_thu", columnDefinition = "VARCHAR(100)")
-    private String hospital_time_thu;
+    private String hospitalTimeThu;
 
 
     @Column(name = "hospital_time_fri", columnDefinition = "VARCHAR(100)")
-    private String hospital_time_fri;
+    private String hospitalTimeFri;
 
 
     @Column(name = "hospital_time_sat", columnDefinition = "VARCHAR(100)")
-    private String hospital_time_sat;
+    private String hospitalTimeSat;
 
     @Column(name = "hospital_time_sun", columnDefinition = "VARCHAR(100)")
-    private String hospital_time_sun;
+    private String hospitalTimeSun;
 
     @Column(name = "hospital_time_mon_night", columnDefinition = "tinyint(1)")
-    private int hospital_time_mon_night;
+    private int hospitalTimeMonNight;
 
     @Column(name = "hospital_time_tue_night", columnDefinition = "tinyint(1)")
-    private int hospital_time_tue_night;
+    private int hospitalTimeTueNight;
 
     @Column(name = "hospital_time_wed_night", columnDefinition = "tinyint(1)")
-    private int hospital_time_wed_night;
+    private int hospitalTimeWedNight;
 
     @Column(name = "hospital_time_thu_night", columnDefinition = "tinyint(1)")
-    private int hospital_time_thu_night;
+    private int hospitalTimeThuNight;
 
     @Column(name = "hospital_time_fri_night", columnDefinition = "tinyint(1)")
-    private int hospital_time_fri_night;
+    private int hospitalTimeFriNight;
 
     @Column(name = "hospital_time_sat_night", columnDefinition = "tinyint(1)")
-    private int hospital_time_sat_night;
+    private int hospitalTimeSatNight;
 
     @Column(name = "hospital_time_sun_night", columnDefinition = "tinyint(1)")
-    private int hospital_time_sun_night;
+    private int hospitalTimeSunNight;
 
     @Column(name = "hospital_time_holiday", columnDefinition = "tinyint(1)")
-    private int hospital_time_holiday;
+    private int hospitalTimeHoliday;
 
     @Column(name = "hospital_time_etc", columnDefinition = "text")
-    private String hospital_time_etc;
+    private String hospitalTimeEtc;
 
 }

@@ -29,9 +29,6 @@ public class HospitalServiceImpl implements HospitalService {
 
     /**
      * 이름으로 병원찾기
-     *
-     * @param word
-     * @return
      */
     @Override
     public ResponseDTO searchByHospitalName(String word, double e, double w, double s, double n) {
@@ -61,6 +58,7 @@ public class HospitalServiceImpl implements HospitalService {
                         .hospitalX(hospitalList.get(i).getHospital_x())
                         .hospitalY(hospitalList.get(i).getHospital_y())
                         .hospitalTel(hospitalList.get(i).getHospital_tel())
+                        .hospitalTime(hospitalList.get(i).getHospitalTime())
                         .hospitalPart(partResult)
                         .build();
                 result.add(hospitalRes);
@@ -76,12 +74,11 @@ public class HospitalServiceImpl implements HospitalService {
      * 필터로 병원찾기
      */
     @Override
-    public ResponseDTO filteringHospital(double e, double w, double s, double n, int p1, int p2, int p3, int p4, int p5, int sat, int sun, int holiday, int night) {
+    public ResponseDTO filteringHospital(double e, double w, double s, double n, int part, int sat, int sun, int holiday, int night) {
         ResponseDTO responseDTO = new ResponseDTO();
         List<HospitalRes> result = new ArrayList<>();
-        Set<Long> location = new HashSet<>();
         try {
-            List<Hospital> hospitalList = hospitalCustomRepo.useFilterHospital(e, w, s, n, p1, p2, p3, p4, p5, sat, sun, holiday, night);
+            List<Hospital> hospitalList = hospitalCustomRepo.useFilterHospital(e, w, s, n, part, sat, sun, holiday, night);
             if (hospitalList.size() == 0) {
                 responseDTO.setStatus_code(400);
                 responseDTO.setMessage("필터로 병원찾기: 일치하는 병원이 없습니다");
@@ -105,6 +102,7 @@ public class HospitalServiceImpl implements HospitalService {
                             .hospitalX(hospital.getHospital_x())
                             .hospitalY(hospital.getHospital_y())
                             .hospitalTel(hospital.getHospital_tel())
+                            .hospitalTime(hospital.getHospitalTime())
                             .hospitalPart(partResult)
                             .build();
                     result.add(hospitalRes);
@@ -125,25 +123,18 @@ public class HospitalServiceImpl implements HospitalService {
      * 진료과목
      */
     private String findPart(int partNo) {
-        String[] arr = {"0", "내과", "신경과", "정신건강의학과", "외과", "정형외과", "신경외과", "심장혈관흉부외과", "성형외과", "마취통증의학과", "산부인과",
-                "소아청소년과", "안과", "이비인후과", "피부과", "비뇨의학과", "영상의학과", "방사선종양학과", "병리과", "진단검사의학과", "결핵과", "재활의학과"
-                , "핵의학과", "가정의학과", "응급의학과", "직업환경의학과", "예방의학과", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
-                "약국", "보건", "보건기관치과", "43", "보건기관한방", "45", "46", "47", "48", "치과", "구강악안면외과", "치과보철과", "소아치과", "치주과", "치과보존과", "구강내과",
+        String[] arr = {"일반의", "내과", "신경과", "정신건강의학과", "외과", "정형외과", "신경외과", "심장혈관흉부외과", "성형외과", "마취통증의학과", "산부인과",
+                "소아청소년과", "안과", "이비인후과", "피부과", "비뇨의학과", "진단방사선과,영상의학과", "방사선종양학과", "병리과", "진단검사의학과", "결핵과", "재활의학과"
+                , "핵의학과", "가정의학과", "응급의학과", "직업환경의학과", "예방의학과", "치과", "한방", "29", "약국", "기타", "32", "33", "34", "35", "36", "37", "38", "39",
+                "약국", "보건", "보건기관치과", "43", "보건기관한방", "45", "46", "47", "48", "치과", "구강악안면외과", "치과보철과", "치아교정과", "소아치과", "치주과", "치과보존과", "구강내과",
                 "영상치의학과", "구강병리과", "예방치과", "치과소계", "통합치의학과", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71"
                 , "72", "73", "74", "75", "76", "77", "78", "79", "한방내과", "한방부인과", "한방소아과", "한방안·이비인후·피부과", "한방신경정신과"
-                , "침구과", "한방재활의학과", "사상체질과", "한방응급", "한방소계"};
-        if (partNo == 100) {
-            return "한의원";
-        } else {
-            return arr[partNo];
-        }
+                , "침구과", "한방재활의학과", "사상체질과", "한방응급","89", "한방소계", "91", "92", "93", "94", "95", "96", "97", "98", "99", "한의원"};
+        return arr[partNo];
     }
 
     /**
      * 병원 상세보기
-     *
-     * @param id
-     * @return
      */
     @Override
     public ResponseDTO detailedHospital(long id) {

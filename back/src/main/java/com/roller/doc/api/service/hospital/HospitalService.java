@@ -11,7 +11,7 @@ public interface HospitalService {
     /**
      * 필터로 병원검색
      */
-    ResponseDTO filteringHospital(double e, double w, double s, double n, int p1, int p2,int p3,int p4,int p5,int sat, int sun, int holiday, int night);
+    ResponseDTO filteringHospital(double e, double w, double s, double n, int part,int sat, int sun, int holiday, int night);
 
     /**
      * 병원 상세보기

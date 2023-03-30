@@ -49,8 +49,8 @@ public class HospitalController {
      */
     @PostMapping("/find")
     public ResponseEntity filteringHospital(@RequestBody HospitalFilterReq h) {
-        ResponseDTO responseDTO = hospitalService.filteringHospital(h.getE(),h.getW(),h.getS(),h.getN()
-                ,h.getP1(),h.getP2(),h.getP3(),h.getP4(),h.getP5(),h.getSat(),h.getSun(),h.getHoliday(),h.getNight());
+        ResponseDTO responseDTO = hospitalService.filteringHospital(h.getE(),h.getW(),h.getS(),h.getN(),
+                h.getPart(),h.getSat(),h.getSun(),h.getHoliday(),h.getNight());
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 }

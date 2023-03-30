@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
@@ -17,7 +18,6 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
      */
     @Query(value = "select part from HospitalPart part where :id=part.hospital.hospital_id")
     List<HospitalPart> findHospitalPart(@Param("id") long id);
-
     /**
      * 병원 상세보기
      */
