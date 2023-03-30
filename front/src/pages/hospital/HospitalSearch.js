@@ -1,6 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-else-return */
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-alert */
+/* eslint-disable eqeqeq */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-concat */
 import React, { useState } from 'react';
@@ -61,7 +63,7 @@ const SMedicalDepartmentLabel = styled.label`
   font-size: 0.9em;
 `;
 
-const SMedicalDepartmentInput = styled.input.attrs({ type: 'radio' })`
+const SMedicalDepartmentInput = styled.input.attrs({ type: 'checkbox' })`
   &:checked {
     display: inline-block;
     background: none;
@@ -101,7 +103,25 @@ const SNightOrDayoffLabel = styled.label`
   font-size: 0.9em;
 `;
 
-const SNightOrDayoffInput = styled.input.attrs({ type: 'radio' })`
+// const SNightOrDayoffInput = styled.input.attrs({ type: 'radio' })`
+//   &:checked {
+//     display: inline-block;
+//     background: none;
+//     padding: 0px 10px;
+//     text-align: center;
+//     height: 35px;
+//     line-height: 33px;
+//     font-weight: bold;
+//     display: none;
+//   }
+//   &:checked + ${SNightOrDayoffLabel} {
+//     background: #00c192;
+//     color: #fff;
+//   }
+//   display: none;
+// `;
+
+const SNightOrDayoffInput = styled.input.attrs({ type: 'checkbox' })`
   &:checked {
     display: inline-block;
     background: none;
@@ -187,7 +207,6 @@ function HospitalSearch() {
   );
 
   const medicalDepartment = [
-    ['전체', 0],
     ['내과', 1],
     ['소아과', 11],
     ['치과', 49],
@@ -207,49 +226,62 @@ function HospitalSearch() {
   ];
 
   const nightOrDayoff = [
-    '전체',
     '토요일진료',
     '일요일진료',
     '공휴일진료',
     '야간 / 휴일',
   ];
 
-  const distance = ['1km이내', '3km이내', '5km이내', '10km이내'];
 
-  const [selectedMedicalDepartment, setSelectedMedicalDepartment] =
-    useState(null);
-  const [selectedNightOrDayoff, setSelectedNightOrDayoff] = useState(null);
-  const [selectedDistance, setSelectedDistance] = useState(null);
+  const [checkedMedicalDepartments, setSelectedMedicalDepartments] =
+    useState([]);
+  const [checkedTimeOptions, setCheckedTimeOptions] = useState([]);
 
   // 진료과목 선택시 실행되는 함수
   const handleSelectedMedicalDepartment = e => {
-    setSelectedMedicalDepartment(e.target.value);
+    // 체크 시 state에 추가
+    if (e.currentTarget.checked) {
+      setSelectedMedicalDepartments([...checkedMedicalDepartments, Number(e.target.value)])
+
+    } else {
+      // 체크 해제시 state에서 제거
+      setSelectedMedicalDepartments(checkedMedicalDepartments.filter((element) => element !== Number(e.target.value)))
+    }
   };
 
   // 진료 시간 분류 선택시 실행되는 함수
-  const handleSelectedNightOrDayoff = e => {
-    setSelectedNightOrDayoff(e.target.value);
+  const handleSelectedNightOrDayoff = (e) => {
+
+    // 체크 시 state에 추가
+    if (e.currentTarget.checked) {
+      setCheckedTimeOptions([...checkedTimeOptions, e.target.value])
+    } else {
+      // 체크 해제시 state에서 제거
+      setCheckedTimeOptions(checkedTimeOptions.filter((element) => element !== e.target.value))
+    }
   };
 
   // 거리 선택시 실행되는 함수
-  const handleSelectedDistance = e => {
-    setSelectedDistance(e.target.value);
-  };
+  // const handleSelectedDistance = e => {
+  //   setSelectedDistance(e.target.value);
+  // };
 
   // 검색 버튼 클릭시 실행되는 함수
   const handleSearch = () => {
     const options = [];
-    options.push(selectedMedicalDepartment);
-    options.push(selectedNightOrDayoff);
-    options.push(selectedDistance);
+    options.push(checkedMedicalDepartments);
+    options.push(checkedTimeOptions);
+
+    const category = ['진료과목', '운영방식']
 
     // 선택 안한 옵션이 발견되면 경고
-    for (const option of options) {
-      if (option === null) {
-        alert('모든 항목을 선택해 주세요.');
-        return;
+    for (const index in options) {
+      if (options[index].length === 0) {
+        alert(`${category[index]} 항목을 선택해주세요.`)
+        return
       }
     }
+
     setSelectedOption(options);
     // 옵션 없는 값 검사하고 통과시 검색 결과로 이동
     navigate('/hospital/search/result');
@@ -275,9 +307,10 @@ function HospitalSearch() {
         {medicalDepartment.map(value => (
           <SOption key={`${value}` + '진료과목'}>
             <SMedicalDepartmentInput
-              type="radio"
-              onChange={handleSelectedMedicalDepartment}
+              type="checkbox"
               value={value[1]}
+              checked={checkedMedicalDepartments.includes(Number(value[1])) ? true : false}
+              onChange={handleSelectedMedicalDepartment}
               name="filter"
               id={`${value}` + '진료과목'}
             />
@@ -293,9 +326,11 @@ function HospitalSearch() {
         {nightOrDayoff.map(value => (
           <SOption key={`${value}` + '진료시간'}>
             <SNightOrDayoffInput
-              type="radio"
-              onChange={handleSelectedNightOrDayoff}
+              type="checkbox"
               value={value}
+
+              checked={checkedTimeOptions.includes(value) ? true : false}
+              onChange={handleSelectedNightOrDayoff}
               name="filter2"
               id={`${value}` + '진료시간'}
             />
@@ -306,7 +341,8 @@ function HospitalSearch() {
         ))}
       </SNightOrDayoffBox>
 
-      <SSubTitle>거리</SSubTitle>
+
+      {/* <SSubTitle>거리</SSubTitle>
       <SDistanceBox>
         {distance.map(value => (
           <SOption key={value}>
@@ -320,7 +356,7 @@ function HospitalSearch() {
             <SDistanceLabel htmlFor={value}>{value}</SDistanceLabel>
           </SOption>
         ))}
-      </SDistanceBox>
+      </SDistanceBox> */}
 
       <SButtonWrapper>
         <SSearchButton onClick={handleSearch}>검 색</SSearchButton>

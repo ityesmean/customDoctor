@@ -1,5 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable no-unused-vars */
+/* eslint-disable vars-on-top */
 /* eslint-disable no-var */
 /* global kakao */
 import React, { useEffect } from 'react';
