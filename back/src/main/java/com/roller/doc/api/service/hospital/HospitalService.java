@@ -1,19 +1,17 @@
 package com.roller.doc.api.service.hospital;
 
 import com.roller.doc.api.response.ResponseDTO;
-import com.roller.doc.api.response.hospital.HospitalDescRes;
-import com.roller.doc.api.response.hospital.HospitalRes;
 
 public interface HospitalService {
     /**
      * 병원이름으로 검색
      */
-    ResponseDTO searchByHospitalName(String word);
+    ResponseDTO searchByHospitalName(String word, double e, double w, double s, double n);
 
     /**
      * 필터로 병원검색
      */
-    ResponseDTO filteringHospital(double e, double w, double s, double n, int part);
+    ResponseDTO filteringHospital(double e, double w, double s, double n, int part,int sat, int sun, int holiday, int night);
 
     /**
      * 병원 상세보기
