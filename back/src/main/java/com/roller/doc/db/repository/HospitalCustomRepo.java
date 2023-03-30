@@ -1,6 +1,7 @@
 package com.roller.doc.db.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.roller.doc.config.QuerydslConfig;
 import com.roller.doc.db.entity.Hospital;
@@ -36,15 +37,15 @@ public class HospitalCustomRepo {
                                             int sat, int sun, int holiday, int night) {
         JPAQueryFactory query = querydslConfig.jpaQueryFactory();
 //        QHospital qHospital=new QHospital("h");
-        query.select(hospital)
+        return query.select(hospital)
                 .from(hospital)
-                .innerJoin(hospitalPart.hospital, hospitalTime.hospital)
+                .innerJoin(hospitalPart.hospital, hospital).fetchJoin()
+                .innerJoin(hospitalTime.hospital, hospital).fetchJoin()
                 .where(
                         locationBetween(e, w, s, n)
-                        .and((partEq(p1)).or(partEq(p2)).or(partEq(p3)).or(partEq(p4)).or(partEq(p5)))
-                        .and((openSat(sat)).or(openSun(sun)).or(openHoliday(holiday)).or(openNight(night))))
-                .fetch();
-        return null;
+                                .and((partEq(hospitalPart.hospital.hospital_id,p1)).or(partEq(hospitalPart.hospital.hospital_id,p2)).or(partEq(hospitalPart.hospital.hospital_id,p3)).or(partEq(hospitalPart.hospital.hospital_id,p4)).or(partEq(hospitalPart.hospital.hospital_id,p5)))
+//                                .and((openSat(hospitalTime.hospital.hospital_id,sat)).or(openSun(hospitalTime.hospital.hospital_id,sun)).or(openHoliday(hospitalTime.hospital.hospital_id,holiday)).or(openNight(hospitalTime.hospital.hospital_id,night))))
+                ).distinct().fetch();
     }
 
     /**
@@ -58,42 +59,42 @@ public class HospitalCustomRepo {
     /**
      * 진료과목 필터
      */
-    public BooleanExpression partEq(int partName) {
+    public BooleanExpression partEq(NumberPath<Long> id, int partName) {
         if (partName == 0) return null; //전체과목은 필터 필요없어
 //        return hospital.hospitalParts.get(id).hospital_part_name.eq(partName);
-        return hospitalPart.hospital_part_name.eq(partName);
+        return hospitalPart.hospital_part_name.eq(partName).and(hospitalPart.hospital.hospital_id.eq(id));
     }
 
     /**
      * 토요일 진료
      */
-    public BooleanExpression openSat(int sat) {
+    public BooleanExpression openSat(NumberPath<Long> id,int sat) {
         if (sat == 0) return null;
-        return hospitalTime.hospital_time_sat_s.ne("null");
+        return hospitalTime.hospital_time_sat.ne("null").and(hospitalTime.hospital.hospital_id.eq(id));
     }
 
     /**
      * 일요일 진료
      */
-    public BooleanExpression openSun(int sun) {
+    public BooleanExpression openSun(NumberPath<Long> id,int sun) {
         if (sun == 0) return null;
-        return hospitalTime.hospital_time_sun_s.ne("null");
+        return hospitalTime.hospital_time_sun.ne("null").and(hospitalTime.hospital.hospital_id.eq(id));
     }
 
     /**
      * 공휴일 진료
      */
-    public BooleanExpression openHoliday(int holiday) {
+    public BooleanExpression openHoliday(NumberPath<Long> id,int holiday) {
         if (holiday == 0) return null;
-        return hospitalTime.hospital_time_etc.ne("null");
+        return hospitalTime.hospital_time_holiday.ne(0).and(hospitalTime.hospital.hospital_id.eq(id));
     }
 
     /**
      * 야간진료
      */
-    public BooleanExpression openNight(int night) {
+    public BooleanExpression openNight(NumberPath<Long> id,int night) {
         if (night == 0) return null;
-        return hospitalTime.hospital_time_fri_e.ne("null");
+        return hospitalTime.hospital_time_fri_night.ne(0).and(hospitalTime.hospital.hospital_id.eq(id));
     }
 
 }
