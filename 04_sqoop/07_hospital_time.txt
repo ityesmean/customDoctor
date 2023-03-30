@@ -1,0 +1,12 @@
+sqoop export \
+--connect jdbc:mysql://127.0.0.1:3307/tmp \
+--table hospital_time \
+--username hive --password ssafy1234 \
+--export-dir /user/hive/warehouse/hospital/result/hospital_time/000000_0 \
+--m 1 \
+--driver com.mysql.jdbc.Driver \
+--fields-terminated-by ',' \
+--lines-terminated-by '\n' \
+--input-null-string '\\N' \
+--input-null-non-string '\\N' \
+--columns 'hospital_time_id, hospital_id, hospital_time_mon, hospital_time_tue, hospital_time_wed, hospital_time_thu, hospital_time_fri, hospital_time_sat, hospital_time_sun, hospital_time_mon_night, hospital_time_tue_night, hospital_time_wed_night, hospital_time_thu_night, hospital_time_fri_night, hospital_time_sat_night, hospital_time_sun_night, hospital_time_holiday, hospital_time_etc'

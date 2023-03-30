@@ -1,0 +1,52 @@
+DROP TABLE IF EXISTS hospital_time_02;
+CREATE EXTERNAL TABLE IF NOT EXISTS hospital_time_02(
+	hospital_time_id int,
+	hospital_id int,
+	hospital_time_mon string,
+	hospital_time_tue string,
+	hospital_time_wed string,
+	hospital_time_thu string,
+	hospital_time_fri string,
+	hospital_time_sat string,
+	hospital_time_sun string,
+	hospital_time_mon_night boolean,
+	hospital_time_tue_night boolean,
+	hospital_time_wed_night boolean,
+	hospital_time_thu_night boolean,
+	hospital_time_fri_night boolean,
+	hospital_time_sat_night boolean,
+	hospital_time_sun_night boolean,
+	hospital_time_holiday boolean,
+	hospital_time_etc string
+);
+
+
+INSERT OVERWRITE TABLE hospital_time_02
+	SELECT 
+		hospital_time_id,
+		hospital_id,
+		hospital_time_mon,
+		hospital_time_tue,
+		hospital_time_wed,
+		hospital_time_thu,
+		hospital_time_fri,
+		CASE WHEN substring(hospital_time_etc, 1, 3) = '토요일' AND substring(hospital_time_etc, 5, 2) != '휴무' AND substring(hospital_time_etc, 5, 2) > substring(13, 2) THEN concat_ws('', array( substring(hospital_time_etc, 5, 5), '~', substring(hospital_time_etc, 13, 2) + 2, substring(hospital_time_etc, 15, 3) ))
+			WHEN substring(hospital_time_etc, 1, 3) = '토요일' AND substring(hospital_time_etc, 5, 2) != '휴무' THEN replace(substring(hospital_time_etc, 5, 13), ' - ', '~')
+			WHEN substring(hospital_time_sun, 1, 1) IN ('0', '1') THEN replace(hospital_time_sun, ' - ', '~')
+			ELSE 'null' END,
+		hospital_time_sun,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		CASE WHEN substring(hospital_time_etc, 1, 3) = '토요일' THEN replace( hospital_time_etc, concat( split(hospital_time_etc, '/')[0], '/' ), '' )
+		ELSE hospital_time_etc END
+	FROM hospital_time_01;
+
+
+
+
