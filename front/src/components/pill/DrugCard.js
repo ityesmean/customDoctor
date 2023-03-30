@@ -77,17 +77,16 @@ function DrugCard({ card }) {
         <SRightBox>
           <SNameText>{card.drug_name}</SNameText>
           <SBox>
-            {/* {card.drug_ingre !== 'null' ? (
+            {card.drug_ingre !== 'null' ? (
               <SIngreText>{card.drug_ingre}</SIngreText>
             ) : (
               <SIngreText>정보없음</SIngreText>
-            )} */}
-            {card.drug_ingre.length < 7 ? (
+            )}
+            {/* {card.drug_ingre.length < 7 && ? (
               <SIngreText>{card.drug_ingre}</SIngreText>
             ) : (
               <SIngreText>{card.drug_ingre.slice(0, 7) + '...'}</SIngreText>
-            )}
-            {/* <SIngreText>{card.drug_ingre}</SIngreText> */}
+            )} */}
             <SBasketButton>
               <SButtonImg src={PillBasket} alt={PillBasket} />
               <SButtonText>약바구니</SButtonText>

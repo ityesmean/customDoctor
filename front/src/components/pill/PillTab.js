@@ -103,7 +103,11 @@ function PillTab() {
           </STabLi>
         </STitleBox>
       </STabTitle>
-      <STabContent>{tabContArr[activeIndex].tabCont}</STabContent>
+      {tabContArr[activeIndex].tabCont !== 'null' ? (
+        <STabContent>{tabContArr[activeIndex].tabCont}</STabContent>
+      ) : (
+        <STabContent> 내용없음</STabContent>
+      )}
     </SContainer>
   );
 }

@@ -112,6 +112,7 @@ function PillDetail() {
           setDetailInfo(res2.data);
           setDetailPassInfo(res2.data);
           setAvoidInfo(res3.data);
+          console.log(res1.data, 'basicInfo');
         }),
       )
       .catch(error => console.log(error));
@@ -128,29 +129,29 @@ function PillDetail() {
       </SHeader>
       {basicInfo && (
         <SMedicineImg
-          src={'https://' + basicInfo.data.drug_img}
-          alt={basicInfo.data.drug_img}
+          src={'https://' + basicInfo.data.drugImg}
+          alt={basicInfo.data.drugImg}
         />
       )}
       <SDetailBox>
-        {basicInfo && <SName>{basicInfo.data.drug_name}</SName>}
+        {basicInfo && <SName>{basicInfo.data.drugName}</SName>}
         <SThinLine />
         <STextBox>
           <SSmallTextBox>
             <SBoldText>성분</SBoldText>
-            <SText>{}</SText>
+            <SText>{detailInfo.data.drugDescCat}</SText>
           </SSmallTextBox>
           <SSmallTextBox>
             <SBoldText>성상</SBoldText>
-            {basicInfo && <SText>{basicInfo.data.drug_colorf}</SText>}
+            {basicInfo && <SText>{basicInfo.data.drugColorf}</SText>}
           </SSmallTextBox>
           <SSmallTextBox>
             <SBoldText>제형</SBoldText>
-            {basicInfo && <SText>{basicInfo.data.drug_type}</SText>}
+            {basicInfo && <SText>{basicInfo.data.drugType}</SText>}
           </SSmallTextBox>
           <SSmallTextBox>
             <SBoldText>업체명</SBoldText>
-            {detailInfo && <SText>{detailInfo.data.drug_desc_com}</SText>}
+            {detailInfo && <SText>{detailInfo.data.drugDescCom}</SText>}
           </SSmallTextBox>
         </STextBox>
       </SDetailBox>
@@ -159,61 +160,5 @@ function PillDetail() {
     </SContainer>
   );
 }
-
-// PillDetail.proptype = {
-//   data: PropTypes.shape({
-//     status_code: PropTypes.number,
-//     message: PropTypes.string,
-//     data: PropTypes.shape({
-//       drug_id: PropTypes.number,
-//       drug_name: PropTypes.string,
-//       drug_img: PropTypes.string,
-//       drug_markf: PropTypes.string,
-//       drug_markb: PropTypes.string,
-//       drug_type: PropTypes.string,
-//       drug_colorf: PropTypes.string,
-//       drug_colorb: PropTypes.string,
-//       drug_line: PropTypes.string,
-//       drug_ingre: PropTypes.string,
-//     }),
-//     descdata: PropTypes.shape({
-//       status_code: PropTypes.number,
-//       message: PropTypes.string,
-//       data: PropTypes.shape({
-//         drugId: PropTypes.number,
-//         drugDescCat: PropTypes.string,
-//         drugDescShape: PropTypes.string,
-//         drugDescCom: PropTypes.string,
-//         drugDescSafety: PropTypes.string,
-//         drugDescEffect: PropTypes.string,
-//         drugDescUse: PropTypes.string,
-//       }),
-//     }),
-//   }),
-// };
-// PillDetail.proptype = {
-// data: PropTypes.shape({
-//   status_code: PropTypes.number,
-//   message: PropTypes.string,
-//   data: PropTypes.shape({
-//     drugId: PropTypes.number,
-//     drugDescCat: PropTypes.string,
-//     drugDescShape: PropTypes.string,
-//     drugDescCom: PropTypes.string,
-//     drugDescSafety: PropTypes.string,
-//     drugDescEffect: PropTypes.string,
-//     drugDescUse: PropTypes.string,
-//   }),
-// }),
-//   // };
-
-// PillDetail.defaultProps = {
-//   data: null,
-//   // descdata: null,
-// };
-// PillDetail.defaultProps = {
-//   // data: null,
-//   descdata: null,
-// };
 
 export default PillDetail;
