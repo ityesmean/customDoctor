@@ -3,10 +3,9 @@ CREATE EXTERNAL TABLE IF NOT EXISTS hospital(
 		hospital_id int,
 		hospital_y double,
 		hospital_x double,
-    hospital_name string,
-    hospital_code string,
-    hospital_tel string,
-    hospital_star double,
+    		hospital_name string,
+    		hospital_code string,
+    		hospital_tel string,
 		hospital_secu string
 )
 ROW FORMAT DELIMITED
@@ -23,6 +22,5 @@ INSERT OVERWRITE TABLE hospital
 		hospital_info_name, 
 		hospital_info_code,
 		hospital_info_tel,
-		0,
 		hospital_info_secu
 	FROM hospital_info_tmp;

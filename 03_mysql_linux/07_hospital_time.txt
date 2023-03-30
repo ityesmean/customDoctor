@@ -16,7 +16,5 @@ create table if not exists hospital_time(
     hospital_time_sat_night boolean,
     hospital_time_sun_night boolean,
     hospital_time_holiday boolean,
-    hospital_time_etc text,
-    foreign key (hospital_time_id)
-    references hospital(hospital_id) on update cascade
+    hospital_time_etc text
 )ENGINE=MYISAM CHARSET=utf8;

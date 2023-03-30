@@ -1,0 +1,27 @@
+DROP TABLE IF EXISTS hospital_real;
+CREATE EXTERNAL TABLE IF NOT EXISTS hospital_real(
+		hospital_id int,
+		hospital_y double,
+		hospital_x double,
+    		hospital_name string,
+    		hospital_code string,
+    		hospital_tel string
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE 
+LOCATION 'hdfs://127.0.0.1:9000/user/hive/warehouse/hospital/result/hospital_real';
+
+INSERT OVERWRITE TABLE hospital_real
+	SELECT
+		h.hospital_id, 
+		h.hospital_y,
+		h.hospital_x,
+		h.hospital_name, 
+		h.hospital_code,
+		CASE WHEN t.hospital_time_tel != 'null' THEN t.hospital_time_tel
+		ELSE h.hospital_tel END
+	FROM hospital h
+		LEFT OUTER JOIN hospital_time_tmp t
+		ON h.hospital_secu = t.hospital_time_secu;
