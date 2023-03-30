@@ -68,7 +68,7 @@ function SearchBar({ searchType }) {
   useEffect(() => {
     // 1km 당 위도
     const latPerKm = 0.0091;
-    const lngperKm = 0.0113;
+    const lngPerKm = 0.0113;
 
     const successLocation = position => {
       const lat = position.coords.latitude;
@@ -77,11 +77,15 @@ function SearchBar({ searchType }) {
       setMyLat(lat);
       setMyLng(lng);
 
-      // 반경 5km 로 위치 계산
-      setMyEast(lat + latPerKm * 5);
-      setMyWest(lat - latPerKm * 5);
-      setMySouth(lng - latPerKm * 5);
-      setMyNorth(lng + latPerKm * 5);
+      // // // 반경 5km 로 위치 계산
+      // setMyEast(lat + latPerKm * 5);
+      // setMyWest(lat - latPerKm * 5);
+      // setMySouth(lng - lngPerKm * 5);
+      // setMyNorth(lng + lngPerKm * 5);
+      setMyEast(36.35887261465578);
+      setMyWest(36.34567675654588);
+      setMySouth(127.35647601340733);
+      setMyNorth(127.29091439637051);
     };
 
     // 본인의 위도, 경도 위치 가져오기 실패할때 실행되는 함수

@@ -125,6 +125,11 @@ const checkedMedicineState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+const hospitalSearchResultState = atom({
+  key: 'hospitalSearchResultState',
+  default: [],
+});
+
 export {
   isDarkModeAtom,
   isUserAtom,
