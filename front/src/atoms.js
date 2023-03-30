@@ -119,6 +119,12 @@ const medicineSearchResult = atom({
   default: [],
 });
 
+const checkedMedicineState = atom({
+  key: 'checkedItemsState',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
 export {
   isDarkModeAtom,
   isUserAtom,
@@ -129,4 +135,5 @@ export {
   medicineSearchResult,
   drugDetailInfo,
   drugAvoidInfo,
+  checkedMedicineState,
 };

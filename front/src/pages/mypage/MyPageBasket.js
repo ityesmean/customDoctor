@@ -17,7 +17,7 @@ import BlackHospital from '../../assets/mypage/BlackHospital.png';
 import BlackMedicine from '../../assets/mypage/BlackMedicine.png';
 import GreenBasket from '../../assets/mypage/GreenBasket.png';
 
-import { myBasketState } from '../../atoms';
+import { myBasketState, checkedMedicineState } from '../../atoms';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -140,7 +140,9 @@ function MyPageBasket() {
   const [myMedicines, setMyMedicines] = useRecoilState(myBasketState);
   const [basketName, setBasketName] = useState('');
   const [basketMemo, setBasketMemo] = useState('');
-  const [likedMedicines, setLikedMedicines] = useState([]);
+  // const [likedMedicines, setLikedMedicines] = useState([]);
+  const [checkedMedicines, setCheckedMedicine] =
+    useRecoilState(checkedMedicineState);
 
   // 약 봉지 제목 handler
   const onChangeBasketNameHandler = e => {
@@ -151,13 +153,13 @@ function MyPageBasket() {
     setBasketMemo(e.target.value);
   };
   // 약 체크 Handler
-  const likedMedicinesHandler = medicines => {
-    setLikedMedicines(medicines);
-  };
+  // const likedMedicinesHandler = medicines => {
+  //   setLikedMedicines(medicines);
+  // };
 
   const onClickCreateBasketHandler = async () => {
     // 약을 담지않거나, 제목을 짓지 않았거나, 내용을 입력하지 않았을때 경고창
-    if (likedMedicines.length === 0) {
+    if (checkedMedicines.length === 0) {
       alert('약을 담아주세요.');
       return;
     } else if (basketName.length === 0) {
@@ -176,6 +178,13 @@ function MyPageBasket() {
         return false;
       }
     });
+
+    // 체크된 약들 저장한 recoil 초기화
+    const clearCheckedMedicineState = () => {
+      setCheckedMedicine([]);
+    };
+
+    clearCheckedMedicineState();
 
     // 삭제된 약 list Recoil 저장소에 업데이트
     setMyMedicines(tempMedicines);
@@ -222,7 +231,9 @@ function MyPageBasket() {
       </SPageSelectBox>
       <SLine />
 
-      <MyLikeMedicineSearchAndList likedMedicinesHandler={likedMedicinesHandler} />
+      <MyLikeMedicineSearchAndList
+      // likedMedicinesHandler={likedMedicinesHandler}
+      />
 
       <SSubTitle>약봉지 생성</SSubTitle>
 
