@@ -1,3 +1,5 @@
+/* eslint-disable vars-on-top */
+/* eslint-disable no-var */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
 /* eslint-disable prefer-arrow-callback */
@@ -12,8 +14,6 @@ import Vec from '../../assets/Vector.svg';
 
 import { API_URL_DRUG, API_URL_HOSPITAL } from '../../api/api';
 import { medicineSearchResult } from '../../atoms';
-
-const { kakao } = window;
 
 const SSearchContainer = styled.div`
   width: 100vw;
@@ -56,19 +56,42 @@ const SSearchBtn = styled.button`
 const SSearchForm = styled.form``;
 
 function SearchBar({ searchType }) {
+  // 본인의 위도, 경도 위치 가져오기 성공할때 실행되는 함수
 
+  const [myLat, setMyLat] = useState(0);
+  const [myLng, setMyLng] = useState(0);
+  const [myEast, setMyEast] = useState(0);
+  const [myWest, setMyWest] = useState(0);
+  const [mySouth, setMySouth] = useState(0);
+  const [myNorth, setMyNorth] = useState(0);
 
-  const successLocation = (position) => {
-    const lat = position.coords.latitude;
-    const lng = position.coords.longitude;
-    // 위도 경도 변수 선언
-  }
+  useEffect(() => {
+    // 1km 당 위도
+    const latPerKm = 0.0091;
+    const lngperKm = 0.0113;
 
-  const failLocation = () => {
-    alert('위치 불러오기 실패')
-  }
+    const successLocation = position => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      console.log(lat, lng, '1');
+      setMyLat(lat);
+      setMyLng(lng);
 
-  navigator.geolocation.getCurrentPosition(successLocation, failLocation)
+      // 반경 5km 로 위치 계산
+      setMyEast(lat + latPerKm * 5);
+      setMyWest(lat - latPerKm * 5);
+      setMySouth(lng - latPerKm * 5);
+      setMyNorth(lng + latPerKm * 5);
+    };
+
+    // 본인의 위도, 경도 위치 가져오기 실패할때 실행되는 함수
+    const failLocation = () => {
+      alert('위치 불러오기 실패');
+    };
+
+    // 본인의 위도, 경도 위치 가져오기
+    navigator.geolocation.getCurrentPosition(successLocation, failLocation);
+  }, []);
 
   const navigate = useNavigate();
   const searchCategory = searchType;
@@ -84,10 +107,21 @@ function SearchBar({ searchType }) {
   const handleSubmit = e => {
     e.preventDefault();
     // console.log(typeof inputValue);
+    // console.log(myEast);
+    // console.log(myWest);
+    // console.log(mySouth);
+    // console.log(myNorth);
 
     if (searchCategory === 'hospital') {
       axios
-        .get(`${API_URL_HOSPITAL}/search/${inputValue}/${}`)
+        .get(`${API_URL_HOSPITAL}/search/${inputValue}`, {
+          params: {
+            e: myEast,
+            w: myWest,
+            s: mySouth,
+            n: myNorth,
+          },
+        })
         .then(res => console.log(res))
         .catch(err => console.log(err));
     } else if (searchCategory === 'drug') {
