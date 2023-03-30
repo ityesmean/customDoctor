@@ -27,6 +27,9 @@ import lombok.Setter;
 public class DrugDesc implements Serializable {
 
 	@Id
+	private Long drug_id;
+
+	@MapsId
 	@OneToOne
 	@JoinColumn(name = "drug_id")
 	private Drug drug;
