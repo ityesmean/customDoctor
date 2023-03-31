@@ -1,12 +1,27 @@
 package com.roller.doc.api.service.User;
 
 import com.roller.doc.api.response.ResponseDTO;
+import com.roller.doc.api.response.drug.DrugMyCreateRes;
+import com.roller.doc.api.response.drug.DrugMyPillRes;
+import com.roller.doc.api.response.drug.DrugMyRes;
 import com.roller.doc.api.response.hospital.HospitalRes;
+import com.roller.doc.api.service.auth.TokenService;
+import com.roller.doc.db.entity.Drug;
+import com.roller.doc.db.entity.DrugMy;
+import com.roller.doc.db.entity.DrugMyPill;
 import com.roller.doc.db.entity.Hospital;
 import com.roller.doc.db.entity.HospitalMy;
 import com.roller.doc.db.entity.HospitalPart;
+import com.roller.doc.db.repository.DrugAvoidRepository;
+import com.roller.doc.db.repository.DrugDescRepository;
+import com.roller.doc.db.repository.DrugMyPillRepository;
+import com.roller.doc.db.repository.DrugMyRepository;
+import com.roller.doc.db.repository.DrugRepository;
 import com.roller.doc.db.repository.HospitalMyRepository;
 import com.roller.doc.db.repository.HospitalRepository;
+import com.roller.doc.db.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +33,30 @@ import java.util.Optional;
 
 @Service
 @Log4j2
+@Transactional
 public class UserServiceImpl implements UserService {
     private final HospitalMyRepository hospitalMyRepository;
     private final HospitalRepository hospitalRepository;
 
+    private final DrugRepository drugRepository;
+    private final DrugMyRepository drugMyRepository;
+    private final DrugMyPillRepository drugMyPillRepository;
+
+    private final TokenService tokenService;
+
+    private final UserRepository userRepository;
+
     @Autowired
-    public UserServiceImpl(HospitalMyRepository hospitalMyRepository, HospitalRepository hospitalRepository) {
+    public UserServiceImpl(HospitalMyRepository hospitalMyRepository, HospitalRepository hospitalRepository,
+        DrugRepository drugRepository, DrugMyRepository drugMyRepository, DrugMyPillRepository drugMyPillRepository,
+        TokenService tokenService, UserRepository userRepository) {
         this.hospitalMyRepository = hospitalMyRepository;
         this.hospitalRepository = hospitalRepository;
+        this.drugRepository = drugRepository;
+        this.drugMyRepository = drugMyRepository;
+        this.drugMyPillRepository = drugMyPillRepository;
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -136,6 +167,131 @@ public class UserServiceImpl implements UserService {
             log.error(exception.getMessage());
             exception.printStackTrace();
         }
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO findList(String token) throws Exception {
+        Long user_id=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
+        List<DrugMyRes> result = new ArrayList<>();
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        try {
+            List<DrugMy> drugMIES = drugMyRepository.findList(user_id);
+            if (drugMIES == null) {
+                responseDTO.setMessage("출력 실패");
+                responseDTO.setStatus_code(400);
+            }
+            else {
+                for (int i = 0; i < drugMIES.size(); i++) {
+                    DrugMyRes drugMyRes = DrugMyRes.builder()
+                        .drugMyId(drugMIES.get(i).getDrug_my_id())
+                        .drugMyDel(drugMIES.get(i).getDrug_my_del())
+                        .drugMyMemo(drugMIES.get(i).getDrug_my_memo())
+                        .drugMyTitle(drugMIES.get(i).getDrug_my_title())
+                        .userId(user_id)
+                        .build();
+                    result.add(drugMyRes);
+                }
+                responseDTO.setData(result);
+                responseDTO.setMessage("나의 약봉지 목록 출력 성공");
+                responseDTO.setStatus_code(200);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return responseDTO;
+    }
+
+    @Override
+    public ResponseDTO findMyPillList(Long drug_my_id) throws Exception {
+        List<DrugMyPillRes> result = new ArrayList<>();
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        try {
+            List<DrugMyPill> drugMyPills = drugMyPillRepository.findMyPillList(drug_my_id);
+            if (drugMyPills == null) {
+                responseDTO.setMessage("출력 실패");
+                responseDTO.setStatus_code(400);
+            }
+            else {
+                for (int i = 0; i < drugMyPills.size(); i++) {
+                    DrugMyPillRes drugMyPillRes = DrugMyPillRes.builder()
+                        .drugMyPillId(drugMyPills.get(i).getDrug_my_pill_id())
+                        .drugId(drugMyPills.get(i).getDrug())
+                        .drugMyId(drug_my_id)
+                        .build();
+                    result.add(drugMyPillRes);
+                }
+                responseDTO.setData(result);
+                responseDTO.setMessage("나의 약봉지 속 약 출력 성공");
+                responseDTO.setStatus_code(200);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return responseDTO;
+    }
+
+    @Override
+    public DrugMyRes createDrugMy(DrugMyCreateRes drugMyCreateRes) throws Exception {
+        DrugMy drugMy = new DrugMy();
+
+        DrugMyRes result = new DrugMyRes();
+        DrugMyPillRes result2 = new DrugMyPillRes();
+
+        try {
+            drugMy.setDrug_my_del(false);
+            drugMy.setDrug_my_memo(drugMyCreateRes.getDrugMyMemo());
+            drugMy.setDrug_my_title(drugMyCreateRes.getDrugMyTitle());
+
+            result = new DrugMyRes(drugMyRepository.save(drugMy));
+
+            for (int i = 0; i < drugMyCreateRes.getDrugId().size(); i++) {
+                // id로 약 정보 찾기
+                Drug info = drugRepository.selectDrug(drugMyCreateRes.getDrugId().get(i));
+
+                DrugMyPill drugMyPill = new DrugMyPill();
+
+                drugMyPill.setDrug_my(drugMy);
+                drugMyPill.setDrug(info);
+
+                result2 = new DrugMyPillRes(drugMyPillRepository.save(drugMyPill));
+            }
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception {
+
+        ResponseDTO responseDTO = new ResponseDTO();
+
+        try {
+            int result = drugMyRepository.deleteDrugMyById(drug_my_id);
+            System.out.println(result);
+            if (result == 1) {
+                responseDTO.setData(result);
+                responseDTO.setMessage("나의 약봉지 삭제 성공");
+                responseDTO.setStatus_code(200);
+            } else {
+                responseDTO.setMessage("출력 실패");
+                responseDTO.setStatus_code(400);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return responseDTO;
     }
 

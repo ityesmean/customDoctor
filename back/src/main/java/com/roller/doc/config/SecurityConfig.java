@@ -68,12 +68,12 @@ public class SecurityConfig {
         return web -> {
             web.ignoring()
                     .antMatchers(
-                            "/hospital/**")
-                    .antMatchers("/drug/result/**")
-                    .antMatchers("/drug/name/**")
-                    .antMatchers("/drug/info/**")
-                    .antMatchers(  "/drug/descinfo/**")
-                    .antMatchers("/drug/avoidinfo/**");
+                            "/**");
+                    // .antMatchers("/drug/result/**")
+                    // .antMatchers("/drug/name/**")
+                    // .antMatchers("/drug/info/**")
+                    // .antMatchers(  "/drug/descinfo/**")
+                    // .antMatchers("/drug/avoidinfo/**");
         };
     }
 }
