@@ -73,7 +73,6 @@ function SearchBar({ searchType }) {
   // const [myNorth, setMyNorth] = useState(0);
 
   useEffect(() => {
-    console.log('서치바에서 useEffect');
     // 1km 당 위도
     const latPerKm = 0.0091;
     const lngPerKm = 0.0113;
@@ -82,10 +81,10 @@ function SearchBar({ searchType }) {
     const successLocation = position => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
-      const myEast = 36.35887261465578;
-      const myWest = 36.34567675654588;
-      const mySouth = 127.35647601340733;
-      const myNorth = 127.29091439637051;
+      const myNorth = 36.35887261465578;
+      const mySouth = 36.34567675654588;
+      const myEast = 127.35647601340733;
+      const myWest = 127.29091439637051;
       // const myEast = lat + latPerKm * 5;
       // const myWest = lat - latPerKm * 5;
       // const mySouth = lng - lngPerKm * 5;

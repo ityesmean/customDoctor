@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -33,7 +32,7 @@ function HospitalList({ searchType, searchValue, myPosition }) {
         },
       })
       .then(res => {
-        if (res.data.status_code === 400) {
+        if (res.data.status_code === 204) {
           setHospitalList(false);
         } else {
           setHospitalList(res.data.data);
@@ -43,14 +42,22 @@ function HospitalList({ searchType, searchValue, myPosition }) {
   };
 
   const getOptionHospitalSearchResult = async () => {
-    await axios.get(`${API_URL_HOSPITAL}/find`, {
-      e: position[2],
-      w: position[3],
-      s: position[4],
-      n: position[5],
-      part: value[0],
-      open: value[1],
-    });
+    await axios
+      .post(`${API_URL_HOSPITAL}/find`, {
+        e: position[2],
+        w: position[3],
+        s: position[4],
+        n: position[5],
+        part: value[0],
+        open: value[1],
+      })
+      .then(res => {
+        if (res.data.status_code === 204) {
+          setHospitalList(false);
+        } else {
+          setHospitalList(res.data.data);
+        }
+      });
   };
 
   useEffect(() => {
@@ -60,7 +67,6 @@ function HospitalList({ searchType, searchValue, myPosition }) {
       getOptionHospitalSearchResult();
     }
   }, []);
-  // console.log(hospitalList, '받아온 병원 리스트');
 
   return (
     <>

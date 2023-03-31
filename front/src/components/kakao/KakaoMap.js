@@ -6,7 +6,7 @@
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import BackButton from '../common/BackButton';
 
@@ -15,6 +15,7 @@ import { hospitalSearchResultState } from '../../atoms';
 const { kakao } = window;
 
 function KakaoMap({ x, y }) {
+  const navigate = useNavigate();
   const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
     hospitalSearchResultState,
   );
@@ -44,11 +45,16 @@ function KakaoMap({ x, y }) {
     marker.setMap(map);
   }, []);
 
+  const tempOnClick = () => {
+    navigate(-1);
+  };
   return (
     <>
-      <Link to="/hospital/search/result">
+      {/* <Link to="/hospital/search/result"> */}
+      <div onClick={tempOnClick}>
         <BackButton />
-      </Link>
+      </div>
+      {/* </Link> */}
       <div id="map" style={{ width: '100vw', height: '20vh' }}></div>
       <div></div>
     </>
