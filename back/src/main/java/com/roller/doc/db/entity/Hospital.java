@@ -54,10 +54,6 @@ public class Hospital {
     @OneToMany(mappedBy = "hospital")
     List<HospitalPart> hospitalParts = new ArrayList<>();
 
-    public void addHospitalParts(HospitalPart hospitalPart) {
-        hospitalParts.add(hospitalPart);
-    }
-
     @JsonIgnore
     @OneToOne(mappedBy = "hospital")
     private HospitalTime hospitalTime;

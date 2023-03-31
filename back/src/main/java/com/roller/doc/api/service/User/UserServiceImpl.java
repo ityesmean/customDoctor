@@ -64,9 +64,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public ResponseDTO statusHospitalMy(long userId, long hospitalId, boolean status) {
+    public ResponseDTO statusHospitalMy(String token, long hospitalId, boolean status) {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
+            Long userId=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
             Optional<HospitalMy> isMy = hospitalMyRepository.findHospitalMy(userId, hospitalId);
             if (isMy.isEmpty()) { //등록된적이 없으면 신규등록
                 HospitalMy hospitalMy = HospitalMy.builder()
@@ -102,9 +103,10 @@ public class UserServiceImpl implements UserService {
      * 병원 즐겨찾기 여부
      */
     @Override
-    public ResponseDTO isHospitalMy(long userId, long hospitalId) {
+    public ResponseDTO isHospitalMy(String token, long hospitalId) {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
+            Long userId=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
             Optional<HospitalMy> isMy = hospitalMyRepository.isHospitalMy(userId, hospitalId);
             if (isMy.isEmpty()) {
                 responseDTO.setStatus_code(204);
@@ -126,9 +128,10 @@ public class UserServiceImpl implements UserService {
      * 병원 즐겨찾기 리스트
      */
     @Override
-    public ResponseDTO listHospitalMy(long userId) {
+    public ResponseDTO listHospitalMy(String token) {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
+            Long userId=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
             List<HospitalMy> myList = hospitalMyRepository.listingHospitalMy(userId);
             if (myList.size() == 0) {
                 responseDTO.setStatus_code(204);

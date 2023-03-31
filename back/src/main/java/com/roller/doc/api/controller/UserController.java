@@ -29,8 +29,9 @@ public class UserController {
      * 즐겨찾는 병원 상태변경
      */
     @PutMapping("/hospital/statusmark")
-    public ResponseEntity deleteHospitalMy(@RequestBody HospitalMyStatusReq hospitalMyStatusReq) {
-        ResponseDTO responseDTO = userService.statusHospitalMy(hospitalMyStatusReq.getUserId(), hospitalMyStatusReq.getHospitalId(), hospitalMyStatusReq.isStatus());
+    public ResponseEntity statusHospitalMy(@RequestHeader String Authorization, @RequestBody HospitalMyStatusReq hospitalMyStatusReq) {
+        String token = HeaderUtil.getAccessTokenString(Authorization);
+        ResponseDTO responseDTO = userService.statusHospitalMy(token, hospitalMyStatusReq.getHospitalId(), hospitalMyStatusReq.isStatus());
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
@@ -38,8 +39,9 @@ public class UserController {
      * 즐겨찾기 여부
      */
     @PostMapping("hospital/ismark")
-    public ResponseEntity isHospitalMy(@RequestBody HospitalMyReq hospitalMyReq) {
-        ResponseDTO responseDTO = userService.isHospitalMy(hospitalMyReq.getUserId(), hospitalMyReq.getHospitalId());
+    public ResponseEntity isHospitalMy(@RequestHeader String Authorization,@RequestBody HospitalMyReq hospitalMyReq) {
+        String token = HeaderUtil.getAccessTokenString(Authorization);
+        ResponseDTO responseDTO = userService.isHospitalMy(token, hospitalMyReq.getHospitalId());
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
@@ -47,8 +49,9 @@ public class UserController {
      * 즐겨찾기 리스트
      */
     @PostMapping("/hospital/marklist")
-    public ResponseEntity listHospitalMy(@RequestBody HospitalMyReq hospitalMyReq) {
-        ResponseDTO responseDTO = userService.listHospitalMy(hospitalMyReq.getUserId());
+    public ResponseEntity listHospitalMy(@RequestHeader String Authorization) {
+        String token = HeaderUtil.getAccessTokenString(Authorization);
+        ResponseDTO responseDTO = userService.listHospitalMy(token);
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
