@@ -26,7 +26,7 @@ public class DrugMyRes {
 		User user = drugMy.getUser();
 		List<DrugMyPillRes> list = new ArrayList<>();
 
-		this.userId = 1L;
+		this.userId = drugMy.getUser().getUserId();
 		this.drugMyId = drugMy.getDrug_my_id();
 		this.drugMyDel = drugMy.getDrug_my_del();
 		this.drugMyMemo = drugMy.getDrug_my_memo();
