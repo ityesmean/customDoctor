@@ -231,9 +231,7 @@ function MyPageBasket() {
       </SPageSelectBox>
       <SLine />
 
-      <MyLikeMedicineSearchAndList
-      // likedMedicinesHandler={likedMedicinesHandler}
-      />
+      <MyLikeMedicineSearchAndList />
 
       <SSubTitle>약봉지 생성</SSubTitle>
 

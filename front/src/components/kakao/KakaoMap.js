@@ -4,14 +4,20 @@
 /* eslint-disable no-var */
 /* global kakao */
 import React, { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import BackButton from '../common/BackButton';
 
+import { hospitalSearchResultState } from '../../atoms';
 const { kakao } = window;
 
 function KakaoMap({ x, y }) {
+  const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
+    hospitalSearchResultState,
+  );
+  console.log(hospitalSearchResult);
   useEffect(() => {
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
     var mapOption = {

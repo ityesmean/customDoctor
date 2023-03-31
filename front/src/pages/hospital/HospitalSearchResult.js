@@ -99,8 +99,11 @@ function HospitalSearchResult() {
     setSelectedValue(e.target.value);
   };
 
+  // 병원 리스트 불러오는 요청
+
   useEffect(() => {
-    console.log(resultOptions);
+    console.log('axios요청');
+    console.log(resultOptions, 'here');
   }, []);
 
   return (

@@ -126,7 +126,7 @@ function SearchBar({ searchType }) {
             n: myNorth,
           },
         })
-        .then(res => console.log(res))
+        .then(res => {})
         .catch(err => console.log(err));
     } else if (searchCategory === 'drug') {
       axios
