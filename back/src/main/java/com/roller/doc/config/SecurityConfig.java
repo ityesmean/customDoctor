@@ -44,8 +44,8 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/drug/my/**","/drug/mypill/**","/drug/delete/**").hasAnyRole("MEMBER")
+                .anyRequest().permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/user/logout")
@@ -68,11 +68,12 @@ public class SecurityConfig {
         return web -> {
             web.ignoring()
                     .antMatchers(
-                            "/actuator/health",
-                            "/",
-                            "/member/nickname",
-                            "/member/nicknamecheck",
-                            "/info/news");
+                            "/hospital/**")
+                    .antMatchers("/drug/result/**")
+                    .antMatchers("/drug/name/**")
+                    .antMatchers("/drug/info/**")
+                    .antMatchers(  "/drug/descinfo/**")
+                    .antMatchers("/drug/avoidinfo/**");
         };
     }
 }

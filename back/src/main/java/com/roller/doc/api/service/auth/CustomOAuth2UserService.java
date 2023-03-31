@@ -48,7 +48,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         log.debug("login email = {}", (String) memberAttribute.get("email"));
 
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_MEMBER")),
+                Collections.singleton(new SimpleGrantedAuthority("MEMBER")),
                 memberAttribute, "email");
     }
 }
