@@ -246,6 +246,7 @@ public class UserServiceImpl implements UserService {
             drugMy.setDrug_my_del(false);
             drugMy.setDrug_my_memo(drugMyCreateRes.getDrugMyMemo());
             drugMy.setDrug_my_title(drugMyCreateRes.getDrugMyTitle());
+            drugMy.setUser(userRepository.findUser(drugMyCreateRes.getUserId()));
 
             result = new DrugMyRes(drugMyRepository.save(drugMy));
 
