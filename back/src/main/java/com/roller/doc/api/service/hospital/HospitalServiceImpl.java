@@ -5,8 +5,10 @@ import com.roller.doc.api.response.hospital.HospitalDescRes;
 import com.roller.doc.api.response.hospital.HospitalRes;
 import com.roller.doc.db.entity.Hospital;
 import com.roller.doc.db.entity.HospitalDesc;
+import com.roller.doc.db.entity.HospitalMy;
 import com.roller.doc.db.entity.HospitalPart;
 import com.roller.doc.db.repository.HospitalCustomRepo;
+import com.roller.doc.db.repository.HospitalMyRepository;
 import com.roller.doc.db.repository.HospitalRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,13 @@ public class HospitalServiceImpl implements HospitalService {
 
     private final HospitalRepository hospitalRepository;
     private final HospitalCustomRepo hospitalCustomRepo;
+    private final HospitalMyRepository hospitalMyRepository;
 
     @Autowired
-    public HospitalServiceImpl(HospitalRepository hospitalRepository, HospitalCustomRepo hospitalCustomRepo) {
+    public HospitalServiceImpl(HospitalRepository hospitalRepository, HospitalCustomRepo hospitalCustomRepo, HospitalMyRepository hospitalMyRepository) {
         this.hospitalRepository = hospitalRepository;
         this.hospitalCustomRepo = hospitalCustomRepo;
+        this.hospitalMyRepository = hospitalMyRepository;
     }
 
     /**
@@ -74,11 +78,33 @@ public class HospitalServiceImpl implements HospitalService {
      * 필터로 병원찾기
      */
     @Override
-    public ResponseDTO filteringHospital(double e, double w, double s, double n, int part, int sat, int sun, int holiday, int night) {
+    public ResponseDTO filteringHospital(double e, double w, double s, double n, List<Integer>part, List<Integer>open) {
         ResponseDTO responseDTO = new ResponseDTO();
         List<HospitalRes> result = new ArrayList<>();
         try {
-            List<Hospital> hospitalList = hospitalCustomRepo.useFilterHospital(e, w, s, n, part, sat, sun, holiday, night);
+            //명령어 매핑
+            int []partTmp=new int[5];
+            for(int i=0; i<part.size(); i++){
+                partTmp[i]=part.get(i);
+            }
+            int[]openTmp=new int[4]; //토,일,공,야
+            for(int i=0; i<open.size(); i++){
+                switch (open.get(i)){
+                    case 1:
+                        openTmp[0]=1;
+                        break;
+                    case 2:
+                        openTmp[1]=1;
+                        break;
+                    case 3:
+                        openTmp[2]=1;
+                        break;
+                    case 4:
+                        openTmp[3]=1;
+                        break;
+                }
+            }
+            List<Hospital> hospitalList = hospitalCustomRepo.useFilterHospital(e, w, s, n, partTmp[0],partTmp[1],partTmp[2],partTmp[3],partTmp[4], openTmp[0],openTmp[1],openTmp[2],openTmp[3]);
             if (hospitalList.size() == 0) {
                 responseDTO.setStatus_code(400);
                 responseDTO.setMessage("필터로 병원찾기: 일치하는 병원이 없습니다");
@@ -129,7 +155,7 @@ public class HospitalServiceImpl implements HospitalService {
                 "약국", "보건", "보건기관치과", "43", "보건기관한방", "45", "46", "47", "48", "치과", "구강악안면외과", "치과보철과", "치아교정과", "소아치과", "치주과", "치과보존과", "구강내과",
                 "영상치의학과", "구강병리과", "예방치과", "치과소계", "통합치의학과", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71"
                 , "72", "73", "74", "75", "76", "77", "78", "79", "한방내과", "한방부인과", "한방소아과", "한방안·이비인후·피부과", "한방신경정신과"
-                , "침구과", "한방재활의학과", "사상체질과", "한방응급","89", "한방소계", "91", "92", "93", "94", "95", "96", "97", "98", "99", "한의원"};
+                , "침구과", "한방재활의학과", "사상체질과", "한방응급", "89", "한방소계", "91", "92", "93", "94", "95", "96", "97", "98", "99", "한의원"};
         return arr[partNo];
     }
 
@@ -140,7 +166,7 @@ public class HospitalServiceImpl implements HospitalService {
     public ResponseDTO detailedHospital(long id) {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
-            HospitalDesc hospitalDesc = hospitalRepository.findHospitalDesc(id);
+            Optional<HospitalDesc> hospitalDesc = hospitalRepository.findHospitalDesc(id);
             if (hospitalDesc == null) {
                 responseDTO.setStatus_code(400);
                 responseDTO.setMessage("상세보기가 없습니다");
@@ -148,10 +174,10 @@ public class HospitalServiceImpl implements HospitalService {
             } else {
                 HospitalDescRes hospitalDescRes = HospitalDescRes.builder()
                         .hospitalId(id)
-                        .hospitalAdd(hospitalDesc.getHospital_desc_add())
-                        .hospitalParking(hospitalDesc.getHospital_desc_parking())
-                        .hospitalDevice(hospitalDesc.getHospital_desc_device())
-                        .hospitalSpecial(hospitalDesc.getHospital_desc_special())
+                        .hospitalAdd(hospitalDesc.get().getHospital_desc_add())
+                        .hospitalParking(hospitalDesc.get().getHospital_desc_parking())
+                        .hospitalDevice(hospitalDesc.get().getHospital_desc_device())
+                        .hospitalSpecial(hospitalDesc.get().getHospital_desc_special())
                         .build();
                 responseDTO.setStatus_code(200);
                 responseDTO.setMessage("병원 상세보기");
@@ -163,4 +189,118 @@ public class HospitalServiceImpl implements HospitalService {
         }
         return responseDTO;
     }
+
+    /**
+     * 병원 즐겨찾기 등록
+     */
+    @Override
+    public ResponseDTO addHospitalMy(long userId, long hospitalId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+            HospitalMy hospitalMy = HospitalMy.builder()
+                    .hospital_id(hospitalId)
+//                    .user_id(userId)
+                    .hospital_my_del(false)
+                    .build();
+            hospitalMyRepository.save(hospitalMy);
+            responseDTO.setStatus_code(200);
+            responseDTO.setMessage("병원 즐겨찾기 등록 완료");
+            responseDTO.setData(userId);
+
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+            exception.printStackTrace();
+        }
+        return responseDTO;
+    }
+
+    /**
+     * 병원 즐겨찾기 삭제
+     */
+    @Override
+    public ResponseDTO deleteHospitalMy(long userId, long hospitalId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+//            HospitalMy hospitalMy=HospitalMy.builder()
+//                    .hospital_id(hospitalId)
+//                    .user_id(userId)
+//                    .hospital_my_del(true)
+//                    .build();
+//            hospitalMyRepository.save(hospitalMy);
+//            responseDTO.setStatus_code(200);
+//            responseDTO.setMessage("병원 즐겨찾기 삭제 완료");
+//            responseDTO.setData(userId);
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+            exception.printStackTrace();
+        }
+        return responseDTO;
+    }
+
+    /**
+     * 병원 즐겨찾기 여부
+     */
+    @Override
+    public ResponseDTO isHospitalMy(long userId, long hospitalId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+//            Optional<HospitalMy> isMy = hospitalMyRepository.findByUser_idAndHospital_id(userId, hospitalId);
+//            if(isMy==null){
+//                responseDTO.setStatus_code(200);
+//                responseDTO.setMessage("즐겨찾기한 병원이 아닙니다.");
+//                responseDTO.setData(false);
+//            }else{
+//                responseDTO.setStatus_code(200);
+//                responseDTO.setMessage("즐겨찾기한 병원입니다.");
+//                responseDTO.setData(true);
+//            }
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+            exception.printStackTrace();
+        }
+        return responseDTO;
+    }
+
+    /**
+     * 병원 즐겨찾기 리스트
+     */
+    @Override
+    public ResponseDTO listHospitalMy(long userId) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+//            List<HospitalMy>myList=hospitalMyRepository.fin(userId);
+//            List<HospitalRes>result=new ArrayList<>();
+//            for (HospitalMy hospitalMy : myList) {
+//                Optional<Hospital>hospital=hospitalRepository.findById(hospitalMy.getHospital_id());
+//                List<HospitalPart> partList = hospitalRepository.findHospitalPart(hospitalMy.getHospital_id()); //진료과목
+//                List<String> partResult = new ArrayList<>();
+//                if (partList.size() > 0) {
+//                    for (int j = 0; j < partList.size(); j++) {
+//                        int partNo = partList.get(j).getHospital_part_name();
+//                        partResult.add(findPart(partNo)); //진료과목 찾아서 넣기
+//                        partResult.add(partList.get(j).getHospital_part_doctor() + ""); //의사수
+//                    }
+//                }
+//                HospitalRes hospitalRes = HospitalRes.builder()
+//                        .hospitalId(hospital.get().getHospital_id())
+//                        .hospitalName(hospital.get().getHospital_name())
+//                        .hospitalCode(hospital.get().getHospital_code())
+//                        .hospitalX(hospital.get().getHospital_x())
+//                        .hospitalY(hospital.get().getHospital_y())
+//                        .hospitalTel(hospital.get().getHospital_tel())
+//                        .hospitalTime(hospital.get().getHospitalTime())
+//                        .hospitalPart(partResult)
+//                        .build();
+//                result.add(hospitalRes);
+//            }
+//            responseDTO.setStatus_code(200);
+//            responseDTO.setMessage("즐겨찾기한 병원리스트");
+//            responseDTO.setData(result);
+        } catch (Exception exception) {
+            log.error(exception.getMessage());
+            exception.printStackTrace();
+        }
+        return responseDTO;
+    }
+
 }

@@ -33,36 +33,36 @@ public class HospitalCustomRepo {
     /**
      * 거리5km+진료과목+운영시간 필터
      */
-    public List<Hospital> useFilterHospital(double e, double w, double s, double n, int part,
+    public List<Hospital> useFilterHospital(double e, double w, double s, double n, int p1,int p2,int p3,int p4,int p5,
                                             int sat, int sun, int holiday, int night) {
         JPAQueryFactory query = querydslConfig.jpaQueryFactory();
 
-        if (sat == 0 && sun == 0 && holiday == 0 && night == 0 && part == 0) { //필터가 없는데 검색누른경우
+        if (sat == 0 && sun == 0 && holiday == 0 && night == 0 && p1 == 0) { //필터가 없는데 검색누른경우
             return query.select(hospital)
                     .from(hospital)
-                    .where(locationBetween(e, w, s, n)
-                    ).distinct().fetch();
+                    .where(locationBetween(e, w, s, n))
+                    .distinct().fetch();
         }
-        if (part == 0) { //진료과목 필터가 없는 경우
+        if (p1 == 0) { //진료과목 필터가 없는 경우
             return query.select(hospital)
                     .from(hospital)
                     .innerJoin(hospitalTime).fetchJoin().on((openSat(hospital.hospital_id, sat)).or(openSun(hospital.hospital_id, sun)).or(openHoliday(hospital.hospital_id, holiday)).or(openNight(hospital.hospital_id, night)))
-                    .where(locationBetween(e, w, s, n)
-                    ).distinct().fetch();
+                    .where(locationBetween(e, w, s, n))
+                    .distinct().fetch();
         }
         if (sat == 0 && sun == 0 && holiday == 0 && night == 0) { //시간 필터 없는 경우
-            List<Hospital> result= query.select(hospital)
+            return query.select(hospital)
                     .from(hospital)
-                    .innerJoin(hospitalPart).fetchJoin().on((partEq(hospital.hospital_id, part)))
-                    .where(locationBetween(e, w, s, n)
-                    ).distinct().fetch();
+                    .innerJoin(hospitalPart).fetchJoin().on(partEq(hospital.hospital_id, p1).or(partEq(hospital.hospital_id, p2)).or(partEq(hospital.hospital_id, p3)).or(partEq(hospital.hospital_id, p4)).or(partEq(hospital.hospital_id, p5)))
+                    .where(locationBetween(e, w, s, n))
+                    .distinct().fetch();
         }
         return query.select(hospital)
                 .from(hospital)
-                .innerJoin(hospitalPart).fetchJoin().on((partEq(hospital.hospital_id, part)))
+                .innerJoin(hospitalPart).fetchJoin().on(partEq(hospital.hospital_id, p1).or(partEq(hospital.hospital_id, p2)).or(partEq(hospital.hospital_id, p3)).or(partEq(hospital.hospital_id, p4)).or(partEq(hospital.hospital_id, p5)))
                 .innerJoin(hospitalTime).fetchJoin().on((openSat(hospital.hospital_id, sat)).or(openSun(hospital.hospital_id, sun)).or(openHoliday(hospital.hospital_id, holiday)).or(openNight(hospital.hospital_id, night)))
-                .where(locationBetween(e, w, s, n)
-                ).distinct().fetch();
+                .where(locationBetween(e, w, s, n))
+                .distinct().fetch();
     }
 
     /**
