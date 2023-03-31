@@ -66,30 +66,4 @@ public class DrugController {
 		ResponseDTO result = drugService.selectDrugAvoid(Long.valueOf(drugId));
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
-
-	@GetMapping("/my")
-	public ResponseEntity findList(@RequestHeader String Authorization) throws Exception {
-		String token = HeaderUtil.getAccessTokenString(Authorization);
-
-		ResponseDTO result = drugService.findList(token);
-		return ResponseEntity.status(HttpStatus.OK).body(result);
-	}
-
-	@GetMapping("/mypill/{drugMyId}")
-	public ResponseEntity findPillList(@PathVariable("drugMyId") Long drugMyId) throws Exception {
-		ResponseDTO result = drugService.findMyPillList(drugMyId);
-		return ResponseEntity.status(HttpStatus.OK).body(result);
-	}
-
-	@PutMapping("/delete/{drugMyId}")
-	public ResponseEntity deleteDrugMy(@PathVariable("drugMyId") Long drugMyId) throws Exception {
-		ResponseDTO result = drugService.deleteDrugMy(drugMyId);
-		return ResponseEntity.status(HttpStatus.OK).body(result);
-	}
-
-	@PostMapping("/plus")
-	private ResponseEntity createDrugMy(@RequestBody DrugMyCreateRes drugMyCreateRes) throws Exception {
-		DrugMyRes result = drugService.createDrugMy(drugMyCreateRes);
-		return ResponseEntity.status(HttpStatus.OK).body(result);
-	}
 }
