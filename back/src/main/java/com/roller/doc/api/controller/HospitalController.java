@@ -1,6 +1,7 @@
 package com.roller.doc.api.controller;
 
 import com.roller.doc.api.request.HospitalFilterReq;
+import com.roller.doc.api.request.HospitalMyReq;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.service.hospital.HospitalService;
 import org.springframework.http.HttpStatus;
@@ -49,8 +50,36 @@ public class HospitalController {
      */
     @PostMapping("/find")
     public ResponseEntity filteringHospital(@RequestBody HospitalFilterReq h) {
-        ResponseDTO responseDTO = hospitalService.filteringHospital(h.getE(),h.getW(),h.getS(),h.getN(),
-                h.getPart(),h.getSat(),h.getSun(),h.getHoliday(),h.getNight());
+        ResponseDTO responseDTO = hospitalService.filteringHospital(h.getE(), h.getW(), h.getS(), h.getN(),
+                h.getPart(),h.getOpen());
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+    }
+
+    /**
+     * 즐겨찾는 병원 등록
+     */
+    @PutMapping("/mark")
+    public ResponseEntity addHospitalMy(@RequestBody HospitalMyReq hospitalMyReq) {
+        ResponseDTO responseDTO = hospitalService.addHospitalMy(hospitalMyReq.getUserId(), hospitalMyReq.getHospitalId());
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+    }
+    /** 즐겨찾는 병원 삭제*/
+    @PutMapping("/delmark")
+    public ResponseEntity deleteHospitalMy(@RequestBody HospitalMyReq hospitalMyReq){
+        ResponseDTO responseDTO=hospitalService.deleteHospitalMy(hospitalMyReq.getUserId(),hospitalMyReq.getHospitalId());
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+    }
+
+    /** 즐겨찾기 여부*/
+    @GetMapping("/ismark")
+    public ResponseEntity isHospitalMy(@RequestBody HospitalMyReq hospitalMyReq){
+        ResponseDTO responseDTO=hospitalService.isHospitalMy(hospitalMyReq.getUserId(),hospitalMyReq.getHospitalId());
+        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+    }
+    /** 즐겨찾기 리스트*/
+    @GetMapping("/delmark")
+    public ResponseEntity listHospitalMy(@RequestBody HospitalMyReq hospitalMyReq){
+        ResponseDTO responseDTO=hospitalService.listHospitalMy(hospitalMyReq.getUserId());
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 }
