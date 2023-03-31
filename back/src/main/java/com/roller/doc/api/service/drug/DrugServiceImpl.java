@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.roller.doc.api.service.auth.TokenService;
+import com.roller.doc.db.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +21,6 @@ import com.roller.doc.db.entity.DrugAvoid;
 import com.roller.doc.db.entity.DrugDesc;
 import com.roller.doc.db.entity.DrugMy;
 import com.roller.doc.db.entity.DrugMyPill;
-import com.roller.doc.db.repository.DrugAvoidRepository;
-import com.roller.doc.db.repository.DrugDescRepository;
-import com.roller.doc.db.repository.DrugMyPillRepository;
-import com.roller.doc.db.repository.DrugMyRepository;
-import com.roller.doc.db.repository.DrugRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -40,6 +37,10 @@ public class DrugServiceImpl implements DrugService {
 
 	private final DrugMyRepository drugMyRepository;
 	private final DrugMyPillRepository drugMyPillRepository;
+
+	private final TokenService tokenService;
+
+	private final UserRepository userRepository;
 
 	@Override
 	public ResponseDTO findOneByName(String drug_name) throws Exception {
@@ -232,7 +233,8 @@ public class DrugServiceImpl implements DrugService {
 	}
 
 	@Override
-	public ResponseDTO findList(Long user_id) throws Exception {
+	public ResponseDTO findList(String token) throws Exception {
+		Long user_id=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
 		List<DrugMyRes> result = new ArrayList<>();
 		ResponseDTO responseDTO = new ResponseDTO();
 
