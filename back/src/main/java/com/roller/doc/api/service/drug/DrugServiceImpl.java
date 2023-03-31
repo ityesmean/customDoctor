@@ -30,6 +30,7 @@ import lombok.extern.log4j.Log4j2;
 @Transactional
 @RequiredArgsConstructor
 public class DrugServiceImpl implements DrugService {
+	private final DrugMyRepository drugMyRepository;
 
 	private final DrugRepository drugRepository;
 	private final DrugAvoidRepository drugAvoidRepository;
@@ -85,7 +86,19 @@ public class DrugServiceImpl implements DrugService {
 
 		try {
 
-			List<Drug> drug = drugRepository.findDrug(drug_type, drug_line, drug_color, drug_mark);
+			List<Drug> drug = null;
+
+			if (drug_line.equals("a")) {
+				drug = drugRepository.findA(drug_type, drug_color, drug_mark);
+			} else if (drug_line.equals("b")) {
+				drug = drugRepository.findB(drug_type, drug_color, drug_mark);
+			} else if (drug_line.equals("c")) {
+				drug = drugRepository.findC(drug_type, drug_color, drug_mark);
+			} else if (drug_line.equals("d")) {
+				drug = drugRepository.findD(drug_type, drug_color, drug_mark);
+			} else if (drug_line.equals("e")) {
+				drug = drugRepository.findE(drug_type, drug_color, drug_mark);
+			}
 
 			if (drug == null) {
 				responseDTO.setMessage("검색 값이 없습니다");
