@@ -18,9 +18,11 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
      */
     @Query(value = "select part from HospitalPart part where :id=part.hospital.hospital_id")
     List<HospitalPart> findHospitalPart(@Param("id") long id);
+
     /**
      * 병원 상세보기
      */
     @Query(value = "select hd from HospitalDesc hd where :id=hd.hospital_id")
-    HospitalDesc findHospitalDesc(@Param("id") long id);
+    Optional<HospitalDesc> findHospitalDesc(@Param("id") long id);
+
 }

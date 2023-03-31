@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.roller.doc.api.service.auth.TokenService;
+import com.roller.doc.db.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.response.drug.DrugAvoidRes;
 import com.roller.doc.api.response.drug.DrugDescRes;
+import com.roller.doc.api.response.drug.DrugMyCreateRes;
 import com.roller.doc.api.response.drug.DrugMyPillRes;
 import com.roller.doc.api.response.drug.DrugMyRes;
 import com.roller.doc.api.response.drug.DrugRes;
@@ -18,11 +21,6 @@ import com.roller.doc.db.entity.DrugAvoid;
 import com.roller.doc.db.entity.DrugDesc;
 import com.roller.doc.db.entity.DrugMy;
 import com.roller.doc.db.entity.DrugMyPill;
-import com.roller.doc.db.repository.DrugAvoidRepository;
-import com.roller.doc.db.repository.DrugDescRepository;
-import com.roller.doc.db.repository.DrugMyPillRepository;
-import com.roller.doc.db.repository.DrugMyRepository;
-import com.roller.doc.db.repository.DrugRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -39,6 +37,10 @@ public class DrugServiceImpl implements DrugService {
 
 	private final DrugMyRepository drugMyRepository;
 	private final DrugMyPillRepository drugMyPillRepository;
+
+	private final TokenService tokenService;
+
+	private final UserRepository userRepository;
 
 	@Override
 	public ResponseDTO findOneByName(String drug_name) throws Exception {
@@ -231,7 +233,8 @@ public class DrugServiceImpl implements DrugService {
 	}
 
 	@Override
-	public ResponseDTO findList(Long user_id) throws Exception {
+	public ResponseDTO findList(String token) throws Exception {
+		Long user_id=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
 		List<DrugMyRes> result = new ArrayList<>();
 		ResponseDTO responseDTO = new ResponseDTO();
 
@@ -295,18 +298,33 @@ public class DrugServiceImpl implements DrugService {
 	}
 
 	@Override
-	public DrugMyRes createDrugMy(DrugMyRes drugMyRes) throws Exception {
+	public DrugMyRes createDrugMy(DrugMyCreateRes drugMyCreateRes) throws Exception {
 		DrugMy drugMy = new DrugMy();
 
 		DrugMyRes result = new DrugMyRes();
-		Long user_id = drugMyRes.getUserId();
+		DrugMyPillRes result2 = new DrugMyPillRes();
 
 		try {
 			drugMy.setDrug_my_del(false);
-			drugMy.setDrug_my_memo(drugMyRes.getDrugMyMemo());
-			drugMy.setDrug_my_title(drugMyRes.getDrugMyTitle());
+			drugMy.setDrug_my_memo(drugMyCreateRes.getDrugMyMemo());
+			drugMy.setDrug_my_title(drugMyCreateRes.getDrugMyTitle());
 
 			result = new DrugMyRes(drugMyRepository.save(drugMy));
+
+			for (int i = 0; i < drugMyCreateRes.getDrugId().size(); i++) {
+				// id로 약 정보 찾기
+				Drug info = drugRepository.selectDrug(drugMyCreateRes.getDrugId().get(i));
+
+				DrugMyPill drugMyPill = new DrugMyPill();
+
+				drugMyPill.setDrug_my(drugMy);
+				drugMyPill.setDrug(info);
+
+				result2 = new DrugMyPillRes(drugMyPillRepository.save(drugMyPill));
+			}
+
+
+
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -3,6 +3,7 @@ package com.roller.doc.api.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.roller.doc.util.HeaderUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.roller.doc.api.response.ResponseDTO;
+import com.roller.doc.api.response.drug.DrugMyCreateRes;
 import com.roller.doc.api.response.drug.DrugMyRes;
 import com.roller.doc.api.response.drug.DrugRes;
 import com.roller.doc.api.service.drug.DrugService;
@@ -33,13 +35,13 @@ import lombok.RequiredArgsConstructor;
 public class DrugController {
 	private final DrugService drugService;
 
-	@GetMapping("/{drugName}")
+	@GetMapping("/name/{drugName}")
 	public ResponseEntity getName(@PathVariable("drugName") String drugName) throws Exception {
 		ResponseDTO result = drugService.findOneByName(drugName);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@GetMapping("/{drugType}/{drugLine}/{drugColor}/{drugMark}")
+	@GetMapping("/result/{drugType}/{drugLine}/{drugColor}/{drugMark}")
 	public ResponseEntity getDrug(@PathVariable("drugType")String drugType, @PathVariable("drugLine")String drugLine,
 		@PathVariable("drugColor")String drugColor, @PathVariable("drugMark")String drugMark) throws Exception {
 		ResponseDTO result = drugService.findDrug(drugType, drugLine, drugColor, drugMark);
@@ -64,7 +66,7 @@ public class DrugController {
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
-	@GetMapping("/my/{userId}")
+	@GetMapping("/my")
 	public ResponseEntity findList(@PathVariable("userId") Long userId) throws Exception {
 		ResponseDTO result = drugService.findList(userId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -83,8 +85,8 @@ public class DrugController {
 	}
 
 	@PostMapping("/plus")
-	private ResponseEntity createDrugMy(@RequestBody DrugMyRes drugMyRes) throws Exception {
-		DrugMyRes result = drugService.createDrugMy(drugMyRes);
+	private ResponseEntity createDrugMy(@RequestBody DrugMyCreateRes drugMyCreateRes) throws Exception {
+		DrugMyRes result = drugService.createDrugMy(drugMyCreateRes);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 }

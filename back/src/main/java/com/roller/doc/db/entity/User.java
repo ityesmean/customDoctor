@@ -32,21 +32,21 @@ public class User {
 	@Id
 	@Column(name="user_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long user_id;
+	private Long userId;
 
 	@Column(name="user_name",columnDefinition = "VARCHAR(20)", nullable = false)
-	private String user_name;
+	private String userName;
 
 	@Column(name="user_email",columnDefinition = "VARCHAR(30)", nullable = false)
-	private String user_email;
+	private String userEmail;
 
 	@ColumnDefault("false")
 	@Column(name="user_deleted",columnDefinition = "BOOLEAN", nullable = false)
-	private Boolean user_deleted;
+	private Boolean userDeleted;
 
 	@Column(name="user_role")
 	@Enumerated(EnumType.STRING)
-	private Role user_role;
+	private Role userRole;
 
 	@OneToMany(mappedBy = "user")
 	List<DrugMy> drugMIES = new ArrayList<DrugMy>();
@@ -56,11 +56,11 @@ public class User {
 		drugMy.setUser(this);
 	}
 
-	@OneToMany(mappedBy = "user")
-	List<HospitalMy> hospitalMies = new ArrayList<HospitalMy>();
-
-	public void addHospitalMy(HospitalMy hospitalMy) {
-		hospitalMies.add(hospitalMy);
-		hospitalMy.setUser(this);
-	}
+//	@OneToMany(mappedBy = "user")
+//	List<HospitalMy> hospitalMies = new ArrayList<HospitalMy>();
+//
+//	public void addHospitalMy(HospitalMy hospitalMy) {
+//		hospitalMies.add(hospitalMy);
+//		hospitalMy.setUser(this);
+//	}
 }

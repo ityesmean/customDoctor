@@ -35,7 +35,7 @@ public class HospitalServiceImpl implements HospitalService {
         ResponseDTO responseDTO = new ResponseDTO();
         List<Hospital> hospitalList = hospitalCustomRepo.searchByHospitalName(word, e, w, s, n);
         if (hospitalList.size() == 0) { //반환값이 없으면 실패
-            responseDTO.setStatus_code(400);
+            responseDTO.setStatus_code(204);
             responseDTO.setMessage("검색 결과가 없습니다");
             responseDTO.setData("null");
         } else {
@@ -74,11 +74,33 @@ public class HospitalServiceImpl implements HospitalService {
      * 필터로 병원찾기
      */
     @Override
-    public ResponseDTO filteringHospital(double e, double w, double s, double n, int part, int sat, int sun, int holiday, int night) {
+    public ResponseDTO filteringHospital(double e, double w, double s, double n, List<Integer>part, List<Integer>open) {
         ResponseDTO responseDTO = new ResponseDTO();
         List<HospitalRes> result = new ArrayList<>();
         try {
-            List<Hospital> hospitalList = hospitalCustomRepo.useFilterHospital(e, w, s, n, part, sat, sun, holiday, night);
+            //명령어 매핑
+            int []partTmp=new int[5];
+            for(int i=0; i<part.size(); i++){
+                partTmp[i]=part.get(i);
+            }
+            int[]openTmp=new int[4]; //토,일,공,야
+            for(int i=0; i<open.size(); i++){
+                switch (open.get(i)){
+                    case 1:
+                        openTmp[0]=1;
+                        break;
+                    case 2:
+                        openTmp[1]=1;
+                        break;
+                    case 3:
+                        openTmp[2]=1;
+                        break;
+                    case 4:
+                        openTmp[3]=1;
+                        break;
+                }
+            }
+            List<Hospital> hospitalList = hospitalCustomRepo.useFilterHospital(e, w, s, n, partTmp[0],partTmp[1],partTmp[2],partTmp[3],partTmp[4], openTmp[0],openTmp[1],openTmp[2],openTmp[3]);
             if (hospitalList.size() == 0) {
                 responseDTO.setStatus_code(400);
                 responseDTO.setMessage("필터로 병원찾기: 일치하는 병원이 없습니다");
@@ -129,7 +151,7 @@ public class HospitalServiceImpl implements HospitalService {
                 "약국", "보건", "보건기관치과", "43", "보건기관한방", "45", "46", "47", "48", "치과", "구강악안면외과", "치과보철과", "치아교정과", "소아치과", "치주과", "치과보존과", "구강내과",
                 "영상치의학과", "구강병리과", "예방치과", "치과소계", "통합치의학과", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71"
                 , "72", "73", "74", "75", "76", "77", "78", "79", "한방내과", "한방부인과", "한방소아과", "한방안·이비인후·피부과", "한방신경정신과"
-                , "침구과", "한방재활의학과", "사상체질과", "한방응급","89", "한방소계", "91", "92", "93", "94", "95", "96", "97", "98", "99", "한의원"};
+                , "침구과", "한방재활의학과", "사상체질과", "한방응급", "89", "한방소계", "91", "92", "93", "94", "95", "96", "97", "98", "99", "한의원"};
         return arr[partNo];
     }
 
@@ -140,7 +162,7 @@ public class HospitalServiceImpl implements HospitalService {
     public ResponseDTO detailedHospital(long id) {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
-            HospitalDesc hospitalDesc = hospitalRepository.findHospitalDesc(id);
+            Optional<HospitalDesc> hospitalDesc = hospitalRepository.findHospitalDesc(id);
             if (hospitalDesc == null) {
                 responseDTO.setStatus_code(400);
                 responseDTO.setMessage("상세보기가 없습니다");
@@ -148,10 +170,10 @@ public class HospitalServiceImpl implements HospitalService {
             } else {
                 HospitalDescRes hospitalDescRes = HospitalDescRes.builder()
                         .hospitalId(id)
-                        .hospitalAdd(hospitalDesc.getHospital_desc_add())
-                        .hospitalParking(hospitalDesc.getHospital_desc_parking())
-                        .hospitalDevice(hospitalDesc.getHospital_desc_device())
-                        .hospitalSpecial(hospitalDesc.getHospital_desc_special())
+                        .hospitalAdd(hospitalDesc.get().getHospital_desc_add())
+                        .hospitalParking(hospitalDesc.get().getHospital_desc_parking())
+                        .hospitalDevice(hospitalDesc.get().getHospital_desc_device())
+                        .hospitalSpecial(hospitalDesc.get().getHospital_desc_special())
                         .build();
                 responseDTO.setStatus_code(200);
                 responseDTO.setMessage("병원 상세보기");
