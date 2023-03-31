@@ -189,6 +189,9 @@ function MyPageBasket() {
     // 삭제된 약 list Recoil 저장소에 업데이트
     setMyMedicines(tempMedicines);
 
+    console.log(checkedMedicines);
+    console.log(basketName);
+    console.log(basketMemo);
     // 약 봉투 담는 post요청
     await axios.post(`${API_URL_DRUG}/`).catch(navigate('/mypage/medicine'));
   };

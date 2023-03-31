@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/self-closing-comp */
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
-import Star from '../../assets/isopen/Star.png';
+import { API_URL_HOSPITAL } from '../../api/api';
 
 const SCard = styled.div`
   display: flex;
@@ -31,21 +31,9 @@ const SMedicalDepartment = styled.div`
   margin-bottom: 1vh;
 `;
 
-const SStarAndDistance = styled.div`
-  display: flex;
+const SDistance = styled.div`
   margin-bottom: 1vh;
 `;
-
-const SStar = styled.img`
-  width: 3vw;
-`;
-
-const SStarScore = styled.div`
-  margin-left: 1vw;
-  margin-right: 3vw;
-`;
-
-const SDistance = styled.div``;
 
 const SAddress = styled.div`
   margin-bottom: 1vh;
@@ -78,40 +66,99 @@ const SLine = styled.div`
   background-color: #f1f3f4;
 `;
 
-// const SHospitalInformation = styled.div``;
-// const SDetailInformation = styled.div``;
-// const SIsOpen = styled.div``;
-
-function HospitalCard({ card }) {
-  //   const [IsMyPage, setIsMypage] = useState(false);
+function HospitalCard({ hospital }) {
   const [isOpen, setIsOpen] = useState('true');
-  // props 에서 mypage인지 여부 전달 받아서 IsMyPage 상태 변경
+  const [address, setAddress] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+
+  const currentTime = new Date();
+  const currentDay = currentTime.getDay();
+
+  console.log(hospital.hospitalTime.hospitalTimeFri);
+  // if (currentDay === 0) {
+  //   if (hospital.hospitalTime.hospitalTimeMon !== 'null') {
+  //     setStartTime(hospital.hospitalTime.hospitalTimeMon.substr(0, 5));
+  //     setEndTime(hospital.hospitalTime.hospitalTimeMon.substr(6, 11));
+  //   }
+  // } else if (currentDay === 1) {
+  //   if (hospital.hospitalTime.hospitalTimeTue !== 'null') {
+  //     setStartTime(hospital.hospitalTime.hospitalTimeTue.substr(0, 5));
+  //     setEndTime(hospital.hospitalTime.hospitalTimeTue.substr(6, 11));
+  //   }
+  // } else if (currentDay === 2) {
+  //   if (hospital.hospitalTime.hospitalTimeWed !== 'null') {
+  //     setStartTime(hospital.hospitalTime.hospitalTimeWed.substr(0, 5));
+  //     setEndTime(hospital.hospitalTime.hospitalTimeWed.substr(6, 11));
+  //   }
+  // } else if (currentDay === 3) {
+  //   if (hospital.hospitalTime.hospitalTimeThu !== 'null') {
+  //     setStartTime(hospital.hospitalTime.hospitalTimeThu.substr(0, 5));
+  //     setEndTime(hospital.hospitalTime.hospitalTimeThu.substr(6, 11));
+  //   }
+  // } else if (currentDay === 4) {
+  //   if (hospital.hospitalTime.hospitalTimeFri !== 'null') {
+  //     const startTime = hospital.hospitalTime.hospitalTimeFri.substr(0, 5);
+  //     const endTime = hospital.hospitalTime.hospitalTimeFri.substr(6, 11);
+  //     setStartTime(startTime);
+  //     setEndTime(endTime);
+  //   }
+  // } else if (currentDay === 5) {
+  //   if (hospital.hospitalTime.hospitalTimeSat !== 'null') {
+  //     setStartTime(hospital.hospitalTime.hospitalTimeSat.substr(0, 5));
+  //     setEndTime(hospital.hospitalTime.hospitalTimeSat.substr(6, 11));
+  //   }
+  // } else if (currentDay === 6) {
+  //   if (hospital.hospitalTime.hospitalTimeSun !== 'null') {
+  //     setStartTime(hospital.hospitalTime.hospitalTimeSun.substr(0, 5));
+  //     setEndTime(hospital.hospitalTime.hospitalTimeSun.substr(6, 11));
+  //   }
+  // }
+
+  // 주소를 받아오기 위한 요청
+  const getAddress = async () => {
+    await axios
+      .get(`${API_URL_HOSPITAL}/desc/${hospital.hospitalId}/`)
+      .then(res => {
+        if (res.data.data.hospitalAdd !== null) {
+          setAddress(res.data.data.hospitalAdd);
+        } else {
+          setAddress(null);
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
+  useEffect(() => {
+    getAddress();
+  }, []);
   return (
     <>
-      <SCard>
-        <SInformation>
-          <SHospitalName>병원이름ddddddddd</SHospitalName>
-          <SMedicalDepartment>{card.medicalDepartment}</SMedicalDepartment>
-          <SStarAndDistance>
-            <SStar src={Star} alt="Star" />
-            <SStarScore>4.5</SStarScore>
+      {hospital ? (
+        <SCard>
+          <SInformation>
+            <SHospitalName>{hospital.hospitalName}</SHospitalName>
             <SDistance>500m</SDistance>
-          </SStarAndDistance>
-          <SAddress>대전광역시 유성구 궁동</SAddress>
-          <SPhoneNumber>012-345-6789</SPhoneNumber>
-        </SInformation>
-        <SOpenInformation>
-          <SCircle color={isOpen}></SCircle>
-          <SOpen>진료중</SOpen>
-        </SOpenInformation>
-      </SCard>
+            {address ? (
+              <SAddress>{address}</SAddress>
+            ) : (
+              <SAddress>주소 정보 없음</SAddress>
+            )}
+            <SPhoneNumber>{hospital.hospitalTel}</SPhoneNumber>
+          </SInformation>
+          <SOpenInformation>
+            <SCircle color={isOpen}></SCircle>
+            <SOpen>진료중</SOpen>
+          </SOpenInformation>
+        </SCard>
+      ) : null}
       <SLine> </SLine>
     </>
   );
 }
 
 HospitalCard.propTypes = {
-  card: PropTypes.shape({
+  hospital: PropTypes.shape({
     hospitalName: PropTypes.string,
     medicalDepartment: PropTypes.string,
     distance: PropTypes.number,
@@ -120,7 +167,7 @@ HospitalCard.propTypes = {
 };
 
 HospitalCard.defaultProps = {
-  card: null,
+  hospital: null,
 };
 
 export default HospitalCard;

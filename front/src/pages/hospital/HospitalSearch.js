@@ -9,12 +9,14 @@ import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import BackButton from '../../components/common/BackButton';
+import axios from 'axios';
 
+import BackButton from '../../components/common/BackButton';
 import Header from '../../components/common/Header';
 import SearchBar from '../../components/common/SearchBar';
 
-import { hospitalSearchSelectedOption } from '../../atoms';
+import { hospitalSearchSelectedOption, myPositionState } from '../../atoms';
+import { API_URL_HOSPITAL } from '../../api/api';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -103,24 +105,6 @@ const SNightOrDayoffLabel = styled.label`
   font-size: 0.9em;
 `;
 
-// const SNightOrDayoffInput = styled.input.attrs({ type: 'radio' })`
-//   &:checked {
-//     display: inline-block;
-//     background: none;
-//     padding: 0px 10px;
-//     text-align: center;
-//     height: 35px;
-//     line-height: 33px;
-//     font-weight: bold;
-//     display: none;
-//   }
-//   &:checked + ${SNightOrDayoffLabel} {
-//     background: #00c192;
-//     color: #fff;
-//   }
-//   display: none;
-// `;
-
 const SNightOrDayoffInput = styled.input.attrs({ type: 'checkbox' })`
   &:checked {
     display: inline-block;
@@ -201,6 +185,7 @@ const SDistanceInput = styled.input.attrs({ type: 'radio' })`
 function HospitalSearch() {
   const navigate = useNavigate();
 
+  const [myPosition, setMyPosition] = useRecoilState(myPositionState);
   const [searchWord, setSearchWord] = useState('');
   const [selectedOption, setSelectedOption] = useRecoilState(
     hospitalSearchSelectedOption,
@@ -292,7 +277,9 @@ function HospitalSearch() {
 
     setSelectedOption(options);
     // 옵션 없는 값 검사하고 통과시 검색 결과로 이동
-    navigate('/hospital/search/result');
+    navigate('/hospital/search/result', {
+      state: { type: 'option', value: selectedOption },
+    });
   };
 
   const onChangeSearchWordHandler = temp => {

@@ -13,7 +13,11 @@ import axios from 'axios';
 import Vec from '../../assets/Vector.svg';
 
 import { API_URL_DRUG, API_URL_HOSPITAL } from '../../api/api';
-import { medicineSearchResult } from '../../atoms';
+import {
+  medicineSearchResult,
+  myPositionState,
+  hospitalSearchResultState,
+} from '../../atoms';
 
 const SSearchContainer = styled.div`
   width: 100vw;
@@ -56,36 +60,53 @@ const SSearchBtn = styled.button`
 const SSearchForm = styled.form``;
 
 function SearchBar({ searchType }) {
-  // 본인의 위도, 경도 위치 가져오기 성공할때 실행되는 함수
+  const [myPosition, setMyPosition] = useRecoilState(myPositionState);
+  const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
+    hospitalSearchResultState,
+  );
 
-  const [myLat, setMyLat] = useState(0);
-  const [myLng, setMyLng] = useState(0);
-  const [myEast, setMyEast] = useState(0);
-  const [myWest, setMyWest] = useState(0);
-  const [mySouth, setMySouth] = useState(0);
-  const [myNorth, setMyNorth] = useState(0);
+  // const [myLat, setMyLat] = useState(0);
+  // const [myLng, setMyLng] = useState(0);
+  // const [myEast, setMyEast] = useState(0);
+  // const [myWest, setMyWest] = useState(0);
+  // const [mySouth, setMySouth] = useState(0);
+  // const [myNorth, setMyNorth] = useState(0);
 
   useEffect(() => {
+    console.log('서치바에서 useEffect');
     // 1km 당 위도
     const latPerKm = 0.0091;
     const lngPerKm = 0.0113;
 
+    // 본인의 위도, 경도 위치 가져오기 성공할때 실행되는 함수
     const successLocation = position => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
-      console.log(lat, lng, '1');
-      setMyLat(lat);
-      setMyLng(lng);
+      const myEast = 36.35887261465578;
+      const myWest = 36.34567675654588;
+      const mySouth = 127.35647601340733;
+      const myNorth = 127.29091439637051;
+      // const myEast = lat + latPerKm * 5;
+      // const myWest = lat - latPerKm * 5;
+      // const mySouth = lng - lngPerKm * 5;
+      // const myNorth = lng + lngPerKm * 5;
+
+      // console.log(lat, lng, '1');
+      // setMyLat(lat);
+      // setMyLng(lng);
 
       // // // 반경 5km 로 위치 계산
       // setMyEast(lat + latPerKm * 5);
       // setMyWest(lat - latPerKm * 5);
       // setMySouth(lng - lngPerKm * 5);
       // setMyNorth(lng + lngPerKm * 5);
-      setMyEast(36.35887261465578);
-      setMyWest(36.34567675654588);
-      setMySouth(127.35647601340733);
-      setMyNorth(127.29091439637051);
+      // setMyEast(36.35887261465578);
+      // setMyWest(36.34567675654588);
+      // setMySouth(127.35647601340733);
+      // setMyNorth(127.29091439637051);
+      const myPositions = [];
+      myPositions.push(lat, lng, myEast, myWest, mySouth, myNorth);
+      setMyPosition(myPositions);
     };
 
     // 본인의 위도, 경도 위치 가져오기 실패할때 실행되는 함수
@@ -110,36 +131,10 @@ function SearchBar({ searchType }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log(typeof inputValue);
-    // console.log(myEast);
-    // console.log(myWest);
-    // console.log(mySouth);
-    // console.log(myNorth);
 
-    if (searchCategory === 'hospital') {
-      axios
-        .get(`${API_URL_HOSPITAL}/search/${inputValue}`, {
-          params: {
-            e: myEast,
-            w: myWest,
-            s: mySouth,
-            n: myNorth,
-          },
-        })
-        .then(res => {})
-        .catch(err => console.log(err));
-    } else if (searchCategory === 'drug') {
-      axios
-        .get(`${API_URL_DRUG}/${inputValue}`)
-        .then(res => {
-          setMedicineList(res.data.data);
-          setInputValue('');
-          navigate('/pill/result');
-          // console.log(res.data.data[0]);
-        })
-        .catch(err => console.log(err));
-    }
-
+    navigate('/hospital/search/result', {
+      state: { type: 'keyWord', value: inputValue },
+    });
     setInputValue('');
   };
 

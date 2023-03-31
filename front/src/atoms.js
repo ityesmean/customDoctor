@@ -127,24 +127,14 @@ const checkedMedicineState = atom({
 
 const hospitalSearchResultState = atom({
   key: 'hospitalSearchResultState',
-  default: [
-    {
-      hospitalName: '카카오',
-      latlng: new kakao.maps.LatLng(33.450705, 126.570677),
-    },
-    {
-      hospitalName: '생태연못',
-      latlng: new kakao.maps.LatLng(33.450936, 126.569477),
-    },
-    {
-      hospitalName: '텃밭',
-      latlng: new kakao.maps.LatLng(33.450879, 126.56994),
-    },
-    {
-      hospitalName: '근린공원',
-      latlng: new kakao.maps.LatLng(33.451393, 126.570738),
-    },
-  ],
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
+
+const myPositionState = atom({
+  key: 'myPositionState',
+  default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export {
@@ -159,4 +149,5 @@ export {
   drugAvoidInfo,
   checkedMedicineState,
   hospitalSearchResultState,
+  myPositionState,
 };
