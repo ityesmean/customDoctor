@@ -70,7 +70,7 @@ public class HospitalCustomRepo {
      */
     public BooleanExpression locationBetween(double e, double w, double s, double n) {
         if (e == 0) return null;
-        return hospital.hospital_x.between(n, s).and(hospital.hospital_y.between(w, e));
+        return hospital.hospital_x.between(w, e).and(hospital.hospital_y.between(s, n));
     }
 
     /**
