@@ -91,6 +91,17 @@ const medicineSearchResult = atom({
   default: [],
 });
 
+const pillSearchResult = atom({
+  key: 'pillSearchResult',
+  default: [],
+});
+
+const LoginState = atom({
+  key: 'LoginState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
 export {
   isDarkModeAtom,
   isUserAtom,
@@ -100,4 +111,6 @@ export {
   medicineSearchResult,
   drugDetailInfo,
   drugAvoidInfo,
+  pillSearchResult,
+  LoginState,
 };

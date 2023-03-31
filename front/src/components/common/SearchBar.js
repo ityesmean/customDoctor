@@ -94,6 +94,7 @@ function SearchBar({ searchType }) {
           value={inputValue}
           onChange={onChangeSearch}
           placeholder="검색해 주세요."
+          ㅠㅁㅊ
           autoFocus
         />
       </SSearchForm>

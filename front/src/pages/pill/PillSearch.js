@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-concat */
 /* eslint-disable import/no-unresolved */
@@ -5,6 +7,7 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 // import Circle from '@uiw/react-color-circle';
 import BackButton from '../../components/common/BackButton';
 
@@ -29,7 +32,8 @@ import {
   Total,
 } from '../../assets/pilldata/index';
 
-import { pillSearchSelectedOption } from '../../atoms';
+import { pillSearchSelectedOption, medicineSearchResult } from '../../atoms';
+import { API_URL_DRUG } from '../../api/api';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -300,6 +304,7 @@ function PillSearch() {
       color: '#F1F3F7',
     },
   ];
+  const colorname = '색상';
 
   const ShpaeImg = [
     Circle,
@@ -336,6 +341,8 @@ function PillSearch() {
   const [selectPillShape, setSelectPillShape] = useState('');
   const [selectPillLine, setSelectPillLine] = useState('');
 
+  const [pillList, setPillList] = useRecoilState(medicineSearchResult);
+
   // 색상 선택
   const handleSelectedPillColor = e => {
     setSelectPillColor(e.target.value);
@@ -358,6 +365,13 @@ function PillSearch() {
     // console.log('INPUT', inputValue);
   };
 
+  const LineType = [
+    ['oxo'],
+    ['ox+'],
+    ['ox-', '-xo', '-x-'],
+    ['oxo'],
+    ['oxo', 'ox+', '+xo', 'ox-', '-xo', '-x-'],
+  ];
   // 검색 버튼
   const handleSearch = () => {
     const options = [];
@@ -369,15 +383,24 @@ function PillSearch() {
     if ('' in options) {
       alert('빈 값을 채워주세요');
     } else {
-      navigate('/pill/result');
+      axios
+        .get(
+          `${API_URL_DRUG}/${selectPillShape}/${selectPillLine}/${selectPillColor}/${inputValue}`,
+        )
+        .then(res => {
+          setPillList(res.data.data);
+          setInputValue('');
+          navigate('/pill/result');
+        })
+        .catch(err => console.log(err));
     }
 
     setpillselectedOption(options);
   };
 
-  // console.log(selectPillColor);
+  // console.log(pillList);
   // console.log(selectPillShape);
-  // console.log(selectPillLine);
+  console.log(selectPillLine);
   // console.log(inputValue);
 
   return (
@@ -394,7 +417,7 @@ function PillSearch() {
         <SSelectBox>
           <STextBox>
             <SSubTitle>색상</SSubTitle>
-            <SText>빨강</SText>
+            <SText>{colorname}</SText>
           </STextBox>
           <SPillColorBox>
             {PillColorName.map(value => (
@@ -448,9 +471,9 @@ function PillSearch() {
                   onChange={handleSelectedPillLine}
                   value={item}
                   name="filter3"
-                  id={`${item}` + '모양'}
+                  id={`${item}` + '분할선'}
                 />
-                <SLineLable htmlFor={`${item}` + '모양'}>
+                <SLineLable htmlFor={`${item}` + '분할선'}>
                   <SImg src={LineImg[index]} alt={LineImg[index]} />
                   <SText>
                     <div>{item}</div>

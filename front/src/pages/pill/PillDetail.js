@@ -112,7 +112,7 @@ function PillDetail() {
           setDetailInfo(res2.data);
           setDetailPassInfo(res2.data);
           setAvoidInfo(res3.data);
-          console.log(res1.data, 'basicInfo');
+          // console.log(res1.data, 'basicInfo');
         }),
       )
       .catch(error => console.log(error));
@@ -139,7 +139,12 @@ function PillDetail() {
         <STextBox>
           <SSmallTextBox>
             <SBoldText>성분</SBoldText>
-            <SText>{detailInfo.data.drugDescCat}</SText>
+            {basicInfo &&
+              (basicInfo.data.drugIngre !== null ? (
+                <SText>{basicInfo.data.drugIngre}</SText>
+              ) : (
+                <SText>정보없음</SText>
+              ))}
           </SSmallTextBox>
           <SSmallTextBox>
             <SBoldText>성상</SBoldText>
