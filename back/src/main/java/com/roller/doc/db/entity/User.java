@@ -56,11 +56,11 @@ public class User {
 		drugMy.setUser(this);
 	}
 
-	@OneToMany(mappedBy = "user")
-	List<HospitalMy> hospitalMies = new ArrayList<HospitalMy>();
-
-	public void addHospitalMy(HospitalMy hospitalMy) {
-		hospitalMies.add(hospitalMy);
-		hospitalMy.setUser(this);
-	}
+//	@OneToMany(mappedBy = "user")
+//	List<HospitalMy> hospitalMies = new ArrayList<HospitalMy>();
+//
+//	public void addHospitalMy(HospitalMy hospitalMy) {
+//		hospitalMies.add(hospitalMy);
+//		hospitalMy.setUser(this);
+//	}
 }

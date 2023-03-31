@@ -15,7 +15,7 @@ public interface DrugMyRepository extends JpaRepository<DrugMy, Long> {
 	@Query(value = "SELECT * FROM drug_my WHERE user_id =:userId AND drug_my_del = 0", nativeQuery = true)
 	List<DrugMy> findList(@Param("userId")Long user_id);
 
-	// @Modifying
-	// @Query(value = "UPDATE drug_my SET drug_my_del = 1 WHERE drug_my_id=:drugMyId and drug_my_del = 0", nativeQuery = true)
-	// int deleteDrugMyById(@Param("drugMyId")Long drug_my_id);
+	@Modifying
+	@Query(value = "UPDATE DrugMy SET drug_my_del = 1 WHERE drug_my_id=:drugMyId")
+	int deleteDrugMyById(@Param("drugMyId")Long drug_my_id);
 }

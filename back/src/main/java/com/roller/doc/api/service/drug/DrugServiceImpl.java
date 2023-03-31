@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.response.drug.DrugAvoidRes;
 import com.roller.doc.api.response.drug.DrugDescRes;
+import com.roller.doc.api.response.drug.DrugMyCreateRes;
 import com.roller.doc.api.response.drug.DrugMyPillRes;
 import com.roller.doc.api.response.drug.DrugMyRes;
 import com.roller.doc.api.response.drug.DrugRes;
@@ -296,27 +297,63 @@ public class DrugServiceImpl implements DrugService {
 		return responseDTO;
 	}
 
-	// @Override
-	// public ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception {
-	//
-	// 	ResponseDTO responseDTO = new ResponseDTO();
-	//
-	// 	try {
-	// 		int result = drugMyRepository.deleteDrugMyById(drug_my_id);
-	// 		System.out.println(result);
-	// 		if (result == 1) {
-	// 			responseDTO.setData(result);
-	// 			responseDTO.setMessage("나의 약봉지 삭제 성공");
-	// 			responseDTO.setStatus_code(200);
-	// 		} else {
-	// 			responseDTO.setMessage("출력 실패");
-	// 			responseDTO.setStatus_code(400);
-	// 		}
-	//
-	// 	} catch (Exception e) {
-	// 		e.printStackTrace();
-	// 	}
-	//
-	// 	return responseDTO;
-	// }
+	@Override
+	public DrugMyRes createDrugMy(DrugMyCreateRes drugMyCreateRes) throws Exception {
+		DrugMy drugMy = new DrugMy();
+
+		DrugMyRes result = new DrugMyRes();
+		DrugMyPillRes result2 = new DrugMyPillRes();
+
+		try {
+			drugMy.setDrug_my_del(false);
+			drugMy.setDrug_my_memo(drugMyCreateRes.getDrugMyMemo());
+			drugMy.setDrug_my_title(drugMyCreateRes.getDrugMyTitle());
+
+			result = new DrugMyRes(drugMyRepository.save(drugMy));
+
+			for (int i = 0; i < drugMyCreateRes.getDrugId().size(); i++) {
+				// id로 약 정보 찾기
+				Drug info = drugRepository.selectDrug(drugMyCreateRes.getDrugId().get(i));
+
+				DrugMyPill drugMyPill = new DrugMyPill();
+
+				drugMyPill.setDrug_my(drugMy);
+				drugMyPill.setDrug(info);
+
+				result2 = new DrugMyPillRes(drugMyPillRepository.save(drugMyPill));
+			}
+
+
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	@Override
+	public ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+
+		try {
+			int result = drugMyRepository.deleteDrugMyById(drug_my_id);
+			System.out.println(result);
+			if (result == 1) {
+				responseDTO.setData(result);
+				responseDTO.setMessage("나의 약봉지 삭제 성공");
+				responseDTO.setStatus_code(200);
+			} else {
+				responseDTO.setMessage("출력 실패");
+				responseDTO.setStatus_code(400);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseDTO;
+	}
 }
