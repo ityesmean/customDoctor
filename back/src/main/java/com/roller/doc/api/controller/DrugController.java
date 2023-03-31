@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,8 +68,10 @@ public class DrugController {
 	}
 
 	@GetMapping("/my")
-	public ResponseEntity findList(@PathVariable("userId") Long userId) throws Exception {
-		ResponseDTO result = drugService.findList(userId);
+	public ResponseEntity findList(@RequestHeader String Authorization) throws Exception {
+		String token = HeaderUtil.getAccessTokenString(Authorization);
+
+		ResponseDTO result = drugService.findList(token);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
