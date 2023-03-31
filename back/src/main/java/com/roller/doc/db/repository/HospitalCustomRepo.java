@@ -1,7 +1,10 @@
 package com.roller.doc.db.repository;
 
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.roller.doc.config.QuerydslConfig;
 import com.roller.doc.db.entity.Hospital;
@@ -26,7 +29,10 @@ public class HospitalCustomRepo {
     public List<Hospital> searchByHospitalName(String word, double e, double w, double s, double n) {
         JPAQueryFactory query = querydslConfig.jpaQueryFactory();
         return query.selectFrom(hospital)
-                .where(hospital.hospital_name.contains(word), locationBetween(e, w, s, n))
+                .where(
+                        keywordSearch(word),
+                        locationBetween(e, w, s, n)
+                )
                 .fetch();
     }
 
@@ -115,6 +121,19 @@ public class HospitalCustomRepo {
         if (night == 0) return null;
         return hospitalTime.hospitalTimeMonNight.eq(1)
                 .and(hospitalTime.hospital.hospital_id.eq(id));
+    }
+
+    /**
+     * 이름 fulltext search
+     */
+    public BooleanExpression keywordSearch(String keyword) {
+        if(keyword == null) {
+            return null;
+        }else {
+            NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,
+                    "function('match',{0},{1})", hospital.hospital_name, "+" + keyword + "*");
+            return booleanTemplate.gt(0);
+        }
     }
 
 }
