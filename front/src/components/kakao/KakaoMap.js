@@ -11,12 +11,14 @@ import { Link } from 'react-router-dom';
 import BackButton from '../common/BackButton';
 
 import { hospitalSearchResultState } from '../../atoms';
+
 const { kakao } = window;
 
 function KakaoMap({ x, y }) {
   const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
     hospitalSearchResultState,
   );
+
   console.log(hospitalSearchResult);
   useEffect(() => {
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
