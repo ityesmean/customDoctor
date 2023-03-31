@@ -24,7 +24,9 @@ public class DrugMyPillRes {
 		this.drugMyId = drugMyId;
 	}
 
-	public DrugMyPillRes(DrugMy drugMy) {
-
+	public DrugMyPillRes(DrugMyPill drugMyPill) {
+		this.drugMyId = drugMyPill.getDrug_my().getDrug_my_id();
+		this.drugId = drugMyPill.getDrug();
+		this.drugMyPillId = drugMyPill.getDrug_my_pill_id();
 	}
 }
