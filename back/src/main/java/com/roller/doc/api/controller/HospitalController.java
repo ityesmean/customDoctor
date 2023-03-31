@@ -55,31 +55,5 @@ public class HospitalController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
-    /**
-     * 즐겨찾는 병원 등록
-     */
-    @PutMapping("/mark")
-    public ResponseEntity addHospitalMy(@RequestBody HospitalMyReq hospitalMyReq) {
-        ResponseDTO responseDTO = hospitalService.addHospitalMy(hospitalMyReq.getUserId(), hospitalMyReq.getHospitalId());
-        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
-    }
-    /** 즐겨찾는 병원 삭제*/
-    @PutMapping("/delmark")
-    public ResponseEntity deleteHospitalMy(@RequestBody HospitalMyReq hospitalMyReq){
-        ResponseDTO responseDTO=hospitalService.deleteHospitalMy(hospitalMyReq.getUserId(),hospitalMyReq.getHospitalId());
-        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
-    }
 
-    /** 즐겨찾기 여부*/
-    @GetMapping("/ismark")
-    public ResponseEntity isHospitalMy(@RequestBody HospitalMyReq hospitalMyReq){
-        ResponseDTO responseDTO=hospitalService.isHospitalMy(hospitalMyReq.getUserId(),hospitalMyReq.getHospitalId());
-        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
-    }
-    /** 즐겨찾기 리스트*/
-    @GetMapping("/delmark")
-    public ResponseEntity listHospitalMy(@RequestBody HospitalMyReq hospitalMyReq){
-        ResponseDTO responseDTO=hospitalService.listHospitalMy(hospitalMyReq.getUserId());
-        return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
-    }
 }
