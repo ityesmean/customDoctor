@@ -54,3 +54,38 @@ point와 st_distance_sphere함수 사용을 위해 각고의 노력을 기울였
 - querydsl을 사용한 병원 이름으로 검색 리팩토링
     - 필터를 통한 병원검색을 구현할때 querydsl을 사용하기 위해 이름+거리 검색을 먼저 시도해봤다.
     - 기존에 JPQL이 mybatis보다 확실히 편리하다고 생각하고 있었지만, 그래도 쿼리를 짜는 부분이 불가피하게 존재해서 SQL쿼리짜는 부분이 골치아팠다. 특히 필터는 다중 join이 들어가서 막막했는데 querydsl로 처리하면 간편할 것 같다.
+
+### 3 / 29 (수)
+- 개발일지를 매일 쓰려고했는데 쉽지않다. 바쁘다바빠 싸피사회
+- querydls을 사용한 필터로 병원검색 구현 
+    - 진료과목 18개와 야간/휴일진료 4개의 필터를 다중선택이 가능하도록 구현하는 과제. booleanexpression을 이용해 method를 만들고 조립하는 형식으로 필터를 쓰니까 정말 간편했다. 문제는 인터넷의 예제들은 거의 한 테이블에서 속성단위로 필터를 사용하던데, 나는 여러 테이블을 함께 봐야해서 조인이 불가피했다. (사실 '불가피했나'도 모르겠다. 일단 테이블을 병합해야하니 join을 떠올렸을 뿐..) 여기서 NPE가 지속적으로 발생하는데.. 아래로는 질문
+        -  ```java
+            public List<Hospital> useFilterHospital(double e, double w, double s, double n, int part, int sat, int sun, int holiday, int night) {
+            JPAQueryFactory query = querydslConfig.jpaQueryFactory();
+                    return query.select(hospital)
+                    .from(hospital)
+                    .innerJoin(hospitalPart).fetchJoin().on((partEq(hospital.hospital_id, part))) //진료과목이 일치하는 것
+                    .innerJoin(hospitalTime).fetchJoin().on((openSat(hospital.hospital_id, sat)) //토요일진료,일요일진료, 공휴일진료 등이 일치하는 것
+                    .or(openSun(hospital.hospital_id, sun)).or(openHoliday(hospital.hospital_id, holiday)).or(openNight(hospital.hospital_id, night)))
+                    .where(locationBetween(e, w, s, n) //반경 5키로내 병원들 중에서 
+                    ).distinct().fetch();
+            } ```
+            일치하는 값만 가져오기 위해서 innerjoin을 사용했는데요, 예를들어 <토요일에 진료하는 외과> 를 조회하기 위해 요청을 보내면
+            5km 내 병원 : A,B,C,D
+            외과: A,B 
+            토요일에 진료하는 : null -> null값을 innerjoin 못함! NPE
+            이런 경우가 생겨서 NPE가 발생합니다. 
+            responseDTO를 사용했기 때문에 return에 문제가 없긴 하지만, 다른 좋은 해결방법이 있는지 궁금합니다. 검색해보니까 조건이 null이라도 조인을 사용하는 방법으로 full outer join을 제안하는 글을 많이 봤는데 이는 저희 구현와 맞지 않는 것 같습니다..  
+        아직 해답을 찾지 못했고 일단 프론트에 API를 완성해서 넘겨주는것이 급해 이렇게 마무리하고 넘어갔다. 저렇게 쿼리를 한번에 작성하는것이 아니라 쿼리하나하나의 결과를 합치는 방법도 있는것 같은데, 시간이 나면 리팩토링 해볼 예정이다.
+- 크롤링 계속진행중..
+### 3 / 30 (목)
+- 필터로 병원검색 구현 완료. 상기 이슈는 해결하지 못함. 진료과목 필터가 없을때, 휴일진료필터가 없을때, 둘다없을때, 둘다있을때를 if문으로 구분해 나누어서 처리하는 방법으로 임시방편. 어쨌든 구현 완료
+- 병원파트를 모두 끝내고 보니 아직 유저쪽이 마무리되지않아서 병원즐겨찾기를 추가로 맡았다.
+- 크롤링은 계속..
+
+### 3 / 31 (금)
+- 병원 즐겨찾기 구현 완료. 병원즐겨찾기 여부, 내가 즐겨찾기한 병원 리스트, 병원즐겨찾기 등록 및 삭제
+- 병원&병원즐겨찾기 API 작성 완료.
+
+# 백엔드 개발 3주차 톺아보기
+- 일단 맡은 파트는 끝이 나서 후련하다. 스프링 개발분량이 많지는 않았는데 하이브쪽에서 시간을 많이 써서 조금 급해졌던것 같다. 하이브도 좀 맛보고 querydsl도 새로 공부해서 재밌는 개발이었다. 다음주에 문서정리와 발표준비를 하면서 여유가 있으면 이슈들도 해결하고 코드 리팩토링도 더 해볼 예정이다.
