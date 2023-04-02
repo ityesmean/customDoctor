@@ -1,72 +1,107 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+
 import HospitalCard from './HospitalCard';
+
+import { API_URL_HOSPITAL } from '../../api/api';
 
 const SLink = styled(Link)`
   text-decoration: none;
   color: black;
-`
+`;
 
 // props 로는 선택된 필터 버튼의 값이 전달된다. ex) distance, star, open
-function HospitalList(props) {
+function HospitalList({ searchType, searchValue, myPosition }) {
   // 병원리스트 state
-  // const [hospitalList,setHospitalList] = useState([]);
+  // const [hospitalList, setHospitalList] = useState([]);
+  const [hospitalList, setHospitalList] = useState();
+  const type = searchType;
+  const value = searchValue;
+  const position = myPosition;
 
-  console.log(props);
-  const hospitalList = [
-    {
-      hospitalId: 1,
-      hospitalName: '병원명 1',
-      medicalDepartment: '정형외과',
-      distance: 500,
-      isMeter: true,
-      xPosition: 36.35495410709628,
-      yPosition: 127.34110805188085,
-    },
-    {
-      hospitalId: 2,
-      hospitalName: '병원명 2',
-      medicalDepartment: '안과',
-      distance: 130,
-      isMeter: true,
-      xPosition: 36.35469869768307,
-      yPosition: 127.34110805188085,
-    },
-  ];
-  // 병원 리스트 불러오는 요청
-  // const getHospitalList = async() => {
-  //     await axios.get(API).then(res => {
-  //         const allList = res.data.data
-  //         setHospitalList(allList)
-  //     })
-  // }
+  const getKeywordHospitalSearchResult = async () => {
+    await axios
+      .get(`${API_URL_HOSPITAL}/search/${value}`, {
+        params: {
+          e: position[2],
+          w: position[3],
+          s: position[4],
+          n: position[5],
+        },
+      })
+      .then(res => {
+        if (res.data.status_code === 204) {
+          setHospitalList(false);
+        } else {
+          setHospitalList(res.data.data);
+        }
+      })
+      .catch(err => console.log(err));
+  };
 
-  // 컴포넌트 처음 나타날때 getHospitalList 함수 실행
-  // useEffect(() => {
-  //     getHospitalList()
-  // }, [])
+  const getOptionHospitalSearchResult = async () => {
+    await axios
+      .post(`${API_URL_HOSPITAL}/find`, {
+        e: position[2],
+        w: position[3],
+        s: position[4],
+        n: position[5],
+        part: value[0],
+        open: value[1],
+      })
+      .then(res => {
+        if (res.data.status_code === 204) {
+          setHospitalList(false);
+        } else {
+          setHospitalList(res.data.data);
+        }
+      });
+  };
+
+  useEffect(() => {
+    if (type === 'keyWord') {
+      getKeywordHospitalSearchResult();
+    } else if (type === 'option') {
+      getOptionHospitalSearchResult();
+    }
+  }, []);
 
   return (
-    <div>
+    <>
       {/* 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
       {hospitalList ? (
         <>
-          {hospitalList.map((hospitalCard, index) => (
-            <SLink to={`/hospital/${hospitalCard.hospitalId}`}
-              state={{ information: hospitalCard }}>
-              <HospitalCard
-                card={hospitalCard}
-                index={index}
-                key={hospitalCard.hospitalName}
-              />
+          {hospitalList.map((hospital, index) => (
+            <SLink
+              to={`/hospital/${hospital.hospitalId}`}
+              key={hospital.hospitalName}
+              state={{ information: hospital }}
+            >
+              <HospitalCard hospital={hospital} index={index} />
             </SLink>
           ))}
         </>
-      ) : null
-      }
-    </div >
+      ) : (
+        <div>검색 결과 없음</div>
+      )}
+    </>
   );
 }
+
+HospitalList.propTypes = {
+  searchType: PropTypes.string,
+  searchValue: PropTypes.string,
+  myPosition: PropTypes.string,
+};
+
+HospitalList.defaultProps = {
+  searchType: null,
+  searchValue: null,
+  myPosition: null,
+};
 
 export default HospitalList;

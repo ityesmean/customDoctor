@@ -121,7 +121,7 @@ function PillDetail() {
   return (
     <SContainer>
       <SHeader>
-        <SLink to="/">
+        <SLink to="/pill/result">
           <SBack src={Back} alt="Back" />
         </SLink>
         <SName>정보</SName>

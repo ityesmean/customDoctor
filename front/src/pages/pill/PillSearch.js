@@ -365,13 +365,7 @@ function PillSearch() {
     // console.log('INPUT', inputValue);
   };
 
-  const LineType = [
-    ['oxo'],
-    ['ox+'],
-    ['ox-', '-xo', '-x-'],
-    ['oxo'],
-    ['oxo', 'ox+', '+xo', 'ox-', '-xo', '-x-'],
-  ];
+  const LineType = ['a', 'b', 'c', 'd', 'e'];
   // 검색 버튼
   const handleSearch = () => {
     const options = [];
@@ -385,7 +379,7 @@ function PillSearch() {
     } else {
       axios
         .get(
-          `${API_URL_DRUG}/${selectPillShape}/${selectPillLine}/${selectPillColor}/${inputValue}`,
+          `${API_URL_DRUG}/result/${selectPillShape}/${selectPillLine}/${selectPillColor}/${inputValue}`,
         )
         .then(res => {
           setPillList(res.data.data);
@@ -469,7 +463,7 @@ function PillSearch() {
                 <SLineInput
                   type="radio"
                   onChange={handleSelectedPillLine}
-                  value={item}
+                  value={LineType[index]}
                   name="filter3"
                   id={`${item}` + '분할선'}
                 />

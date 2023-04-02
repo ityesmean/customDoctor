@@ -1,18 +1,22 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-else-return */
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-alert */
+/* eslint-disable eqeqeq */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-concat */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import BackButton from '../../components/common/BackButton';
+import axios from 'axios';
 
+import BackButton from '../../components/common/BackButton';
 import Header from '../../components/common/Header';
 import SearchBar from '../../components/common/SearchBar';
 
-import { hospitalSearchSelectedOption } from '../../atoms';
+import { hospitalSearchSelectedOption, myPositionState } from '../../atoms';
+import { API_URL_HOSPITAL } from '../../api/api';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -61,7 +65,7 @@ const SMedicalDepartmentLabel = styled.label`
   font-size: 0.9em;
 `;
 
-const SMedicalDepartmentInput = styled.input.attrs({ type: 'radio' })`
+const SMedicalDepartmentInput = styled.input.attrs({ type: 'checkbox' })`
   &:checked {
     display: inline-block;
     background: none;
@@ -101,7 +105,7 @@ const SNightOrDayoffLabel = styled.label`
   font-size: 0.9em;
 `;
 
-const SNightOrDayoffInput = styled.input.attrs({ type: 'radio' })`
+const SNightOrDayoffInput = styled.input.attrs({ type: 'checkbox' })`
   &:checked {
     display: inline-block;
     background: none;
@@ -181,13 +185,13 @@ const SDistanceInput = styled.input.attrs({ type: 'radio' })`
 function HospitalSearch() {
   const navigate = useNavigate();
 
+  const [myPosition, setMyPosition] = useRecoilState(myPositionState);
   const [searchWord, setSearchWord] = useState('');
   const [selectedOption, setSelectedOption] = useRecoilState(
     hospitalSearchSelectedOption,
   );
 
   const medicalDepartment = [
-    ['전체', 0],
     ['내과', 1],
     ['소아과', 11],
     ['치과', 49],
@@ -207,53 +211,75 @@ function HospitalSearch() {
   ];
 
   const nightOrDayoff = [
-    '전체',
-    '토요일진료',
-    '일요일진료',
-    '공휴일진료',
-    '야간 / 휴일',
+    ['토요일진료', 1],
+    ['일요일진료', 2],
+    ['공휴일진료', 3],
+    ['야간 / 휴일', 4],
   ];
 
-  const distance = ['1km이내', '3km이내', '5km이내', '10km이내'];
-
-  const [selectedMedicalDepartment, setSelectedMedicalDepartment] =
-    useState(null);
-  const [selectedNightOrDayoff, setSelectedNightOrDayoff] = useState(null);
-  const [selectedDistance, setSelectedDistance] = useState(null);
+  const [checkedMedicalDepartments, setCheckedMedicalDepartments] = useState(
+    [],
+  );
+  const [checkedTimeOptions, setCheckedTimeOptions] = useState([]);
 
   // 진료과목 선택시 실행되는 함수
-  const handleSelectedMedicalDepartment = e => {
-    setSelectedMedicalDepartment(e.target.value);
+  const handleCheckedMedicalDepartment = e => {
+    // 체크 시 state에 추가
+    if (e.currentTarget.checked) {
+      if (checkedMedicalDepartments.length >= 5) {
+        alert('5개 까지만 선택이 가능합니다.');
+        return;
+      }
+      setCheckedMedicalDepartments([
+        ...checkedMedicalDepartments,
+        Number(e.target.value),
+      ]);
+    } else {
+      // 체크 해제시 state에서 제거
+      setCheckedMedicalDepartments(
+        checkedMedicalDepartments.filter(
+          element => element !== Number(e.target.value),
+        ),
+      );
+    }
   };
 
   // 진료 시간 분류 선택시 실행되는 함수
   const handleSelectedNightOrDayoff = e => {
-    setSelectedNightOrDayoff(e.target.value);
-  };
-
-  // 거리 선택시 실행되는 함수
-  const handleSelectedDistance = e => {
-    setSelectedDistance(e.target.value);
+    // 체크 시 state에 추가
+    if (e.currentTarget.checked) {
+      setCheckedTimeOptions([...checkedTimeOptions, Number(e.target.value)]);
+    } else {
+      // 체크 해제시 state에서 제거
+      setCheckedTimeOptions(
+        checkedTimeOptions.filter(
+          element => element !== Number(e.target.value),
+        ),
+      );
+    }
   };
 
   // 검색 버튼 클릭시 실행되는 함수
   const handleSearch = () => {
     const options = [];
-    options.push(selectedMedicalDepartment);
-    options.push(selectedNightOrDayoff);
-    options.push(selectedDistance);
+    options.push(checkedMedicalDepartments);
+    options.push(checkedTimeOptions);
+
+    const category = ['진료과목', '운영방식'];
 
     // 선택 안한 옵션이 발견되면 경고
-    for (const option of options) {
-      if (option === null) {
-        alert('모든 항목을 선택해 주세요.');
+    for (const index in options) {
+      if (options[index].length === 0) {
+        alert(`${category[index]} 항목을 선택해주세요.`);
         return;
       }
     }
 
-    navigate('/hospital/search/result');
-
     setSelectedOption(options);
+    // 옵션 없는 값 검사하고 통과시 검색 결과로 이동
+    navigate('/hospital/search/result', {
+      state: { type: 'option', value: selectedOption },
+    });
   };
 
   const onChangeSearchWordHandler = temp => {
@@ -276,9 +302,14 @@ function HospitalSearch() {
         {medicalDepartment.map(value => (
           <SOption key={`${value}` + '진료과목'}>
             <SMedicalDepartmentInput
-              type="radio"
-              onChange={handleSelectedMedicalDepartment}
+              type="checkbox"
               value={value[1]}
+              checked={
+                checkedMedicalDepartments.includes(Number(value[1]))
+                  ? true
+                  : false
+              }
+              onChange={handleCheckedMedicalDepartment}
               name="filter"
               id={`${value}` + '진료과목'}
             />
@@ -294,34 +325,19 @@ function HospitalSearch() {
         {nightOrDayoff.map(value => (
           <SOption key={`${value}` + '진료시간'}>
             <SNightOrDayoffInput
-              type="radio"
+              type="checkbox"
+              value={value[1]}
+              checked={checkedTimeOptions.includes(value[1]) ? true : false}
               onChange={handleSelectedNightOrDayoff}
-              value={value}
               name="filter2"
               id={`${value}` + '진료시간'}
             />
             <SNightOrDayoffLabel htmlFor={`${value}` + '진료시간'}>
-              {value}
+              {value[0]}
             </SNightOrDayoffLabel>
           </SOption>
         ))}
       </SNightOrDayoffBox>
-
-      <SSubTitle>거리</SSubTitle>
-      <SDistanceBox>
-        {distance.map(value => (
-          <SOption key={value}>
-            <SDistanceInput
-              type="radio"
-              onChange={handleSelectedDistance}
-              value={value}
-              name="filter3"
-              id={value}
-            />
-            <SDistanceLabel htmlFor={value}>{value}</SDistanceLabel>
-          </SOption>
-        ))}
-      </SDistanceBox>
 
       <SButtonWrapper>
         <SSearchButton onClick={handleSearch}>검 색</SSearchButton>
