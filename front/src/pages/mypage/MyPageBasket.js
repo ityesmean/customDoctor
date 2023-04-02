@@ -192,9 +192,14 @@ function MyPageBasket() {
     console.log(checkedMedicines);
     console.log(basketName);
     console.log(basketMemo);
+
+    const accessToken = localStorage.getItem('accessToken')
+    console.log(localStorage.getItem('accessToken'))
     // 약 봉투 담는 post요청
     // await axios.post(`${API_URL_USER}/plus`), {
-
+    // headers: {
+    //   Authorization: accessToken
+    // }
     // }.
     //   then(res => console.log(res))
     //   .catch(err => console.log(err))

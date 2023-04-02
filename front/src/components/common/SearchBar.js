@@ -80,10 +80,10 @@ function SearchBar({ searchType }) {
       // const mySouth = 36.34567675654588;
       // const myEast = 127.35647601340733;
       // const myWest = 127.29091439637051;
-      const myTempEast = lat + latPerKm * 5;
-      const myTempWest = lat - latPerKm * 5;
-      const myTempSouth = lng - lngPerKm * 5;
-      const myTempNorth = lng + lngPerKm * 5;
+      const myTempEast = lng + latPerKm * 5;
+      const myTempWest = lng - latPerKm * 5;
+      const myTempSouth = lat - lngPerKm * 5;
+      const myTempNorth = lat + lngPerKm * 5;
 
       // console.log(lat, lng, '1');
 

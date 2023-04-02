@@ -1,10 +1,15 @@
 /* eslint-disable prefer-template */
+/* eslint-disable no-useless-return */
+/* eslint-disable no-restricted-syntax */
 import React from 'react';
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 // import { useNavigate } from 'react-router-dom';
 
 import { PillBasket } from '../../assets/pilldata/index';
+
+import { myBasketState } from '../../atoms';
 
 const SPillCard = styled.div`
   width: 80vw;
@@ -15,6 +20,7 @@ const SPillCard = styled.div`
   align-items: center;
   padding: 2vw 2vw 2vw 5vw;
   border-radius: 4vw;
+  z-index: 999;
 `;
 
 const SImg = styled.img`
@@ -70,6 +76,24 @@ const SButtonText = styled.div`
 `;
 
 function DrugCard({ card }) {
+
+  const [myBasket, setMyBasket] = useRecoilState(myBasketState)
+
+  const willAddDrug = {
+    name: card.drugName,
+    isChecked: 'unChecked'
+  }
+
+  const onClickAddDrugHandler = () => {
+    const temp = JSON.parse(JSON.stringify([...myBasket]))
+    for (const drug of myBasket) {
+      if (drug.name === card.drugName) {
+        return
+      }
+    }
+    setMyBasket([...temp, willAddDrug])
+  }
+
   return (
     <div>
       <SPillCard>
@@ -82,7 +106,7 @@ function DrugCard({ card }) {
             ) : (
               <SIngreText>정보없음</SIngreText>
             )}
-            <SBasketButton>
+            <SBasketButton onClick={onClickAddDrugHandler}>
               <SButtonImg src={PillBasket} alt={PillBasket} />
               <SButtonText>약바구니</SButtonText>
             </SBasketButton>
