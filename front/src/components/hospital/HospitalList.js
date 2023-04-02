@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -33,7 +35,7 @@ function HospitalList({ searchType, searchValue, myPosition }) {
       })
       .then(res => {
         if (res.data.status_code === 204) {
-          setHospitalList(false);
+          setHospitalList([]);
         } else {
           setHospitalList(res.data.data);
         }
@@ -52,12 +54,13 @@ function HospitalList({ searchType, searchValue, myPosition }) {
         open: value[1],
       })
       .then(res => {
-        if (res.data.status_code === 204) {
-          setHospitalList(false);
-        } else {
+        if (res.data.status_code === 200) {
           setHospitalList(res.data.data);
+        } else if (res.data.status_code === 400) {
+          setHospitalList(false);
         }
-      });
+      })
+      .catch(err => console.log(err));
   };
 
   useEffect(() => {
@@ -67,7 +70,7 @@ function HospitalList({ searchType, searchValue, myPosition }) {
       getOptionHospitalSearchResult();
     }
   }, []);
-
+  console.log(hospitalList)
   return (
     <>
       {/* 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
@@ -86,6 +89,7 @@ function HospitalList({ searchType, searchValue, myPosition }) {
       ) : (
         <div>검색 결과 없음</div>
       )}
+
     </>
   );
 }

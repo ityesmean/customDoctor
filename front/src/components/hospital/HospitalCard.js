@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/self-closing-comp */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';

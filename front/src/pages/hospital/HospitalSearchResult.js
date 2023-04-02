@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import Header from '../../components/common/Header';
 import HospitalList from '../../components/hospital/HospitalList';
@@ -10,8 +9,6 @@ import BackButton from '../../components/common/BackButton';
 import Vec from '../../assets/Vector.svg';
 
 import {
-  hospitalSearchResultState,
-  hospitalSearchSelectedOption,
   myPositionState,
 } from '../../atoms';
 

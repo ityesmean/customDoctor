@@ -1,7 +1,9 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable no-unused-vars */
-/* eslint-disable vars-on-top */
 /* eslint-disable no-var */
+/* eslint-disable vars-on-top */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* global kakao */
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
