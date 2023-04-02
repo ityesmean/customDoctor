@@ -1,9 +1,7 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import Header from '../../components/common/Header';
 import HospitalList from '../../components/hospital/HospitalList';
@@ -11,8 +9,6 @@ import BackButton from '../../components/common/BackButton';
 import Vec from '../../assets/Vector.svg';
 
 import {
-  hospitalSearchResultState,
-  hospitalSearchSelectedOption,
   myPositionState,
 } from '../../atoms';
 
@@ -104,6 +100,9 @@ function HospitalSearchResult() {
   const searchValue = location.state.value;
   const option = ['거리순', '별점순', '영업중'];
   const [selectedValue, setSelectedValue] = useState('');
+
+  console.log(myPosition)
+
   const handleSelectedValue = e => {
     setSelectedValue(e.target.value);
   };

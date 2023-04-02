@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/self-closing-comp */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
@@ -139,6 +140,7 @@ function HospitalCard({ hospital }) {
           <SInformation>
             <SHospitalName>{hospital.hospitalName}</SHospitalName>
             <SDistance>500m</SDistance>
+            {/* 주소 있으면 출력하고 없으면 '주소 정보 없음' 출력 */}
             {address ? (
               <SAddress>{address}</SAddress>
             ) : (
@@ -159,7 +161,6 @@ function HospitalCard({ hospital }) {
 
 HospitalCard.propTypes = {
   hospital: PropTypes.shape({
-    hospitalId: PropTypes.number,
     hospitalName: PropTypes.string,
     hospitalCode: PropTypes.string,
     hospitalTel: PropTypes.string,

@@ -65,12 +65,6 @@ function SearchBar({ searchType }) {
     hospitalSearchResultState,
   );
 
-  // const [myLat, setMyLat] = useState(0);
-  // const [myLng, setMyLng] = useState(0);
-  // const [myEast, setMyEast] = useState(0);
-  // const [myWest, setMyWest] = useState(0);
-  // const [mySouth, setMySouth] = useState(0);
-  // const [myNorth, setMyNorth] = useState(0);
 
   useEffect(() => {
     // 1km 당 위도
@@ -81,30 +75,26 @@ function SearchBar({ searchType }) {
     const successLocation = position => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
-      const myNorth = 36.35887261465578;
-      const mySouth = 36.34567675654588;
-      const myEast = 127.35647601340733;
-      const myWest = 127.29091439637051;
-      // const myEast = lat + latPerKm * 5;
-      // const myWest = lat - latPerKm * 5;
-      // const mySouth = lng - lngPerKm * 5;
-      // const myNorth = lng + lngPerKm * 5;
+      console.log(lat, lng, 'here')
+      // const myNorth = 36.35887261465578;
+      // const mySouth = 36.34567675654588;
+      // const myEast = 127.35647601340733;
+      // const myWest = 127.29091439637051;
+      const myTempEast = lat + latPerKm * 5;
+      const myTempWest = lat - latPerKm * 5;
+      const myTempSouth = lng - lngPerKm * 5;
+      const myTempNorth = lng + lngPerKm * 5;
 
       // console.log(lat, lng, '1');
-      // setMyLat(lat);
-      // setMyLng(lng);
 
       // // // 반경 5km 로 위치 계산
-      // setMyEast(lat + latPerKm * 5);
-      // setMyWest(lat - latPerKm * 5);
-      // setMySouth(lng - lngPerKm * 5);
-      // setMyNorth(lng + lngPerKm * 5);
+
       // setMyEast(36.35887261465578);
       // setMyWest(36.34567675654588);
       // setMySouth(127.35647601340733);
       // setMyNorth(127.29091439637051);
       const myPositions = [];
-      myPositions.push(lat, lng, myEast, myWest, mySouth, myNorth);
+      myPositions.push(lat, lng, myTempEast, myTempWest, myTempSouth, myTempNorth);
       setMyPosition(myPositions);
     };
 

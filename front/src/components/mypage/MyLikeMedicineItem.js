@@ -1,38 +1,71 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable prefer-const */
+/* eslint-disable no-else-return */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil'
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { deleteMyBasketSelector } from '../../atoms';
+
 
 const SItem = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 4vh;
 `;
+
+const SCheckboxAndLabelBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const SLabel = styled.label`
   margin-left: 2vw;
 `;
 
-function MyLikeMedicineItem({ medicine, temp, checkedItemHandler }) {
+const SDeleteButton = styled.div`
+  color: #bdbdbd;
+  border: 1px solid #bdbdbd;
+  padding: 1vw;
+  border-radius: 10px;
+`;
+
+function MyLikeMedicineItem({ medicine, onChangeCheckHandler, onClickDeleteHandler }) {
+
+  const [myBasket, setMyBasket] = useRecoilState(deleteMyBasketSelector)
+  // const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
+  // const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
   const [bChecked, setChecked] = useState(
     medicine.isChecked === 'unChecked' ? false : true,
   );
 
-  // const [bChecked, setChecked] = useState(false);
+  const onClickDeleteItem = () => {
+    onClickDeleteHandler(medicine)
+  }
 
-  const checkHandler = ({ target }) => {
-    setChecked(!bChecked);
-    checkedItemHandler(medicine.name, target.checked);
-  };
+  const onChangeCheckItem = () => {
+    setChecked(!bChecked)
+    onChangeCheckHandler(medicine)
+  }
+
+
 
   return (
     <SItem>
-      {/* <div>{medicine}</div> */}
-      <input
-        type="checkbox"
-        id={temp}
-        checked={bChecked}
-        onChange={e => checkHandler(e)}
-      />
-      <SLabel htmlFor={temp}>{medicine.name}</SLabel>
+      <SCheckboxAndLabelBox>
+        <input
+          type="checkbox"
+          id={medicine.name}
+          checked={bChecked}
+          onChange={onChangeCheckItem}
+        />
+        <SLabel htmlFor={medicine.name}>{medicine.name}</SLabel>
+      </SCheckboxAndLabelBox>
+      <SDeleteButton onClick={onClickDeleteItem}>삭제</SDeleteButton>
     </SItem>
   );
 }
@@ -40,16 +73,17 @@ function MyLikeMedicineItem({ medicine, temp, checkedItemHandler }) {
 MyLikeMedicineItem.propTypes = {
   medicine: PropTypes.shape({
     name: PropTypes.string,
-    isChecked: PropTypes.string,
+    isChecked: PropTypes.string
   }),
-  temp: PropTypes.string,
-  checkedItemHandler: PropTypes.func,
-};
+  onChangeCheckHandler: PropTypes.func,
+  onClickDeleteHandler: PropTypes.func
+}
 
 MyLikeMedicineItem.defaultProps = {
   medicine: null,
-  temp: null,
-  checkedItemHandler: null,
-};
+  onChangeCheckHandler: null,
+  onClickDeleteHandler: null,
+}
+
 
 export default MyLikeMedicineItem;

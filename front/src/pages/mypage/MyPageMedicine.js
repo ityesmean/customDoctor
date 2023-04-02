@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import PillsAccordian from '../../components/mypage/PillsAccordian';
 
+import BackButton from '../../components/common/BackButton';
 import Header from '../../components/common/Header';
-import Back from '../../assets/Back.png';
 import BlackHospital from '../../assets/mypage/BlackHospital.png';
 import GreenMedicine from '../../assets/mypage/GreenMedicine.png';
 import BlackBasket from '../../assets/mypage/BlackBasket.png';
@@ -12,12 +12,6 @@ import BlackBasket from '../../assets/mypage/BlackBasket.png';
 const SLink = styled(Link)`
   text-decoration: none;
   color: black;
-`;
-
-const SBack = styled.img`
-  width: 8vw;
-  margin-bottom: 2vh;
-  margin-left: 3vw;
 `;
 
 const ImgBox = styled.div`
@@ -101,7 +95,7 @@ function MyPageMedicine(props) {
     <>
       <Header />
       <SLink to="/">
-        <SBack src={Back} alt="Back" />
+        <BackButton />
       </SLink>
       <SPageSelectBox>
         <SPageBox>
