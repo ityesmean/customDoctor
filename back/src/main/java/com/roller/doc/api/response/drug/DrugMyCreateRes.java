@@ -16,17 +16,17 @@ public class DrugMyCreateRes {
 	private Boolean drugMyDel;
 	private String drugMyMemo;
 	private String drugMyTitle;
-	private Long userId;
+	// private Long userId;
 
 	@Builder
 	public DrugMyCreateRes(Long drugMyPillId, List<Long> drugId, Long drugMyId, Boolean drugMyDel, String drugMyMemo,
-		String drugMyTitle, Long userId) {
+		String drugMyTitle) {
 		this.drugMyPillId = drugMyPillId;
 		this.drugId = drugId;
 		this.drugMyId = drugMyId;
 		this.drugMyDel = drugMyDel;
 		this.drugMyMemo = drugMyMemo;
 		this.drugMyTitle = drugMyTitle;
-		this.userId = userId;
+		// this.userId = userId;
 	}
 }
