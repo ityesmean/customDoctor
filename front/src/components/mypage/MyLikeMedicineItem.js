@@ -16,6 +16,7 @@ const SItem = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 4vh;
+  max-height: 3vh;
 `;
 
 const SCheckboxAndLabelBox = styled.div`
@@ -24,6 +25,7 @@ const SCheckboxAndLabelBox = styled.div`
 `;
 
 const SLabel = styled.label`
+  width: 55vw;
   margin-left: 2vw;
 `;
 
@@ -31,6 +33,7 @@ const SDeleteButton = styled.div`
   color: #bdbdbd;
   border: 1px solid #bdbdbd;
   padding: 1vw;
+  
   border-radius: 10px;
 `;
 

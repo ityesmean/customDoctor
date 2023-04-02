@@ -24,9 +24,9 @@ function DrugList() {
       {drugList ? (
         <>
           {drugList.map(drug => (
-            <SLink to={`/pill/${drug.drugId}`} state={`${drug.drugId}`}>
-              <DrugCard card={drug} key={drug.drugId} />
-            </SLink>
+            // <SLink to={`/pill/${drug.drugId}`} state={`${drug.drugId}`}>
+            <DrugCard card={drug} key={drug.drugId} />
+            // </SLink>
           ))}
         </>
       ) : null}

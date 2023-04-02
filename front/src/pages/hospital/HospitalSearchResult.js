@@ -101,7 +101,6 @@ function HospitalSearchResult() {
   const option = ['거리순', '별점순', '영업중'];
   const [selectedValue, setSelectedValue] = useState('');
 
-  console.log(myPosition)
 
   const handleSelectedValue = e => {
     setSelectedValue(e.target.value);

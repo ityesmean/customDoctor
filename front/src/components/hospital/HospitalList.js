@@ -28,7 +28,6 @@ function HospitalList({ searchType, searchValue, myPosition }) {
   const type = searchType;
   const value = searchValue;
   const position = myPosition;
-  console.log(position, 'here@@@')
 
 
   const getKeywordHospitalSearchResult = async () => {
