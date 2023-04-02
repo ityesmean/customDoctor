@@ -67,13 +67,8 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> {
             web.ignoring()
-                    .antMatchers(
-                            "/**");
-                    // .antMatchers("/drug/result/**")
-                    // .antMatchers("/drug/name/**")
-                    // .antMatchers("/drug/info/**")
-                    // .antMatchers(  "/drug/descinfo/**")
-                    // .antMatchers("/drug/avoidinfo/**");
+                    .antMatchers("/drug/**")
+                    .antMatchers("/hospital/**");
         };
     }
 }
