@@ -95,6 +95,7 @@ function SearchBar({ searchType }) {
       // setMyNorth(127.29091439637051);
       const myPositions = [];
       myPositions.push(lat, lng, myTempEast, myTempWest, myTempSouth, myTempNorth);
+      console.log(myPositions)
       setMyPosition(myPositions);
     };
 

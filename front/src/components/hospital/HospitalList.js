@@ -90,13 +90,18 @@ function HospitalList({ searchType, searchValue, myPosition }) {
       {hospitalList ? (
         <>
           {hospitalList.map((hospital, index) => (
-            <SLink
-              to={`/hospital/${hospital.hospitalId}`}
-              key={hospital.hospitalName}
-              state={{ information: hospital }}
-            >
-              <HospitalCard hospital={hospital} index={index} />
-            </SLink>
+            <>
+
+              <SLink
+                to={`/hospital/${hospital.hospitalId}`}
+                key={hospital.hospitalName}
+                state={{ information: hospital }}
+              >
+                <HospitalCard hospital={hospital} index={index} />
+              </SLink>
+              <div>{hospital.hospitalX}</div>
+              <div>{hospital.hospitalY}</div>
+            </>
           ))}
         </>
       ) : (

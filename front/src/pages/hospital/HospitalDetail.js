@@ -16,9 +16,12 @@ const SContainer = styled.div``;
 function HospitalDetail() {
   const information = useLocation();
   const { hospitalId } = useParams();
-  const { xPosition, yPosition } = information.state.information;
+  const lat = information.state.information.hospitalY
+  const lng = information.state.information.hospitalX
   const [hospitalDesc, setHospitalDesc] = useRecoilState(hospitalDescState);
   const [hospitalBasic, setHospitalBasic] = useRecoilState(hospitalBasicState);
+
+
 
   useEffect(() => {
     axios
@@ -31,8 +34,7 @@ function HospitalDetail() {
   }, []);
   return (
     <SContainer>
-      <KakaoMap x={xPosition} y={yPosition} />
-      <HositalTotal />
+      <KakaoMap lat={lat} lng={lng} />
     </SContainer>
   );
 }
