@@ -2,6 +2,7 @@ package com.roller.doc.api.response.drug;
 import com.roller.doc.db.entity.Drug;
 import com.roller.doc.db.entity.DrugMy;
 import com.roller.doc.db.entity.DrugMyPill;
+import com.roller.doc.db.entity.User;
 
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,11 @@ public class DrugMyPillRes {
 		this.drugMyPillId = drugMyPillId;
 		this.drugId = drugId;
 		this.drugMyId = drugMyId;
+	}
+
+	public DrugMyPillRes(DrugMyPill drugMyPill) {
+		this.drugMyId = drugMyPill.getDrug_my().getDrug_my_id();
+		this.drugId = drugMyPill.getDrug();
+		this.drugMyPillId = drugMyPill.getDrug_my_pill_id();
 	}
 }
