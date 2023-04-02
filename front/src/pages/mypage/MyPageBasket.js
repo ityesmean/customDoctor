@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_URL_DRUG } from '../../api/api';
+import { API_URL_DRUG, API_URL_USER } from '../../api/api';
 
 import Header from '../../components/common/Header';
 import BackButton from '../../components/common/BackButton';
@@ -192,8 +192,17 @@ function MyPageBasket() {
     console.log(checkedMedicines);
     console.log(basketName);
     console.log(basketMemo);
+
+    const accessToken = localStorage.getItem('accessToken')
+    console.log(localStorage.getItem('accessToken'))
     // 약 봉투 담는 post요청
-    await axios.post(`${API_URL_DRUG}/`).catch(navigate('/mypage/medicine'));
+    // await axios.post(`${API_URL_USER}/plus`), {
+    // headers: {
+    //   Authorization: accessToken
+    // }
+    // }.
+    //   then(res => console.log(res))
+    //   .catch(err => console.log(err))
   };
 
   return (

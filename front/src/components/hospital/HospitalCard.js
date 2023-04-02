@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 /* eslint-disable react/self-closing-comp */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
@@ -75,63 +76,63 @@ function HospitalCard({ hospital }) {
   const currentTime = new Date();
   const currentDay = currentTime.getDay();
 
-  const getStartAndEndTime = () => {
-    if (currentDay === 0) {
-      if (hospital.hospitalTime.hospitalTimeMon !== 'null') {
-        setStartTime(hospital.hospitalTime.hospitalTimeMon.substr(0, 5));
-        setEndTime(hospital.hospitalTime.hospitalTimeMon.substr(6, 11));
-      }
-    } else if (currentDay === 1) {
-      if (hospital.hospitalTime.hospitalTimeTue !== 'null') {
-        setStartTime(hospital.hospitalTime.hospitalTimeTue.substr(0, 5));
-        setEndTime(hospital.hospitalTime.hospitalTimeTue.substr(6, 11));
-      }
-    } else if (currentDay === 2) {
-      if (hospital.hospitalTime.hospitalTimeWed !== 'null') {
-        setStartTime(hospital.hospitalTime.hospitalTimeWed.substr(0, 5));
-        setEndTime(hospital.hospitalTime.hospitalTimeWed.substr(6, 11));
-      }
-    } else if (currentDay === 3) {
-      if (hospital.hospitalTime.hospitalTimeThu !== 'null') {
-        setStartTime(hospital.hospitalTime.hospitalTimeThu.substr(0, 5));
-        setEndTime(hospital.hospitalTime.hospitalTimeThu.substr(6, 11));
-      }
-    } else if (currentDay === 4) {
-      if (hospital.hospitalTime.hospitalTimeFri !== 'null') {
-        setStartTime(hospital.hospitalTime.hospitalTimeFri.substr(0, 5));
-        setEndTime(hospital.hospitalTime.hospitalTimeFri.substr(6, 11));
-      }
-    } else if (currentDay === 5) {
-      if (hospital.hospitalTime.hospitalTimeSat !== 'null') {
-        setStartTime(hospital.hospitalTime.hospitalTimeSat.substr(0, 5));
-        setEndTime(hospital.hospitalTime.hospitalTimeSat.substr(6, 11));
-      }
-    } else if (currentDay === 6) {
-      if (hospital.hospitalTime.hospitalTimeSun !== 'null') {
-        setStartTime(hospital.hospitalTime.hospitalTimeSun.substr(0, 5));
-        setEndTime(hospital.hospitalTime.hospitalTimeSun.substr(6, 11));
-      }
-    }
-  };
+  // const getStartAndEndTime = () => {
+  //   if (currentDay === 0) {
+  //     if (hospital.hospitalTime.hospitalTimeMon !== 'null' && hospital.hospitalTime.hospitalTimeMon) {
+  //       setStartTime(hospital.hospitalTime.hospitalTimeMon.substr(0, 5));
+  //       setEndTime(hospital.hospitalTime.hospitalTimeMon.substr(6, 11));
+  //     }
+  //   } else if (currentDay === 1) {
+  //     if (hospital.hospitalTime.hospitalTimeTue !== 'null') {
+  //       setStartTime(hospital.hospitalTime.hospitalTimeTue.substr(0, 5));
+  //       setEndTime(hospital.hospitalTime.hospitalTimeTue.substr(6, 11));
+  //     }
+  //   } else if (currentDay === 2) {
+  //     if (hospital.hospitalTime.hospitalTimeWed !== 'null') {
+  //       setStartTime(hospital.hospitalTime.hospitalTimeWed.substr(0, 5));
+  //       setEndTime(hospital.hospitalTime.hospitalTimeWed.substr(6, 11));
+  //     }
+  //   } else if (currentDay === 3) {
+  //     if (hospital.hospitalTime.hospitalTimeThu !== 'null') {
+  //       setStartTime(hospital.hospitalTime.hospitalTimeThu.substr(0, 5));
+  //       setEndTime(hospital.hospitalTime.hospitalTimeThu.substr(6, 11));
+  //     }
+  //   } else if (currentDay === 4) {
+  //     if (hospital.hospitalTime.hospitalTimeFri !== 'null') {
+  //       setStartTime(hospital.hospitalTime.hospitalTimeFri.substr(0, 5));
+  //       setEndTime(hospital.hospitalTime.hospitalTimeFri.substr(6, 11));
+  //     }
+  //   } else if (currentDay === 5) {
+  //     if (hospital.hospitalTime.hospitalTimeSat !== 'null') {
+  //       setStartTime(hospital.hospitalTime.hospitalTimeSat.substr(0, 5));
+  //       setEndTime(hospital.hospitalTime.hospitalTimeSat.substr(6, 11));
+  //     }
+  //   } else if (currentDay === 6) {
+  //     if (hospital.hospitalTime.hospitalTimeSun !== 'null') {
+  //       setStartTime(hospital.hospitalTime.hospitalTimeSun.substr(0, 5));
+  //       setEndTime(hospital.hospitalTime.hospitalTimeSun.substr(6, 11));
+  //     }
+  //   }
+  // };
 
   // 주소를 받아오기 위한 요청
-  const getAddress = async () => {
-    await axios
-      .get(`${API_URL_HOSPITAL}/desc/${hospital.hospitalId}/`)
-      .then(res => {
-        if (res.data.data.hospitalAdd !== null) {
-          setAddress(res.data.data.hospitalAdd);
-        } else {
-          setAddress(null);
-        }
-      })
-      .catch(err => console.log(err));
-  };
+  // const getAddress = async () => {
+  //   await axios
+  //     .get(`${API_URL_HOSPITAL}/desc/${hospital.hospitalId}/`)
+  //     .then(res => {
+  //       if (res.data.data.hospitalAdd !== null) {
+  //         setAddress(res.data.data.hospitalAdd);
+  //       } else {
+  //         setAddress(null);
+  //       }
+  //     })
+  //     .catch(err => console.log(err));
+  // };
 
-  useEffect(() => {
-    getAddress();
-    getStartAndEndTime();
-  }, []);
+  // useEffect(() => {
+  //   getAddress();
+  //   getStartAndEndTime();
+  // }, []);
   return (
     <>
       {hospital ? (
@@ -139,6 +140,7 @@ function HospitalCard({ hospital }) {
           <SInformation>
             <SHospitalName>{hospital.hospitalName}</SHospitalName>
             <SDistance>500m</SDistance>
+            {/* 주소 있으면 출력하고 없으면 '주소 정보 없음' 출력 */}
             {address ? (
               <SAddress>{address}</SAddress>
             ) : (
@@ -159,7 +161,6 @@ function HospitalCard({ hospital }) {
 
 HospitalCard.propTypes = {
   hospital: PropTypes.shape({
-    hospitalId: PropTypes.number,
     hospitalName: PropTypes.string,
     hospitalCode: PropTypes.string,
     hospitalTel: PropTypes.string,
@@ -197,7 +198,41 @@ HospitalCard.propTypes = {
 };
 
 HospitalCard.defaultProps = {
-  hospital: null,
+  hospital: {
+    hospitalName: null,
+    hospitalCode: null,
+    hospitalTel: null,
+    hospitalX: null,
+    hospitalY: null,
+    hospitalTime: {
+      hospital_time_id: null,
+      hospital: {
+        hospital_id: null,
+        hospital_name: null,
+        hospital_code: null,
+        hospital_x: null,
+        hospital_y: null,
+        hospital_tel: null,
+      },
+      hospitalTimeMon: null,
+      hospitalTimeTue: null,
+      hospitalTimeWed: null,
+      hospitalTimeThe: null,
+      hospitalTimeFri: null,
+      hospitalTimeSat: null,
+      hospitalTimeSun: null,
+      hospitalTimeMonNight: null,
+      hospitalTimeTueNight: null,
+      hospitalTimeWedNight: null,
+      hospitalTimeTheNight: null,
+      hospitalTimeFriNight: null,
+      hospitalTimeSatNight: null,
+      hospitalTimeSunNight: null,
+      hospitalTimeHoliday: null,
+      hospitalTimeEtc: null,
+
+    }
+  }
 };
 
 export default HospitalCard;

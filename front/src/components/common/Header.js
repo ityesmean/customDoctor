@@ -12,7 +12,6 @@ const SLogo = styled.div`
   color: #00c192;
   margin-top: 5vh;
   margin-left: 6vw;
-  margin-bottom: 2vh;
 `;
 
 const SLoginButton = styled.button``;
