@@ -41,7 +41,6 @@ public class TokenService {
                 .compact();
     }
 
-    // true 일 경우 토큰 유효
     public boolean verifyToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser()

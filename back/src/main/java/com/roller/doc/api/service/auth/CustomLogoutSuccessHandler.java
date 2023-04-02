@@ -30,23 +30,17 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         try {
-            // 헤더에서 accesstoken 가져오기
             String accesstoken = HeaderUtil.getAccessToken(request);
             log.info("Logout access_token = {}",accesstoken);
-
-            // Redis에 엑세스 토큰 블랙리스트 등록
             redisUtil.setDataExpire(accesstoken, "true", TokenService.accessPeriod);
         }catch(Exception e){
             e.printStackTrace();
         }
 
-        // Cookie에서 RefreshToken을 가져와 Redis에서 RefreshToken 삭제
         String refreshtoken = cookieUtil.getRefreshTokenCookie(request);
         String email = tokenService.getEmail(refreshtoken);
         log.info("Log out Email = {}",email);
         redisUtil.delData(email);
-
-
         response.setStatus(HttpServletResponse.SC_OK);
         response.sendRedirect("/");
     }

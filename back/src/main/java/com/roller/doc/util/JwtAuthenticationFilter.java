@@ -35,10 +35,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String refreshtoken =null;
         log.info("Filter token = {}", token);
         try {
-            // 엑세스 토큰 검증
             if (tokenservice.verifyToken(token)) {
                 String email = tokenservice.getEmail(token);
-                // 엑세스 토큰 블랙리스트 등록 여부 검증
                 log.info(redisUtil.getData(token));
                 if (redisUtil.getData(token) != null){
                     throw new JwtException("Blacklist JWT Token");
@@ -50,11 +48,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }else{
                 throw new JwtException("Access Expired");
             }
-            // 엑세스 토큰이 블랙리스트 등록되있거나 만료되었을 경우 access token, refresh token 재발급
         }catch(Exception e){
             log.info("JWT Token Reissue");
             try {
-                // request의 Cookie에서 refresh token 추출
                 refreshtoken = cookieUtil.getRefreshTokenCookie(request);
                 String email=null;
                 try {
@@ -62,7 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }catch(Exception a){
                     throw new JwtException("RefreshToken Expired or Error");
                 }
-                // Redis를 통한 리프레쉬 토큰 검증
                 log.info("Redis Refresh check = {}",redisUtil.getData(email));
                 if(redisUtil.getData(email)==null || tokenservice.getExpiredTokenClaims(refreshtoken)){
                     log.info ("Refreshtoken Expired");
@@ -72,14 +67,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String nickname = tokenservice.getPayload(refreshtoken,"nickname");
                 String role = tokenservice.getPayload(refreshtoken,"role");
                 log.info("ROLE = {}" ,role);
-                // 토큰에서 파싱한 데이터 기반으로 access token, refresh token 재발급
                 String accesstoken = tokenservice.generateToken(email,role,nickname,"ACCESS");
                 String newrefreshtoken = tokenservice.generateToken(email,role,nickname,"REFRESH");
-                // 기존에 존재하던 refreshtoken 삭제
                 redisRepository.deleteById(email);
-                // 새로운 refreshtoken redis에 등록
                 redisUtil.setDataExpire(email,newrefreshtoken,tokenservice.refreshPeriod);
-                // 재발급한 access token, refresh token 응답 헤더에 넣은 후 SecurityContext에 적재
                 ResponseCookie cookie = cookieUtil.getCookie(newrefreshtoken,tokenservice.refreshPeriod);
                 response.setContentType("application/json;charset=UTF-8");
                 response.setHeader("Authorization", "Bearer " + accesstoken);
