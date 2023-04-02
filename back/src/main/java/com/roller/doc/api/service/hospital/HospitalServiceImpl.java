@@ -74,33 +74,11 @@ public class HospitalServiceImpl implements HospitalService {
      * 필터로 병원찾기
      */
     @Override
-    public ResponseDTO filteringHospital(double e, double w, double s, double n, List<Integer>part, List<Integer>open) {
+    public ResponseDTO filteringHospital(double e, double w, double s, double n, List<Integer> part, List<Integer> open) {
         ResponseDTO responseDTO = new ResponseDTO();
         List<HospitalRes> result = new ArrayList<>();
         try {
-            //명령어 매핑
-            int []partTmp=new int[5];
-            for(int i=0; i<part.size(); i++){
-                partTmp[i]=part.get(i);
-            }
-            int[]openTmp=new int[4]; //토,일,공,야
-            for(int i=0; i<open.size(); i++){
-                switch (open.get(i)){
-                    case 1:
-                        openTmp[0]=1;
-                        break;
-                    case 2:
-                        openTmp[1]=1;
-                        break;
-                    case 3:
-                        openTmp[2]=1;
-                        break;
-                    case 4:
-                        openTmp[3]=1;
-                        break;
-                }
-            }
-            List<Hospital> hospitalList = hospitalCustomRepo.useFilterHospital(e, w, s, n, partTmp[0],partTmp[1],partTmp[2],partTmp[3],partTmp[4], openTmp[0],openTmp[1],openTmp[2],openTmp[3]);
+            List<Hospital> hospitalList = hospitalCustomRepo.useFilterHospital(e, w, s, n, part, open);
             if (hospitalList.size() == 0) {
                 responseDTO.setStatus_code(400);
                 responseDTO.setMessage("필터로 병원찾기: 일치하는 병원이 없습니다");
