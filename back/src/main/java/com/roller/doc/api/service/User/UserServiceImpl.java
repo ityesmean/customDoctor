@@ -239,17 +239,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public DrugMyRes createDrugMy(DrugMyCreateRes drugMyCreateRes) throws Exception {
+    public DrugMyRes createDrugMy(String token, DrugMyCreateRes drugMyCreateRes) throws Exception {
         DrugMy drugMy = new DrugMy();
 
         DrugMyRes result = new DrugMyRes();
         DrugMyPillRes result2 = new DrugMyPillRes();
+        Long user_id=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
 
         try {
             drugMy.setDrug_my_del(false);
             drugMy.setDrug_my_memo(drugMyCreateRes.getDrugMyMemo());
             drugMy.setDrug_my_title(drugMyCreateRes.getDrugMyTitle());
-            drugMy.setUser(userRepository.findUser(drugMyCreateRes.getUserId()));
+            drugMy.setUser(userRepository.findUser(user_id));
+//            drugMy.setUser(userRepository.findUser(drugMyCreateRes.getUserId()));
 
             result = new DrugMyRes(drugMyRepository.save(drugMy));
 
@@ -264,9 +266,6 @@ public class UserServiceImpl implements UserService {
 
                 result2 = new DrugMyPillRes(drugMyPillRepository.save(drugMyPill));
             }
-
-
-
 
         } catch (Exception e) {
             e.printStackTrace();

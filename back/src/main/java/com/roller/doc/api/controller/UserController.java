@@ -76,8 +76,10 @@ public class UserController {
     }
 
     @PostMapping("/plus")
-    private ResponseEntity createDrugMy(@RequestBody DrugMyCreateRes drugMyCreateRes) throws Exception {
-        DrugMyRes result = userService.createDrugMy(drugMyCreateRes);
+    private ResponseEntity createDrugMy(@RequestHeader String Authorization, @RequestBody DrugMyCreateRes drugMyCreateRes) throws Exception {
+        String token = HeaderUtil.getAccessTokenString(Authorization);
+
+        DrugMyRes result = userService.createDrugMy(token, drugMyCreateRes);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
