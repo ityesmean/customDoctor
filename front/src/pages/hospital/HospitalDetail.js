@@ -8,9 +8,8 @@ function HospitalDetail() {
     const information = useLocation()
     const { hospitalId } = useParams();
 
-    const { xPosition, yPosition } = information.state.information
-    // const xPosition = information.state.information.xPosition
-    // const yPosition = information.state.information.yPosition
+    const yPosition = information.state.information.hospitalX
+    const xPosition = information.state.information.hospitalY
 
     console.log(information.state.information)
     return (

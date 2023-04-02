@@ -1,11 +1,15 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
 import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import HospitalCard from './HospitalCard';
+
+import { hospitalSearchResultState } from '../../atoms';
 
 import { API_URL_HOSPITAL } from '../../api/api';
 
@@ -18,10 +22,13 @@ const SLink = styled(Link)`
 function HospitalList({ searchType, searchValue, myPosition }) {
   // 병원리스트 state
   // const [hospitalList, setHospitalList] = useState([]);
+  const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(hospitalSearchResultState)
   const [hospitalList, setHospitalList] = useState();
   const type = searchType;
   const value = searchValue;
   const position = myPosition;
+  console.log(position, 'here@@@')
+
 
   const getKeywordHospitalSearchResult = async () => {
     await axios
@@ -38,6 +45,7 @@ function HospitalList({ searchType, searchValue, myPosition }) {
           setHospitalList([]);
         } else {
           setHospitalList(res.data.data);
+          setHospitalSearchResult(res.data.data)
         }
       })
       .catch(err => console.log(err));
@@ -54,8 +62,10 @@ function HospitalList({ searchType, searchValue, myPosition }) {
         open: value[1],
       })
       .then(res => {
+        console.log(position[0], position[1], position[2], position[3], position[4], position[5])
         if (res.data.status_code === 200) {
           setHospitalList(res.data.data);
+          setHospitalSearchResult(res.data.data)
         } else if (res.data.status_code === 400) {
           setHospitalList(false);
         }
@@ -70,7 +80,10 @@ function HospitalList({ searchType, searchValue, myPosition }) {
       getOptionHospitalSearchResult();
     }
   }, []);
-  console.log(hospitalList)
+
+  useEffect(() => {
+    console.log(hospitalList)
+  }, [hospitalList])
   return (
     <>
       {/* 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
@@ -87,9 +100,9 @@ function HospitalList({ searchType, searchValue, myPosition }) {
           ))}
         </>
       ) : (
-        <div>검색 결과 없음</div>
+        <div>로딩스핀</div>
       )}
-
+      {/* {hospitalList ? : } */}
     </>
   );
 }

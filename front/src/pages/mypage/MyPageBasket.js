@@ -193,11 +193,11 @@ function MyPageBasket() {
     console.log(basketName);
     console.log(basketMemo);
     // 약 봉투 담는 post요청
-    await axios.post(`${API_URL_USER}/plus`), {
+    // await axios.post(`${API_URL_USER}/plus`), {
 
-    }.
-      then(res => console.log(res))
-      .catch(err => console.log(err))
+    // }.
+    //   then(res => console.log(res))
+    //   .catch(err => console.log(err))
   };
 
   return (

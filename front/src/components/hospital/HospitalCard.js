@@ -140,6 +140,7 @@ function HospitalCard({ hospital }) {
           <SInformation>
             <SHospitalName>{hospital.hospitalName}</SHospitalName>
             <SDistance>500m</SDistance>
+            {/* 주소 있으면 출력하고 없으면 '주소 정보 없음' 출력 */}
             {address ? (
               <SAddress>{address}</SAddress>
             ) : (
