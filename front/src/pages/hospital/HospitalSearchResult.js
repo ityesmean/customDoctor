@@ -1,14 +1,20 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
-import { Link } from 'react-router-dom';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import Header from '../../components/common/Header';
 import HospitalList from '../../components/hospital/HospitalList';
 import BackButton from '../../components/common/BackButton';
 import Vec from '../../assets/Vector.svg';
 
-import { hospitalSearchSelectedOption } from '../../atoms';
+import {
+  hospitalSearchResultState,
+  hospitalSearchSelectedOption,
+  myPositionState,
+} from '../../atoms';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -91,17 +97,16 @@ const SLine = styled.div`
 `;
 
 function HospitalSearchResult() {
-  const resultOptions = useRecoilValue(hospitalSearchSelectedOption);
+  const location = useLocation();
+
+  const myPosition = useRecoilValue(myPositionState);
+  const searchType = location.state.type;
+  const searchValue = location.state.value;
   const option = ['거리순', '별점순', '영업중'];
   const [selectedValue, setSelectedValue] = useState('');
-
   const handleSelectedValue = e => {
     setSelectedValue(e.target.value);
   };
-
-  useEffect(() => {
-    console.log(resultOptions);
-  }, []);
 
   return (
     <>
@@ -132,7 +137,12 @@ function HospitalSearchResult() {
         ))}
       </SFilterBox>
       <SLine> </SLine>
-      <HospitalList selectedValue={selectedValue} />
+      <HospitalList
+        selectedValue={selectedValue}
+        searchType={searchType}
+        searchValue={searchValue}
+        myPosition={myPosition}
+      />
     </>
   );
 }

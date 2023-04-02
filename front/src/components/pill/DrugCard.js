@@ -73,21 +73,15 @@ function DrugCard({ card }) {
   return (
     <div>
       <SPillCard>
-        <SImg src={'https://' + card.drug_img} alt={card.drug_img} />
+        <SImg src={'https://' + card.drugImg} alt={card.drugImg} />
         <SRightBox>
-          <SNameText>{card.drug_name}</SNameText>
+          <SNameText>{card.drugName}</SNameText>
           <SBox>
-            {/* {card.drug_ingre !== 'null' ? (
-              <SIngreText>{card.drug_ingre}</SIngreText>
+            {card.drugIngre !== 'null' ? (
+              <SIngreText>{card.drugIngre}</SIngreText>
             ) : (
               <SIngreText>정보없음</SIngreText>
-            )} */}
-            {card.drug_ingre.length < 7 ? (
-              <SIngreText>{card.drug_ingre}</SIngreText>
-            ) : (
-              <SIngreText>{card.drug_ingre.slice(0, 7) + '...'}</SIngreText>
             )}
-            {/* <SIngreText>{card.drug_ingre}</SIngreText> */}
             <SBasketButton>
               <SButtonImg src={PillBasket} alt={PillBasket} />
               <SButtonText>약바구니</SButtonText>
@@ -101,19 +95,19 @@ function DrugCard({ card }) {
 
 DrugCard.propTypes = {
   card: PropTypes.shape({
-    drug_id: PropTypes.number,
-    drug_name: PropTypes.string,
-    drug_ingre: PropTypes.string,
-    drug_img: PropTypes.string,
+    drugId: PropTypes.number,
+    drugName: PropTypes.string,
+    drugIngre: PropTypes.string,
+    drugImg: PropTypes.string,
   }),
 };
 
 DrugCard.defaultProps = {
   card: {
-    drug_id: null,
-    drug_img: null,
-    drug_name: null,
-    drug_ingre: null,
+    drugId: null,
+    drugImg: null,
+    drugName: null,
+    drugIngre: null,
   },
 };
 

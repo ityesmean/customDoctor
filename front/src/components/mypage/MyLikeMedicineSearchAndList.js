@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 
 import MypageSearch from '../../assets/mypage/MypageSearch.png';
 
-import { myBasket } from '../../atoms';
+import { myBasketState } from '../../atoms';
 import MyLikeMedicineItem from './MyLikeMedicineItem';
 
 const SBox = styled.div`
@@ -60,7 +60,7 @@ const SListWrapper = styled.div`
 `;
 
 function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
-  const [myMedicines, setMyMedicines] = useRecoilState(myBasket);
+  const [myMedicines, setMyMedicines] = useRecoilState(myBasketState);
 
   const [checkedItems, setCheckedItems] = useState(new Set());
   const [filteredArr, setFilteredArr] = useState([...myMedicines]);
