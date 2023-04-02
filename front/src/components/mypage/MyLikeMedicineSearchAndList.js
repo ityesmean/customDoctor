@@ -18,12 +18,6 @@ import { myBasketState, checkedMedicineState } from '../../atoms';
 
 import MypageSearch from '../../assets/mypage/MypageSearch.png';
 
-<<<<<<< HEAD
-=======
-import { myBasketState } from '../../atoms';
-import MyLikeMedicineItem from './MyLikeMedicineItem';
-
->>>>>>> bab5ecc1bce14d56310e2b6735464fe42fc477ec
 const SBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -70,18 +64,11 @@ const SListWrapper = styled.div`
   overflow: scroll;
 `;
 
-<<<<<<< HEAD
 // function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
 function MyLikeMedicineSearchAndList() {
   const [myBasket, setMyBasket] = useRecoilState(myBasketState);
   const [filteredArr, setFilteredArr] = useState([...myBasket]);
-=======
-function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
-  const [myMedicines, setMyMedicines] = useRecoilState(myBasketState);
 
-  const [checkedItems, setCheckedItems] = useState(new Set());
-  const [filteredArr, setFilteredArr] = useState([...myMedicines]);
->>>>>>> bab5ecc1bce14d56310e2b6735464fe42fc477ec
   const [searchWord, setSearchWord] = useState('');
   const [checkedMedicines, setCheckedMedicines] =
     useRecoilState(checkedMedicineState);

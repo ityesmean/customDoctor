@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import HospitalCard from './HospitalCard';
