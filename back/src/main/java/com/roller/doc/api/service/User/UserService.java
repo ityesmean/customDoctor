@@ -27,6 +27,6 @@ public interface UserService {
 
     ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception;
 
-    DrugMyRes createDrugMy(DrugMyCreateRes drugMyCreateRes) throws Exception;
+    DrugMyRes createDrugMy(String token, DrugMyCreateRes drugMyCreateRes) throws Exception;
 
 }
