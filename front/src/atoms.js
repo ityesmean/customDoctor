@@ -137,6 +137,24 @@ const myPositionState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+const LoginState = atom({
+  key: 'LoginState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+const hospitalDescState = atom({
+  key: 'hospitalDescState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
+const hospitalBasicState = atom({
+  key: 'hospitalBasicState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
+});
+
 export {
   isDarkModeAtom,
   isUserAtom,
@@ -150,4 +168,7 @@ export {
   checkedMedicineState,
   hospitalSearchResultState,
   myPositionState,
+  LoginState,
+  hospitalDescState,
+  hospitalBasicState,
 };

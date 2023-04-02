@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable arrow-body-style */
@@ -50,27 +51,54 @@ function PillTab() {
   const detailInfo = useRecoilValue(drugDetailInfo);
   const avoidInfo = useRecoilValue(drugAvoidInfo);
 
-  console.log(detailInfo, 'detailInfo');
-  console.log(avoidInfo, 'avoidInfo');
+  // console.log(detailInfo, 'detailInfo');
+  // console.log(detailInfo.data, 'detailInfo.data');
+  // console.log(avoidInfo, 'avoidInfo');
 
   const tabContArr = [
     {
       tabTitle: '탭1',
-      tabCont: <div> {detailInfo.drug_desc_effect} </div>,
+      tabCont: <div>{detailInfo.data.drugDescEffect}</div>,
     },
     {
       tabTitle: '탭2',
-      tabCont: <div> {detailInfo.drug_desc_safety} </div>,
+      tabCont: <div> {detailInfo.data.drugDescSafety} </div>,
     },
     {
       tabTitle: '탭3',
-      tabCont: <div> {avoidInfo.data.drugAvoidNameB}</div>,
+      tabCont: <div>{avoidInfo.data}</div>,
     },
     {
       tabTitle: '탭4',
-      tabCont: <div> {detailInfo.drug_desc_use} </div>,
+      tabCont: <div> {detailInfo.data.drugDescUse} </div>,
     },
   ];
+  // console.log(tabContArr[0].tabCont, 'tabContArr[0]');
+  // console.log(
+  //   tabContArr[0].tabCont.props.children,
+  //   'tabContArr[0]props.children',
+  // );
+  // console.log(
+  //   tabContArr[0].tabCont.props.children.length,
+  //   'tabContArr[0]props.children.length',
+  // );
+  // console.log(
+  //   tabContArr[1].tabCont.props.children,
+  //   'tabContArr[1]props.children',
+  // );
+  // console.log(
+  //   tabContArr[1].tabCont.props.children.length,
+  //   'tabContArr[1]props.children.length',
+  // );
+  // console.log(
+  //   tabContArr[2].tabCont.props.children.length,
+  //   'tabContArr[2]props.children.length',
+  // );
+  // console.log(
+  //   tabContArr[3].tabCont.props.children.length,
+  //   'tabContArr[3]props.children.length',
+  // );
+  // console.log(tabContArr[1].tabCont.children[2]);
 
   return (
     <SContainer>
@@ -103,7 +131,11 @@ function PillTab() {
           </STabLi>
         </STitleBox>
       </STabTitle>
-      <STabContent>{tabContArr[activeIndex].tabCont}</STabContent>
+      {tabContArr[activeIndex].tabCont.props.children.length > 4 ? (
+        <STabContent>{tabContArr[activeIndex].tabCont}</STabContent>
+      ) : (
+        <STabContent>내용없음</STabContent>
+      )}
     </SContainer>
   );
 }

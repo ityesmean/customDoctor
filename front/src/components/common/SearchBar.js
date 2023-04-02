@@ -66,7 +66,6 @@ function SearchBar({ searchType }) {
   );
 
 
-
   useEffect(() => {
     // 1km 당 위도
     const latPerKm = 0.0091;
@@ -121,11 +120,22 @@ function SearchBar({ searchType }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    navigate('/hospital/search/result', {
-      state: { type: 'keyWord', value: inputValue },
-    });
-    setInputValue('');
+    if (searchCategory === 'hospital') {
+      navigate('/hospital/search/result', {
+        state: { type: 'keyWord', value: inputValue },
+      });
+      setInputValue('');
+    } else if (searchCategory === 'drug') {
+      axios
+        .get(`${API_URL_DRUG}/name/${inputValue}`)
+        .then(res => {
+          setMedicineList(res.data.data);
+          setInputValue('');
+          navigate('/pill/result');
+          // console.log(res.data.data[0]);
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   return (

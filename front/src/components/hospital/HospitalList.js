@@ -107,4 +107,16 @@ function HospitalList({ searchType, searchValue, myPosition }) {
   );
 }
 
+HospitalList.propTypes = {
+  searchType: PropTypes.string,
+  searchValue: PropTypes.string,
+  myPosition: PropTypes.string,
+};
+
+HospitalList.defaultProps = {
+  searchType: null,
+  searchValue: null,
+  myPosition: null,
+};
+
 export default HospitalList;
