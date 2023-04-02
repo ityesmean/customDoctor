@@ -92,3 +92,28 @@ point와 st_distance_sphere함수 사용을 위해 각고의 노력을 기울였
 
 # 백엔드 개발 3주차 톺아보기
 - 일단 맡은 파트는 끝이 나서 후련하다. 스프링 개발분량이 많지는 않았는데 하이브쪽에서 시간을 많이 써서 조금 급해졌던것 같다. 하이브도 좀 맛보고 querydsl도 새로 공부해서 재밌는 개발이었다. 다음주에 문서정리와 발표준비를 하면서 여유가 있으면 이슈들도 해결하고 코드 리팩토링도 더 해볼 예정이다.
+
+### 4 / 2 (일)
+- 필터로 병원검색 수정!! 고쳤다!! BooleanExpression에서는 조건절의 첫 파라미터의 값을 null로 받을 수 없단다.. 그동안엔 null==조건없음 으로 생각하고 썼는데 이런 예외가..;; 이것때문에 이틀은 고생했는데... 어쩃든 휴일진료부분에는 builder를 쓰는것이 맞다고 판단해 builder로 구현했고, 잘 돌아간다! 
+    - builder쓴 이유: 토,일,공휴일,야간이 1,2,3,4로 주어지면 >숫자있음==버튼선택< 이 리스트로 주어지는데 이때 무엇을 가장 앞에 놓아서 null을 방지할 것인지 정할 수 없다. part는 무엇이 앞에오든 상관이 없지만 이것은 순서가 정해져있기 때문에.. 어차피 백엔드의 로직중 한 번은 switch문으로 앞에서 받은 list를 어느 버튼을 누른 것인지 판단해야해서 이것을 repository에서 실행하며 builder의 if문과 합쳤다. 
+        ```java
+        BooleanBuilder builder = new BooleanBuilder();
+            for (int i = 0; i < open.size(); i++) {
+                switch (open.get(i)) {
+                    case 1:
+                        builder.or(hospitalTime.hospitalTimeSat.ne("null"));
+                        break;
+                    case 2:
+                        builder.or(hospitalTime.hospitalTimeSun.ne("null"));
+                        break;
+                    case 3:
+                        builder.or(hospitalTime.hospitalTimeHoliday.eq(1));
+                        break;
+                    case 4:
+                        builder.or(hospitalTime.hospitalTimeMonNight.eq(1));
+                        break;
+                }
+            }
+        ```
+    - 드디어 해결해서 너무기쁘다ㅜㅜ
+- 내일은 프론트에서 부탁한 영업중여부 구현하기.
