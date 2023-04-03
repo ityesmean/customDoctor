@@ -2,7 +2,7 @@
 /* eslint-disable no-useless-return */
 /* eslint-disable no-restricted-syntax */
 import React from 'react';
-import { useRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 // import { useNavigate } from 'react-router-dom';
@@ -76,23 +76,23 @@ const SButtonText = styled.div`
 `;
 
 function DrugCard({ card }) {
-
-  const [myBasket, setMyBasket] = useRecoilState(myBasketState)
+  const [myBasket, setMyBasket] = useRecoilState(myBasketState);
 
   const willAddDrug = {
+    id: card.drugId,
     name: card.drugName,
-    isChecked: 'unChecked'
-  }
+    isChecked: 'unChecked',
+  };
 
   const onClickAddDrugHandler = () => {
-    const temp = JSON.parse(JSON.stringify([...myBasket]))
+    const temp = JSON.parse(JSON.stringify([...myBasket]));
     for (const drug of myBasket) {
       if (drug.name === card.drugName) {
-        return
+        return;
       }
     }
-    setMyBasket([...temp, willAddDrug])
-  }
+    setMyBasket([...temp, willAddDrug]);
+  };
 
   return (
     <div>

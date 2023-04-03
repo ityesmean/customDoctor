@@ -75,7 +75,13 @@ function HospitalCard({ hospital }) {
 
   const currentTime = new Date();
   const currentDay = currentTime.getDay();
+  const currentHours = currentTime.getHours();
+  const currentMinutes = currentTime.getMinutes();
 
+  console.log(currentTime);
+  console.log(currentDay);
+  console.log(currentHours);
+  console.log(currentMinutes);
   // const getStartAndEndTime = () => {
   //   if (currentDay === 0) {
   //     if (hospital.hospitalTime.hospitalTimeMon !== 'null' && hospital.hospitalTime.hospitalTimeMon) {
@@ -230,9 +236,8 @@ HospitalCard.defaultProps = {
       hospitalTimeSunNight: null,
       hospitalTimeHoliday: null,
       hospitalTimeEtc: null,
-
-    }
-  }
+    },
+  },
 };
 
 export default HospitalCard;
