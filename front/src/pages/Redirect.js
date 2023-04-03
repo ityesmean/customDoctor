@@ -25,7 +25,7 @@ function Redirect() {
       // console.log(1);
       try {
         const url = new URL(document.location).searchParams;
-        const accessToken = url.get('accesstoken');
+        const accessToken = 'Bearer ' + url.get('accesstoken');
         localStorage.setItem('accessToken', accessToken);
         setTokenState(true);
         setTimeout(() => navigate('/', { replace: true }), 500);

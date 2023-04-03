@@ -11,14 +11,26 @@ import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import PropTypes from 'prop-types';
 import { useNavigate, Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import BackButton from '../common/BackButton';
 
 import { hospitalSearchResultState } from '../../atoms';
 
+const SReSearchButton = styled.button`
+  position: absolute;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  z-index: 999;
+  border: none;
+  background: white;
+  font-weight: bold;
+`
+
 const { kakao } = window;
 
-function KakaoMap({ x, y }) {
+function KakaoMap({ lat, lng }) {
+
   const navigate = useNavigate();
   const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
     hospitalSearchResultState,
@@ -30,9 +42,11 @@ function KakaoMap({ x, y }) {
 
   // console.log(hospitalSearchResult);
   useEffect(() => {
+
+
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
     var mapOption = {
-      center: new kakao.maps.LatLng(x, y), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
       level: 3, // 지도의 확대 레벨
     };
 
@@ -67,11 +81,13 @@ function KakaoMap({ x, y }) {
           hospitalSearchResult[i].hospitalX,
         ), // 마커를 표시할 위치
         // title: hospitalSearchResult[i].hospitalName, // 마커의 타이틀
-        image: markerImage, // 마커 이미지
-      });
+        image: markerImage // 마커 이미지
+      })
       marker.setMap(map);
     }
-  }, []);
+
+
+  }, [lat, lng]);
 
   const tempOnClick = () => {
     navigate(-1);
@@ -82,21 +98,22 @@ function KakaoMap({ x, y }) {
       <div onClick={tempOnClick}>
         <BackButton />
       </div>
+      <SReSearchButton>현 위치에서 검색</SReSearchButton>
       {/* </Link> */}
-      <div id="map" style={{ width: '100vw', height: '20vh' }}></div>
-      <div></div>
+      <div id="map" style={{ width: '100vw', height: '95vh' }}></div>
+
     </>
   );
 }
 
 KakaoMap.propTypes = {
-  x: PropTypes.number,
-  y: PropTypes.number,
+  lat: PropTypes.number,
+  lng: PropTypes.number,
 };
 
 KakaoMap.defaultProps = {
-  x: null,
-  y: null,
+  lat: null,
+  lng: null,
 };
 
 export default KakaoMap;

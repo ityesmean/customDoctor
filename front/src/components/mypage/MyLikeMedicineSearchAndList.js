@@ -137,14 +137,14 @@ function MyLikeMedicineSearchAndList() {
         if (item.isChecked === 'unChecked') {
           item.isChecked = 'checked';
           const temp = [...checkedMedicines];
-          temp.push(item.name);
+          temp.push(item.id);
           setCheckedMedicines(temp);
           // 타겟 객체가 checked 였다면 unChecked로 변경
         } else if (item.isChecked === 'checked') {
           item.isChecked = 'unChecked';
           const temp = [...checkedMedicines];
           const filteredCheckedMedicines = temp.filter(
-            element => element !== item.name,
+            element => element !== item.id,
           );
           setCheckedMedicines(filteredCheckedMedicines);
         }

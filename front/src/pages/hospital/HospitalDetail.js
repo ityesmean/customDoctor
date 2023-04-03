@@ -15,13 +15,15 @@ const SContainer = styled.div``;
 function HospitalDetail() {
   const information = useLocation();
   const { hospitalId } = useParams();
-  const { xPosition, yPosition } = information.state.information;
-  // console.log(information.state.information);
+  const lat = information.state.information.hospitalY
+  const lng = information.state.information.hospitalX
   const [hospitalDesc, setHospitalDesc] = useRecoilState(hospitalDescState);
   const [hospitalBasic, setHospitalBasic] = useRecoilState(hospitalBasicState);
-  // console.log(getBasic);
-  const getDesc = async () => {
-    await axios
+
+
+
+  useEffect(() => {
+    axios
       .get(`${API_URL_HOSPITAL}/desc/${hospitalId}`)
       .then(
         res => setHospitalDesc(res.data.data),
@@ -36,8 +38,7 @@ function HospitalDetail() {
 
   return (
     <SContainer>
-      <KakaoMap x={xPosition} y={yPosition} />
-      <HositalTotal />
+      <KakaoMap lat={lat} lng={lng} />
     </SContainer>
   );
 }
