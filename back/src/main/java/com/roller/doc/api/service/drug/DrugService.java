@@ -27,4 +27,14 @@ public interface DrugService {
 	 * drugId로 의약품 상세정보 출력(drug_avoid)
 	 */
 	ResponseDTO selectDrugAvoid(Long drug_id) throws Exception;
+
+	/**
+	 * 나의 약봉지 속 약 조회
+	 */
+	ResponseDTO findMyPillList(Long drug_my_id) throws Exception;
+
+	/**
+	 * 나의 약봉지 삭제
+	 */
+	ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception;
 	}

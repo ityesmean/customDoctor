@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,6 +65,24 @@ public class DrugController {
 	@GetMapping("/avoidinfo/{drugId}")
 	public ResponseEntity selectDrugAvoid(@PathVariable("drugId") Long drugId) throws Exception {
 		ResponseDTO result = drugService.selectDrugAvoid(Long.valueOf(drugId));
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
+	/**
+	 * 나의 약봉지 속 약 조회
+	 */
+	@GetMapping("/mypill/{drugMyId}")
+	public ResponseEntity findPillList(@PathVariable("drugMyId") Long drugMyId) throws Exception {
+		ResponseDTO result = drugService.findMyPillList(drugMyId);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
+
+	/**
+	 * 나의 약봉지 삭제
+	 */
+	@PutMapping("/delete/{drugMyId}")
+	public ResponseEntity deleteDrugMy(@PathVariable("drugMyId") Long drugMyId) throws Exception {
+		ResponseDTO result = drugService.deleteDrugMy(drugMyId);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 }
