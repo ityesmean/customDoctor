@@ -1,6 +1,10 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+
+import { API_URL_USER } from '../../api/api';
 
 // import Under from '../assets/Under.png';
 // import Up from '../assets/Up.png';
@@ -29,6 +33,7 @@ const SContentsWrapper = styled.div`
   width: 100%;
   overflow: hidden;
   transition: height 0.35s ease;
+  margin-left: 3vw;
 `;
 
 const SContent = styled.div`
@@ -42,29 +47,32 @@ const SLine = styled.div`
   line-height: 0.1em;
 `;
 
-const SRow = styled.div`
-  border-bottom: 1px solid #aaa;
-  display: flex;
-  justify-content: space-around;
-`;
+// const SRow = styled.div`
+//   border-bottom: 1px solid #aaa;
+//   display: flex;
+//   justify-content: space-around;
+// `;
 
-const Simage = styled.div`
-  padding: 2vw 1vw 2vw 1vw;
-`;
+// const Simage = styled.div`
+//   padding: 2vw 1vw 2vw 1vw;
+// `;
 
 // const SImg = styled.img`
 //   width: 5vw;
 // `;
 
-const SBox = styled.div``;
+// const SBox = styled.div``;
 
 const Stext = styled.div`
+  font-weight: bold;
   padding: 1vw 0 1vw 0;
 `;
 
-const StextBox = styled.div`
-  width: 30vw;
-`;
+const SMemo = styled.div``;
+
+// const StextBox = styled.div`
+//   width: 30vw;
+// `;
 
 const SButton = styled.div`
   top: 8px;
@@ -77,7 +85,7 @@ const SButton = styled.div`
 
 // const SUnder = styled.Under``
 
-function PillsAccordian({ data }) {
+function PillsAccordian({ pillList }) {
   const parentRef = React.useRef(null);
   const childRef = React.useRef(null);
 
@@ -102,18 +110,29 @@ function PillsAccordian({ data }) {
   const parentRefHeight = parentRef.current?.style.height ?? '0px';
   const buttonText = parentRefHeight === '0px' ? '▲' : '▼';
   // const buttonText = parentRefHeight === '0px' ? '열기' : '닫기';
+  const getPillAccordian = async () => {
+    await axios
+      .get(`${API_URL_USER}/mypill/${pillList.drugMyId}`)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
+  useEffect(() => {
+    getPillAccordian();
+  }, []);
 
   return (
     <SContainer>
       <SHeader onClick={handleButtonClick}>
-        {data.title}
+        {/* {data.title} */}
+        {pillList.drugMyTitle}
         <SButton>{buttonText}</SButton>
       </SHeader>
       <SLine />
       <SContentsWrapper ref={parentRef}>
         <SContent ref={childRef}>
           {/* {data.pillGroup} */}
-          <SBox>
+          {/* <SBox>
             {data.pillGroup !== null
               ? data.pillGroup.map(item => (
                   <SRow key={item.id}>
@@ -125,9 +144,9 @@ function PillsAccordian({ data }) {
                   </SRow>
                 ))
               : null}
-          </SBox>
+          </SBox> */}
           <Stext>메모</Stext>
-          <Stext>{data.memo}</Stext>
+          <SMemo>{pillList.drugMyMemo}</SMemo>
         </SContent>
       </SContentsWrapper>
     </SContainer>
