@@ -108,6 +108,7 @@ public class HospitalServiceImpl implements HospitalService {
                     HospitalRes hospitalRes = HospitalRes.builder()
                             .hospitalId(hospital.getHospital_id())
                             .hospitalName(hospital.getHospital_name())
+                            .hospitalOpen(hospitalOpen)
                             .hospitalCode(hospital.getHospital_code())
                             .hospitalX(hospital.getHospital_x())
                             .hospitalY(hospital.getHospital_y())
@@ -180,6 +181,9 @@ public class HospitalServiceImpl implements HospitalService {
     public static boolean isOpen(Hospital h, int hour, int min, int day) {
         int now = (hour * 100) + min;
         String[] str;
+        if(h.getHospitalTime()==null){
+            return false;
+        }
         //일:0 월:1 화:2 수:3 목:4 금:5 토:6
         switch (day) {
             case 0:
