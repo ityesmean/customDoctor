@@ -77,6 +77,7 @@ function KakaoMap({ lat, lng }) {
             '</div>',
         );
         infowindow.open(map, marker);
+        console.log(place.place_name);
       });
     }
 
