@@ -11,6 +11,10 @@ import com.roller.doc.db.entity.DrugMyPill;
 
 @Repository
 public interface DrugMyPillRepository extends JpaRepository<DrugMyPill, Long> {
+
+	/**
+	 * 나의 약봉지 속 약 조회
+	 */
 	@Query(value = "SELECT * FROM drug_my_pill WHERE drug_my_id=:drugMyId", nativeQuery = true)
 	List<DrugMyPill> findMyPillList(@Param("drugMyId")Long drug_my_id);
 }

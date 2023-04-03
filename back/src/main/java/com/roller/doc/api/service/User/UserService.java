@@ -22,12 +22,24 @@ public interface UserService {
      */
     ResponseDTO listHospitalMy(String token, HospitalMyListReq hospitalMyListReq);
 
+    /**
+     * 나의 약봉지 목록 조회
+     */
     ResponseDTO findList(String token) throws Exception;
 
+    /**
+     * 나의 약봉지 속 약 조회
+     */
     ResponseDTO findMyPillList(Long drug_my_id) throws Exception;
 
+    /**
+     * 나의 약봉지 삭제
+     */
     ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception;
 
+    /**
+     * 나의 약봉지 추가
+     */
     DrugMyRes createDrugMy(String token, DrugMyCreateRes drugMyCreateRes) throws Exception;
 
 }

@@ -16,7 +16,6 @@ public class DrugMyCreateRes {
 	private Boolean drugMyDel;
 	private String drugMyMemo;
 	private String drugMyTitle;
-	// private Long userId;
 
 	@Builder
 	public DrugMyCreateRes(Long drugMyPillId, List<Long> drugId, Long drugMyId, Boolean drugMyDel, String drugMyMemo,
@@ -27,6 +26,5 @@ public class DrugMyCreateRes {
 		this.drugMyDel = drugMyDel;
 		this.drugMyMemo = drugMyMemo;
 		this.drugMyTitle = drugMyTitle;
-		// this.userId = userId;
 	}
 }
