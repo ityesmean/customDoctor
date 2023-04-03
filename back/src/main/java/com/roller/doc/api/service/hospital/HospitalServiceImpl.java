@@ -181,6 +181,9 @@ public class HospitalServiceImpl implements HospitalService {
         int now = (hour * 100) + min;
         String[] str;
         //일:0 월:1 화:2 수:3 목:4 금:5 토:6
+        if(h.getHospitalTime()==null){
+            return false;
+        }
         switch (day) {
             case 0:
                 if (h.getHospitalTime().getHospitalTimeSun().equals("null")) { //null이면 영업안함
