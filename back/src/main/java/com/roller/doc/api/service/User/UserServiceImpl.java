@@ -1,5 +1,6 @@
 package com.roller.doc.api.service.User;
 
+import com.roller.doc.api.request.HospitalMyListReq;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.response.drug.DrugMyCreateRes;
 import com.roller.doc.api.response.drug.DrugMyPillRes;
@@ -48,8 +49,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(HospitalMyRepository hospitalMyRepository, HospitalRepository hospitalRepository,
-        DrugRepository drugRepository, DrugMyRepository drugMyRepository, DrugMyPillRepository drugMyPillRepository,
-        TokenService tokenService, UserRepository userRepository) {
+                           DrugRepository drugRepository, DrugMyRepository drugMyRepository, DrugMyPillRepository drugMyPillRepository,
+                           TokenService tokenService, UserRepository userRepository) {
         this.hospitalMyRepository = hospitalMyRepository;
         this.hospitalRepository = hospitalRepository;
         this.drugRepository = drugRepository;
@@ -67,7 +68,7 @@ public class UserServiceImpl implements UserService {
     public ResponseDTO statusHospitalMy(String token, long hospitalId, boolean status) {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
-            Long userId=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
+            Long userId = userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
             Optional<HospitalMy> isMy = hospitalMyRepository.findHospitalMy(userId, hospitalId);
             if (isMy.isEmpty()) { //등록된적이 없으면 신규등록
                 HospitalMy hospitalMy = HospitalMy.builder()
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService {
     public ResponseDTO isHospitalMy(String token, long hospitalId) {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
-            Long userId=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
+            Long userId = userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
             Optional<HospitalMy> isMy = hospitalMyRepository.isHospitalMy(userId, hospitalId);
             if (isMy.isEmpty()) {
                 responseDTO.setStatus_code(204);
@@ -128,10 +129,10 @@ public class UserServiceImpl implements UserService {
      * 병원 즐겨찾기 리스트
      */
     @Override
-    public ResponseDTO listHospitalMy(String token) {
+    public ResponseDTO listHospitalMy(String token, HospitalMyListReq Req) {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
-            Long userId=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
+            Long userId = userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
             List<HospitalMy> myList = hospitalMyRepository.listingHospitalMy(userId);
             if (myList.size() == 0) {
                 responseDTO.setStatus_code(204);
@@ -150,9 +151,12 @@ public class UserServiceImpl implements UserService {
                             partResult.add(partList.get(j).getHospital_part_doctor() + ""); //의사수
                         }
                     }
+                    //영업중 여부 판단하기
+                    boolean hospitalOpen = isOpen(hospital.get(), Req.getHour(), Req.getMin(), Req.getDay());
                     HospitalRes hospitalRes = HospitalRes.builder()
                             .hospitalId(hospital.get().getHospital_id())
                             .hospitalName(hospital.get().getHospital_name())
+                            .hospitalOpen(hospitalOpen)
                             .hospitalCode(hospital.get().getHospital_code())
                             .hospitalX(hospital.get().getHospital_x())
                             .hospitalY(hospital.get().getHospital_y())
@@ -175,7 +179,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseDTO findList(String token) throws Exception {
-        Long user_id=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
+        Long user_id = userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
         List<DrugMyRes> result = new ArrayList<>();
         ResponseDTO responseDTO = new ResponseDTO();
 
@@ -184,16 +188,15 @@ public class UserServiceImpl implements UserService {
             if (drugMIES == null) {
                 responseDTO.setMessage("출력 실패");
                 responseDTO.setStatus_code(400);
-            }
-            else {
+            } else {
                 for (int i = 0; i < drugMIES.size(); i++) {
                     DrugMyRes drugMyRes = DrugMyRes.builder()
-                        .drugMyId(drugMIES.get(i).getDrug_my_id())
-                        .drugMyDel(drugMIES.get(i).getDrug_my_del())
-                        .drugMyMemo(drugMIES.get(i).getDrug_my_memo())
-                        .drugMyTitle(drugMIES.get(i).getDrug_my_title())
-                        .userId(user_id)
-                        .build();
+                            .drugMyId(drugMIES.get(i).getDrug_my_id())
+                            .drugMyDel(drugMIES.get(i).getDrug_my_del())
+                            .drugMyMemo(drugMIES.get(i).getDrug_my_memo())
+                            .drugMyTitle(drugMIES.get(i).getDrug_my_title())
+                            .userId(user_id)
+                            .build();
                     result.add(drugMyRes);
                 }
                 responseDTO.setData(result);
@@ -217,14 +220,13 @@ public class UserServiceImpl implements UserService {
             if (drugMyPills == null) {
                 responseDTO.setMessage("출력 실패");
                 responseDTO.setStatus_code(400);
-            }
-            else {
+            } else {
                 for (int i = 0; i < drugMyPills.size(); i++) {
                     DrugMyPillRes drugMyPillRes = DrugMyPillRes.builder()
-                        .drugMyPillId(drugMyPills.get(i).getDrug_my_pill_id())
-                        .drugId(drugMyPills.get(i).getDrug())
-                        .drugMyId(drug_my_id)
-                        .build();
+                            .drugMyPillId(drugMyPills.get(i).getDrug_my_pill_id())
+                            .drugId(drugMyPills.get(i).getDrug())
+                            .drugMyId(drug_my_id)
+                            .build();
                     result.add(drugMyPillRes);
                 }
                 responseDTO.setData(result);
@@ -244,7 +246,7 @@ public class UserServiceImpl implements UserService {
 
         DrugMyRes result = new DrugMyRes();
         DrugMyPillRes result2 = new DrugMyPillRes();
-        Long user_id=userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
+        Long user_id = userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
 
         try {
             drugMy.setDrug_my_del(false);
@@ -310,5 +312,80 @@ public class UserServiceImpl implements UserService {
                 , "72", "73", "74", "75", "76", "77", "78", "79", "한방내과", "한방부인과", "한방소아과", "한방안·이비인후·피부과", "한방신경정신과"
                 , "침구과", "한방재활의학과", "사상체질과", "한방응급", "89", "한방소계", "91", "92", "93", "94", "95", "96", "97", "98", "99", "한의원"};
         return arr[partNo];
+    }
+
+    /**
+     * 영업중인지 여부 판단하기
+     */
+    public static boolean isOpen(Hospital h, int hour, int min, int day) {
+        int now = (hour * 100) + min;
+        String[] str;
+        //일:0 월:1 화:2 수:3 목:4 금:5 토:6
+        switch (day) {
+            case 0:
+                if (h.getHospitalTime().getHospitalTimeSun().equals("null")) { //null이면 영업안함
+                    return false;
+                } else {
+                    str = h.getHospitalTime().getHospitalTimeSun().split("~");
+                    return check(str, now);
+                }
+            case 1:
+                if (h.getHospitalTime().getHospitalTimeMon().equals("null")) {
+                    return false;
+                } else {
+                    str = h.getHospitalTime().getHospitalTimeMon().split("~");
+                    return check(str, now);
+                }
+            case 2:
+                if (h.getHospitalTime().getHospitalTimeTue().equals("null")) {
+                    return false;
+                } else {
+                    str = h.getHospitalTime().getHospitalTimeTue().split("~");
+                    return check(str, now);
+                }
+            case 3:
+                if (h.getHospitalTime().getHospitalTimeWed().equals("null")) {
+                    return false;
+                } else {
+                    str = h.getHospitalTime().getHospitalTimeTue().split("~");
+                    return check(str, now);
+                }
+            case 4:
+                if (h.getHospitalTime().getHospitalTimeThu().equals("null")) {
+                    return false;
+                } else {
+                    str = h.getHospitalTime().getHospitalTimeTue().split("~");
+                    return check(str, now);
+                }
+            case 5:
+                if (h.getHospitalTime().getHospitalTimeFri().equals("null")) {
+                    return false;
+                } else {
+                    str = h.getHospitalTime().getHospitalTimeTue().split("~");
+                    return check(str, now);
+                }
+            case 6:
+                if (h.getHospitalTime().getHospitalTimeSat().equals("null")) {
+                    return false;
+                } else {
+                    str = h.getHospitalTime().getHospitalTimeTue().split("~");
+                    return check(str, now);
+                }
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * 지금 이시간에 영업중인지 계산
+     */
+    public static boolean check(String[] str, int now) {
+        int start = (str[0].charAt(0) - '0') * 1000 + (str[0].charAt(1) - '0') * 100 + (str[0].charAt(3) - '0') * 10 + str[0].charAt(4) - '0';
+        int end = (str[1].charAt(0) - '0') * 1000 + (str[1].charAt(1) - '0') * 100 + (str[1].charAt(3) - '0') * 10 + str[1].charAt(4) - '0';
+        if (start <= now && now <= end) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
