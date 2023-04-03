@@ -1,12 +1,12 @@
 package com.roller.doc.api.controller;
 
+import com.roller.doc.api.request.HospitalMyListReq;
 import com.roller.doc.api.request.HospitalMyReq;
 import com.roller.doc.api.request.HospitalMyStatusReq;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.response.drug.DrugMyCreateRes;
 import com.roller.doc.api.response.drug.DrugMyRes;
 import com.roller.doc.api.service.User.UserService;
-import com.roller.doc.api.service.drug.DrugService;
 import com.roller.doc.util.HeaderUtil;
 
 import lombok.extern.log4j.Log4j2;
@@ -49,9 +49,9 @@ public class UserController {
      * 즐겨찾기 리스트
      */
     @PostMapping("/hospital/marklist")
-    public ResponseEntity listHospitalMy(@RequestHeader String Authorization) {
+    public ResponseEntity listHospitalMy(@RequestHeader String Authorization, @RequestBody HospitalMyListReq hospitalMyListReq) {
         String token = HeaderUtil.getAccessTokenString(Authorization);
-        ResponseDTO responseDTO = userService.listHospitalMy(token);
+        ResponseDTO responseDTO = userService.listHospitalMy(token, hospitalMyListReq);
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 

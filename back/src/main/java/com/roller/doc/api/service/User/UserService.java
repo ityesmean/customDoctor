@@ -1,5 +1,6 @@
 package com.roller.doc.api.service.User;
 
+import com.roller.doc.api.request.HospitalMyListReq;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.response.drug.DrugMyCreateRes;
 import com.roller.doc.api.response.drug.DrugMyRes;
@@ -19,7 +20,7 @@ public interface UserService {
     /**
      * 병원 즐겨찾기 리스트
      */
-    ResponseDTO listHospitalMy(String token);
+    ResponseDTO listHospitalMy(String token, HospitalMyListReq hospitalMyListReq);
 
     ResponseDTO findList(String token) throws Exception;
 

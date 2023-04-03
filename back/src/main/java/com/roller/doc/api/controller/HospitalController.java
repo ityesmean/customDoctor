@@ -1,7 +1,7 @@
 package com.roller.doc.api.controller;
 
 import com.roller.doc.api.request.HospitalFilterReq;
-import com.roller.doc.api.request.HospitalMyReq;
+import com.roller.doc.api.request.HospitalSearchReq;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.service.hospital.HospitalService;
 import org.springframework.http.HttpStatus;
@@ -30,9 +30,9 @@ public class HospitalController {
     /**
      * 이름으로 병원 검색
      */
-    @GetMapping("/search/{word}")
-    public ResponseEntity searchByWord(@PathVariable("word") String word, @RequestParam double e, @RequestParam double w, @RequestParam double s, @RequestParam double n) {
-        ResponseDTO responseDTO = hospitalService.searchByHospitalName(word, e, w, s, n);
+    @PostMapping("/search/{word}")
+    public ResponseEntity searchByWord(@PathVariable("word") String word, @RequestBody HospitalSearchReq hospitalSearchReq) {
+        ResponseDTO responseDTO = hospitalService.searchByHospitalName(word, hospitalSearchReq);
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
@@ -50,10 +50,7 @@ public class HospitalController {
      */
     @PostMapping("/find")
     public ResponseEntity filteringHospital(@RequestBody HospitalFilterReq h) {
-        ResponseDTO responseDTO = hospitalService.filteringHospital(h.getE(), h.getW(), h.getS(), h.getN(),
-                h.getPart(),h.getOpen());
+        ResponseDTO responseDTO = hospitalService.filteringHospital(h);
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
-
-
 }
