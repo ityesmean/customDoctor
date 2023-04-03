@@ -67,24 +67,6 @@ public class UserController {
     }
 
     /**
-     * 나의 약봉지 속 약 조회
-     */
-    @GetMapping("/drug/mypill/{drugMyId}")
-    public ResponseEntity findPillList(@PathVariable("drugMyId") Long drugMyId) throws Exception {
-        ResponseDTO result = userService.findMyPillList(drugMyId);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    /**
-     * 나의 약봉지 삭제
-     */
-    @PutMapping("/drug/delete/{drugMyId}")
-    public ResponseEntity deleteDrugMy(@PathVariable("drugMyId") Long drugMyId) throws Exception {
-        ResponseDTO result = userService.deleteDrugMy(drugMyId);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    /**
      * 나의 약봉지 추가
      */
     @PostMapping("/drug/plus")
