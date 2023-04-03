@@ -79,7 +79,7 @@ function MyPageMedicine(props) {
 
   const getPillLists = async () => {
     await axios
-      .get(`${API_URL_USER}/my`, {
+      .get(`${process.env.REACT_APP_API_URL}/user/drug/my`, {
         headers: {
           Authorization: accessToken,
         },

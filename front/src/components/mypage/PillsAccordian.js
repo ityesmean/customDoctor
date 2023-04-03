@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useEffect } from 'react';
+/* eslint-disable no-useless-return */
+/* eslint-disable no-restricted-globals */
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-
-import { API_URL_USER } from '../../api/api';
 
 // import Under from '../assets/Under.png';
 // import Up from '../assets/Up.png';
@@ -33,7 +34,6 @@ const SContentsWrapper = styled.div`
   width: 100%;
   overflow: hidden;
   transition: height 0.35s ease;
-  margin-left: 3vw;
 `;
 
 const SContent = styled.div`
@@ -47,26 +47,36 @@ const SLine = styled.div`
   line-height: 0.1em;
 `;
 
-// const SRow = styled.div`
-//   border-bottom: 1px solid #aaa;
-//   display: flex;
-//   justify-content: space-around;
-// `;
-
-// const Simage = styled.div`
-//   padding: 2vw 1vw 2vw 1vw;
-// `;
-
-// const SImg = styled.img`
-//   width: 5vw;
-// `;
-
-// const SBox = styled.div``;
-
-const Stext = styled.div`
-  font-weight: bold;
-  padding: 1vw 0 1vw 0;
+const SRow = styled.div`
+  border-bottom: 1px solid #aaa;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `;
+
+const SImage = styled.img`
+  width:20vw;
+  padding: 1vh 0 1vh 0;
+`;
+
+const SBox = styled.div``;
+
+const SText = styled.div`
+  font-weight: bold;
+  padding: 1vh 0 1vh 0;
+`
+
+const SDrugName = styled.div`
+  width: 30vw;
+  font-weight: bold;
+  padding: 1vh 0 1vh 0;
+`;
+
+const SIngre = styled.div`
+  font-weight: bold;
+  padding: 1vh 0 1vh 0;
+
+`
 
 const SMemo = styled.div``;
 
@@ -83,6 +93,19 @@ const SButton = styled.div`
   align-items: center;
 `;
 
+const SDeleteButtonWrapper = styled.div`
+  display:flex;
+  justify-content: center;
+`
+
+const SPillListDeleteButton = styled.button`
+  color: #bdbdbd;
+  border: 1px solid #bdbdbd;
+  padding: 1vw;
+  background: none;
+  border-radius: 10px;
+`
+
 // const SUnder = styled.Under``
 
 function PillsAccordian({ pillList }) {
@@ -90,6 +113,7 @@ function PillsAccordian({ pillList }) {
   const childRef = React.useRef(null);
 
   const [isCollapse, setIsCollapse] = React.useState(false);
+  const [pills, setPills] = useState([])
 
   const handleButtonClick = React.useCallback(
     event => {
@@ -107,15 +131,31 @@ function PillsAccordian({ pillList }) {
     [isCollapse],
   );
 
+  // 약봉지를 삭제하는 함수
+  const onClickDeletePillListHandler = async () => {
+    const check = confirm('삭제 하시겠습니까?')
+    if (check) {
+      await axios.put(`${process.env.REACT_APP_API_URL}/drug/delete/${pillList.drugMyId}`).then(res => console.log(res)).catch(err => console.log(err))
+      location.reload()
+    } else {
+      return
+    }
+  }
+
+
   const parentRefHeight = parentRef.current?.style.height ?? '0px';
   const buttonText = parentRefHeight === '0px' ? '▲' : '▼';
   // const buttonText = parentRefHeight === '0px' ? '열기' : '닫기';
   const getPillAccordian = async () => {
     await axios
-      .get(`${API_URL_USER}/mypill/${pillList.drugMyId}`)
-      .then(res => console.log(res))
+      .get(`${process.env.REACT_APP_API_URL}/drug/mypill/${pillList.drugMyId}`)
+      .then(res => {
+        setPills(res.data.data)
+        console.log(res.data.data)
+      })
       .catch(err => console.log(err));
   };
+
 
   useEffect(() => {
     getPillAccordian();
@@ -124,32 +164,33 @@ function PillsAccordian({ pillList }) {
   return (
     <SContainer>
       <SHeader onClick={handleButtonClick}>
-        {/* {data.title} */}
         {pillList.drugMyTitle}
         <SButton>{buttonText}</SButton>
       </SHeader>
       <SLine />
       <SContentsWrapper ref={parentRef}>
         <SContent ref={childRef}>
-          {/* {data.pillGroup} */}
-          {/* <SBox>
-            {data.pillGroup !== null
-              ? data.pillGroup.map(item => (
-                  <SRow key={item.id}>
-                    <Simage>이미지 자리</Simage>
-                    <StextBox>
-                      <Stext>{item.pillTitle}</Stext>
-                      <Stext>{item.pillIngre}</Stext>
-                    </StextBox>
-                  </SRow>
-                ))
-              : null}
-          </SBox> */}
-          <Stext>메모</Stext>
+          <SBox>
+
+            {pills != null ? (
+              pills.map(pill => (
+                <SRow key={pill.drugMyPillId}>
+                  <SImage src={`https://${pill.drugId.drug_img}`} alt='drugImg' />
+                  <SDrugName>{pill.drugId.drug_name}</SDrugName>
+                  {pill.drugId.drug_ingre === "null" ? (<SIngre>정보 없음</SIngre>) : <SIngre>{pill.drugId.drug_ingre}</SIngre>}
+                </SRow>
+              ))
+            ) : null}
+          </SBox>
+          <SText>메모</SText>
           <SMemo>{pillList.drugMyMemo}</SMemo>
+          <SDeleteButtonWrapper>
+            <SPillListDeleteButton type="button" onClick={onClickDeletePillListHandler}>삭제</SPillListDeleteButton>
+
+          </SDeleteButtonWrapper>
         </SContent>
       </SContentsWrapper>
-    </SContainer>
+    </SContainer >
   );
 }
 
