@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserRepository extends JpaRepository<User,Long> {
     User findByUserEmail(String email);
 
+    /**
+     * userId로 user 정보 출력
+     */
     @Transactional(readOnly = true)
     @Query(value = "SELECT * FROM user WHERE user_id =:userId", nativeQuery = true)
     public User findUser(@Param("userId") Long user_id);

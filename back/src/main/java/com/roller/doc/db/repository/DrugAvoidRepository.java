@@ -12,6 +12,9 @@ import com.roller.doc.db.entity.DrugAvoid;
 @Repository
 public interface DrugAvoidRepository extends JpaRepository<DrugAvoid, Long> {
 
+	/**
+	 * 의약품 상세정보 출력(drug_avoid)
+	 */
 	@Query(value = "SELECT * FROM drug_avoid WHERE drug_id =:drugId", nativeQuery = true)
 	List<DrugAvoid> selectDrugAvoid(@Param("drugId")Long drug_id);
 
