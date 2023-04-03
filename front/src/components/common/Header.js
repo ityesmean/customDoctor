@@ -28,7 +28,8 @@ function Header() {
         <SLogo>맞닥</SLogo>
       </SLink>
       <SLoginButton>
-        <SLoginLink href="http://localhost:8080/oauth2/authorization/kakao">
+        {/* <SLoginLink href="http://192.168.31.33:8080/oauth2/authorization/kakao"> */}
+        <SLoginLink href="https://j8b108.p.ssafy.io/api/oauth2/authorization/kakao">
           로그인
         </SLoginLink>
       </SLoginButton>

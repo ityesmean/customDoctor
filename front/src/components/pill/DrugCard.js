@@ -5,7 +5,8 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-// import { useNavigate } from 'react-router-dom';
+
+import { Link } from 'react-router-dom';
 
 import { PillBasket } from '../../assets/pilldata/index';
 
@@ -30,12 +31,17 @@ const SImg = styled.img`
   border-radius: 5vw;
 `;
 
+const SLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`;
+
 const SRightBox = styled.div`
   margin-left: 2vw;
   /* display: block; */
 `;
 
-const SBasketButton = styled.div`
+const SBasketButton = styled.button`
   display: flex;
   align-items: center;
   width: 15vw;
@@ -44,6 +50,7 @@ const SBasketButton = styled.div`
   border-radius: 3vw;
   margin: 1vw 0;
   justify-content: space-around;
+  cursor: pointer;
 `;
 
 const SButtonImg = styled.img`
@@ -97,7 +104,9 @@ function DrugCard({ card }) {
   return (
     <div>
       <SPillCard>
-        <SImg src={'https://' + card.drugImg} alt={card.drugImg} />
+        <SLink to={`/pill/${card.drugId}`} state={`${card.drugId}`}>
+          <SImg src={'https://' + card.drugImg} alt={card.drugImg} />
+        </SLink>
         <SRightBox>
           <SNameText>{card.drugName}</SNameText>
           <SBox>
