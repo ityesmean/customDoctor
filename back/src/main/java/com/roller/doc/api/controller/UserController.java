@@ -55,6 +55,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
+    /**
+     * 나의 약봉지 목록 조회
+     */
     @GetMapping("/drug/my")
     public ResponseEntity findList(@RequestHeader String Authorization) throws Exception {
         String token = HeaderUtil.getAccessTokenString(Authorization);
@@ -63,18 +66,27 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    /**
+     * 나의 약봉지 속 약 조회
+     */
     @GetMapping("/drug/mypill/{drugMyId}")
     public ResponseEntity findPillList(@PathVariable("drugMyId") Long drugMyId) throws Exception {
         ResponseDTO result = userService.findMyPillList(drugMyId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    /**
+     * 나의 약봉지 삭제
+     */
     @PutMapping("/drug/delete/{drugMyId}")
     public ResponseEntity deleteDrugMy(@PathVariable("drugMyId") Long drugMyId) throws Exception {
         ResponseDTO result = userService.deleteDrugMy(drugMyId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    /**
+     * 나의 약봉지 추가
+     */
     @PostMapping("/drug/plus")
     private ResponseEntity createDrugMy(@RequestHeader String Authorization, @RequestBody DrugMyCreateRes drugMyCreateRes) throws Exception {
         String token = HeaderUtil.getAccessTokenString(Authorization);

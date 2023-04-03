@@ -1,11 +1,6 @@
 package com.roller.doc.api.response.drug;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.roller.doc.db.entity.DrugMy;
-import com.roller.doc.db.entity.DrugMyPill;
-import com.roller.doc.db.entity.User;
 
 import lombok.Builder;
 import lombok.Data;

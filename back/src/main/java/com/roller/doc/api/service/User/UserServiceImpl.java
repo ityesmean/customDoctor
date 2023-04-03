@@ -13,8 +13,6 @@ import com.roller.doc.db.entity.DrugMyPill;
 import com.roller.doc.db.entity.Hospital;
 import com.roller.doc.db.entity.HospitalMy;
 import com.roller.doc.db.entity.HospitalPart;
-import com.roller.doc.db.repository.DrugAvoidRepository;
-import com.roller.doc.db.repository.DrugDescRepository;
 import com.roller.doc.db.repository.DrugMyPillRepository;
 import com.roller.doc.db.repository.DrugMyRepository;
 import com.roller.doc.db.repository.DrugRepository;
@@ -22,7 +20,6 @@ import com.roller.doc.db.repository.HospitalMyRepository;
 import com.roller.doc.db.repository.HospitalRepository;
 import com.roller.doc.db.repository.UserRepository;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -177,6 +174,9 @@ public class UserServiceImpl implements UserService {
         return responseDTO;
     }
 
+    /**
+     * 나의 약봉지 목록 조회
+     */
     @Override
     public ResponseDTO findList(String token) throws Exception {
         Long user_id = userRepository.findByUserEmail(tokenService.getEmail(token)).getUserId();
@@ -210,6 +210,9 @@ public class UserServiceImpl implements UserService {
         return responseDTO;
     }
 
+    /**
+     * 나의 약봉지 속 약 조회
+     */
     @Override
     public ResponseDTO findMyPillList(Long drug_my_id) throws Exception {
         List<DrugMyPillRes> result = new ArrayList<>();
@@ -240,6 +243,9 @@ public class UserServiceImpl implements UserService {
         return responseDTO;
     }
 
+    /**
+     * 나의 약봉지 추가
+     */
     @Override
     public DrugMyRes createDrugMy(String token, DrugMyCreateRes drugMyCreateRes) throws Exception {
         DrugMy drugMy = new DrugMy();
@@ -253,10 +259,10 @@ public class UserServiceImpl implements UserService {
             drugMy.setDrug_my_memo(drugMyCreateRes.getDrugMyMemo());
             drugMy.setDrug_my_title(drugMyCreateRes.getDrugMyTitle());
             drugMy.setUser(userRepository.findUser(user_id));
-//            drugMy.setUser(userRepository.findUser(drugMyCreateRes.getUserId()));
 
             result = new DrugMyRes(drugMyRepository.save(drugMy));
 
+            // 약 봉지 속 약 추가
             for (int i = 0; i < drugMyCreateRes.getDrugId().size(); i++) {
                 // id로 약 정보 찾기
                 Drug info = drugRepository.selectDrug(drugMyCreateRes.getDrugId().get(i));
@@ -276,6 +282,9 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    /**
+     * 나의 약봉지 삭제
+     */
     @Override
     public ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception {
 
