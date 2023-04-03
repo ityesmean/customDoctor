@@ -1,8 +1,16 @@
+/* eslint-disable prefer-template */
+/* eslint-disable no-useless-return */
+/* eslint-disable no-restricted-syntax */
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router-dom';
+
 import { PillBasket } from '../../assets/pilldata/index';
+
+import { myBasketState } from '../../atoms';
 
 const SPillCard = styled.div`
   width: 80vw;
@@ -11,15 +19,21 @@ const SPillCard = styled.div`
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   display: flex;
   align-items: center;
-  padding: 5vw;
+  padding: 2vw 2vw 2vw 5vw;
   border-radius: 4vw;
+  z-index: 999;
 `;
 
-const SImg = styled.div`
-  width: 60vw;
+const SImg = styled.img`
+  width: 50vw;
   height: 30vw;
-  background-color: gray;
+  /* background-color: gray; */
   border-radius: 5vw;
+`;
+
+const SLink = styled(Link)`
+  text-decoration: none;
+  color: black;
 `;
 
 const SRightBox = styled.div`
@@ -27,7 +41,7 @@ const SRightBox = styled.div`
   /* display: block; */
 `;
 
-const SBasketButton = styled.div`
+const SBasketButton = styled.button`
   display: flex;
   align-items: center;
   width: 15vw;
@@ -36,6 +50,7 @@ const SBasketButton = styled.div`
   border-radius: 3vw;
   margin: 1vw 0;
   justify-content: space-around;
+  cursor: pointer;
 `;
 
 const SButtonImg = styled.img`
@@ -68,20 +83,40 @@ const SButtonText = styled.div`
 `;
 
 function DrugCard({ card }) {
+  const [myBasket, setMyBasket] = useRecoilState(myBasketState);
+
+  // const drugList = useRecoilValue(medicineSearchResult);
+
+  const willAddDrug = {
+    name: card.drugName,
+    isChecked: 'unChecked',
+  };
+
+  const onClickAddDrugHandler = () => {
+    const temp = JSON.parse(JSON.stringify([...myBasket]));
+    for (const drug of myBasket) {
+      if (drug.name === card.drugName) {
+        return;
+      }
+    }
+    setMyBasket([...temp, willAddDrug]);
+  };
+
   return (
     <div>
       <SPillCard>
-        <SImg>이미지</SImg>
+        <SLink to={`/pill/${card.drugId}`} state={`${card.drugId}`}>
+          <SImg src={'https://' + card.drugImg} alt={card.drugImg} />
+        </SLink>
         <SRightBox>
-          <SNameText>{card.drug_name}</SNameText>
+          <SNameText>{card.drugName}</SNameText>
           <SBox>
-            {card.drug_ingre !== 'null' ? (
-              <SIngreText>{card.drug_ingre}</SIngreText>
+            {card.drugIngre !== 'null' ? (
+              <SIngreText>{card.drugIngre}</SIngreText>
             ) : (
               <SIngreText>정보없음</SIngreText>
             )}
-            {/* <SIngreText>{card.drug_ingre}</SIngreText> */}
-            <SBasketButton>
+            <SBasketButton onClick={onClickAddDrugHandler}>
               <SButtonImg src={PillBasket} alt={PillBasket} />
               <SButtonText>약바구니</SButtonText>
             </SBasketButton>
@@ -94,15 +129,19 @@ function DrugCard({ card }) {
 
 DrugCard.propTypes = {
   card: PropTypes.shape({
-    drug_name: PropTypes.string,
-    drug_ingre: PropTypes.string,
+    drugId: PropTypes.number,
+    drugName: PropTypes.string,
+    drugIngre: PropTypes.string,
+    drugImg: PropTypes.string,
   }),
 };
 
 DrugCard.defaultProps = {
   card: {
-    drug_name: null,
-    drug_ingre: null,
+    drugId: null,
+    drugImg: null,
+    drugName: null,
+    drugIngre: null,
   },
 };
 

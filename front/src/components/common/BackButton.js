@@ -4,6 +4,7 @@ import Back from '../../assets/Back.png';
 
 const SBack = styled.img`
   width: 8vw;
+  margin-top: 2vh;
   margin-bottom: 2vh;
   margin-left: 3vw;
 `;

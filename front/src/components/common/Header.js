@@ -12,14 +12,28 @@ const SLogo = styled.div`
   color: #00c192;
   margin-top: 5vh;
   margin-left: 6vw;
-  margin-bottom: 2vh;
+`;
+
+const SLoginButton = styled.button``;
+
+const SLoginLink = styled.a`
+  color: black;
+  text-decoration: none;
 `;
 
 function Header() {
   return (
-    <SLink to="/">
-      <SLogo>맞닥</SLogo>
-    </SLink>
+    <div>
+      <SLink to="/">
+        <SLogo>맞닥</SLogo>
+      </SLink>
+      <SLoginButton>
+        {/* <SLoginLink href="http://192.168.31.33:8080/oauth2/authorization/kakao"> */}
+        <SLoginLink href="https://j8b108.p.ssafy.io/api/oauth2/authorization/kakao">
+          로그인
+        </SLoginLink>
+      </SLoginButton>
+    </div>
   );
 }
 

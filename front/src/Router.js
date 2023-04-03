@@ -12,6 +12,7 @@ import GeolocationTest from './pages/GeolocationTest';
 import KakaoMap from './components/kakao/KakaoMap';
 import PillSearchResult from './pages/pill/PillSearchResult';
 import PillSearch from './pages/pill/PillSearch';
+import Redirect from './pages/Redirect';
 
 const router = createBrowserRouter([
   {
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
     element: <PillSearchResult />,
   },
   {
-    path: '/pill/detail',
+    path: '/pill/:drugId',
     element: <PillDetail />,
   },
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
   {
     path: 'kakaomap',
     element: <KakaoMap />,
+  },
+  {
+    path: '/:accessToken',
+    element: <Redirect />,
   },
 ]);
 

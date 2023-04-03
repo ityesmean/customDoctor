@@ -7,27 +7,21 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_URL_DRUG } from '../../api/api';
+import { API_URL_DRUG, API_URL_USER } from '../../api/api';
 
 import Header from '../../components/common/Header';
-import Back from '../../assets/Back.png';
+import BackButton from '../../components/common/BackButton';
 import MyLikeMedicineSearchAndList from '../../components/mypage/MyLikeMedicineSearchAndList';
 
 import BlackHospital from '../../assets/mypage/BlackHospital.png';
 import BlackMedicine from '../../assets/mypage/BlackMedicine.png';
 import GreenBasket from '../../assets/mypage/GreenBasket.png';
 
-import { myBasket } from '../../atoms';
+import { myBasketState, checkedMedicineState } from '../../atoms';
 
 const SLink = styled(Link)`
   text-decoration: none;
   color: black;
-`;
-
-const SBack = styled.img`
-  width: 8vw;
-  margin-bottom: 2vh;
-  margin-left: 3vw;
 `;
 
 const ImgBox = styled.div`
@@ -143,10 +137,12 @@ const SCreateBasketButton = styled.button`
 function MyPageBasket() {
   const navigate = useNavigate();
 
-  const [myMedicines, setMyMedicines] = useRecoilState(myBasket);
+  const [myMedicines, setMyMedicines] = useRecoilState(myBasketState);
   const [basketName, setBasketName] = useState('');
   const [basketMemo, setBasketMemo] = useState('');
-  const [likedMedicines, setLikedMedicines] = useState([]);
+  // const [likedMedicines, setLikedMedicines] = useState([]);
+  const [checkedMedicines, setCheckedMedicine] =
+    useRecoilState(checkedMedicineState);
 
   // 약 봉지 제목 handler
   const onChangeBasketNameHandler = e => {
@@ -157,13 +153,13 @@ function MyPageBasket() {
     setBasketMemo(e.target.value);
   };
   // 약 체크 Handler
-  const likedMedicinesHandler = medicines => {
-    setLikedMedicines(medicines);
-  };
+  // const likedMedicinesHandler = medicines => {
+  //   setLikedMedicines(medicines);
+  // };
 
   const onClickCreateBasketHandler = async () => {
     // 약을 담지않거나, 제목을 짓지 않았거나, 내용을 입력하지 않았을때 경고창
-    if (likedMedicines.length === 0) {
+    if (checkedMedicines.length === 0) {
       alert('약을 담아주세요.');
       return;
     } else if (basketName.length === 0) {
@@ -183,18 +179,37 @@ function MyPageBasket() {
       }
     });
 
+    // 체크된 약들 저장한 recoil 초기화
+    const clearCheckedMedicineState = () => {
+      setCheckedMedicine([]);
+    };
+
+    clearCheckedMedicineState();
+
     // 삭제된 약 list Recoil 저장소에 업데이트
     setMyMedicines(tempMedicines);
 
+    console.log(checkedMedicines);
+    console.log(basketName);
+    console.log(basketMemo);
+
+    const accessToken = localStorage.getItem('accessToken')
+    console.log(localStorage.getItem('accessToken'))
     // 약 봉투 담는 post요청
-    await axios.post(`${API_URL_DRUG}/`).catch(navigate('/mypage/medicine'));
+    // await axios.post(`${API_URL_USER}/plus`), {
+    // headers: {
+    //   Authorization: accessToken
+    // }
+    // }.
+    //   then(res => console.log(res))
+    //   .catch(err => console.log(err))
   };
 
   return (
     <>
       <Header />
       <SLink to="/">
-        <SBack src={Back} alt="Back" />
+        <BackButton />
       </SLink>
       <SPageSelectBox>
         <SPageBox>
@@ -228,9 +243,7 @@ function MyPageBasket() {
       </SPageSelectBox>
       <SLine />
 
-      <MyLikeMedicineSearchAndList
-        likedMedicinesHandler={likedMedicinesHandler}
-      />
+      <MyLikeMedicineSearchAndList />
 
       <SSubTitle>약봉지 생성</SSubTitle>
 

@@ -12,6 +12,7 @@ const SSlogunBox = styled.div`
   flex-direction: column;
   margin-top: 5vh;
   margin-left: 7vw;
+  margin-bottom: 15vh;
   font-weight: bold;
   font-size: 5vw;
 `;
@@ -22,14 +23,9 @@ const SSlogun1 = styled.div`
 const SSlogun2 = styled.div``;
 
 const SButtonBox = styled.div`
-  /* margin-top: 10vh; */
   display: flex;
-  position: absolute;
-  justify-content: center;
   justify-content: space-around;
   align-items: center;
-  top: 40%;
-  left: 0%;
 `;
 
 const SLink = styled(Link)`
@@ -39,9 +35,11 @@ const SLink = styled(Link)`
 const SCardBox = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 20vw;
   font-weight: bold;
-  margin-left: 10vw;
+  margin-left: 2.5vw;
+  margin-right: 2.5vw;
 `;
 const SSubTitle = styled.div`
   text-align: center;
@@ -52,7 +50,9 @@ const SSubTitle = styled.div`
   color: black;
 `;
 
-const SMypageImg = styled.img``;
+const SHomeImg = styled.img`
+  width: 15vw;
+`;
 
 function Home() {
   return (
@@ -67,21 +67,21 @@ function Home() {
       <SButtonBox>
         <SLink to="/hospital/search">
           <SCardBox>
-            <img src={HospitalMain} alt="Hospital" />
+            <SHomeImg src={HospitalMain} alt="Hospital" />
             <SSubTitle>병원 검색</SSubTitle>
           </SCardBox>
         </SLink>
 
         <SLink to="/pill/search">
           <SCardBox>
-            <img src={PillMain} alt="Pill" />
+            <SHomeImg src={PillMain} alt="Pill" />
             <SSubTitle>약 검색</SSubTitle>
           </SCardBox>
         </SLink>
 
         <SLink to="/mypage/hospitallist">
           <SCardBox>
-            <SMypageImg src={MypageMain} alt="Mypage" />
+            <SHomeImg src={MypageMain} alt="Mypage" />
             <SSubTitle>마이페이지</SSubTitle>
           </SCardBox>
         </SLink>

@@ -3,10 +3,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import BackButton from '../../components/common/BackButton';
 import HospitalList from '../../components/hospital/HospitalList';
 
 import Header from '../../components/common/Header';
-import Back from '../../assets/Back.png';
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
 import BlackMedicine from '../../assets/mypage/BlackMedicine.png';
 import BlackBasket from '../../assets/mypage/BlackBasket.png';
@@ -69,7 +69,7 @@ function MyPageHospitalList() {
     <>
       <Header />
       <SLink to="/">
-        <SBack src={Back} alt="Back" />
+        <BackButton />
       </SLink>
       <SPageSelectBox>
         <SPageBox>

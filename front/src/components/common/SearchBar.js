@@ -1,5 +1,9 @@
+/* eslint-disable vars-on-top */
+/* eslint-disable no-var */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+/* eslint-disable prefer-template */
+/* eslint-disable prefer-arrow-callback */
+import React, { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,7 +13,11 @@ import axios from 'axios';
 import Vec from '../../assets/Vector.svg';
 
 import { API_URL_DRUG, API_URL_HOSPITAL } from '../../api/api';
-import { medicineSearchResult } from '../../atoms';
+import {
+  medicineSearchResult,
+  myPositionState,
+  hospitalSearchResultState,
+} from '../../atoms';
 
 const SSearchContainer = styled.div`
   width: 100vw;
@@ -52,6 +60,53 @@ const SSearchBtn = styled.button`
 const SSearchForm = styled.form``;
 
 function SearchBar({ searchType }) {
+  const [myPosition, setMyPosition] = useRecoilState(myPositionState);
+  const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
+    hospitalSearchResultState,
+  );
+
+
+  useEffect(() => {
+    // 1km 당 위도
+    const latPerKm = 0.0091;
+    const lngPerKm = 0.0113;
+
+    // 본인의 위도, 경도 위치 가져오기 성공할때 실행되는 함수
+    const successLocation = position => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      console.log(lat, lng, 'here')
+      // const myNorth = 36.35887261465578;
+      // const mySouth = 36.34567675654588;
+      // const myEast = 127.35647601340733;
+      // const myWest = 127.29091439637051;
+      const myTempEast = lng + latPerKm * 5;
+      const myTempWest = lng - latPerKm * 5;
+      const myTempSouth = lat - lngPerKm * 5;
+      const myTempNorth = lat + lngPerKm * 5;
+
+      // console.log(lat, lng, '1');
+
+      // // // 반경 5km 로 위치 계산
+
+      // setMyEast(36.35887261465578);
+      // setMyWest(36.34567675654588);
+      // setMySouth(127.35647601340733);
+      // setMyNorth(127.29091439637051);
+      const myPositions = [];
+      myPositions.push(lat, lng, myTempEast, myTempWest, myTempSouth, myTempNorth);
+      setMyPosition(myPositions);
+    };
+
+    // 본인의 위도, 경도 위치 가져오기 실패할때 실행되는 함수
+    const failLocation = () => {
+      alert('위치 불러오기 실패');
+    };
+
+    // 본인의 위도, 경도 위치 가져오기
+    navigator.geolocation.getCurrentPosition(successLocation, failLocation);
+  }, []);
+
   const navigate = useNavigate();
   const searchCategory = searchType;
   // const [inputPlaceholder, setInputPlaceholder] = useState({searchType === 'hospital' ? '병원명을 입력해 주세요.' : '약 이름을 검색해 주세요.'});
@@ -65,26 +120,22 @@ function SearchBar({ searchType }) {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log(typeof inputValue);
-
     if (searchCategory === 'hospital') {
-      axios
-        .get(`${API_URL_HOSPITAL}/search/${inputValue}`)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+      navigate('/hospital/search/result', {
+        state: { type: 'keyWord', value: inputValue },
+      });
+      setInputValue('');
     } else if (searchCategory === 'drug') {
       axios
-        .get(`${API_URL_DRUG}/${inputValue}`)
+        .get(`${API_URL_DRUG}/name/${inputValue}`)
         .then(res => {
           setMedicineList(res.data.data);
           setInputValue('');
           navigate('/pill/result');
-          // console.log(res.data.data);
+          // console.log(res.data.data[0]);
         })
         .catch(err => console.log(err));
     }
-
-    setInputValue('');
   };
 
   return (
