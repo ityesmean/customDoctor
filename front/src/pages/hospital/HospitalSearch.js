@@ -275,9 +275,10 @@ function HospitalSearch() {
     } else if (checkedTimeOptions.length == 0) {
       options.push(checkedMedicalDepartments);
       options.push([0]);
+    } else {
+      options.push(checkedMedicalDepartments);
+      options.push(checkedTimeOptions);
     }
-
-    console.log(options);
 
     // const category = ['진료과목', '운영방식'];
 
@@ -290,9 +291,14 @@ function HospitalSearch() {
     // }
 
     setSelectedOption(options);
+    console.log('<options>');
+    console.log(options);
+    console.log('<selectedOption>');
+    console.log(selectedOption);
+
     // 옵션 없는 값 검사하고 통과시 검색 결과로 이동
     navigate('/hospital/search/result', {
-      state: { type: 'option', value: selectedOption },
+      state: { type: 'option', value: options },
     });
   };
 
