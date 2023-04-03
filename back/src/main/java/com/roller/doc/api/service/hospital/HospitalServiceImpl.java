@@ -181,9 +181,7 @@ public class HospitalServiceImpl implements HospitalService {
     public static boolean isOpen(Hospital h, int hour, int min, int day) {
         int now = (hour * 100) + min;
         String[] str;
-        if(h.getHospitalTime()==null){
-            return false;
-        }
+
         //일:0 월:1 화:2 수:3 목:4 금:5 토:6
         if(h.getHospitalTime()==null){
             return false;
