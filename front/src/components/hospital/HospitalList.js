@@ -30,16 +30,21 @@ function HospitalList({ searchType, searchValue, myPosition }) {
   const type = searchType;
   const value = searchValue;
   const position = myPosition;
+  const currentTime = new Date();
+  const currentDay = currentTime.getDay();
+  const currentHours = currentTime.getHours();
+  const currentMinutes = currentTime.getMinutes();
 
   const getKeywordHospitalSearchResult = async () => {
     await axios
-      .get(`${API_URL_HOSPITAL}/search/${value}`, {
-        params: {
-          e: position[2],
-          w: position[3],
-          s: position[4],
-          n: position[5],
-        },
+      .post(`${API_URL_HOSPITAL}/search/${value}`, {
+        e: position[2],
+        w: position[3],
+        s: position[4],
+        n: position[5],
+        hour: currentHours,
+        min: currentMinutes,
+        day: currentDay,
       })
       .then(res => {
         if (res.data.status_code === 204) {
