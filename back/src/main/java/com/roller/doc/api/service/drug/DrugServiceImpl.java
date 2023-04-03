@@ -2,6 +2,9 @@ package com.roller.doc.api.service.drug;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.roller.doc.api.response.drug.DrugMyPillRes;
+import com.roller.doc.db.entity.DrugMyPill;
 import com.roller.doc.db.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,8 @@ public class DrugServiceImpl implements DrugService {
 	private final DrugRepository drugRepository;
 	private final DrugAvoidRepository drugAvoidRepository;
 	private final DrugDescRepository drugDescRepository;
+	private final DrugMyPillRepository drugMyPillRepository;
+	private final DrugMyRepository drugMyRepository;
 
 	/**
 	 * 이름으로 의약품 검색
@@ -233,6 +238,66 @@ public class DrugServiceImpl implements DrugService {
 				responseDTO.setMessage("약 검색 성공");
 				responseDTO.setStatus_code(200);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseDTO;
+	}
+
+	/**
+	 * 나의 약봉지 속 약 조회
+	 */
+	@Override
+	public ResponseDTO findMyPillList(Long drug_my_id) throws Exception {
+		List<DrugMyPillRes> result = new ArrayList<>();
+		ResponseDTO responseDTO = new ResponseDTO();
+
+		try {
+			List<DrugMyPill> drugMyPills = drugMyPillRepository.findMyPillList(drug_my_id);
+			if (drugMyPills == null) {
+				responseDTO.setMessage("출력 실패");
+				responseDTO.setStatus_code(400);
+			} else {
+				for (int i = 0; i < drugMyPills.size(); i++) {
+					DrugMyPillRes drugMyPillRes = DrugMyPillRes.builder()
+						.drugMyPillId(drugMyPills.get(i).getDrug_my_pill_id())
+						.drugId(drugMyPills.get(i).getDrug())
+						.drugMyId(drug_my_id)
+						.build();
+					result.add(drugMyPillRes);
+				}
+				responseDTO.setData(result);
+				responseDTO.setMessage("나의 약봉지 속 약 출력 성공");
+				responseDTO.setStatus_code(200);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseDTO;
+	}
+
+	/**
+	 * 나의 약봉지 삭제
+	 */
+	@Override
+	public ResponseDTO deleteDrugMy(Long drug_my_id) throws Exception {
+
+		ResponseDTO responseDTO = new ResponseDTO();
+
+		try {
+			int result = drugMyRepository.deleteDrugMyById(drug_my_id);
+			System.out.println(result);
+			if (result == 1) {
+				responseDTO.setData(result);
+				responseDTO.setMessage("나의 약봉지 삭제 성공");
+				responseDTO.setStatus_code(200);
+			} else {
+				responseDTO.setMessage("출력 실패");
+				responseDTO.setStatus_code(400);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
