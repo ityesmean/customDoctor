@@ -198,7 +198,7 @@ function MyPageBasket() {
           drugMyMemo: basketMemo,
           drugMyTitle: basketName,
         },
-        // { withCredentials: true },
+        { withCredentials: true },
         {
           headers: {
             Authorization: accessToken,
