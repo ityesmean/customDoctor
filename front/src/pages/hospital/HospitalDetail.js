@@ -37,7 +37,6 @@ function HospitalDetail() {
   return (
     <SContainer>
       <KakaoMap x={xPosition} y={yPosition} />
-     /* <HositalTotal />*/
     </SContainer>
   );
 }
