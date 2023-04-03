@@ -1,5 +1,6 @@
 package com.roller.doc.db.repository;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
@@ -39,35 +40,55 @@ public class HospitalCustomRepo {
     /**
      * 거리5km+진료과목+운영시간 필터
      */
-    public List<Hospital> useFilterHospital(double e, double w, double s, double n, int p1,int p2,int p3,int p4,int p5,
-                                            int sat, int sun, int holiday, int night) {
+    public List<Hospital> useFilterHospital(double e, double w, double s, double n, List<Integer> part, List<Integer> open) {
         JPAQueryFactory query = querydslConfig.jpaQueryFactory();
-
-        if (sat == 0 && sun == 0 && holiday == 0 && night == 0 && p1 == 0) { //필터가 없는데 검색누른경우
+        //명령어 매핑
+        int[] partTmp = new int[5];
+        for (int i = 0; i < part.size(); i++) {
+            partTmp[i] = part.get(i);
+        }
+        BooleanBuilder builder = new BooleanBuilder();
+        for (int i = 0; i < open.size(); i++) {
+            switch (open.get(i)) {
+                case 1:
+                    builder.or(hospitalTime.hospitalTimeSat.ne("null"));
+                    break;
+                case 2:
+                    builder.or(hospitalTime.hospitalTimeSun.ne("null"));
+                    break;
+                case 3:
+                    builder.or(hospitalTime.hospitalTimeHoliday.eq(1));
+                    break;
+                case 4:
+                    builder.or(hospitalTime.hospitalTimeMonNight.eq(1));
+                    break;
+            }
+        }
+        if (open.get(0) == 0 && part.get(0) == 0) { //필터가 없는데 검색누른경우
             return query.select(hospital)
                     .from(hospital)
                     .where(locationBetween(e, w, s, n))
                     .distinct().fetch();
         }
-        if (p1 == 0) { //진료과목 필터가 없는 경우
+        if (part.get(0) == 0 && open.get(0) != 0) { //진료과목 필터가 없고 시간필터가 있는 경우
             return query.select(hospital)
                     .from(hospital)
-                    .innerJoin(hospitalTime).fetchJoin().on((openSat(hospital.hospital_id, sat)).or(openSun(hospital.hospital_id, sun)).or(openHoliday(hospital.hospital_id, holiday)).or(openNight(hospital.hospital_id, night)))
-                    .where(locationBetween(e, w, s, n))
+                    .innerJoin(hospitalTime).on(hospital.hospital_id.eq(hospitalTime.hospital.hospital_id))
+                    .where(locationBetween(e, w, s, n), builder)
                     .distinct().fetch();
         }
-        if (sat == 0 && sun == 0 && holiday == 0 && night == 0) { //시간 필터 없는 경우
+        if (open.get(0) == 0 && part.get(0) != 0) { //시간 필터 없고 과목필터가 있는 경우
             return query.select(hospital)
                     .from(hospital)
-                    .innerJoin(hospitalPart).fetchJoin().on(partEq(hospital.hospital_id, p1).or(partEq(hospital.hospital_id, p2)).or(partEq(hospital.hospital_id, p3)).or(partEq(hospital.hospital_id, p4)).or(partEq(hospital.hospital_id, p5)))
+                    .innerJoin(hospitalPart).fetchJoin().on(partEq(hospital.hospital_id, partTmp[0]).or(partEq(hospital.hospital_id, partTmp[1])).or(partEq(hospital.hospital_id, partTmp[2])).or(partEq(hospital.hospital_id, partTmp[3])).or(partEq(hospital.hospital_id, partTmp[4])))
                     .where(locationBetween(e, w, s, n))
                     .distinct().fetch();
         }
         return query.select(hospital)
                 .from(hospital)
-                .innerJoin(hospitalPart).fetchJoin().on(partEq(hospital.hospital_id, p1).or(partEq(hospital.hospital_id, p2)).or(partEq(hospital.hospital_id, p3)).or(partEq(hospital.hospital_id, p4)).or(partEq(hospital.hospital_id, p5)))
-                .innerJoin(hospitalTime).fetchJoin().on((openSat(hospital.hospital_id, sat)).or(openSun(hospital.hospital_id, sun)).or(openHoliday(hospital.hospital_id, holiday)).or(openNight(hospital.hospital_id, night)))
-                .where(locationBetween(e, w, s, n))
+                .innerJoin(hospitalPart).fetchJoin().on(partEq(hospital.hospital_id, partTmp[0]).or(partEq(hospital.hospital_id, partTmp[1])).or(partEq(hospital.hospital_id, partTmp[2])).or(partEq(hospital.hospital_id, partTmp[3])).or(partEq(hospital.hospital_id, partTmp[4])))
+                .innerJoin(hospitalTime).on(hospital.hospital_id.eq(hospitalTime.hospital.hospital_id))
+                .where(locationBetween(e, w, s, n), builder)
                 .distinct().fetch();
     }
 
@@ -127,9 +148,9 @@ public class HospitalCustomRepo {
      * 이름 fulltext search
      */
     public BooleanExpression keywordSearch(String keyword) {
-        if(keyword == null) {
+        if (keyword == null) {
             return null;
-        }else {
+        } else {
             NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,
                     "function('match',{0},{1})", hospital.hospital_name, "+" + keyword + "*");
             return booleanTemplate.gt(0);

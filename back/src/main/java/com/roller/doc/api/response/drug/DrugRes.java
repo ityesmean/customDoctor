@@ -1,7 +1,5 @@
 package com.roller.doc.api.response.drug;
 
-import com.roller.doc.db.entity.Drug;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;

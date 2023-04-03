@@ -1,12 +1,12 @@
 package com.roller.doc.api.controller;
 
+import com.roller.doc.api.request.HospitalMyListReq;
 import com.roller.doc.api.request.HospitalMyReq;
 import com.roller.doc.api.request.HospitalMyStatusReq;
 import com.roller.doc.api.response.ResponseDTO;
 import com.roller.doc.api.response.drug.DrugMyCreateRes;
 import com.roller.doc.api.response.drug.DrugMyRes;
 import com.roller.doc.api.service.User.UserService;
-import com.roller.doc.api.service.drug.DrugService;
 import com.roller.doc.util.HeaderUtil;
 
 import lombok.extern.log4j.Log4j2;
@@ -38,7 +38,7 @@ public class UserController {
     /**
      * 즐겨찾기 여부
      */
-    @PostMapping("hospital/ismark")
+    @PostMapping("/hospital/ismark")
     public ResponseEntity isHospitalMy(@RequestHeader String Authorization,@RequestBody HospitalMyReq hospitalMyReq) {
         String token = HeaderUtil.getAccessTokenString(Authorization);
         ResponseDTO responseDTO = userService.isHospitalMy(token, hospitalMyReq.getHospitalId());
@@ -49,13 +49,16 @@ public class UserController {
      * 즐겨찾기 리스트
      */
     @PostMapping("/hospital/marklist")
-    public ResponseEntity listHospitalMy(@RequestHeader String Authorization) {
+    public ResponseEntity listHospitalMy(@RequestHeader String Authorization, @RequestBody HospitalMyListReq hospitalMyListReq) {
         String token = HeaderUtil.getAccessTokenString(Authorization);
-        ResponseDTO responseDTO = userService.listHospitalMy(token);
+        ResponseDTO responseDTO = userService.listHospitalMy(token, hospitalMyListReq);
         return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
     }
 
-    @GetMapping("/my")
+    /**
+     * 나의 약봉지 목록 조회
+     */
+    @GetMapping("/drug/my")
     public ResponseEntity findList(@RequestHeader String Authorization) throws Exception {
         String token = HeaderUtil.getAccessTokenString(Authorization);
 
@@ -63,19 +66,28 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("/mypill/{drugMyId}")
+    /**
+     * 나의 약봉지 속 약 조회
+     */
+    @GetMapping("/drug/mypill/{drugMyId}")
     public ResponseEntity findPillList(@PathVariable("drugMyId") Long drugMyId) throws Exception {
         ResponseDTO result = userService.findMyPillList(drugMyId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PutMapping("/delete/{drugMyId}")
+    /**
+     * 나의 약봉지 삭제
+     */
+    @PutMapping("/drug/delete/{drugMyId}")
     public ResponseEntity deleteDrugMy(@PathVariable("drugMyId") Long drugMyId) throws Exception {
         ResponseDTO result = userService.deleteDrugMy(drugMyId);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PostMapping("/plus")
+    /**
+     * 나의 약봉지 추가
+     */
+    @PostMapping("/drug/plus")
     private ResponseEntity createDrugMy(@RequestHeader String Authorization, @RequestBody DrugMyCreateRes drugMyCreateRes) throws Exception {
         String token = HeaderUtil.getAccessTokenString(Authorization);
 

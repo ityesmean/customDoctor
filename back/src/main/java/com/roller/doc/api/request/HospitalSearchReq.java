@@ -2,10 +2,8 @@ package com.roller.doc.api.request;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class HospitalFilterReq {
+public class HospitalSearchReq {
     private double e;
     private double w;
     private double s;
@@ -13,6 +11,4 @@ public class HospitalFilterReq {
     private int hour;
     private int min;
     private int day;
-    private List<Integer> part;
-    private List<Integer> open;
 }
