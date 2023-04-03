@@ -262,18 +262,32 @@ function HospitalSearch() {
   // 검색 버튼 클릭시 실행되는 함수
   const handleSearch = () => {
     const options = [];
-    options.push(checkedMedicalDepartments);
-    options.push(checkedTimeOptions);
 
-    const category = ['진료과목', '운영방식'];
-
-    // 선택 안한 옵션이 발견되면 경고
-    for (const index in options) {
-      if (options[index].length === 0) {
-        alert(`${category[index]} 항목을 선택해주세요.`);
-        return;
-      }
+    if (
+      checkedMedicalDepartments.length == 0 &&
+      checkedTimeOptions.length == 0
+    ) {
+      alert(`항목을 선택해주세요.`);
+      return;
+    } else if (checkedMedicalDepartments.length == 0) {
+      options.push([0]);
+      options.push(checkedTimeOptions);
+    } else if (checkedTimeOptions.length == 0) {
+      options.push(checkedMedicalDepartments);
+      options.push([0]);
     }
+
+    console.log(options);
+
+    // const category = ['진료과목', '운영방식'];
+
+    // // 선택 안한 옵션이 발견되면 경고
+    // for (const index in options) {
+    //   if (options[index].length === 0) {
+    //     alert(`${category[index]} 항목을 선택해주세요.`);
+    //     return;
+    //   }
+    // }
 
     setSelectedOption(options);
     // 옵션 없는 값 검사하고 통과시 검색 결과로 이동
