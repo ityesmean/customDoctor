@@ -30,7 +30,6 @@ import lombok.extern.log4j.Log4j2;
 @Transactional
 @RequiredArgsConstructor
 public class DrugServiceImpl implements DrugService {
-	private final DrugMyRepository drugMyRepository;
 
 	private final DrugRepository drugRepository;
 	private final DrugAvoidRepository drugAvoidRepository;
