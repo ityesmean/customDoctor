@@ -126,18 +126,14 @@ function HospitalBasic() {
   // const mounted = useRef(false);
   const token = localStorage.getItem('accessToken');
   const FavoriteFun = async () => {
-    console.log(`${basicInfo.hospitalId}`, trigger, token);
     await axios
-      .put(`${API_URL_USER}/hospital/statusmark`, {
-        withCredentials: true,
-        headers: {
-          Authorization: token,
-        },
-        body: {
-          hospitalId: `${basicInfo.hospitalId}`,
-          status: trigger,
-        },
-      })
+      .put(
+        `${API_URL_USER}/hospital/statusmark`,
+        // { withCredentials: true },
+        { Authorization: token },
+        { hospitalId: `${basicInfo.hospitalId}`, status: trigger },
+        console.log(basicInfo.hospitalId, trigger, token, 'axios'),
+      )
       .then(res => console.log(res))
       .catch(err => console.log(err));
   };
