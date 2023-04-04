@@ -31,13 +31,14 @@ function HospitalDetail() {
   };
 
   useEffect(() => {
+    // 여가에서
     getInformation();
   }, []);
 
   return (
     <SContainer>
       <KakaoMap lat={lat} lng={lng} />
-      <HositalTotal />
+      {hospitalBasic !== null ? <HositalTotal /> : <div>렌더링중</div>}
     </SContainer>
   );
 }

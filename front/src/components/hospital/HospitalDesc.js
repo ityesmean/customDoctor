@@ -48,6 +48,7 @@ const SDoctorTable = styled.div``;
 
 function HospitalDesc() {
   const descInfo = useRecoilValue(hospitalDescState);
+  // console.log(descInfo, 'descInfo');
   const basicInfo = useRecoilValue(hospitalBasicState);
   // console.log(basicInfo, 'basicInfo');
 

@@ -41,9 +41,11 @@ function HositalTotal() {
   const basicInfo = useRecoilValue(hospitalBasicState);
 
   const departmentList = [];
-  for (let i = 0; i < basicInfo.hospitalPart.length; i++) {
-    if (i % 2 === 0) {
-      departmentList.push(basicInfo.hospitalPart[i]);
+  if (basicInfo !== null) {
+    for (let i = 0; i < basicInfo.hospitalPart.length; i++) {
+      if (i % 2 === 0) {
+        departmentList.push(basicInfo.hospitalPart[i]);
+      }
     }
   }
   return (
