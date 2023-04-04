@@ -139,7 +139,7 @@ function SearchBar({ searchType }) {
       setInputValue('');
     } else if (searchCategory === 'drug') {
       axios
-        .get(`${API_URL_DRUG}/name/${inputValue}`)
+        .get(`${process.env.REACT_APP_API_URL}/drug/name/${inputValue}`)
         .then(res => {
           setMedicineList(res.data.data);
           setInputValue('');

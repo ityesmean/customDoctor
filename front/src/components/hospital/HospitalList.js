@@ -10,9 +10,9 @@ import axios from 'axios';
 
 import HospitalCard from './HospitalCard';
 
-import { hospitalSearchResultState } from '../../atoms';
+import { hospitalSearchResultState, hospitalFavoriteState } from '../../atoms';
 
-import { API_URL_HOSPITAL } from '../../api/api';
+import { API_URL_HOSPITAL, API_URL_USER } from '../../api/api';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -34,6 +34,8 @@ function HospitalList({
   );
   const [hospitalList, setHospitalList] = useState();
   const [hospitalListDistance, setHospitalListDistance] = useState();
+  const [favoriteList, setFavoriteList] = useRecoilState(hospitalFavoriteState);
+
   const type = searchType;
   const value = searchValue;
   const position = myPosition;
@@ -109,7 +111,7 @@ function HospitalList({
 
   const getKeywordHospitalSearchResult = async () => {
     await axios
-      .post(`${API_URL_HOSPITAL}/search/${value}`, {
+      .post(`${process.env.REACT_APP_API_URL}/hospital/search/${value}`, {
         e: position[2],
         w: position[3],
         s: position[4],
@@ -130,9 +132,35 @@ function HospitalList({
       .catch(err => console.log(err));
   };
 
+  const token = localStorage.getItem('accessToken');
+
+  const getFavoriteList = async () => {
+    await axios
+      .post(
+        `${API_URL_USER}/hospital/list`,
+        { withCredentials: true },
+        {
+          headers: { Authorization: `${token}`, Accept: 'application/json' },
+          body: {
+            hour: currentHours,
+            min: currentMinutes,
+            day: currentDay,
+          },
+        },
+      )
+      .then(res => {
+        if (res.data.status_code === 204) {
+          setFavoriteList([]);
+        } else {
+          setFavoriteList(res.data.data);
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
   const getOptionHospitalSearchResult = async () => {
     await axios
-      .post(`${API_URL_HOSPITAL}/find`, {
+      .post(`${process.env.REACT_APP_API_URL}/hospital/find`, {
         e: position[2],
         w: position[3],
         s: position[4],
@@ -164,8 +192,10 @@ function HospitalList({
   }, []);
 
   useEffect(() => {
-    // console.log(hospitalList, 'hospitalList');
-    // console.log(hospitalList);
+    if (token) {
+      getFavoriteList();
+    }
+    console.log(favoriteList, 'favoriteList');
   }, [hospitalList]);
   return (
     <>

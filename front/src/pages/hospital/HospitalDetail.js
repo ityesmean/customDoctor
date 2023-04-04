@@ -29,7 +29,7 @@ function HospitalDetail() {
 
   const getInformation = async () => {
     await axios
-      .get(`${API_URL_HOSPITAL}/desc/${hospitalId}`)
+      .get(`${process.env.REACT_APP_API_URL}/hospital/desc/${hospitalId}`)
       .then(
         res => setHospitalDesc(res.data.data),
         setHospitalBasic(information.state.information),
