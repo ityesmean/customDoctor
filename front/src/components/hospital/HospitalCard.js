@@ -82,44 +82,6 @@ function HospitalCard({ hospital }) {
   console.log(currentDay);
   console.log(currentHours);
   console.log(currentMinutes);
-  // const getStartAndEndTime = () => {
-  //   if (currentDay === 0) {
-  //     if (hospital.hospitalTime.hospitalTimeMon !== 'null' && hospital.hospitalTime.hospitalTimeMon) {
-  //       setStartTime(hospital.hospitalTime.hospitalTimeMon.substr(0, 5));
-  //       setEndTime(hospital.hospitalTime.hospitalTimeMon.substr(6, 11));
-  //     }
-  //   } else if (currentDay === 1) {
-  //     if (hospital.hospitalTime.hospitalTimeTue !== 'null') {
-  //       setStartTime(hospital.hospitalTime.hospitalTimeTue.substr(0, 5));
-  //       setEndTime(hospital.hospitalTime.hospitalTimeTue.substr(6, 11));
-  //     }
-  //   } else if (currentDay === 2) {
-  //     if (hospital.hospitalTime.hospitalTimeWed !== 'null') {
-  //       setStartTime(hospital.hospitalTime.hospitalTimeWed.substr(0, 5));
-  //       setEndTime(hospital.hospitalTime.hospitalTimeWed.substr(6, 11));
-  //     }
-  //   } else if (currentDay === 3) {
-  //     if (hospital.hospitalTime.hospitalTimeThu !== 'null') {
-  //       setStartTime(hospital.hospitalTime.hospitalTimeThu.substr(0, 5));
-  //       setEndTime(hospital.hospitalTime.hospitalTimeThu.substr(6, 11));
-  //     }
-  //   } else if (currentDay === 4) {
-  //     if (hospital.hospitalTime.hospitalTimeFri !== 'null') {
-  //       setStartTime(hospital.hospitalTime.hospitalTimeFri.substr(0, 5));
-  //       setEndTime(hospital.hospitalTime.hospitalTimeFri.substr(6, 11));
-  //     }
-  //   } else if (currentDay === 5) {
-  //     if (hospital.hospitalTime.hospitalTimeSat !== 'null') {
-  //       setStartTime(hospital.hospitalTime.hospitalTimeSat.substr(0, 5));
-  //       setEndTime(hospital.hospitalTime.hospitalTimeSat.substr(6, 11));
-  //     }
-  //   } else if (currentDay === 6) {
-  //     if (hospital.hospitalTime.hospitalTimeSun !== 'null') {
-  //       setStartTime(hospital.hospitalTime.hospitalTimeSun.substr(0, 5));
-  //       setEndTime(hospital.hospitalTime.hospitalTimeSun.substr(6, 11));
-  //     }
-  //   }
-  // };
 
   // 주소를 받아오기 위한 요청
   // const getAddress = async () => {
