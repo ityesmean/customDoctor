@@ -35,6 +35,13 @@ function HospitalList({
   const [hospitalList, setHospitalList] = useState();
   const [hospitalListDistance, setHospitalListDistance] = useState();
   const [standardHospitalList, setStandardHospitalList] = useState();
+  const [standardHospitalListOn, setStandardHospitalListOn] = useState();
+  const [distance1HospitalList, setDistance1HospitalList] = useState();
+  const [distance1HospitalListOn, setDistance1HospitalListOn] = useState();
+  const [distance2HospitalList, setDistance2HospitalList] = useState();
+  const [distance2HospitalListOn, setDistance2HospitalListOn] = useState();
+  const [distance3HospitalList, setDistance3HospitalList] = useState();
+  const [distance3HospitalListOn, setDistance3HospitalListOn] = useState();
 
   const [favoriteList, setFavoriteList] = useRecoilState(hospitalFavoriteState);
 
@@ -201,12 +208,42 @@ function HospitalList({
       setStandardHospitalList(
         hospitalList.filter(hospital => hospital.hospitalDistance <= 3),
       );
+      setStandardHospitalListOn(
+        hospitalList.filter(
+          hospital => hospital.hospitalDistance <= 3 && hospital.hospitalOpen,
+        ),
+      );
+      setDistance1HospitalList(
+        hospitalListDistance.filter(hospital => hospital.hospitalDistance <= 1),
+      );
+      setDistance1HospitalListOn(
+        hospitalListDistance.filter(
+          hospital => hospital.hospitalDistance <= 1 && hospital.hospitalOpen,
+        ),
+      );
+      setDistance2HospitalList(
+        hospitalListDistance.filter(hospital => hospital.hospitalDistance <= 2),
+      );
+      setDistance2HospitalListOn(
+        hospitalListDistance.filter(
+          hospital => hospital.hospitalDistance <= 2 && hospital.hospitalOpen,
+        ),
+      );
+      setDistance3HospitalList(
+        hospitalListDistance.filter(hospital => hospital.hospitalDistance <= 3),
+      );
+      setDistance3HospitalListOn(
+        hospitalListDistance.filter(
+          hospital => hospital.hospitalDistance <= 3 && hospital.hospitalOpen,
+        ),
+      );
     }
-    console.log(favoriteList, 'favoriteList');
+    // console.log(favoriteList, 'favoriteList');
   }, [hospitalList]);
 
   return (
     <>
+      {!hospitalList && <div>로딩중..</div>}
       {/* 정확도, 진료중 미선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
       {selectedValue === 'standard' && standardHospitalList && !isOnValue && (
         <>
@@ -221,52 +258,52 @@ function HospitalList({
           ))}
         </>
       )}
+      {selectedValue === 'standard' && !standardHospitalList && !isOnValue && (
+        <div>결과 없음..</div>
+      )}
+
       {/* 정확도, 진료중 선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
-      {selectedValue === 'standard' && hospitalList && isOnValue && (
+      {selectedValue === 'standard' && standardHospitalListOn && isOnValue && (
         <>
-          {hospitalList
-            .filter(
-              hospital =>
-                hospital.hospitalDistance <= 3 && hospital.hospitalOpen,
-            )
-            .map((hospital, index) => (
-              <SLink
-                to={`/hospital/${hospital.hospitalId}`}
-                key={hospital.hospitalName}
-                state={{ information: hospital }}
-              >
-                <HospitalCard hospital={hospital} index={index} />
-              </SLink>
-            ))}
+          {standardHospitalListOn.map((hospital, index) => (
+            <SLink
+              to={`/hospital/${hospital.hospitalId}`}
+              key={hospital.hospitalName}
+              state={{ information: hospital }}
+            >
+              <HospitalCard hospital={hospital} index={index} />
+            </SLink>
+          ))}
         </>
+      )}
+      {selectedValue === 'standard' && !standardHospitalListOn && isOnValue && (
+        <div>결과 없음..</div>
       )}
 
-      {/* 거리, 진료중 미선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
-      {selectedValue === 'distance' && hospitalListDistance && !isOnValue && (
+      {/* 거리1km, 진료중 미선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
+      {selectedValue === 'distance1' && distance1HospitalList && !isOnValue && (
         <>
-          {hospitalListDistance
-            .filter(hospital => hospital.hospitalDistance <= 3)
-            .map((hospital, index) => (
-              <SLink
-                to={`/hospital/${hospital.hospitalId}`}
-                key={hospital.hospitalName}
-                state={{ information: hospital }}
-              >
-                <HospitalCard hospital={hospital} index={index} />
-              </SLink>
-            ))}
+          {distance1HospitalList.map((hospital, index) => (
+            <SLink
+              to={`/hospital/${hospital.hospitalId}`}
+              key={hospital.hospitalName}
+              state={{ information: hospital }}
+            >
+              <HospitalCard hospital={hospital} index={index} />
+            </SLink>
+          ))}
         </>
       )}
+      {selectedValue === 'distance1' &&
+        !distance1HospitalList &&
+        !isOnValue && <div>결과 없음..</div>}
 
-      {/* 거리, 진료중 선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
-      {selectedValue === 'distance' && hospitalListDistance && isOnValue && (
-        <>
-          {hospitalListDistance
-            .filter(
-              hospital =>
-                hospital.hospitalDistance <= 3 && hospital.hospitalOpen,
-            )
-            .map((hospital, index) => (
+      {/* 거리1km, 진료중 선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
+      {selectedValue === 'distance1' &&
+        distance1HospitalListOn &&
+        isOnValue && (
+          <>
+            {distance1HospitalListOn.map((hospital, index) => (
               <SLink
                 to={`/hospital/${hospital.hospitalId}`}
                 key={hospital.hospitalName}
@@ -275,8 +312,87 @@ function HospitalList({
                 <HospitalCard hospital={hospital} index={index} />
               </SLink>
             ))}
+          </>
+        )}
+      {selectedValue === 'distance1' &&
+        !distance1HospitalListOn &&
+        isOnValue && <div>결과 없음..</div>}
+
+      {/* 거리2km, 진료중 미선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
+      {selectedValue === 'distance2' && distance2HospitalList && !isOnValue && (
+        <>
+          {distance2HospitalList.map((hospital, index) => (
+            <SLink
+              to={`/hospital/${hospital.hospitalId}`}
+              key={hospital.hospitalName}
+              state={{ information: hospital }}
+            >
+              <HospitalCard hospital={hospital} index={index} />
+            </SLink>
+          ))}
         </>
       )}
+      {selectedValue === 'distance2' &&
+        !distance2HospitalList &&
+        !isOnValue && <div>결과 없음..</div>}
+
+      {/* 거리2km, 진료중 선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
+      {selectedValue === 'distance2' &&
+        distance2HospitalListOn &&
+        isOnValue && (
+          <>
+            {distance2HospitalListOn.map((hospital, index) => (
+              <SLink
+                to={`/hospital/${hospital.hospitalId}`}
+                key={hospital.hospitalName}
+                state={{ information: hospital }}
+              >
+                <HospitalCard hospital={hospital} index={index} />
+              </SLink>
+            ))}
+          </>
+        )}
+      {selectedValue === 'distance2' &&
+        !distance2HospitalListOn &&
+        isOnValue && <div>결과 없음..</div>}
+
+      {/* 거리3km, 진료중 미선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
+      {selectedValue === 'distance3' && distance3HospitalList && !isOnValue && (
+        <>
+          {distance3HospitalList.map((hospital, index) => (
+            <SLink
+              to={`/hospital/${hospital.hospitalId}`}
+              key={hospital.hospitalName}
+              state={{ information: hospital }}
+            >
+              <HospitalCard hospital={hospital} index={index} />
+            </SLink>
+          ))}
+        </>
+      )}
+      {selectedValue === 'distance3' &&
+        !distance3HospitalList &&
+        !isOnValue && <div>결과 없음..</div>}
+
+      {/* 거리3km, 진료중 선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
+      {selectedValue === 'distance3' &&
+        distance3HospitalListOn &&
+        isOnValue && (
+          <>
+            {distance3HospitalListOn.map((hospital, index) => (
+              <SLink
+                to={`/hospital/${hospital.hospitalId}`}
+                key={hospital.hospitalName}
+                state={{ information: hospital }}
+              >
+                <HospitalCard hospital={hospital} index={index} />
+              </SLink>
+            ))}
+          </>
+        )}
+      {selectedValue === 'distance3' &&
+        !distance3HospitalListOn &&
+        isOnValue && <div>결과 없음..</div>}
     </>
   );
 }
