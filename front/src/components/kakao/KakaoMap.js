@@ -17,23 +17,29 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* global kakao */
-import React, { createElement, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import styled from 'styled-components';
 
-import { hospitalSearchResultState, myPositionState } from '../../atoms';
+import {
+  hospitalSearchResultState,
+  myPositionState,
+  searchOptionState,
+} from '../../atoms';
 
 import './Overlay.css';
 
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
 
-const SButtonWrapper = styled.div`
-  align-items: center;
-`;
+// const SButtonWrapper = styled.div`
+//   align-items: center;
+// `;
 
 const SReSearchButton = styled.button`
   position: absolute;
+  width: 30vw;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   z-index: 999;
@@ -42,6 +48,11 @@ const SReSearchButton = styled.button`
   padding: 0.5vw 2vw 0.5vw 2vw;
   font-weight: bold;
   text-align: center;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2vh;
 `;
 
 const { kakao } = window;
@@ -49,11 +60,66 @@ const { kakao } = window;
 function KakaoMap({ lat, lng }) {
   const myPosition = useRecoilValue(myPositionState);
 
+  const currentTime = new Date();
+  const currentDay = currentTime.getDay();
+  const currentHours = currentTime.getHours();
+  const currentMinutes = currentTime.getMinutes();
+
   const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
     hospitalSearchResultState,
   );
+  const [searchOption, setSearchOption] = useRecoilState(searchOptionState);
+  const [mapCenter, setMapCenter] = useState();
 
-  console.log(hospitalSearchResult);
+  // 병원을 재 검색할때 실행되는 함수
+  const onClickReSearchHospitalListHandler = async () => {
+    console.log(searchOption[0]);
+    if (searchOption[0] === 'keyWord') {
+      await axios
+        .get(
+          `${process.env.REACT_APP_URL}/hospital/search/${searchOption[1]}`,
+          {
+            e: myPosition[2],
+            w: myPosition[3],
+            s: myPosition[4],
+            n: myPosition[5],
+            hour: currentHours,
+            min: currentMinutes,
+            day: currentDay,
+          },
+        )
+        .then(res => {
+          if (res.data.status_code === 204) {
+            setHospitalList([]);
+          } else {
+            setHospitalSearchResult(res.data.data);
+          }
+        })
+        .catch(err => console.log(err));
+    } else if (searchOption[0] === 'option') {
+      console.log('옵션으로 검색');
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/hospital/find`, {
+          e: myPosition[2],
+          w: myPosition[3],
+          s: myPosition[4],
+          n: myPosition[5],
+          part: searchOption[1][0],
+          open: searchOption[1][1],
+          hour: currentHours,
+          min: currentMinutes,
+          day: currentDay,
+        })
+        .then(res => {
+          if (res.data.status_code === 200) {
+            setHospitalSearchResult(res.data.data);
+          } else if (res.data.status_code === 400) {
+            setHospitalList(false);
+          }
+        })
+        .catch(err => console.log(err));
+    }
+  };
 
   // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
   // function closeOverlay() {
@@ -177,9 +243,11 @@ function KakaoMap({ lat, lng }) {
 
   return (
     <>
-      <SButtonWrapper>
-        <SReSearchButton>현 위치에서 검색</SReSearchButton>
-      </SButtonWrapper>
+      {/* <SButtonWrapper> */}
+      <SReSearchButton onClick={onClickReSearchHospitalListHandler}>
+        현 위치에서 검색
+      </SReSearchButton>
+      {/* </SButtonWrapper> */}
       <div id="map" style={{ width: '100vw', height: '95vh' }}></div>
     </>
   );

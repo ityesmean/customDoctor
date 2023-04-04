@@ -195,7 +195,6 @@ function HospitalList({
     if (token) {
       getFavoriteList();
     }
-    console.log(favoriteList, 'favoriteList');
   }, [hospitalList]);
   return (
     <>

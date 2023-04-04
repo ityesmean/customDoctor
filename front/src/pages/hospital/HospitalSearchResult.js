@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -8,7 +9,7 @@ import HospitalList from '../../components/hospital/HospitalList';
 import BackButton from '../../components/common/BackButton';
 import Vec from '../../assets/Vector.svg';
 
-import { myPositionState } from '../../atoms';
+import { myPositionState, searchOptionState } from '../../atoms';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -112,6 +113,10 @@ function HospitalSearchResult() {
   const location = useLocation();
 
   const myPosition = useRecoilValue(myPositionState);
+
+  // 후에 지도에서 위치 이동했을대 병원 재검색 하기위해 옵션 Recoil에 저장
+  const [searchOption, setSearchOption] = useRecoilState(searchOptionState);
+
   const searchType = location.state.type;
   const searchValue = location.state.value;
   // const option = ['거리순', '별점순', '영업중'];
@@ -119,14 +124,15 @@ function HospitalSearchResult() {
   const [isOnValue, setIsOnValue] = useState(false);
 
   const handleSelectedValue = e => {
-    console.log(e.target.value);
     setSelectedValue(e.target.value);
   };
 
   const handleIsOnValue = () => {
     setIsOnValue(!isOnValue);
-    console.log(isOnValue);
   };
+  useEffect(() => {
+    setSearchOption([searchType, searchValue]);
+  }, []);
 
   return (
     <>
