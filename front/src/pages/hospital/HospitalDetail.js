@@ -29,7 +29,7 @@ function HospitalDetail() {
 
   const getInformation = async () => {
     await axios
-      .get(`${API_URL_HOSPITAL}/desc/${hospitalId}`)
+      .get(`${process.env.REACT_APP_API_URL}/hospital/desc/${hospitalId}`)
       .then(
         res => setHospitalDesc(res.data.data),
         setHospitalBasic(information.state.information),
@@ -47,10 +47,15 @@ function HospitalDetail() {
   }, []);
 
   return (
-    <SContainer>
-      {/* <KakaoMap lat={lat} lng={lng} /> */}
-      {hospitalBasic !== null ? <HositalTotal /> : <div>렌더링중</div>}
-    </SContainer>
+    <>
+      <SBackButton type="button" onClick={onClickBackButtonHandler}>
+        <BackButton />
+      </SBackButton>
+      <SContainer>
+        <KakaoMap lat={lat} lng={lng} />
+        {hospitalBasic !== null ? <HositalTotal /> : <div>렌더링중</div>}
+      </SContainer>
+    </>
   );
 }
 

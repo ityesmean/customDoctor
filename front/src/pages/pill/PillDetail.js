@@ -102,9 +102,15 @@ function PillDetail() {
   useEffect(() => {
     axios
       .all([
-        axios.get(`${API_URL_DRUG}/info/${location.state}`),
-        axios.get(`${API_URL_DRUG}/descinfo/${location.state}`),
-        axios.get(`${API_URL_DRUG}/avoidinfo/${location.state}`),
+        axios.get(
+          `${process.env.REACT_APP_API_URL}/drug/info/${location.state}`,
+        ),
+        axios.get(
+          `${process.env.REACT_APP_API_URL}/drug/descinfo/${location.state}`,
+        ),
+        axios.get(
+          `${process.env.REACT_APP_API_URL}/drug/avoidinfo/${location.state}`,
+        ),
       ])
       .then(
         axios.spread((res1, res2, res3) => {

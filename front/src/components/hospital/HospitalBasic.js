@@ -131,7 +131,7 @@ function HospitalBasic() {
   const FavoriteFun = async () => {
     await axios
       .put(
-        `${API_URL_USER}/hospital/statusmark`,
+        `${process.env.REACT_APP_API_URL}/user/hospital/statusmark`,
         { withCredentials: true },
         {
           headers: { Authorization: `${token}` },
