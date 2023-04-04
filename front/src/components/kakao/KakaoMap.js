@@ -28,6 +28,10 @@ import './Overlay.css';
 
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
 
+const SButtonWrapper = styled.div`
+  align-items: center;
+`;
+
 const SReSearchButton = styled.button`
   position: absolute;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -35,7 +39,9 @@ const SReSearchButton = styled.button`
   z-index: 999;
   border: none;
   background: white;
+  padding: 0.5vw 2vw 0.5vw 2vw;
   font-weight: bold;
+  text-align: center;
 `;
 
 const { kakao } = window;
@@ -58,7 +64,7 @@ function KakaoMap({ lat, lng }) {
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
     var mapOption = {
       center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
-      draggable: true,
+      // draggable: true,
       level: 3, // 지도의 확대 레벨
     };
 
@@ -171,7 +177,9 @@ function KakaoMap({ lat, lng }) {
 
   return (
     <>
-      <SReSearchButton>현 위치에서 검색</SReSearchButton>
+      <SButtonWrapper>
+        <SReSearchButton>현 위치에서 검색</SReSearchButton>
+      </SButtonWrapper>
       <div id="map" style={{ width: '100vw', height: '95vh' }}></div>
     </>
   );
