@@ -82,12 +82,13 @@ function HospitalList({ searchType, searchValue, myPosition }) {
     if (type === 'keyWord') {
       getKeywordHospitalSearchResult();
     } else if (type === 'option') {
+      console.log(`필터 검색`);
       getOptionHospitalSearchResult();
     }
   }, []);
 
   useEffect(() => {
-    console.log(hospitalList);
+    console.log(hospitalList, 'hospitalList');
   }, [hospitalList]);
   return (
     <>

@@ -127,7 +127,7 @@ const SCreateBasketButton = styled.button`
   font-weight: bold;
   border: none;
   border-radius: 5px;
-  padding-top: 1vh;
+  padding-top: 1vh;a
   padding-bottom: 1vh;
   padding-left: 10vw;
   padding-right: 10vw;

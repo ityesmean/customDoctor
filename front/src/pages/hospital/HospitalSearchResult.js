@@ -8,9 +8,7 @@ import HospitalList from '../../components/hospital/HospitalList';
 import BackButton from '../../components/common/BackButton';
 import Vec from '../../assets/Vector.svg';
 
-import {
-  myPositionState,
-} from '../../atoms';
+import { myPositionState } from '../../atoms';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -101,7 +99,6 @@ function HospitalSearchResult() {
   const option = ['거리순', '별점순', '영업중'];
   const [selectedValue, setSelectedValue] = useState('');
 
-
   const handleSelectedValue = e => {
     setSelectedValue(e.target.value);
   };
@@ -114,7 +111,7 @@ function HospitalSearchResult() {
       </SLink>
       <SSearchContainer>
         <SLink to="/hospital/search">
-          <SSearchInput placeholder="검색어를 입력해 주세요." />
+          <SSearchInput placeholder="다시 검색하기" />
           <SSearchButton>
             <img src={Vec} alt="search" />
           </SSearchButton>

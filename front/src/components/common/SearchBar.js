@@ -65,7 +65,6 @@ function SearchBar({ searchType }) {
     hospitalSearchResultState,
   );
 
-
   useEffect(() => {
     // 1km 당 위도
     const latPerKm = 0.0091;
@@ -75,7 +74,7 @@ function SearchBar({ searchType }) {
     const successLocation = position => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
-      console.log(lat, lng, 'here')
+      console.log(lat, lng, 'here');
       // const myNorth = 36.35887261465578;
       // const mySouth = 36.34567675654588;
       // const myEast = 127.35647601340733;
@@ -94,8 +93,15 @@ function SearchBar({ searchType }) {
       // setMySouth(127.35647601340733);
       // setMyNorth(127.29091439637051);
       const myPositions = [];
-      myPositions.push(lat, lng, myTempEast, myTempWest, myTempSouth, myTempNorth);
-      console.log(myPositions)
+      myPositions.push(
+        lat,
+        lng,
+        myTempEast,
+        myTempWest,
+        myTempSouth,
+        myTempNorth,
+      );
+      console.log(myPositions);
       setMyPosition(myPositions);
     };
 
@@ -121,6 +127,11 @@ function SearchBar({ searchType }) {
 
   const handleSubmit = e => {
     e.preventDefault();
+
+    if (inputValue.length < 2) {
+      alert(`두 글자 이상 검색해주세요.`);
+      return;
+    }
     if (searchCategory === 'hospital') {
       navigate('/hospital/search/result', {
         state: { type: 'keyWord', value: inputValue },
@@ -145,7 +156,7 @@ function SearchBar({ searchType }) {
         <SSearchInput
           value={inputValue}
           onChange={onChangeSearch}
-          placeholder="검색해 주세요."
+          placeholder="검색어를 입력해주세요."
           autoFocus
         />
       </SSearchForm>

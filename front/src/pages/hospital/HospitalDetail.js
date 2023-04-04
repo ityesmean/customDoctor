@@ -42,6 +42,7 @@ function HospitalDetail() {
   };
 
   useEffect(() => {
+    // 여가에서
     getInformation();
   }, []);
 
@@ -52,6 +53,7 @@ function HospitalDetail() {
       </SBackButton>
       <SContainer>
         <KakaoMap lat={lat} lng={lng} />
+        {hospitalBasic !== null ? <HositalTotal /> : <div>렌더링중</div>}
       </SContainer>
     </>
   );
