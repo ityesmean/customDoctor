@@ -1,14 +1,16 @@
-/* eslint-disable object-shorthand */
-/* eslint-disable no-undef */
-/* eslint-disable prefer-arrow-callback */
-/* eslint-disable func-names */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable prefer-template */
 /* eslint-disable no-var */
+/* eslint-disable no-undef */
+/* eslint-disable func-names */
 /* eslint-disable no-plusplus */
 /* eslint-disable vars-on-top */
+/* eslint-disable no-loop-func */
 /* eslint-disable no-unused-vars */
+/* eslint-disable prefer-template */
 /* eslint-disable block-scoped-var */
+/* eslint-disable object-shorthand */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-inner-declarations */
+/* eslint-disable prefer-arrow-callback */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -19,6 +21,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { hospitalSearchResultState, myPositionState } from '../../atoms';
+
+import './Overlay.css';
 
 const SReSearchButton = styled.button`
   position: absolute;
@@ -38,6 +42,13 @@ function KakaoMap({ lat, lng }) {
   const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
     hospitalSearchResultState,
   );
+
+  console.log(hospitalSearchResult);
+
+  // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
+  function closeOverlay() {
+    overlay.setMap(null);
+  }
 
   useEffect(() => {
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
@@ -71,10 +82,70 @@ function KakaoMap({ lat, lng }) {
           hospitalSearchResult[i].hospitalY,
           hospitalSearchResult[i].hospitalX,
         ), // 마커를 표시할 위치
+
         // title: hospitalSearchResult[i].hospitalName, // 마커의 타이틀
         image: markerImage, // 마커 이미지
       });
+
+      // var infowindow = new kakao.maps.InfoWindow({
+      //   // content:
+      //   //   '<div>' +
+      //   //   hospitalSearchResult[i].hospitalName +
+      //   //   '</div>' +
+      //   //   '<div>' +
+      //   //   hospitalSearchResult[i].hospitalTel +
+      //   //   '</div>',
+      // });
+
+      // 커스텀 오버레이를 표시할 좌표
+      var position = new kakao.maps.LatLng(
+        hospitalSearchResult[i].hospitalY,
+        hospitalSearchResult[i].hospitalX,
+      );
+
+      // 커스텀 오버레이에 들어갈 content
+      // var content =
+      //   '<div>' +
+      //   '  <div>' +
+      //   hospitalSearchResult[i].hospitalName +
+      //   '  </div>' +
+      //   '  <div onClick="closeOverlay()" title="닫아보자">' +
+      //   '    닫기' +
+      //   '  </div>' +
+      //   '</div>';
+
+      var content =
+        '<div class="wrap">' +
+        '    <div class="info">' +
+        '        <div class="title">' +
+        hospitalSearchResult[i].hospitalName +
+        '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+        '        </div>' +
+        '        <div class="body">' +
+        '            <div class="img">' +
+        '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+        '           </div>' +
+        '            <div class="desc">' +
+        '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' +
+        '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' +
+        hospitalSearchResult[i].hospitalTel +
+        '            </div>' +
+        '        </div>' +
+        '    </div>' +
+        '</div>';
+
+      var overlay = new kakao.maps.CustomOverlay({
+        content,
+        map,
+        position,
+      });
+
       marker.setMap(map);
+
+      // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+      kakao.maps.event.addListener(marker, 'click', function () {
+        overlay.setMap(map);
+      });
     }
   }, []);
 

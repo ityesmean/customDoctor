@@ -379,7 +379,7 @@ function PillSearch() {
     } else {
       axios
         .get(
-          `${API_URL_DRUG}/result/${selectPillShape}/${selectPillLine}/${selectPillColor}/${inputValue}`,
+          `${process.env.REACT_APP_API_URL}/drug/result/${selectPillShape}/${selectPillLine}/${selectPillColor}/${inputValue}`,
         )
         .then(res => {
           setPillList(res.data.data);
