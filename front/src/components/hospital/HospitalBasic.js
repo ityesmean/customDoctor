@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
@@ -125,54 +125,23 @@ function HospitalBasic() {
   const [trigger, setTrigger] = useState(false);
   // const mounted = useRef(false);
   const token = localStorage.getItem('accessToken');
+  // setTimeout(() => token, 500);
+  // const FavoriteFun = 0
   const FavoriteFun = async () => {
+    // if (token !== null) {
+    console.log(basicInfo.hospitalId, trigger, token, '1');
     await axios
       .put(
         `${API_URL_USER}/hospital/statusmark`,
-        // { withCredentials: true },
-        { Authorization: token },
+        { withCredentials: true },
+        { Authorization: `${token}` },
         { hospitalId: `${basicInfo.hospitalId}`, status: trigger },
-        console.log(basicInfo.hospitalId, trigger, token, 'axios'),
       )
       .then(res => console.log(res))
       .catch(err => console.log(err));
   };
-  // const changeFav
-  // useEffect(() => {
-  //   const updateModalVideo = data => {
-  //     setDetailData(data.Result);
-  //   };
-  //   handleFetch(`${DETAIL_URL}${currentId}`, updateModalVideo);
-  // }, [currentId]);
-
-  // const [wishCount, setWishCount] = useStaet(0);
-
-  // const wishAddHandler = () => {
-  //   setIsWishAdd(!isWishadd);
-  // };
-
-  // const wishCountHandle= async() => {
-  //   wishAddHandler()
-  //   if (!isWishAdd) {
-  //     setWishCount(wishCount +1)
-  //     fetch("http://10.58.0.148:8000/product/dip", {
-  //       method: "POST".
-  //       body: JSON.stringify({
-  //         "user_id": 8,
-  //         "product_id": 2
-  //       })
-  //     })
-  //   } else if (isWishAdd) {
-  //     setWishCount(wishCount -1)
-  //     fetch("http://10.58.0.148:8000/product/dip", {
-  //       method: "POST".
-  //       body: JSON.stringigy({
-  //         "user_id": 8,
-  //         "product_id: 2
-  //       })
-  //     })
-  //   }
-  // }
+  // };/
+  // }, 1000);
 
   return (
     <SContainer>

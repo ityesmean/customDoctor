@@ -145,13 +145,13 @@ const LoginState = atom({
 
 const hospitalDescState = atom({
   key: 'hospitalDescState',
-  default: false,
+  default: null,
   effects_UNSTABLE: [persistAtom],
 });
 
 const hospitalBasicState = atom({
   key: 'hospitalBasicState',
-  default: false,
+  default: null,
   effects_UNSTABLE: [persistAtom],
 });
 

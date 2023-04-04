@@ -88,7 +88,7 @@ function HospitalList({ searchType, searchValue, myPosition }) {
   }, []);
 
   useEffect(() => {
-    console.log(hospitalList);
+    console.log(hospitalList, 'hospitalList');
   }, [hospitalList]);
   return (
     <>
