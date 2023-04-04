@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/drug/my/**","/drug/mypill/**","/drug/delete/**").hasAnyRole("MEMBER")
+                .antMatchers("/user/**").hasAnyRole("MEMBER")
                 .anyRequest().permitAll()
                 .and()
                 .logout()
@@ -67,6 +67,7 @@ public class SecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> {
             web.ignoring()
+                    .antMatchers("/")
                     .antMatchers("/drug/**")
                     .antMatchers("/hospital/**");
         };
