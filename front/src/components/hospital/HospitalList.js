@@ -34,6 +34,8 @@ function HospitalList({
   );
   const [hospitalList, setHospitalList] = useState();
   const [hospitalListDistance, setHospitalListDistance] = useState();
+  const [standardHospitalList, setStandardHospitalList] = useState();
+
   const [favoriteList, setFavoriteList] = useRecoilState(hospitalFavoriteState);
 
   const type = searchType;
@@ -195,24 +197,28 @@ function HospitalList({
     if (token) {
       getFavoriteList();
     }
+    if (hospitalList) {
+      setStandardHospitalList(
+        hospitalList.filter(hospital => hospital.hospitalDistance <= 3),
+      );
+    }
     console.log(favoriteList, 'favoriteList');
   }, [hospitalList]);
+
   return (
     <>
       {/* 정확도, 진료중 미선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
-      {selectedValue === 'standard' && hospitalList && !isOnValue && (
+      {selectedValue === 'standard' && standardHospitalList && !isOnValue && (
         <>
-          {hospitalList
-            .filter(hospital => hospital.hospitalDistance <= 3)
-            .map((hospital, index) => (
-              <SLink
-                to={`/hospital/${hospital.hospitalId}`}
-                key={hospital.hospitalName}
-                state={{ information: hospital }}
-              >
-                <HospitalCard hospital={hospital} index={index} />
-              </SLink>
-            ))}
+          {standardHospitalList.map((hospital, index) => (
+            <SLink
+              to={`/hospital/${hospital.hospitalId}`}
+              key={hospital.hospitalName}
+              state={{ information: hospital }}
+            >
+              <HospitalCard hospital={hospital} index={index} />
+            </SLink>
+          ))}
         </>
       )}
       {/* 정확도, 진료중 선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
