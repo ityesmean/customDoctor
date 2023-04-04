@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { API_URL_USER } from '../../api/api';
 
 import BackButton from '../../components/common/BackButton';
 import HospitalList from '../../components/hospital/HospitalList';
@@ -65,6 +67,19 @@ const SLine = styled.div`
 `;
 
 function MyPageHospitalList() {
+  // const [list, setList] = useState();
+
+  // const getFavoriteList = async () => {
+  //   await axios
+  //     .post(`${API_URL_USER}/desc/list`)
+  //     .then(res => setList(res.data.data), console.log(list, 'list1'))
+  //     .catch(err => console.log(err));
+  // };
+  // useEffect(() => {
+  //   getFavoriteList();
+  //   console.log(list, 'list2');
+  // }, []);
+
   return (
     <>
       <Header />

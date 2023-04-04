@@ -123,25 +123,49 @@ function HospitalBasic() {
   // 즐겨찾기(찜하기) 기능
   const [isWishAdd, setIsWishAdd] = useState(true);
   const [trigger, setTrigger] = useState(false);
+  const [regis, setRegis] = useState(false);
   // const mounted = useRef(false);
   const token = localStorage.getItem('accessToken');
   // setTimeout(() => token, 500);
   // const FavoriteFun = 0
   const FavoriteFun = async () => {
-    // if (token !== null) {
-    console.log(basicInfo.hospitalId, trigger, token, '1');
     await axios
       .put(
         `${API_URL_USER}/hospital/statusmark`,
         { withCredentials: true },
-        { Authorization: `${token}` },
-        { hospitalId: `${basicInfo.hospitalId}`, status: trigger },
+        {
+          headers: { Authorization: `${token}` },
+          body: { hospitalId: `${basicInfo.hospitalId}`, status: trigger },
+        },
       )
       .then(res => console.log(res))
       .catch(err => console.log(err));
   };
+  const Registration = async () => {
+    await axios
+      .post(
+        `${API_URL_USER}/hospital/ismy`,
+        { withCredentials: true },
+        {
+          headers: { Authorization: `${token}` },
+          body: { hospitalId: `${basicInfo.hospitalId}` },
+        },
+      )
+      .then(res => {
+        if (res.data.status_code === 204) {
+          console.log(res, '204');
+        } else {
+          console.log(res);
+          // setRegis(!regis);
+        }
+      })
+      .catch(err => console.log(err));
+  };
   // };/
-  // }, 1000);
+  // }, 1000);'
+  useEffect(() => {
+    Registration();
+  }, []);
 
   return (
     <SContainer>
@@ -154,6 +178,8 @@ function HospitalBasic() {
             onClick={() => {
               setTrigger(!trigger);
               FavoriteFun();
+              // Registration();
+              // setRegis(!regis);
             }}
           />
         ) : (
@@ -163,6 +189,8 @@ function HospitalBasic() {
             onClick={() => {
               setTrigger(!trigger);
               FavoriteFun();
+              // Registration();
+              // setRegis(!regis);
             }}
           />
         )}
