@@ -121,76 +121,94 @@ function HospitalBasic() {
     }
   }
   // 즐겨찾기(찜하기) 기능
-  const [isWishAdd, setIsWishAdd] = useState(true);
-  const [trigger, setTrigger] = useState(false);
-  const [regis, setRegis] = useState(false);
-  // const mounted = useRef(false);
+  const [like, setLike] = useState(false);
+  const [trigger, setTrigger] = useState(like);
+
   const token = localStorage.getItem('accessToken');
-  // setTimeout(() => token, 500);
-  // const FavoriteFun = 0
-  const FavoriteFun = async () => {
+
+  const checkFavorite = async () => {
     await axios
       .put(
-        `${process.env.REACT_APP_API_URL}/user/hospital/statusmark`,
-        { withCredentials: true },
+        `${API_URL_USER}/hospital/statusmark`,
+        { hospitalId: `${basicInfo.hospitalId}`, status: trigger },
         {
           headers: { Authorization: `${token}` },
-          body: { hospitalId: `${basicInfo.hospitalId}`, status: trigger },
         },
       )
-      .then(res => console.log(res))
+      .then(res => {
+        console.log(res, 'check');
+        setLike(res.data.data);
+      })
+
       .catch(err => console.log(err));
   };
   const Registration = async () => {
     await axios
       .post(
-        `${API_URL_USER}/hospital/ismy`,
-        { withCredentials: true },
-        {
-          headers: { Authorization: `${token}` },
-          body: { hospitalId: `${basicInfo.hospitalId}` },
-        },
+        `${API_URL_USER}/hospital/ismark`,
+        { hospitalId: `${basicInfo.hospitalId}` },
+        { headers: { Authorization: `${token}` } },
+        // { withCredentials: true },
       )
       .then(res => {
         if (res.data.status_code === 204) {
           console.log(res, '204');
-        } else {
-          console.log(res);
-          // setRegis(!regis);
+          // } else if (trigger === true) {
+          //   setTrigger(trigger);
+          // } else if (trigger === false) {
+          //   setTrigger(trigger);
+          // }
         }
       })
       .catch(err => console.log(err));
   };
-  // };/
-  // }, 1000);'
+
+  const isLike = async () => {
+    await axios
+      .post(
+        `${API_URL_USER}/hospital/ismark`,
+        { hospitalId: `${basicInfo.hospitalId}` },
+        { headers: { Authorization: `${token}` } },
+        // { withCredentials: true },
+      )
+      .then(res => {
+        // console.log(like);
+        // if (like === undefined) {
+        console.log(res.data.data, 'like');
+        setLike(res.data.data);
+        // }
+      })
+
+      .catch(err => console.log(err));
+  };
+
   useEffect(() => {
     Registration();
+    isLike();
   }, []);
 
   return (
     <SContainer>
       <FirstBox>
         <Treat>진료중</Treat>
-        {trigger !== true ? (
+        {like !== false ? (
           <Favorite
-            src={Favorites}
+            src={RedFavorites}
             alt="Favorite"
             onClick={() => {
               setTrigger(!trigger);
-              FavoriteFun();
+              checkFavorite();
               // Registration();
-              // setRegis(!regis);
             }}
           />
         ) : (
           <Favorite
-            src={RedFavorites}
+            src={Favorites}
             alt="RedFavorites"
             onClick={() => {
               setTrigger(!trigger);
-              FavoriteFun();
+              checkFavorite();
               // Registration();
-              // setRegis(!regis);
             }}
           />
         )}

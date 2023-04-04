@@ -64,7 +64,7 @@ function HospitalList({ searchType, searchValue, myPosition }) {
   const getFavoriteList = async () => {
     await axios
       .post(
-        `${API_URL_USER}/hospital/list`,
+        `${API_URL_USER}/hospital/marklist`,
         { withCredentials: true },
         {
           headers: { Authorization: `${token}`, Accept: 'application/json' },

@@ -161,6 +161,12 @@ const hospitalFavoriteState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+const FavoriteState = atom({
+  key: 'FavoriteState',
+  default: null,
+  effects_UNSTABLE: [persistAtom],
+});
+
 export {
   isDarkModeAtom,
   isUserAtom,
@@ -178,4 +184,5 @@ export {
   hospitalDescState,
   hospitalBasicState,
   hospitalFavoriteState,
+  FavoriteState,
 };
