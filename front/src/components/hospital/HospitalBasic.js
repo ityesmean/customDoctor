@@ -132,7 +132,7 @@ function HospitalBasic() {
     console.log(basicInfo.hospitalId, trigger, token, '1');
     await axios
       .put(
-        `${API_URL_USER}/hospital/statusmark`,
+        `${process.env.REACT_APP_API_URL}/user/hospital/statusmark`,
         { withCredentials: true },
         { Authorization: `${token}` },
         { hospitalId: `${basicInfo.hospitalId}`, status: trigger },

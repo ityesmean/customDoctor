@@ -37,7 +37,7 @@ function HospitalList({ searchType, searchValue, myPosition }) {
 
   const getKeywordHospitalSearchResult = async () => {
     await axios
-      .post(`${API_URL_HOSPITAL}/search/${value}`, {
+      .post(`${process.env.REACT_APP_API_URL}/hospital/search/${value}`, {
         e: position[2],
         w: position[3],
         s: position[4],
@@ -59,7 +59,7 @@ function HospitalList({ searchType, searchValue, myPosition }) {
 
   const getOptionHospitalSearchResult = async () => {
     await axios
-      .post(`${API_URL_HOSPITAL}/find`, {
+      .post(`${process.env.REACT_APP_API_URLL}/hospital/find`, {
         e: position[2],
         w: position[3],
         s: position[4],
