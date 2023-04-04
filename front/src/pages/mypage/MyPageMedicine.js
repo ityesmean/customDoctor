@@ -1,6 +1,8 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import PillsAccordian from '../../components/mypage/PillsAccordian';
 
 import BackButton from '../../components/common/BackButton';
@@ -8,6 +10,7 @@ import Header from '../../components/common/Header';
 import BlackHospital from '../../assets/mypage/BlackHospital.png';
 import GreenMedicine from '../../assets/mypage/GreenMedicine.png';
 import BlackBasket from '../../assets/mypage/BlackBasket.png';
+import { API_URL_USER } from '../../api/api';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -71,25 +74,46 @@ const SMenu = styled.div`
 
 // eslint-disable-next-line no-unused-vars
 function MyPageMedicine(props) {
-  const pillLists = [
-    {
-      title: '감기약 처방전',
-      pillGroup: [
-        { pillTitle: '아토르반정', pillIngre: '아토르바스타틴칼슐' },
-        { pillTitle: '에페린정', pillIngre: '에페리손염산염' },
-        { pillTitle: '레바미드정', pillIngre: '레바미피드' },
-      ],
-      memo: '식후 30 분 복용 아침, 점심, 저녁 일 3회',
-    },
-    {
-      title: '감기약 처방전',
-      pillGroup: [
-        { pillTitle: '아토르반정', pillIngre: '아토르바스타틴칼슐' },
-        { pillTitle: '에페린정', pillIngre: '에페리손염산염' },
-      ],
-      memo: '식후 30 분 복용  일 3회',
-    },
-  ];
+  const [pillLists, setPillLists] = useState([]);
+  const accessToken = localStorage.getItem('accessToken');
+
+  const getPillLists = async () => {
+    console.log(process.env.REACT_APP_API_URL);
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/user/drug/my`, {
+        headers: {
+          Authorization: accessToken,
+        },
+      })
+      .then(res => {
+        setPillLists(res.data.data);
+      })
+      .catch(err => console.log(err));
+  };
+
+  useEffect(() => {
+    getPillLists();
+  }, []);
+
+  // const pillLists = [
+  //   {
+  //     title: '감기약 처방전',
+  //     pillGroup: [
+  //       { pillTitle: '아토르반정', pillIngre: '아토르바스타틴칼슐' },
+  //       { pillTitle: '에페린정', pillIngre: '에페리손염산염' },
+  //       { pillTitle: '레바미드정', pillIngre: '레바미피드' },
+  //     ],
+  //     memo: '식후 30 분 복용 아침, 점심, 저녁 일 3회',
+  //   },
+  //   {
+  //     title: '감기약 처방전',
+  //     pillGroup: [
+  //       { pillTitle: '아토르반정', pillIngre: '아토르바스타틴칼슐' },
+  //       { pillTitle: '에페린정', pillIngre: '에페리손염산염' },
+  //     ],
+  //     memo: '식후 30 분 복용  일 3회',
+  //   },
+  // ];
 
   return (
     <>
@@ -132,8 +156,8 @@ function MyPageMedicine(props) {
         <SMenu>
           {pillLists ? (
             <>
-              {pillLists.map(pilllist => (
-                <PillsAccordian data={pilllist} key={pilllist.pillGroup} />
+              {pillLists.map(pillList => (
+                <PillsAccordian pillList={pillList} key={pillList.pillGroup} />
               ))}
             </>
           ) : null}

@@ -23,29 +23,35 @@ const SLink = styled(Link)`
 function HospitalList({ searchType, searchValue, myPosition }) {
   // 병원리스트 state
   // const [hospitalList, setHospitalList] = useState([]);
-  const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(hospitalSearchResultState)
+  const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
+    hospitalSearchResultState,
+  );
   const [hospitalList, setHospitalList] = useState();
   const type = searchType;
   const value = searchValue;
   const position = myPosition;
-
+  const currentTime = new Date();
+  const currentDay = currentTime.getDay();
+  const currentHours = currentTime.getHours();
+  const currentMinutes = currentTime.getMinutes();
 
   const getKeywordHospitalSearchResult = async () => {
     await axios
-      .get(`${API_URL_HOSPITAL}/search/${value}`, {
-        params: {
-          e: position[2],
-          w: position[3],
-          s: position[4],
-          n: position[5],
-        },
+      .post(`${API_URL_HOSPITAL}/search/${value}`, {
+        e: position[2],
+        w: position[3],
+        s: position[4],
+        n: position[5],
+        hour: currentHours,
+        min: currentMinutes,
+        day: currentDay,
       })
       .then(res => {
         if (res.data.status_code === 204) {
           setHospitalList([]);
         } else {
           setHospitalList(res.data.data);
-          setHospitalSearchResult(res.data.data)
+          setHospitalSearchResult(res.data.data);
         }
       })
       .catch(err => console.log(err));
@@ -62,10 +68,9 @@ function HospitalList({ searchType, searchValue, myPosition }) {
         open: value[1],
       })
       .then(res => {
-        console.log(position[0], position[1], position[2], position[3], position[4], position[5])
         if (res.data.status_code === 200) {
           setHospitalList(res.data.data);
-          setHospitalSearchResult(res.data.data)
+          setHospitalSearchResult(res.data.data);
         } else if (res.data.status_code === 400) {
           setHospitalList(false);
         }
@@ -77,13 +82,14 @@ function HospitalList({ searchType, searchValue, myPosition }) {
     if (type === 'keyWord') {
       getKeywordHospitalSearchResult();
     } else if (type === 'option') {
+      console.log(`필터 검색`);
       getOptionHospitalSearchResult();
     }
   }, []);
 
   useEffect(() => {
-    console.log(hospitalList)
-  }, [hospitalList])
+    console.log(hospitalList, 'hospitalList');
+  }, [hospitalList]);
   return (
     <>
       {/* 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}
@@ -102,7 +108,6 @@ function HospitalList({ searchType, searchValue, myPosition }) {
       ) : (
         <div>로딩스핀</div>
       )}
-      {/* {hospitalList ? : } */}
     </>
   );
 }

@@ -1,9 +1,11 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
+import axios from 'axios';
 import { hospitalBasicState, hospitalDescState } from '../../atoms';
+import { API_URL_USER } from '../../api/api';
 import Favorites from '../../assets/Favorites.png';
 import RedFavorites from '../../assets/RedFavorites.png';
 
@@ -118,12 +120,52 @@ function HospitalBasic() {
       departmentList.push(basicInfo.hospitalPart[i]);
     }
   }
+  // 즐겨찾기(찜하기) 기능
+  const [isWishAdd, setIsWishAdd] = useState(true);
+  const [trigger, setTrigger] = useState(false);
+  // const mounted = useRef(false);
+  const token = localStorage.getItem('accessToken');
+  // setTimeout(() => token, 500);
+  // const FavoriteFun = 0
+  const FavoriteFun = async () => {
+    // if (token !== null) {
+    console.log(basicInfo.hospitalId, trigger, token, '1');
+    await axios
+      .put(
+        `${API_URL_USER}/hospital/statusmark`,
+        { withCredentials: true },
+        { Authorization: `${token}` },
+        { hospitalId: `${basicInfo.hospitalId}`, status: trigger },
+      )
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+  // };/
+  // }, 1000);
 
   return (
     <SContainer>
       <FirstBox>
         <Treat>진료중</Treat>
-        <Favorite src={Favorites} alt="Favorite" />
+        {trigger !== true ? (
+          <Favorite
+            src={Favorites}
+            alt="Favorite"
+            onClick={() => {
+              setTrigger(!trigger);
+              FavoriteFun();
+            }}
+          />
+        ) : (
+          <Favorite
+            src={RedFavorites}
+            alt="RedFavorites"
+            onClick={() => {
+              setTrigger(!trigger);
+              FavoriteFun();
+            }}
+          />
+        )}
       </FirstBox>
       <STitleText>진료 시간</STitleText>
       <SGreenBox>

@@ -1,3 +1,9 @@
+/* eslint-disable object-shorthand */
+/* eslint-disable no-undef */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable func-names */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable prefer-template */
 /* eslint-disable no-var */
 /* eslint-disable no-plusplus */
 /* eslint-disable vars-on-top */
@@ -8,31 +14,35 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* global kakao */
 import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
-import { useNavigate, Link } from 'react-router-dom';
+import styled from 'styled-components';
 
-import BackButton from '../common/BackButton';
+import { hospitalSearchResultState, myPositionState } from '../../atoms';
 
-import { hospitalSearchResultState } from '../../atoms';
+const SReSearchButton = styled.button`
+  position: absolute;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  z-index: 999;
+  border: none;
+  background: white;
+  font-weight: bold;
+`;
 
 const { kakao } = window;
 
-function KakaoMap({ x, y }) {
-  const navigate = useNavigate();
+function KakaoMap({ lat, lng }) {
+  const myPosition = useRecoilValue(myPositionState);
+
   const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
     hospitalSearchResultState,
   );
 
-  // console.log(x, y)
-
-  // console.log(hospitalSearchResult)
-
-  // console.log(hospitalSearchResult);
   useEffect(() => {
     var mapContainer = document.getElementById('map'); // 지도를 표시할 div
     var mapOption = {
-      center: new kakao.maps.LatLng(x, y), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
       level: 3, // 지도의 확대 레벨
     };
 
@@ -54,11 +64,6 @@ function KakaoMap({ x, y }) {
       // 마커 이미지를 생성합니다.
       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-      // test
-      // console.log(hospitalSearchResult[i].hospitalX);
-      // console.log(hospitalSearchResult[i].hospitalY);
-      // console.log(hospitalSearchResult[i].hospitalName);
-
       // 마커를 생성합니다.
       var marker = new kakao.maps.Marker({
         map, // 마커를 표시할 지도
@@ -73,30 +78,24 @@ function KakaoMap({ x, y }) {
     }
   }, []);
 
-  const tempOnClick = () => {
-    navigate(-1);
-  };
+  // 1안 코드 -----------------------------------------------------------------
+
   return (
     <>
-      {/* <Link to="/hospital/search/result"> */}
-      <div onClick={tempOnClick}>
-        <BackButton />
-      </div>
-      {/* </Link> */}
-      <div id="map" style={{ width: '100vw', height: '20vh' }}></div>
-      <div></div>
+      <SReSearchButton>현 위치에서 검색</SReSearchButton>
+      <div id="map" style={{ width: '100vw', height: '95vh' }}></div>
     </>
   );
 }
 
 KakaoMap.propTypes = {
-  x: PropTypes.number,
-  y: PropTypes.number,
+  lat: PropTypes.number,
+  lng: PropTypes.number,
 };
 
 KakaoMap.defaultProps = {
-  x: null,
-  y: null,
+  lat: null,
+  lng: null,
 };
 
 export default KakaoMap;

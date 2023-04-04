@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-return */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-else-return */
 /* eslint-disable no-unused-vars */
@@ -126,7 +127,7 @@ const SCreateBasketButton = styled.button`
   font-weight: bold;
   border: none;
   border-radius: 5px;
-  padding-top: 1vh;
+  padding-top: 1vh;a
   padding-bottom: 1vh;
   padding-left: 10vw;
   padding-right: 10vw;
@@ -170,6 +171,15 @@ function MyPageBasket() {
       return;
     }
 
+    // 체크된 약들 저장한 recoil 초기화
+    const clearCheckedMedicineState = () => {
+      setCheckedMedicine([]);
+    };
+
+    const accessToken = localStorage.getItem('accessToken');
+
+    console.log(accessToken);
+
     // 체크된 약들 삭제하기 위한 로직
     const tempMedicines = myMedicines.filter(medicine => {
       if (medicine.isChecked === 'unChecked') {
@@ -179,30 +189,32 @@ function MyPageBasket() {
       }
     });
 
-    // 체크된 약들 저장한 recoil 초기화
-    const clearCheckedMedicineState = () => {
-      setCheckedMedicine([]);
-    };
-
-    clearCheckedMedicineState();
-
-    // 삭제된 약 list Recoil 저장소에 업데이트
-    setMyMedicines(tempMedicines);
-
-    console.log(checkedMedicines);
-    console.log(basketName);
-    console.log(basketMemo);
-
-    const accessToken = localStorage.getItem('accessToken')
-    console.log(localStorage.getItem('accessToken'))
     // 약 봉투 담는 post요청
-    // await axios.post(`${API_URL_USER}/plus`), {
-    // headers: {
-    //   Authorization: accessToken
-    // }
-    // }.
-    //   then(res => console.log(res))
-    //   .catch(err => console.log(err))
+    axios
+      .post(
+        `${API_URL_USER}/plus`,
+        {
+          drugId: checkedMedicines,
+          drugMyMemo: basketMemo,
+          drugMyTitle: basketName,
+        },
+        {
+          headers: {
+            Authorization: accessToken,
+          },
+          withCredentials: true,
+        },
+      )
+      .then(() => {
+        // recoil 업데이트
+        setMyMedicines(tempMedicines);
+        // 체크 리스트 초기화
+        clearCheckedMedicineState();
+        navigate('/mypage/medicine');
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (

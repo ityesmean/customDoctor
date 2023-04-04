@@ -85,9 +85,8 @@ const SButtonText = styled.div`
 function DrugCard({ card }) {
   const [myBasket, setMyBasket] = useRecoilState(myBasketState);
 
-  // const drugList = useRecoilValue(medicineSearchResult);
-
   const willAddDrug = {
+    id: card.drugId,
     name: card.drugName,
     isChecked: 'unChecked',
   };
