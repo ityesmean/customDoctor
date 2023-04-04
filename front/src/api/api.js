@@ -7,6 +7,6 @@ const API_URL_HOSPITAL = 'http://localhost:8080/hospital';
 
 const API_URL_DRUG = 'http://localhost:8080/drug';
 
-const API_URL_USER = 'http://localhost:8080/user/drug';
+const API_URL_USER = 'http://localhost:8080/user';
 
 export { API_URL_HOSPITAL, API_URL_DRUG, API_URL_USER };

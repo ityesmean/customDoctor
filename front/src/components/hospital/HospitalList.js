@@ -10,9 +10,9 @@ import axios from 'axios';
 
 import HospitalCard from './HospitalCard';
 
-import { hospitalSearchResultState } from '../../atoms';
+import { hospitalSearchResultState, hospitalFavoriteState } from '../../atoms';
 
-import { API_URL_HOSPITAL } from '../../api/api';
+import { API_URL_HOSPITAL, API_URL_USER } from '../../api/api';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -27,6 +27,8 @@ function HospitalList({ searchType, searchValue, myPosition }) {
     hospitalSearchResultState,
   );
   const [hospitalList, setHospitalList] = useState();
+  const [favoriteList, setFavoriteList] = useRecoilState(hospitalFavoriteState);
+
   const type = searchType;
   const value = searchValue;
   const position = myPosition;
@@ -52,6 +54,32 @@ function HospitalList({ searchType, searchValue, myPosition }) {
         } else {
           setHospitalList(res.data.data);
           setHospitalSearchResult(res.data.data);
+        }
+      })
+      .catch(err => console.log(err));
+  };
+
+  const token = localStorage.getItem('accessToken');
+
+  const getFavoriteList = async () => {
+    await axios
+      .post(
+        `${API_URL_USER}/hospital/list`,
+        { withCredentials: true },
+        {
+          headers: { Authorization: `${token}`, Accept: 'application/json' },
+          body: {
+            hour: currentHours,
+            min: currentMinutes,
+            day: currentDay,
+          },
+        },
+      )
+      .then(res => {
+        if (res.data.status_code === 204) {
+          setFavoriteList([]);
+        } else {
+          setFavoriteList(res.data.data);
         }
       })
       .catch(err => console.log(err));
@@ -88,7 +116,8 @@ function HospitalList({ searchType, searchValue, myPosition }) {
   }, []);
 
   useEffect(() => {
-    console.log(hospitalList, 'hospitalList');
+    getFavoriteList();
+    console.log(favoriteList, 'favoriteList');
   }, [hospitalList]);
   return (
     <>
