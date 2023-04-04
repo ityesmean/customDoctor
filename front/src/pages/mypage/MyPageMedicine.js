@@ -78,6 +78,7 @@ function MyPageMedicine(props) {
   const accessToken = localStorage.getItem('accessToken');
 
   const getPillLists = async () => {
+    console.log(process.env.REACT_APP_API_URL);
     await axios
       .get(`${process.env.REACT_APP_API_URL}/user/drug/my`, {
         headers: {
