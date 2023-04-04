@@ -78,10 +78,10 @@ function HospitalCard({ hospital }) {
   const currentHours = currentTime.getHours();
   const currentMinutes = currentTime.getMinutes();
 
-  console.log(currentTime);
-  console.log(currentDay);
-  console.log(currentHours);
-  console.log(currentMinutes);
+  // console.log(currentTime);
+  // console.log(currentDay);
+  // console.log(currentHours);
+  // console.log(currentMinutes);
 
   // 주소를 받아오기 위한 요청
   // const getAddress = async () => {
@@ -107,7 +107,7 @@ function HospitalCard({ hospital }) {
         <SCard>
           <SInformation>
             <SHospitalName>{hospital.hospitalName}</SHospitalName>
-            <SDistance>500m</SDistance>
+            <SDistance>{hospital.hospitalDistance} km</SDistance>
             {/* 주소 있으면 출력하고 없으면 '주소 정보 없음' 출력 */}
             {address ? (
               <SAddress>{address}</SAddress>
@@ -117,8 +117,18 @@ function HospitalCard({ hospital }) {
             <SPhoneNumber>{hospital.hospitalTel}</SPhoneNumber>
           </SInformation>
           <SOpenInformation>
-            <SCircle color={isOpen}></SCircle>
-            <SOpen>진료중</SOpen>
+            {hospital.hospitalOpen && (
+              <>
+                <SCircle color={isOpen}></SCircle>
+                <SOpen>진료중</SOpen>
+              </>
+            )}
+            {!hospital.hospitalOpen && (
+              <>
+                <SCircle color={!isOpen}></SCircle>
+                <SOpen>휴진</SOpen>
+              </>
+            )}
           </SOpenInformation>
         </SCard>
       ) : null}

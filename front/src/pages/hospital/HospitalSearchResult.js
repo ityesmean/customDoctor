@@ -85,6 +85,24 @@ const SInput = styled.input.attrs({ type: 'radio' })`
   display: none;
 `;
 
+const SToggle = styled.input.attrs({ type: 'checkbox' })`
+  &:checked {
+    display: inline-block;
+    background: none;
+    padding: 0px 10px;
+    text-align: center;
+    height: 35px;
+    line-height: 33px;
+    font-weight: bold;
+    display: none;
+  }
+  &:checked + ${SLabel} {
+    background: #00c192;
+    color: #fff;
+  }
+  display: none;
+`;
+
 const SLine = styled.div`
   height: 1vh;
   background-color: #f1f3f4;
@@ -96,11 +114,18 @@ function HospitalSearchResult() {
   const myPosition = useRecoilValue(myPositionState);
   const searchType = location.state.type;
   const searchValue = location.state.value;
-  const option = ['거리순', '별점순', '영업중'];
-  const [selectedValue, setSelectedValue] = useState('');
+  // const option = ['거리순', '별점순', '영업중'];
+  const [selectedValue, setSelectedValue] = useState('standard');
+  const [isOnValue, setIsOnValue] = useState(false);
 
   const handleSelectedValue = e => {
+    console.log(e.target.value);
     setSelectedValue(e.target.value);
+  };
+
+  const handleIsOnValue = () => {
+    setIsOnValue(!isOnValue);
+    console.log(isOnValue);
   };
 
   return (
@@ -118,22 +143,42 @@ function HospitalSearchResult() {
         </SLink>
       </SSearchContainer>
       <SFilterBox>
-        {option.map(value => (
-          <SOption key={value}>
-            <SInput
-              type="radio"
-              onChange={handleSelectedValue}
-              value={value}
-              name="filter"
-              id={value}
-            />
-            <SLabel htmlFor={value}>{value}</SLabel>
-          </SOption>
-        ))}
+        <SOption key="정확도순">
+          <SInput
+            type="radio"
+            onClick={handleSelectedValue}
+            value="standard"
+            name="filter"
+            id="정확도순"
+            defaultChecked
+          />
+          <SLabel htmlFor="정확도순">정확도순</SLabel>
+        </SOption>
+        <SOption key="거리순">
+          <SInput
+            type="radio"
+            onClick={handleSelectedValue}
+            value="distance"
+            name="filter"
+            id="거리순"
+          />
+          <SLabel htmlFor="거리순">거리순</SLabel>
+        </SOption>
+        <SOption key="진료중">
+          <SToggle
+            type="radio"
+            onChange={handleIsOnValue}
+            value="isOn"
+            name="filter"
+            id="진료중"
+          />
+          <SLabel htmlFor="진료중">진료중</SLabel>
+        </SOption>
       </SFilterBox>
       <SLine> </SLine>
       <HospitalList
         selectedValue={selectedValue}
+        isOnValue={isOnValue}
         searchType={searchType}
         searchValue={searchValue}
         myPosition={myPosition}
