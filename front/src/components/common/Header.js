@@ -21,7 +21,13 @@ const SLoginLink = styled.a`
   text-decoration: none;
 `;
 
+const SLogoutButton = styled.button``;
+
 function Header() {
+  const onClickLogoutHandler = () => {
+    console.log('로그아웃');
+  };
+
   return (
     <div>
       <SLink to="/">
@@ -33,6 +39,9 @@ function Header() {
           로그인
         </SLoginLink>
       </SLoginButton>
+      <SLogoutButton type="button" onClick={onClickLogoutHandler}>
+        로그아웃
+      </SLogoutButton>
     </div>
   );
 }
