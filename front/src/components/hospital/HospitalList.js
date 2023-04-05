@@ -34,7 +34,6 @@ function HospitalList({
   );
   const [hospitalList, setHospitalList] = useState();
   const [hospitalListDistance, setHospitalListDistance] = useState();
-  const [favoriteList, setFavoriteList] = useRecoilState(hospitalFavoriteState);
 
   const type = searchType;
   const value = searchValue;
@@ -132,48 +131,6 @@ function HospitalList({
       .catch(err => console.log(err));
   };
 
-  const token = localStorage.getItem('accessToken');
-
-  // const getFavoriteList = async () => {
-  //   await axios
-  //     .post(
-  //       `${API_URL_USER}/hospital/marklist`,
-  //       // { withCredentials: true },
-  //       {
-  //         hour: 9,
-  //         min: 40,
-  //         day: 1,
-  //       },
-  //       { headers: { Authorization: `${token}` } },
-  //     )
-  //     .then(res => {
-  //       if (res.data.status_code === 204) {
-  //         console.log(res.data.data, '204');
-  //       } else {
-  //         setFavoriteList(res.data.data);
-  //         console.log(res.data.data, '200');
-  //       }
-  //     })
-  //     .catch(err => console.log(err));
-  // };
-  const getFavoriteList = async () => {
-    try {
-      const res = await axios.post(
-        `${API_URL_USER}/hospital/marklist`,
-        // { withCredentials: true },
-        { hour: currentHours, min: currentMinutes, day: currentDay },
-        { headers: { Authorization: `${token}` } },
-      );
-      // if (res.data.status_code === 204) {
-      //   console.log(res.data.data, '204');
-      // } else {
-      setFavoriteList(res.data.data);
-      console.log(res.data.data, '200');
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const getOptionHospitalSearchResult = async () => {
     await axios
       .post(`${process.env.REACT_APP_API_URL}/hospital/find`, {
@@ -207,11 +164,7 @@ function HospitalList({
     }
   }, []);
 
-  useEffect(() => {
-    if (token) {
-      getFavoriteList();
-    }
-  }, [hospitalList]);
+  useEffect(() => {}, [hospitalList]);
   return (
     <>
       {/* 정확도, 진료중 미선택 - 병원 리스트가 있다면 병원 리스트 map으로 컴포넌트 호출 */}

@@ -1,8 +1,9 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
+import axios from 'axios';
 import { hospitalDescState, hospitalBasicState } from '../../atoms';
 import HospitalSpecialTal from './HospitalSpecialTal';
 import Favorites from '../../assets/Favorites.png';
@@ -118,12 +119,68 @@ function HospitalDesc() {
       // console.log(departmentList, 'departmentList');
     }
   }
+  const [like, setLike] = useState();
+  // const [trigger, setTrigger] = useState(like === 'like' ? true : false);
+
+  const token = localStorage.getItem('accessToken');
+
+  const checkFavorite = async () => {
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_API_URL}/user/hospital/statusmark`,
+        {
+          hospitalId: `${basicInfo.hospitalId}`,
+          status: !like,
+        },
+        {
+          headers: { Authorization: `${token}` },
+        },
+      );
+      setLike(!like);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    const fetchIsLike = async () => {
+      try {
+        const res = await axios.post(
+          `${process.env.REACT_APP_API_URL}/user/hospital/ismark`,
+          { hospitalId: `${basicInfo.hospitalId}` },
+          { headers: { Authorization: `${token}` } },
+        );
+        setLike(!res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchIsLike();
+  }, [basicInfo.hospitalId]);
 
   return (
     <SContainer>
       <FirstBox>
         <Treat>진료중</Treat>
-        <Favorite src={Favorites} alt="Favorite" />
+        {like !== true ? (
+          <Favorite
+            src={RedFavorites}
+            alt="RedFavorites"
+            onClick={() => {
+              // setTrigger(!trigger);
+              checkFavorite();
+              // fetchIsLike();
+            }}
+          />
+        ) : (
+          <Favorite
+            src={Favorites}
+            alt="Favorites"
+            onClick={() => {
+              // setTrigger(!trigger);
+              checkFavorite();
+            }}
+          />
+        )}
       </FirstBox>
       {descInfo !== null ? (
         <SContainer>
