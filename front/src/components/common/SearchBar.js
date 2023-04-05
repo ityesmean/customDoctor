@@ -134,7 +134,11 @@ function SearchBar({ searchType }) {
     }
     if (searchCategory === 'hospital') {
       navigate('/hospital/search/result', {
-        state: { type: 'keyWord', value: inputValue, selected: 'standard' },
+        state: {
+          type: 'keyWord',
+          value: "'" + inputValue,
+          selected: 'standard',
+        },
       });
       setInputValue('');
     } else if (searchCategory === 'drug') {

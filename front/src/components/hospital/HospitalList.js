@@ -353,7 +353,6 @@ function HospitalList({
   };
 
   const getKeywordHospitalSearchResult = async () => {
-    console.log(value);
     await axios
       .post(`${process.env.REACT_APP_API_URL}/hospital/search/${value}`, {
         e: position[2],
