@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/**").hasAnyRole("MEMBER")
+                .antMatchers("/user/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .logout()
