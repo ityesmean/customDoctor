@@ -17,8 +17,9 @@ import java.util.List;
 import static com.roller.doc.db.entity.QHospital.*;
 import static com.roller.doc.db.entity.QHospitalPart.*;
 import static com.roller.doc.db.entity.QHospitalTime.*;
+import lombok.extern.log4j.Log4j2;
 
-
+@Log4j2
 @Repository
 @RequiredArgsConstructor
 public class HospitalCustomRepo {
@@ -112,11 +113,13 @@ public class HospitalCustomRepo {
      * 이름 fulltext search
      */
     public BooleanExpression keywordSearch(String keyword) {
+        log.info("repo word = {}",keyword);
         if (keyword == null) {
             return null;
         } else {
             NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,
                     "function('match',{0},{1})", hospital.hospital_name, keyword);
+            log.info("repo word return= {}",keyword);
             return booleanTemplate.gt(0);
         }
     }
