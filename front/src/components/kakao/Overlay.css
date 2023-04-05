@@ -2,7 +2,8 @@
   position: absolute;
   left: 0;
   bottom: 40px;
-  width: 288px;
+  /* width: 288px; */
+  width: 50vw;
   height: 132px;
   margin-left: -144px;
   text-align: left;
@@ -18,7 +19,8 @@
 
 .wrap .info {
   width: 286px;
-  height: 120px;
+  width: 50vw;
+  /* height: 120px; */
   border-radius: 5px;
   border-bottom: 2px solid #ccc;
   border-right: 1px solid #ccc;
@@ -69,6 +71,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  margin-bottom: 3vh;
 }
 
 .desc .tel {
