@@ -68,17 +68,10 @@ function KakaoMap({ lat, lng }) {
     console.log(
       mapCenter.lat,
       mapCenter.lng,
-<<<<<<< HEAD
-      mapCenter.lng + lngPerKm * 5,
-      mapCenter.lng + lngPerKm - 5,
-      mapCenter.lat - latPerKm * 5,
-      mapCenter.lat - latPerKm - 5,
-=======
       mapCenter.lng + lngPerKm * 1,
       mapCenter.lng + lngPerKm - 1,
       mapCenter.lat - latPerKm * 1,
       mapCenter.lat - latPerKm - 1,
->>>>>>> a6354538311786ef49577af917976d6a4885b479
     );
     console.log(mapCenter);
     if (searchOption[0] === 'keyWord') {
