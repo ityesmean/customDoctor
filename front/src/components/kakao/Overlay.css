@@ -4,8 +4,10 @@
   bottom: 40px;
   /* width: 288px; */
   width: 50vw;
-  height: 132px;
-  margin-left: -144px;
+  /* height: 132px; */
+  height: 103px;
+  margin-left: -100px;
+  margin-bottom: -2px;
   text-align: left;
   overflow: hidden;
   font-size: 12px;
@@ -38,7 +40,7 @@
   height: 30px;
   background: #eee;
   border-bottom: 1px solid #ddd;
-  font-size: 18px;
+  font-size: 4vw;
   font-weight: bold;
 }
 
@@ -64,7 +66,8 @@
 .info .desc {
   position: relative;
   margin: 13px 0 0 90px;
-  height: 75px;
+  /* height: 75px; */
+  height: 44px;
 }
 
 .desc .ellipsis {
@@ -77,18 +80,21 @@
 .desc .tel {
   font-size: 11px;
   color: #888;
-  margin-top: -2px;
+  /* margin-top: -2px; */
+  margin-top: 0px;
 }
 
 .info .img {
   position: absolute;
   top: 6px;
   left: 5px;
-  width: 73px;
-  height: 71px;
-  border: 1px solid #ddd;
+  width: 45px;
+  height: 45px;
+  /* border: 1px solid #ddd; */
+  border: none;
   color: #888;
   overflow: hidden;
+  margin-left: 5px;
 }
 
 .info:after {
