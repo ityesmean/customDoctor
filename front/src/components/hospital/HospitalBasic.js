@@ -131,7 +131,7 @@ function HospitalBasic(props) {
   const checkFavorite = async () => {
     try {
       await axios.put(
-        `${API_URL_USER}/hospital/statusmark`,
+        `${process.env.REACT_APP_API_URL}/user/hospital/statusmark`,
         {
           hospitalId: `${basicInfo.hospitalId}`,
           status: !like,
@@ -236,7 +236,7 @@ function HospitalBasic(props) {
     const fetchIsLike = async () => {
       try {
         const res = await axios.post(
-          `${API_URL_USER}/hospital/ismark`,
+          `${process.env.REACT_APP_API_URL}/user/hospital/ismark`,
           { hospitalId: `${basicInfo.hospitalId}` },
           { headers: { Authorization: `${token}` } },
         );
