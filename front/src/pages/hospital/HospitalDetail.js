@@ -20,7 +20,6 @@ const SContainer = styled.div``;
 
 function HospitalDetail() {
   const information = useLocation();
-  console.log(information, 'information');
   const navigate = useNavigate();
   const { hospitalId } = useParams();
   const lat = information.state.information.hospitalY;
