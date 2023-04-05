@@ -126,6 +126,7 @@ function HospitalBasic(props) {
   }
   // 즐겨찾기(찜하기) 기능
   const [like, setLike] = useState();
+  console.log(like);
   // const [trigger, setTrigger] = useState(like === 'like' ? true : false);
 
   const token = localStorage.getItem('accessToken');
@@ -254,6 +255,7 @@ function HospitalBasic(props) {
     <SContainer>
       <FirstBox>
         <Treat>진료중</Treat>
+        {/* 로그인 했고 좋아요가 되어있을때 */}
         {logininfo !== false && like !== true ? (
           <Favorite
             src={RedFavorites}

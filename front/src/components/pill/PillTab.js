@@ -51,8 +51,8 @@ function PillTab() {
   const detailInfo = useRecoilValue(drugDetailInfo);
   const avoidInfo = useRecoilValue(drugAvoidInfo);
 
-  // console.log(detailInfo, 'detailInfo');
-  // console.log(detailInfo.data, 'detailInfo.data');
+  console.log(detailInfo, 'detailInfo');
+  console.log(detailInfo.data, 'detailInfo.data');
   // console.log(avoidInfo, 'avoidInfo');
 
   const tabContArr = [
@@ -73,32 +73,8 @@ function PillTab() {
       tabCont: <div> {detailInfo.data.drugDescUse} </div>,
     },
   ];
-  // console.log(tabContArr[0].tabCont, 'tabContArr[0]');
-  // console.log(
-  //   tabContArr[0].tabCont.props.children,
-  //   'tabContArr[0]props.children',
-  // );
-  // console.log(
-  //   tabContArr[0].tabCont.props.children.length,
-  //   'tabContArr[0]props.children.length',
-  // );
-  // console.log(
-  //   tabContArr[1].tabCont.props.children,
-  //   'tabContArr[1]props.children',
-  // );
-  // console.log(
-  //   tabContArr[1].tabCont.props.children.length,
-  //   'tabContArr[1]props.children.length',
-  // );
-  // console.log(
-  //   tabContArr[2].tabCont.props.children.length,
-  //   'tabContArr[2]props.children.length',
-  // );
-  // console.log(
-  //   tabContArr[3].tabCont.props.children.length,
-  //   'tabContArr[3]props.children.length',
-  // );
-  // console.log(tabContArr[1].tabCont.children[2]);
+  console.log(tabContArr[activeIndex].tabCont.props.children.length, 'length');
+  console.log(tabContArr[activeIndex].tabCont.props.children, 'children');
 
   return (
     <SContainer>
@@ -127,11 +103,13 @@ function PillTab() {
             className={activeIndex === 3 ? 'active' : ''}
             onClick={() => tabClickHandler(3)}
           >
-            사용법
+            사용법C
           </STabLi>
         </STitleBox>
       </STabTitle>
-      {tabContArr[activeIndex].tabCont.props.children.length > 4 ? (
+
+      {tabContArr &&
+      tabContArr[activeIndex].tabCont.props.children.length > 4 ? (
         <STabContent>{tabContArr[activeIndex].tabCont}</STabContent>
       ) : (
         <STabContent>내용없음</STabContent>

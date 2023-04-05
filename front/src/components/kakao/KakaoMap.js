@@ -22,7 +22,7 @@ import './Overlay.css';
 
 const SReSearchButton = styled.button`
   position: absolute;
-  width: 30vw;
+  width: 150px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   z-index: 999;

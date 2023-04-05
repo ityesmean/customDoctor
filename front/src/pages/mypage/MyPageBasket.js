@@ -192,7 +192,7 @@ function MyPageBasket() {
     // 약 봉투 담는 post요청
     axios
       .post(
-        `${process.env.REACT_APP_API_URL}/user/plus`,
+        `${process.env.REACT_APP_API_URL}/user/drug/plus`,
         {
           drugId: checkedMedicines,
           drugMyMemo: basketMemo,

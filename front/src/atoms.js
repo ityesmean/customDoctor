@@ -97,7 +97,7 @@ const myPositionState = atom({
 });
 
 const loginState = atom({
-  key: 'LoginState',
+  key: 'loginState',
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
