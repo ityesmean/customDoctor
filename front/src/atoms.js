@@ -96,7 +96,7 @@ const myPositionState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-const LoginState = atom({
+const loginState = atom({
   key: 'LoginState',
   default: false,
   effects_UNSTABLE: [persistAtom],
@@ -143,7 +143,7 @@ export {
   checkedMedicineState,
   hospitalSearchResultState,
   myPositionState,
-  LoginState,
+  loginState,
   hospitalDescState,
   hospitalBasicState,
   hospitalFavoriteState,

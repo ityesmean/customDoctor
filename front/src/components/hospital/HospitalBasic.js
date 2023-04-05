@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
-import { hospitalBasicState, hospitalDescState } from '../../atoms';
+import { hospitalBasicState, hospitalDescState, loginState } from '../../atoms';
 import { API_URL_USER } from '../../api/api';
 import Favorites from '../../assets/Favorites.png';
 import RedFavorites from '../../assets/RedFavorites.png';
@@ -115,6 +115,8 @@ function HospitalBasic(props) {
   const basicInfo = useRecoilValue(hospitalBasicState);
   // console.log(basicInfo, 'basicInfo');
   const descInfo = useRecoilValue(hospitalDescState);
+  const logininfo = useRecoilValue(loginState);
+  // console.log(LoginInfo, 'LoginInfo');
 
   const departmentList = [];
   for (let i = 0; i < basicInfo.hospitalPart.length; i++) {
@@ -252,7 +254,7 @@ function HospitalBasic(props) {
     <SContainer>
       <FirstBox>
         <Treat>진료중</Treat>
-        {like !== true ? (
+        {logininfo !== false && like !== true ? (
           <Favorite
             src={RedFavorites}
             alt="RedFavorites"
