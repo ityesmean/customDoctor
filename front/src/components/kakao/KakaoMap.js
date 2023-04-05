@@ -161,6 +161,7 @@ function KakaoMap({ lat, lng }) {
             {selectedMarker === index ? (
               <CustomOverlayMap
                 position={{ lat: hospital.hospitalY, lng: hospital.hospitalX }}
+                xAnchor={-10.5}
               >
                 <div className="wrap">
                   <div className="info">
