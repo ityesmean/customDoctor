@@ -14,6 +14,7 @@ import {
   hospitalSearchResultState,
   myPositionState,
   searchOptionState,
+  hospitalBasicState
 } from '../../atoms';
 
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
@@ -40,6 +41,8 @@ const SReSearchButton = styled.button`
 
 function KakaoMap({ lat, lng }) {
   const hospitalMap = useRef();
+
+  const [basicInfo, setBasicInfo] = useRecoilState(hospitalBasicState);
 
   const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
     hospitalSearchResultState,
@@ -155,7 +158,10 @@ function KakaoMap({ lat, lng }) {
                 },
               }}
               // onClick={() => setSeleteMarker(index)}
-              onClick={() => setSelectedMarker(index)}
+              onClick={() => {
+                setSelectedMarker(index);
+                setBasicInfo(hospital)
+              }}
               isClicked={selectedMarker === index}
             />
             {selectedMarker === index ? (
@@ -191,7 +197,6 @@ function KakaoMap({ lat, lng }) {
                     </div>
                   </div>
                 </div>
-                ;
               </CustomOverlayMap>
             ) : null}
           </>
