@@ -30,7 +30,7 @@ function Header() {
   const onClickLogoutHandler = async () => {
     await axios
       .get(`${process.env.REACT_APP_API_URL}/user/logout`, {
-        header: {
+        headers: {
           Authorization: accessToken,
         },
         withCredentials: true,
