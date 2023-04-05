@@ -1,12 +1,14 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable arrow-body-style */
+/* eslint-disable react/prop-types */
+/* eslint-disable array-callback-return */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
 
-import { drugDetailInfo, drugAvoidInfo } from '../../atoms';
+// import { useRecoilValue } from 'recoil';
+
+// import { drugDetailInfo, drugAvoidInfo } from '../../atoms';
 
 const SContainer = styled.div``;
 
@@ -42,17 +44,20 @@ const STabContent = styled.div`
   background-color: #f1f3f4;
 `;
 
-function PillTab() {
+function PillTab({ detailInfo, avoidInfo }) {
+  console.log(detailInfo, '@@@@@@@@@@@@');
+  console.log(avoidInfo, '##################');
+
   const [activeIndex, setActiveIndex] = useState(0);
 
   const tabClickHandler = index => {
     setActiveIndex(index);
   };
-  const detailInfo = useRecoilValue(drugDetailInfo);
-  const avoidInfo = useRecoilValue(drugAvoidInfo);
+  // const detailInfo = useRecoilValue(drugDetailInfo);
+  // const avoidInfo = useRecoilValue(drugAvoidInfo);
 
-  console.log(detailInfo, 'detailInfo');
-  console.log(detailInfo.data, 'detailInfo.data');
+  // console.log(detailInfo, 'detailInfo');
+  // console.log(detailInfo.data, 'detailInfo.data');
   // console.log(avoidInfo, 'avoidInfo');
 
   const tabContArr = [
@@ -62,7 +67,7 @@ function PillTab() {
     },
     {
       tabTitle: '탭2',
-      tabCont: <div> {detailInfo.data.drugDescSafety} </div>,
+      tabCont: <div>{detailInfo.data.drugDescSafety}</div>,
     },
     {
       tabTitle: '탭3',
@@ -70,7 +75,7 @@ function PillTab() {
     },
     {
       tabTitle: '탭4',
-      tabCont: <div> {detailInfo.data.drugDescUse} </div>,
+      tabCont: <div>{detailInfo.data.drugDescUse}</div>,
     },
   ];
   console.log(tabContArr[activeIndex].tabCont.props.children.length, 'length');
@@ -103,13 +108,12 @@ function PillTab() {
             className={activeIndex === 3 ? 'active' : ''}
             onClick={() => tabClickHandler(3)}
           >
-            사용법C
+            사용법
           </STabLi>
         </STitleBox>
       </STabTitle>
 
-      {tabContArr &&
-      tabContArr[activeIndex].tabCont.props.children.length > 4 ? (
+      {tabContArr[activeIndex].tabCont.props.children !== 'null' ? (
         <STabContent>{tabContArr[activeIndex].tabCont}</STabContent>
       ) : (
         <STabContent>내용없음</STabContent>
