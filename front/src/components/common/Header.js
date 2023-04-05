@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -24,8 +25,8 @@ const SLoginLink = styled.a`
 const SLogoutButton = styled.button``;
 
 function Header() {
-  const onClickLogoutHandler = () => {
-    console.log('로그아웃');
+  const onClickLogoutHandler = async () => {
+    await axios.get(`${process.env.REACT_APP_API_URL}/user/logout`, {});
   };
 
   return (
