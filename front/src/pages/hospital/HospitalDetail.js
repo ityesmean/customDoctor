@@ -20,7 +20,6 @@ const SContainer = styled.div``;
 
 function HospitalDetail() {
   const information = useLocation();
-  console.log(information);
   const navigate = useNavigate();
   const { hospitalId } = useParams();
   const lat = information.state.information.hospitalY;
@@ -30,10 +29,12 @@ function HospitalDetail() {
 
   const getInformation = async () => {
     await axios
-      .get(`${process.env.REACT_APP_API_URL}/hospital/desc/${hospitalId}`)
+      .get(`${API_URL_HOSPITAL}/desc/${hospitalId}`)
       .then(
         res => setHospitalDesc(res.data.data),
+        console.log(hospitalDesc, 'hospitalDesc'),
         setHospitalBasic(information.state.information),
+        console.log(hospitalBasic, 'hospitalBasic'),
       )
       .catch(err => console.log(err));
   };

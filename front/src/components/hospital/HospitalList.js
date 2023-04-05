@@ -134,28 +134,44 @@ function HospitalList({
 
   const token = localStorage.getItem('accessToken');
 
+  // const getFavoriteList = async () => {
+  //   await axios
+  //     .post(
+  //       `${API_URL_USER}/hospital/marklist`,
+  //       // { withCredentials: true },
+  //       {
+  //         hour: 9,
+  //         min: 40,
+  //         day: 1,
+  //       },
+  //       { headers: { Authorization: `${token}` } },
+  //     )
+  //     .then(res => {
+  //       if (res.data.status_code === 204) {
+  //         console.log(res.data.data, '204');
+  //       } else {
+  //         setFavoriteList(res.data.data);
+  //         console.log(res.data.data, '200');
+  //       }
+  //     })
+  //     .catch(err => console.log(err));
+  // };
   const getFavoriteList = async () => {
-    await axios
-      .post(
-        `${API_URL_USER}/hospital/list`,
-        { withCredentials: true },
-        {
-          headers: { Authorization: `${token}`, Accept: 'application/json' },
-          body: {
-            hour: currentHours,
-            min: currentMinutes,
-            day: currentDay,
-          },
-        },
-      )
-      .then(res => {
-        if (res.data.status_code === 204) {
-          setFavoriteList([]);
-        } else {
-          setFavoriteList(res.data.data);
-        }
-      })
-      .catch(err => console.log(err));
+    try {
+      const res = await axios.post(
+        `${API_URL_USER}/hospital/marklist`,
+        // { withCredentials: true },
+        { hour: currentHours, min: currentMinutes, day: currentDay },
+        { headers: { Authorization: `${token}` } },
+      );
+      // if (res.data.status_code === 204) {
+      //   console.log(res.data.data, '204');
+      // } else {
+      setFavoriteList(res.data.data);
+      console.log(res.data.data, '200');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const getOptionHospitalSearchResult = async () => {

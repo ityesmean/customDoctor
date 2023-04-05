@@ -120,9 +120,14 @@ const hospitalFavoriteState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+const FavoriteState = atom({
+  key: 'FavoriteState',
+  default: null,
+})
 const searchOptionState = atom({
   key: 'searchOptionState',
   default: [],
+
   effects_UNSTABLE: [persistAtom],
 });
 
@@ -143,5 +148,6 @@ export {
   hospitalDescState,
   hospitalBasicState,
   hospitalFavoriteState,
+  FavoriteState,
   searchOptionState,
 };
