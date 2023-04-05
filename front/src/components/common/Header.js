@@ -25,8 +25,18 @@ const SLoginLink = styled.a`
 const SLogoutButton = styled.button``;
 
 function Header() {
+  const accessToken = localStorage.getItem('accessToken');
+
   const onClickLogoutHandler = async () => {
-    await axios.get(`${process.env.REACT_APP_API_URL}/user/logout`, {});
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}/user/logout`, {
+        header: {
+          Authorization: accessToken,
+        },
+        withCredentials: true,
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   };
 
   return (
@@ -35,8 +45,6 @@ function Header() {
         <SLogo>맞닥</SLogo>
       </SLink>
       <SLoginButton>
-        {/* <SLoginLink href="http://192.168.31.33:8080/oauth2/authorization/kakao"> */}
-        {/* <SLoginLink href="http://localhost:8080/oauth2/authorization/kakao"> */}
         <SLoginLink
           href={`${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`}
         >
