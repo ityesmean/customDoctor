@@ -123,12 +123,11 @@ const hospitalFavoriteState = atom({
 const FavoriteState = atom({
   key: 'FavoriteState',
   default: null,
-})
+});
+
 const searchOptionState = atom({
   key: 'searchOptionState',
   default: [],
-
-  effects_UNSTABLE: [persistAtom],
 });
 
 export {
