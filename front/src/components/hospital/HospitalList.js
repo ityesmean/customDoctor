@@ -68,7 +68,7 @@ function HospitalList({
   const makeHospitalList = searchList => {
     const newList = searchList.map((h, index) => ({
       hospitalCode: h.hospitalCode,
-      hospitalId: h.hospitalName,
+      hospitalId: h.hospitalId,
       hospitalName: h.hospitalName,
       hospitalOpen: h.hospitalOpen,
       hospitalPart: h.hospitalPart,
@@ -90,7 +90,7 @@ function HospitalList({
   const makeHospitalDistanceList = searchList => {
     const newDistanceList = searchList.map((h, index) => ({
       hospitalCode: h.hospitalCode,
-      hospitalId: h.hospitalName,
+      hospitalId: h.hospitalId,
       hospitalName: h.hospitalName,
       hospitalOpen: h.hospitalOpen,
       hospitalPart: h.hospitalPart,
@@ -195,7 +195,6 @@ function HospitalList({
     if (token) {
       getFavoriteList();
     }
-    console.log(favoriteList, 'favoriteList');
   }, [hospitalList]);
   return (
     <>
