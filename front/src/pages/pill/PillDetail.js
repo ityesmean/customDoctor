@@ -116,11 +116,8 @@ function PillDetail() {
       .then(
         axios.spread((res1, res2, res3) => {
           setBasicInfo(res1.data);
-          console.log(basicInfo, 'basicInfo');
           setDetailInfo(res2.data);
-          console.log(detailInfo, 'detailInfo');
           setDetailPassInfo(res2.data);
-          console.log(detailPassInfo, 'detailPassInfo');
           setAvoidInfo(res3.data);
           console.log(avoidInfo, 'avoidInfo');
         }),

@@ -6,17 +6,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { deleteMyBasketSelector } from '../../atoms';
-
 
 const SItem = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 4vh;
-  max-height: 3vh;
+  max-height: 4vh;
 `;
 
 const SCheckboxAndLabelBox = styled.div`
@@ -26,20 +25,25 @@ const SCheckboxAndLabelBox = styled.div`
 
 const SLabel = styled.label`
   width: 55vw;
-  margin-left: 2vw;
+  margin-left: 1vw;
+  font-size: medium;
 `;
 
 const SDeleteButton = styled.div`
   color: #bdbdbd;
   border: 1px solid #bdbdbd;
   padding: 1vw;
-  
   border-radius: 10px;
+  font-size: small;
+  /* max-height: 10vh; */
 `;
 
-function MyLikeMedicineItem({ medicine, onChangeCheckHandler, onClickDeleteHandler }) {
-
-  const [myBasket, setMyBasket] = useRecoilState(deleteMyBasketSelector)
+function MyLikeMedicineItem({
+  medicine,
+  onChangeCheckHandler,
+  onClickDeleteHandler,
+}) {
+  const [myBasket, setMyBasket] = useRecoilState(deleteMyBasketSelector);
   // const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
   // const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
   const [bChecked, setChecked] = useState(
@@ -47,15 +51,13 @@ function MyLikeMedicineItem({ medicine, onChangeCheckHandler, onClickDeleteHandl
   );
 
   const onClickDeleteItem = () => {
-    onClickDeleteHandler(medicine)
-  }
+    onClickDeleteHandler(medicine);
+  };
 
   const onChangeCheckItem = () => {
-    setChecked(!bChecked)
-    onChangeCheckHandler(medicine)
-  }
-
-
+    setChecked(!bChecked);
+    onChangeCheckHandler(medicine);
+  };
 
   return (
     <SItem>
@@ -76,17 +78,16 @@ function MyLikeMedicineItem({ medicine, onChangeCheckHandler, onClickDeleteHandl
 MyLikeMedicineItem.propTypes = {
   medicine: PropTypes.shape({
     name: PropTypes.string,
-    isChecked: PropTypes.string
+    isChecked: PropTypes.string,
   }),
   onChangeCheckHandler: PropTypes.func,
-  onClickDeleteHandler: PropTypes.func
-}
+  onClickDeleteHandler: PropTypes.func,
+};
 
 MyLikeMedicineItem.defaultProps = {
   medicine: null,
   onChangeCheckHandler: null,
   onClickDeleteHandler: null,
-}
-
+};
 
 export default MyLikeMedicineItem;
