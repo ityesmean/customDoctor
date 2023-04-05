@@ -264,8 +264,8 @@ function HospitalBasic(props) {
           />
         ) : (
           <Favorite
-            src={Favorite}
-            alt="Favorite"
+            src={Favorites}
+            alt="Favorites"
             onClick={() => {
               // setTrigger(!trigger);
               checkFavorite();
