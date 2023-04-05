@@ -117,9 +117,8 @@ public class HospitalCustomRepo {
         if (keyword == null) {
             return null;
         } else {
-            NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,
-                    "function('match',{0},{1})", hospital.hospital_name, keyword);
-            log.info("repo word return= {}",keyword);
+            NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,"function('match',{0},{1})", hospital.hospital_name, "'+" + keyword + "*");
+
             return booleanTemplate.gt(0);
         }
     }
