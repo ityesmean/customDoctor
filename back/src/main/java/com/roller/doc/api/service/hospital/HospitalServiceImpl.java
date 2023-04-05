@@ -138,7 +138,7 @@ public class HospitalServiceImpl implements HospitalService {
         ResponseDTO responseDTO = new ResponseDTO();
         try {
             Optional<HospitalDesc> hospitalDesc = hospitalRepository.findHospitalDesc(id);
-            if (hospitalDesc == null) {
+            if (hospitalDesc.isEmpty()) {
                 responseDTO.setStatus_code(400);
                 responseDTO.setMessage("상세보기가 없습니다");
                 responseDTO.setData("null");

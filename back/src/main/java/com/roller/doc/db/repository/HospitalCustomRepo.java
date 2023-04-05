@@ -104,44 +104,8 @@ public class HospitalCustomRepo {
      * 진료과목 필터
      */
     public BooleanExpression partEq(NumberPath<Long> id, int partName) {
-        if (partName == 0) return null; //전체과목은 필터 필요없어
+        if (partName == 0) return null;
         return hospitalPart.hospital_part_name.eq(partName).and(hospitalPart.hospital.hospital_id.eq(id));
-    }
-
-    /**
-     * 토요일 진료
-     */
-    public BooleanExpression openSat(NumberPath<Long> id, int sat) {
-        if (sat == 0) return null;
-        return hospitalTime.hospitalTimeSat.ne("null") //null이 아님=진료시간이 있음
-                .and(hospitalTime.hospital.hospital_id.eq(id));
-    }
-
-    /**
-     * 일요일 진료
-     */
-    public BooleanExpression openSun(NumberPath<Long> id, int sun) {
-        if (sun == 0) return null;
-        return hospitalTime.hospitalTimeSun.ne("null")
-                .and(hospitalTime.hospital.hospital_id.eq(id));
-    }
-
-    /**
-     * 공휴일 진료
-     */
-    public BooleanExpression openHoliday(NumberPath<Long> id, int holiday) {
-        if (holiday == 0) return null;
-        return hospitalTime.hospitalTimeHoliday.eq(1)
-                .and(hospitalTime.hospital.hospital_id.eq(id));
-    }
-
-    /**
-     * 야간진료
-     */
-    public BooleanExpression openNight(NumberPath<Long> id, int night) {
-        if (night == 0) return null;
-        return hospitalTime.hospitalTimeMonNight.eq(1)
-                .and(hospitalTime.hospital.hospital_id.eq(id));
     }
 
     /**
