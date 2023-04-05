@@ -30,35 +30,35 @@ public interface DrugRepository extends JpaRepository<Drug, Long> {
 	/**
 	 * 조건으로 의약품 검색 (drug_line이 없을 때)
 	 */
-	@Query(value = "SELECT * FROM drug WHERE drug_type =:drugType and drug_line = 'oxo' and (drug_colorb =:drugColor or drug_colorf =:drugColor) and (drug_markb =:drugMark or drug_markf =:drugMark)", nativeQuery = true)
+	@Query(value = "SELECT * FROM drug WHERE drug_type =:drugType and drug_line = 'oxo' and (drug_colorb =:drugColor or drug_colorf =:drugColor) and (drug_markb =:drugMark or drug_markf =:drugMark) limit 37", nativeQuery = true)
 	List<Drug> findA(@Param("drugType")String drug_type,
 						@Param("drugColor")String drug_color, @Param("drugMark")String drug_mark);
 
 	/**
 	 * 조건으로 의약품 검색 (drug_line이 +형일 때)
 	 */
-	@Query(value = "SELECT * FROM drug WHERE drug_type =:drugType and (drug_line = '+xo' or drug_line = '+x+' or drug_line = 'ox+') and (drug_colorb =:drugColor or drug_colorf =:drugColor) and (drug_markb =:drugMark or drug_markf =:drugMark)", nativeQuery = true)
+	@Query(value = "SELECT * FROM drug WHERE drug_type =:drugType and (drug_line = '+xo' or drug_line = '+x+' or drug_line = 'ox+') and (drug_colorb =:drugColor or drug_colorf =:drugColor) and (drug_markb =:drugMark or drug_markf =:drugMark) limit 37", nativeQuery = true)
 	List<Drug> findB(@Param("drugType")String drug_type,
 					 @Param("drugColor")String drug_color, @Param("drugMark")String drug_mark);
 
 	/**
 	 * 조건으로 의약품 검색 (drug_line이 -형일 때)
 	 */
-	@Query(value = "SELECT * FROM drug WHERE drug_type =:drugType and (drug_line = '-x-' or drug_line = '-xo' or drug_line = 'ox-') and (drug_colorb =:drugColor or drug_colorf =:drugColor) and (drug_markb =:drugMark or drug_markf =:drugMark)", nativeQuery = true)
+	@Query(value = "SELECT * FROM drug WHERE drug_type =:drugType and (drug_line = '-x-' or drug_line = '-xo' or drug_line = 'ox-') and (drug_colorb =:drugColor or drug_colorf =:drugColor) and (drug_markb =:drugMark or drug_markf =:drugMark) limit 37", nativeQuery = true)
 	List<Drug> findC(@Param("drugType")String drug_type,
 					 @Param("drugColor")String drug_color, @Param("drugMark")String drug_mark);
 
 	/**
 	 * 조건으로 의약품 검색 (drug_line이 기타일 때)
 	 */
-	@Query(value = "SELECT * FROM drug WHERE drug_type =:drugType and not drug_line = 'oxo' and (drug_colorb =:drugColor or drug_colorf =:drugColor) and (drug_markb =:drugMark or drug_markf =:drugMark)", nativeQuery = true)
+	@Query(value = "SELECT * FROM drug WHERE drug_type =:drugType and not drug_line = 'oxo' and (drug_colorb =:drugColor or drug_colorf =:drugColor) and (drug_markb =:drugMark or drug_markf =:drugMark) limit 37", nativeQuery = true)
 	List<Drug> findD(@Param("drugType")String drug_type,
 					 @Param("drugColor")String drug_color, @Param("drugMark")String drug_mark);
 
 	/**
 	 * 조건으로 의약품 검색 (drug_line이 전체일 때)
 	 */
-	@Query(value = "SELECT * FROM drug WHERE drug_type =:drugType and (drug_colorb =:drugColor or drug_colorf =:drugColor) and (drug_markb =:drugMark or drug_markf =:drugMark)", nativeQuery = true)
+	@Query(value = "SELECT * FROM drug WHERE drug_type =:drugType and (drug_colorb =:drugColor or drug_colorf =:drugColor) and (drug_markb =:drugMark or drug_markf =:drugMark) limit 37", nativeQuery = true)
 	List<Drug> findE(@Param("drugType")String drug_type,
 					 @Param("drugColor")String drug_color, @Param("drugMark")String drug_mark);
 
