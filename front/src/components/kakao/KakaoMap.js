@@ -60,11 +60,11 @@ function KakaoMap({ lat, lng }) {
   const latPerKm = 0.0091;
   const lngPerKm = 0.0113;
 
-  // const newMyPosition = [mapCenter.lat, mapCenter.lng, mapCenter.lng + lngPerKm * 5, mapCenter.lng + lngPerKm - 5, mapCenter.lat - latPerKm * 5, mapCenter.lat - latPerKm - 5]
-  // console.log(myPosition)
 
   // 병원을 재 검색할때 실행되는 함수
   const onClickReSearchHospitalListHandler = async () => {
+    console.log(searchOption)
+    console.log(mapCenter)
     console.log(
       mapCenter.lat,
       mapCenter.lng,
@@ -76,8 +76,8 @@ function KakaoMap({ lat, lng }) {
     console.log(mapCenter);
     if (searchOption[0] === 'keyWord') {
       await axios
-        .get(
-          `${process.env.REACT_APP_URL}/hospital/search/${searchOption[1]}`,
+        .post(
+          `${process.env.REACT_APP_API_URL}/hospital/search/${searchOption[1]}`,
           {
             e: mapCenter.lng + lngPerKm * 1,
             w: mapCenter.lng - lngPerKm * 1,
@@ -95,8 +95,8 @@ function KakaoMap({ lat, lng }) {
             setHospitalSearchResult(res.data.data);
           }
         })
-        .catch(err => console.log(err));
     } else if (searchOption[0] === 'option') {
+      console.log(searchOption)
       await axios
         .post(`${process.env.REACT_APP_API_URL}/hospital/find`, {
           e: mapCenter.lng + lngPerKm * 3,
@@ -120,9 +120,11 @@ function KakaoMap({ lat, lng }) {
     }
   };
 
-  // useEffect(() => {
-  //   // location.reload();
-  // }, [hospitalSearchResult])
+  useEffect(() => {
+    onClickReSearchHospitalListHandler()
+    setMapCenter(lat, lng)
+  }, [])
+
 
   return (
     <>
@@ -140,7 +142,7 @@ function KakaoMap({ lat, lng }) {
         }
         ref={hospitalMap}
       >
-        {hospitalSearchResult.map((hospital, index) => (
+        {hospitalSearchResult?.map((hospital, index) => (
           <>
             <MapMarker
               key={`${hospital.hospitalName}-${hospital.hospitalX}`}
@@ -159,6 +161,7 @@ function KakaoMap({ lat, lng }) {
             {selectedMarker === index ? (
               <CustomOverlayMap
                 position={{ lat: hospital.hospitalY, lng: hospital.hospitalX }}
+                xAnchor={-10.5}
               >
                 <div className="wrap">
                   <div className="info">

@@ -17,20 +17,23 @@ const STitleBox = styled.div`
 `;
 
 const STitle = styled.div`
+  margin-top: 5vh;
   font-weight: bold;
-`;
-const SDepartment = styled.div`
-  width: 80vw;
+  margin-bottom: 5vh;
 `;
 
-const SListText = styled.div`
-  display: inline-block;
-  font-size: small;
-  color: gray;
-  /* background-color: #eef1fd; */
-  padding: 1vw 1vw;
-  /* margin: 1vw 1vw; */
-`;
+// const SDepartment = styled.div`
+//   width: 80vw;
+// `;
+
+// const SListText = styled.div`
+/* display: inline-block; */
+/* font-size: small; */
+/* color: gray; */
+/* background-color: #eef1fd; */
+/* padding: 1vw 1vw; */
+/* margin: 1vw 1vw; */
+// `;
 
 const SLine = styled.div`
   height: 1vh;
@@ -52,11 +55,11 @@ function HositalTotal() {
     <SContainer>
       <STitleBox>
         <STitle>{basicInfo.hospitalName}</STitle>
-        <SDepartment>
+        {/* <SDepartment>
           {departmentList.map(dep => (
             <SListText>{dep}</SListText>
           ))}
-        </SDepartment>
+        </SDepartment> */}
       </STitleBox>
       <SLine />
       <HospitalTab />
