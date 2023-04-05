@@ -33,6 +33,7 @@ function Header() {
   const accessToken = localStorage.getItem('accessToken');
 
   const onClickLogoutHandler = async () => {
+    console.log('로그아웃')
     await axios
       .get(`${process.env.REACT_APP_API_URL}/user/logout`, {
         headers: {
@@ -46,6 +47,7 @@ function Header() {
         console.log(res);
       })
       .catch(err => console.log(err));
+    console.log(isLogin)
   };
 
   return (

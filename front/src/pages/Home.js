@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -6,6 +7,8 @@ import Header from '../components/common/Header';
 import HospitalMain from '../assets/HospitalMain.png';
 import PillMain from '../assets/PillMain.png';
 import MypageMain from '../assets/MypageMain.png';
+
+import { loginState } from '../atoms';
 
 const SSlogunBox = styled.div`
   display: flex;
@@ -55,6 +58,15 @@ const SHomeImg = styled.img`
 `;
 
 function Home() {
+
+  const isLogin = useRecoilValue(loginState)
+
+  const onClickCheckLoginStatus = (e) => {
+    if (!isLogin) {
+      e.preventDefault()
+    }
+  }
+
   return (
     <>
       <Header />
@@ -79,7 +91,7 @@ function Home() {
           </SCardBox>
         </SLink>
 
-        <SLink to="/mypage/hospitallist">
+        <SLink to="/mypage/hospitallist" onClick={onClickCheckLoginStatus}>
           <SCardBox>
             <SHomeImg src={MypageMain} alt="Mypage" />
             <SSubTitle>마이페이지</SSubTitle>

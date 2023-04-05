@@ -34,18 +34,18 @@ function hospitalFavoriteList() {
         // { withCredentials: true },
         { hour: currentHours, min: currentMinutes, day: currentDay },
         { headers: { Authorization: `${token}` } },
-      )
-      .then(res => console.log(res, 'sjp'))
-      .catch(err => console.log(err, 'sjp2'));
-    // if (res.data.status_code === 204) {
-    //   console.log(res.data.data, '204');
-    // // } else {
-    // setFavoriteList(res.data.data);
-    // console.log(res.data, '200');
-    // } catch (err) {
-    //   console.log(err);
-    // }
-  }, [token, currentHours, currentMinutes, currentDay]);
+      ).then(res => {
+        if (res.data.status_code === 204) {
+          console.log(res.data.data, '204');
+        } else {
+          setFavoriteList(res.data.data)
+          console.log(res.data, '200')
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    // }, [token, currentHours, currentMinutes, currentDay]);
+  }, []);
 
   useEffect(() => {
     // const getFavoriteList = async () => {
@@ -82,7 +82,7 @@ function hospitalFavoriteList() {
         </SLink>
       ))}) : null} */}
 
-      {/* {favoriteList?.map((faovrite, index) => (
+      {favoriteList?.map((faovrite, index) => (
         <SLink
           to={`/hospital/${faovrite.hospitalId}`}
           key={faovrite.hospitalName}
@@ -90,7 +90,7 @@ function hospitalFavoriteList() {
         >
           <HospitalCard hospital={faovrite} index={index} />
         </SLink>
-      ))} */}
+      ))}
     </SContainer>
   );
 }
