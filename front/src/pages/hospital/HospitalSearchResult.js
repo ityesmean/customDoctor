@@ -245,7 +245,7 @@ function HospitalSearchResult() {
   const searchType = location.state.type;
   const searchValue = location.state.value;
   // const option = ['거리순', '별점순', '영업중'];
-  const [selectedValue, setSelectedValue] = useState('standard');
+  const [selectedValue, setSelectedValue] = useState(location.state.selected);
   const [isOnValue, setIsOnValue] = useState(false);
   const [firstOption, setFirstOption] = useState(true);
   const [thisOptionList, setThisOptionList] = useState();
@@ -259,18 +259,6 @@ function HospitalSearchResult() {
   const [selectedOption, setSelectedOption] = useRecoilState(
     hospitalSearchSelectedOption,
   );
-
-  const [showSelectFilter, setShowSelectFilter] = useState(true);
-
-  const offSelectFilter = () => {
-    console.log('닫기');
-    setShowSelectFilter(false);
-  };
-
-  const onSelectFilter = () => {
-    console.log('열기');
-    setShowSelectFilter(true);
-  };
 
   useEffect(() => {
     setThisOptionList(false);
@@ -308,7 +296,7 @@ function HospitalSearchResult() {
   useEffect(() => {
     setThisOptionList(optionList.filter(o => o.value !== selectedValue));
     setThisOption(optionList.filter(o => o.value === selectedValue));
-  }, [selectedValue]);
+  }, [selectedValue, searchValue]);
 
   const medicalDepartment = [
     ['내과', 1],
@@ -400,7 +388,7 @@ function HospitalSearchResult() {
 
     // 옵션 없는 값 검사하고 통과시 검색 결과로 이동
     navigate('/hospital/search/result', {
-      state: { type: 'option', value: options },
+      state: { type: 'option', value: options, selected: 'standard' },
     });
   };
 
@@ -464,63 +452,61 @@ function HospitalSearchResult() {
         </>
       )}
 
-      {showSelectFilter && (
-        <SFilterBox>
-          {firstOption && (
-            <SOption key="거리순보기">
-              <SButton
-                type="button"
-                onClick={handleFirstOptionValue}
-                value="firstOption"
-                name="filter"
-                id="거리순보기"
-              />
-              <SLabel htmlFor="거리순보기">거리순보기</SLabel>
-            </SOption>
-          )}
-          {!firstOption && (
-            <SOption key="전체보기">
-              {thisOption.map((option, index) => (
-                <>
-                  <SInput
-                    value={option.value}
-                    name="filter"
-                    id={option.name}
-                    key={option.name}
-                    index={index}
-                    defaultChecked
-                  />
-                  <SLabel htmlFor={option.name}>{option.fullname}</SLabel>
-                </>
-              ))}
-              {thisOptionList.map((option, index) => (
-                <>
-                  <SInput
-                    type="radio"
-                    onClick={handleSelectedValue}
-                    value={option.value}
-                    name="filter"
-                    id={option.name}
-                    key={option.name}
-                    index={index}
-                  />
-                  <SOptions htmlFor={option.name}>{option.name}</SOptions>
-                </>
-              ))}
-            </SOption>
-          )}
-          <SOption key="진료중">
-            <SToggle
-              type="checkbox"
-              onChange={handleIsOnValue}
-              value="isOn"
+      <SFilterBox>
+        {firstOption && (
+          <SOption key="거리순보기">
+            <SButton
+              type="button"
+              onClick={handleFirstOptionValue}
+              value="firstOption"
               name="filter"
-              id="진료중"
+              id="거리순보기"
             />
-            <SLabel htmlFor="진료중">진료중</SLabel>
+            <SLabel htmlFor="거리순보기">거리순보기</SLabel>
           </SOption>
-        </SFilterBox>
-      )}
+        )}
+        {!firstOption && (
+          <SOption key="전체보기">
+            {thisOption.map((option, index) => (
+              <>
+                <SInput
+                  value={option.value}
+                  name="filter"
+                  id={option.name}
+                  key={option.name}
+                  index={index}
+                  defaultChecked
+                />
+                <SLabel htmlFor={option.name}>{option.fullname}</SLabel>
+              </>
+            ))}
+            {thisOptionList.map((option, index) => (
+              <>
+                <SInput
+                  type="radio"
+                  onClick={handleSelectedValue}
+                  value={option.value}
+                  name="filter"
+                  id={option.name}
+                  key={option.name}
+                  index={index}
+                />
+                <SOptions htmlFor={option.name}>{option.name}</SOptions>
+              </>
+            ))}
+          </SOption>
+        )}
+        <SOption key="진료중">
+          <SToggle
+            type="checkbox"
+            onChange={handleIsOnValue}
+            value="isOn"
+            name="filter"
+            id="진료중"
+          />
+          <SLabel htmlFor="진료중">진료중</SLabel>
+        </SOption>
+      </SFilterBox>
 
       <SLine> </SLine>
       <HospitalList
@@ -529,8 +515,6 @@ function HospitalSearchResult() {
         searchType={searchType}
         searchValue={searchValue}
         myPosition={myPosition}
-        offSelectFilter={offSelectFilter}
-        onSelectFilter={onSelectFilter}
       />
     </>
   );

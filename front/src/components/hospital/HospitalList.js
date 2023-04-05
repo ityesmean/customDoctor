@@ -54,7 +54,7 @@ const SLoadingSpin = styled.div`
   top: 50%;
   margin-left: -50px;
   width: 600px;
-  height: 150px;
+  height: 100px;
   overflow: hidden;
   user-select: none;
   cursor: default;
@@ -259,8 +259,6 @@ function HospitalList({
   searchType,
   searchValue,
   myPosition,
-  offSelectFilter,
-  onSelectFilter,
 }) {
   // 병원리스트 state
   // const [hospitalList, setHospitalList] = useState([]);
@@ -444,6 +442,7 @@ function HospitalList({
     setDistance3HospitalList(false);
     setDistance3HospitalListOn(false);
     setIsLoading(true);
+
     if (type === 'keyWord') {
       getKeywordHospitalSearchResult();
     } else if (type === 'option') {
@@ -456,7 +455,6 @@ function HospitalList({
       getFavoriteList();
     }
     if (hospitalList) {
-      onSelectFilter();
       setStandardHospitalList(
         hospitalList.filter(hospital => hospital.hospitalDistance <= 3),
       );
@@ -490,9 +488,6 @@ function HospitalList({
         ),
       );
       setIsLoading(false);
-    }
-    if (!hospitalList || hospitalList.length === 0) {
-      offSelectFilter();
     }
     // console.log(favoriteList, 'favoriteLi  st');
   }, [hospitalList]);
