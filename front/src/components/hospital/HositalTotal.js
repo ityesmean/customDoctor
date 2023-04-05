@@ -42,6 +42,7 @@ const SLine = styled.div`
 
 function HositalTotal() {
   const basicInfo = useRecoilValue(hospitalBasicState);
+  console.log(basicInfo)
 
   const departmentList = [];
   if (basicInfo !== null) {
