@@ -39,7 +39,7 @@ const SSearchImg = styled.img`
 
 const SMyMedicineInput = styled.input`
   &::placeholder {
-    padding-left: 5vw;
+    padding-left: 6vw;
   }
   &:focus {
     outline-color: #00c192;
@@ -47,7 +47,7 @@ const SMyMedicineInput = styled.input`
   position: relative;
   width: 80vw;
   padding: 1vh;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   border-radius: 10px;
   border: none;
   margin-bottom: 3vh;
@@ -57,11 +57,27 @@ const SListWrapper = styled.div`
   justify-content: center;
   width: 75vw;
   height: 25vh;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   border-radius: 10px;
   justify-content: center;
   padding: 5vw;
-  overflow: scroll;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 5vw;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #e2e2e5;
+    background-clip: padding-box;
+    border: 5px solid transparent;
+    border-radius: 5vw;
+  }
+  &::-webkit-scrollbar-track {
+    margin: 1vw;
+    background-color: #00ff0000;
+    /* padding: 1; */
+  }
 `;
 
 // function MyLikeMedicineSearchAndList({ likedMedicinesHandler }) {
