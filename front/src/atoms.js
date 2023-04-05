@@ -128,6 +128,7 @@ const FavoriteState = atom({
 const searchOptionState = atom({
   key: 'searchOptionState',
   default: [],
+  effects_UNSTABLE: [persistAtom]
 });
 
 export {
