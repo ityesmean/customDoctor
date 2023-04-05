@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
+import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { loginState } from '../../atoms';
 
 const SLink = styled(Link)`
   text-decoration: none;
@@ -25,6 +28,8 @@ const SLoginLink = styled.a`
 const SLogoutButton = styled.button``;
 
 function Header() {
+  const [isLogin, setIsLogin] = useRecoilState(loginState);
+
   const accessToken = localStorage.getItem('accessToken');
 
   const onClickLogoutHandler = async () => {
@@ -35,7 +40,11 @@ function Header() {
         },
         withCredentials: true,
       })
-      .then(res => console.log(res))
+      .then(res => {
+        setIsLogin(false);
+        localStorage.removeItem('accessToken');
+        console.log(res);
+      })
       .catch(err => console.log(err));
   };
 
