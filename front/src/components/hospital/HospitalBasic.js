@@ -148,92 +148,6 @@ function HospitalBasic(props) {
       console.log(err);
     }
   };
-  // const checkFavorite = async () => {
-  //   await axios
-  //     .put(
-  //       `${API_URL_USER}/hospital/statusmark`,
-  //       {
-  //         hospitalId: `${basicInfo.hospitalTime.hospital.hospital_id}`,
-  //         status: trigger,
-  //       },
-  //       {
-  //         headers: { Authorization: `${token}` },
-  //       },
-  //     )
-  //     .then(res => {
-  //       console.log(res, 'check');
-  //       if (res.data.data) {
-  //         setLike('like');
-  //         setTrigger(res.data.data);
-  //       } else if (res.data.data !== true) {
-  //         setLike('');
-  //         setTrigger(res.data.data);
-  //       }
-  //     })
-
-  //     .catch(err => console.log(err));
-  // };
-  // const Registration = async () => {
-  //   await axios
-  //     .post(
-  //       `${API_URL_USER}/hospital/ismark`,
-  //       {
-  //         hospitalId: `${basicInfo.hospitalTime.hospital.hospital_id}`,
-  //       },
-  //       { headers: { Authorization: `${token}` } },
-  //       // { withCredentials: true },
-  //     )
-  //     .then(res => {
-  //       if (res.data.status_code === 204) {
-  //         console.log(res, '204');
-  //         // } else if (trigger === true) {
-  //         //   setTrigger(trigger);
-  //         // } else if (trigger === false) {
-  //         //   setTrigger(trigger);
-  //         // }
-  //       }
-  //     })
-  //     .catch(err => console.log(err));
-  // };
-
-  // const isLike = async () => {
-  //   await axios
-  //     .post(
-  //       `${API_URL_USER}/hospital/ismark`,
-  //       {
-  //         hospitalId: `${basicInfo.hospitalTime.hospital.hospital_id}`,
-  //       },
-  //       { headers: { Authorization: `${token}` } },
-  //       // { withCredentials: true },
-  //     )
-  //     .then(res => {
-  //       // console.log(like);
-  //       // if (like === undefined) {
-  //       console.log(res.data, 'like');
-  //       setTrigger(res.data.data);
-  //       // }
-  //     })
-
-  //     .catch(err => console.log(err));
-  // };
-
-  // useEffect(() => {
-  //   Registration();
-  //   isLike();
-  // }, []);
-
-  // const fetchIsLike = async () => {
-  //   try {
-  //     const res = await axios.post(
-  //       `${API_URL_USER}/hospital/ismark`,
-  //       { hospitalId: `${basicInfo.hospitalId}` },
-  //       { headers: { Authorization: `${token}` } },
-  //     );
-  //     setLike(!res.data.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   useEffect(() => {
     const fetchIsLike = async () => {
@@ -254,7 +168,7 @@ function HospitalBasic(props) {
   return (
     <SContainer>
       <FirstBox>
-        <Treat>진료중</Treat>
+        <Treat>{basicInfo.hospitalOpen ? '진료중' : '진료 종료'}</Treat>
         {/* 로그인 했고 좋아요가 되어있을때 */}
         {logininfo !== false && like !== true ? (
           <Favorite
@@ -290,7 +204,7 @@ function HospitalBasic(props) {
       </SGreenBox>
       <STimeTable>
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeMon.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeMon.length !== 4 ? (
           <STimeBox>
             <STimeText>월요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeMon}</STime>
@@ -314,7 +228,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )} */}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeTue.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeTue.length !== 4 ? (
           <STimeBox>
             <STimeText>화요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeTue}</STime>
@@ -326,7 +240,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeWed.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeWed.length !== 4 ? (
           <STimeBox>
             <STimeText>수요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeWed}</STime>
@@ -338,7 +252,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeThu.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeThu.length !== 4 ? (
           <STimeBox>
             <STimeText>목요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeThu}</STime>
@@ -350,7 +264,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeFri.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeFri.length !== 4 ? (
           <STimeBox>
             <STimeText>금요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeFri}</STime>
@@ -362,7 +276,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeSat.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeSat.length !== 4 ? (
           <STimeBox>
             <STimeText>토요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeSat}</STime>
@@ -374,7 +288,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeSun.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeSun.length !== 4 ? (
           <STimeEndBox>
             <STimeText>일요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeSun}</STime>
