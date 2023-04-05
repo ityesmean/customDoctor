@@ -124,6 +124,7 @@ const FavoriteState = atom({
   key: 'FavoriteState',
   default: null,
 });
+
 const searchOptionState = atom({
   key: 'searchOptionState',
   default: [],
