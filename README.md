@@ -6,7 +6,7 @@
 
 # ✔ Project Summary
 
-### 개발 기간 : 2023.02.20 ~ 2023.04.07
+### 개발 기간 : 2023.02.27 ~ 2023.04.07
 <br>
 <br>
 
@@ -52,9 +52,9 @@
 ---
 ## 🏣 [기획서](./DOCS/맞닥_기획서.md)
 ## 📜 [기능명세서](./DOCS/기능명세서.md)
-## 💾[ERD](./DOCS/ERD.md) 
+## 💾 [ERD](./DOCS/ERD.md) 
 ## 🔑 [DB컬럼설명](./DOCS/DB컬럼설명.md)
-## 📡[API명세서](./DOCS/API명세서.md)
+## 📡 [API명세서](./DOCS/API명세서.md)
 (아래는 추후 추가)
 - Architecture
 - 와이어프레임
