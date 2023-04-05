@@ -74,7 +74,7 @@ function SearchBar({ searchType }) {
     const successLocation = position => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
-      console.log(lat, lng, 'here');
+      // console.log(lat, lng, 'here');
       // const myNorth = 36.35887261465578;
       // const mySouth = 36.34567675654588;
       // const myEast = 127.35647601340733;
@@ -101,7 +101,7 @@ function SearchBar({ searchType }) {
         myTempSouth,
         myTempNorth,
       );
-      console.log(myPositions);
+      // console.log(myPositions);
       setMyPosition(myPositions);
     };
 
@@ -134,7 +134,7 @@ function SearchBar({ searchType }) {
     }
     if (searchCategory === 'hospital') {
       navigate('/hospital/search/result', {
-        state: { type: 'keyWord', value: inputValue },
+        state: { type: 'keyWord', value: inputValue, selected: 'standard' },
       });
       setInputValue('');
     } else if (searchCategory === 'drug') {
@@ -157,7 +157,6 @@ function SearchBar({ searchType }) {
           value={inputValue}
           onChange={onChangeSearch}
           placeholder="검색어를 입력해주세요."
-          autoFocus
         />
       </SSearchForm>
 

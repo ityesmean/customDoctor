@@ -264,15 +264,16 @@ function HospitalSearch() {
     const options = [];
 
     if (
-      checkedMedicalDepartments.length == 0 &&
-      checkedTimeOptions.length == 0
+      checkedMedicalDepartments.length === 0 &&
+      checkedTimeOptions.length === 0
     ) {
       alert(`항목을 선택해주세요.`);
       return;
-    } else if (checkedMedicalDepartments.length == 0) {
+    }
+    if (checkedMedicalDepartments.length === 0) {
       options.push([0]);
       options.push(checkedTimeOptions);
-    } else if (checkedTimeOptions.length == 0) {
+    } else if (checkedTimeOptions.length === 0) {
       options.push(checkedMedicalDepartments);
       options.push([0]);
     } else {
@@ -280,25 +281,11 @@ function HospitalSearch() {
       options.push(checkedTimeOptions);
     }
 
-    // const category = ['진료과목', '운영방식'];
-
-    // // 선택 안한 옵션이 발견되면 경고
-    // for (const index in options) {
-    //   if (options[index].length === 0) {
-    //     alert(`${category[index]} 항목을 선택해주세요.`);
-    //     return;
-    //   }
-    // }
-
     setSelectedOption(options);
-    console.log('<options>');
-    console.log(options);
-    console.log('<selectedOption>');
-    console.log(selectedOption);
 
     // 옵션 없는 값 검사하고 통과시 검색 결과로 이동
     navigate('/hospital/search/result', {
-      state: { type: 'option', value: options },
+      state: { type: 'option', value: options, selected: 'standard' },
     });
   };
 
@@ -314,9 +301,10 @@ function HospitalSearch() {
       </SLink>
       <STitle>병원명으로 검색</STitle>
       <SearchBar searchType="hospital" />
-      <SLine> </SLine>
-      <STitle>조건으로 검색</STitle>
 
+      <SLine> </SLine>
+
+      <STitle>조건으로 검색</STitle>
       <SSubTitle>진료과목</SSubTitle>
       <SMedicalDepartmentBox>
         {medicalDepartment.map(value => (
@@ -324,11 +312,7 @@ function HospitalSearch() {
             <SMedicalDepartmentInput
               type="checkbox"
               value={value[1]}
-              checked={
-                checkedMedicalDepartments.includes(Number(value[1]))
-                  ? true
-                  : false
-              }
+              checked={checkedMedicalDepartments.includes(Number(value[1]))}
               onChange={handleCheckedMedicalDepartment}
               name="filter"
               id={`${value}` + '진료과목'}

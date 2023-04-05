@@ -109,11 +109,7 @@ function HospitalCard({ hospital }) {
             <SHospitalName>{hospital.hospitalName}</SHospitalName>
             <SDistance>{hospital.hospitalDistance} km</SDistance>
             {/* 주소 있으면 출력하고 없으면 '주소 정보 없음' 출력 */}
-            {address ? (
-              <SAddress>{address}</SAddress>
-            ) : (
-              <SAddress>주소 정보 없음</SAddress>
-            )}
+            {address ? <SAddress>{address}</SAddress> : <SAddress></SAddress>}
             <SPhoneNumber>{hospital.hospitalTel}</SPhoneNumber>
           </SInformation>
           <SOpenInformation>
