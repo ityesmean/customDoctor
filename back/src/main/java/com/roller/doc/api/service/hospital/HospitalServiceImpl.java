@@ -35,44 +35,49 @@ public class HospitalServiceImpl implements HospitalService {
     @Override
     public ResponseDTO searchByHospitalName(String word, HospitalSearchReq Req) {
         ResponseDTO responseDTO = new ResponseDTO();
-        List<Hospital> hospitalList = hospitalCustomRepo.searchByHospitalName(word, Req.getE(), Req.getW(), Req.getS(), Req.getN());
-        if (hospitalList.size() == 0) { //반환값이 없으면 실패
-            responseDTO.setStatus_code(204);
-            responseDTO.setMessage("검색 결과가 없습니다");
-            responseDTO.setData("null");
-        } else {
-            List<HospitalRes> result = new ArrayList<>();
-            for (int i = 0; i < hospitalList.size(); i++) {
-                long id = hospitalList.get(i).getHospital_id();
-                //진료과목 리스트 만들기
-                List<HospitalPart> partList = hospitalRepository.findHospitalPart(id); //진료과목
-                List<String> partResult = new ArrayList<>();
-                if (partList.size() > 0) {
-                    for (int j = 0; j < partList.size(); j++) {
-                        int partNo = partList.get(j).getHospital_part_name();
-                        partResult.add(findPart(partNo)); //진료과목 찾아서 넣기
-                        partResult.add(partList.get(j).getHospital_part_doctor() + ""); //의사수
+        try {
+            List<Hospital> hospitalList = hospitalCustomRepo.searchByHospitalName(word, Req.getE(), Req.getW(), Req.getS(), Req.getN());
+            if (hospitalList.size() == 0) { //반환값이 없으면 실패
+                responseDTO.setStatus_code(204);
+                responseDTO.setMessage("검색 결과가 없습니다");
+                responseDTO.setData("null");
+            } else {
+                List<HospitalRes> result = new ArrayList<>();
+                for (int i = 0; i < hospitalList.size(); i++) {
+                    long id = hospitalList.get(i).getHospital_id();
+                    //진료과목 리스트 만들기
+                    List<HospitalPart> partList = hospitalRepository.findHospitalPart(id); //진료과목
+                    List<String> partResult = new ArrayList<>();
+                    if (partList.size() > 0) {
+                        for (int j = 0; j < partList.size(); j++) {
+                            int partNo = partList.get(j).getHospital_part_name();
+                            partResult.add(findPart(partNo)); //진료과목 찾아서 넣기
+                            partResult.add(partList.get(j).getHospital_part_doctor() + ""); //의사수
+                        }
                     }
+                    //영업중 여부 판단하기
+                    boolean hospitalOpen = isOpen(hospitalList.get(i), Req.getHour(), Req.getMin(), Req.getDay());
+                    //빌드
+                    HospitalRes hospitalRes = HospitalRes.builder()
+                            .hospitalId(hospitalList.get(i).getHospital_id())
+                            .hospitalName(hospitalList.get(i).getHospital_name())
+                            .hospitalOpen(hospitalOpen)
+                            .hospitalCode(hospitalList.get(i).getHospital_code())
+                            .hospitalX(hospitalList.get(i).getHospital_x())
+                            .hospitalY(hospitalList.get(i).getHospital_y())
+                            .hospitalTel(hospitalList.get(i).getHospital_tel())
+                            .hospitalTime(hospitalList.get(i).getHospitalTime())
+                            .hospitalPart(partResult)
+                            .build();
+                    result.add(hospitalRes);
                 }
-                //영업중 여부 판단하기
-                boolean hospitalOpen = isOpen(hospitalList.get(i), Req.getHour(), Req.getMin(), Req.getDay());
-                //빌드
-                HospitalRes hospitalRes = HospitalRes.builder()
-                        .hospitalId(hospitalList.get(i).getHospital_id())
-                        .hospitalName(hospitalList.get(i).getHospital_name())
-                        .hospitalOpen(hospitalOpen)
-                        .hospitalCode(hospitalList.get(i).getHospital_code())
-                        .hospitalX(hospitalList.get(i).getHospital_x())
-                        .hospitalY(hospitalList.get(i).getHospital_y())
-                        .hospitalTel(hospitalList.get(i).getHospital_tel())
-                        .hospitalTime(hospitalList.get(i).getHospitalTime())
-                        .hospitalPart(partResult)
-                        .build();
-                result.add(hospitalRes);
+                responseDTO.setStatus_code(200);
+                responseDTO.setMessage("이름으로 병원찾기 검색 결과 리스트");
+                responseDTO.setData(result);
             }
-            responseDTO.setStatus_code(200);
-            responseDTO.setMessage("이름으로 병원찾기 검색 결과 리스트");
-            responseDTO.setData(result);
+        }catch (Exception exception) {
+            log.error(exception.getMessage());
+            exception.printStackTrace();
         }
         return responseDTO;
     }

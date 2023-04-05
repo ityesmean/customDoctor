@@ -116,7 +116,7 @@ public class HospitalCustomRepo {
             return null;
         } else {
             NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,
-                    "function('match',{0},{1})", hospital.hospital_name, "+" + keyword + "*");
+                    "function('match',{0},{1})", hospital.hospital_name, keyword);
             return booleanTemplate.gt(0);
         }
     }
