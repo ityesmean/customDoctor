@@ -44,10 +44,6 @@ function KakaoMap({ lat, lng }) {
   const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
     hospitalSearchResultState,
   );
-<<<<<<< HEAD
-  console.log(hospitalSearchResultState, 'hospitalSearchResultState');
-=======
->>>>>>> a6354538311786ef49577af917976d6a4885b479
   const [selectedMarker, setSelectedMarker] = useState();
   const [mapCenter, setMapCenter] = useState();
 
