@@ -35,8 +35,8 @@ public class HospitalServiceImpl implements HospitalService {
     @Override
     public ResponseDTO searchByHospitalName(String word, HospitalSearchReq Req) {
         ResponseDTO responseDTO = new ResponseDTO();
-        log.info("word name = {}",word)
         try {
+            log.info("word name = {}",word);
             List<Hospital> hospitalList = hospitalCustomRepo.searchByHospitalName(word, Req.getE(), Req.getW(), Req.getS(), Req.getN());
             if (hospitalList.size() == 0) { //반환값이 없으면 실패
                 responseDTO.setStatus_code(204);
