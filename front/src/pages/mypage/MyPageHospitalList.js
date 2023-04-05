@@ -2,11 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL_USER } from '../../api/api';
+import { hospitalFavoriteState } from '../../atoms';
 
+import HospitalFavoriteList from '../../components/hospital/HospitalFavoriteList';
 import BackButton from '../../components/common/BackButton';
-import HospitalList from '../../components/hospital/HospitalList';
 
 import Header from '../../components/common/Header';
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
@@ -117,7 +116,7 @@ function MyPageHospitalList() {
         </SPageBox>
       </SPageSelectBox>
       <SLine />
-      <HospitalList />
+      <HospitalFavoriteList />
     </>
   );
 }

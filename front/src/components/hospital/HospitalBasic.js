@@ -1,3 +1,4 @@
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
@@ -110,8 +111,9 @@ const SListText = styled.div`
   margin: 1vw 1vw;
 `;
 
-function HospitalBasic() {
+function HospitalBasic(props) {
   const basicInfo = useRecoilValue(hospitalBasicState);
+  // console.log(basicInfo, 'basicInfo');
   const descInfo = useRecoilValue(hospitalDescState);
 
   const departmentList = [];
@@ -121,94 +123,152 @@ function HospitalBasic() {
     }
   }
   // 즐겨찾기(찜하기) 기능
-  const [like, setLike] = useState(false);
-  const [trigger, setTrigger] = useState(like);
+  const [like, setLike] = useState();
+  // const [trigger, setTrigger] = useState(like === 'like' ? true : false);
 
   const token = localStorage.getItem('accessToken');
 
   const checkFavorite = async () => {
-    await axios
-      .put(
+    try {
+      await axios.put(
         `${API_URL_USER}/hospital/statusmark`,
-        { hospitalId: `${basicInfo.hospitalId}`, status: trigger },
+        {
+          hospitalId: `${basicInfo.hospitalId}`,
+          status: !like,
+        },
         {
           headers: { Authorization: `${token}` },
         },
-      )
-      .then(res => {
-        console.log(res, 'check');
-        setLike(res.data.data);
-      })
-
-      .catch(err => console.log(err));
+      );
+      setLike(!like);
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const Registration = async () => {
-    await axios
-      .post(
-        `${API_URL_USER}/hospital/ismark`,
-        { hospitalId: `${basicInfo.hospitalId}` },
-        { headers: { Authorization: `${token}` } },
-        // { withCredentials: true },
-      )
-      .then(res => {
-        if (res.data.status_code === 204) {
-          console.log(res, '204');
-          // } else if (trigger === true) {
-          //   setTrigger(trigger);
-          // } else if (trigger === false) {
-          //   setTrigger(trigger);
-          // }
-        }
-      })
-      .catch(err => console.log(err));
-  };
+  // const checkFavorite = async () => {
+  //   await axios
+  //     .put(
+  //       `${API_URL_USER}/hospital/statusmark`,
+  //       {
+  //         hospitalId: `${basicInfo.hospitalTime.hospital.hospital_id}`,
+  //         status: trigger,
+  //       },
+  //       {
+  //         headers: { Authorization: `${token}` },
+  //       },
+  //     )
+  //     .then(res => {
+  //       console.log(res, 'check');
+  //       if (res.data.data) {
+  //         setLike('like');
+  //         setTrigger(res.data.data);
+  //       } else if (res.data.data !== true) {
+  //         setLike('');
+  //         setTrigger(res.data.data);
+  //       }
+  //     })
 
-  const isLike = async () => {
-    await axios
-      .post(
-        `${API_URL_USER}/hospital/ismark`,
-        { hospitalId: `${basicInfo.hospitalId}` },
-        { headers: { Authorization: `${token}` } },
-        // { withCredentials: true },
-      )
-      .then(res => {
-        // console.log(like);
-        // if (like === undefined) {
-        console.log(res.data.data, 'like');
-        setLike(res.data.data);
-        // }
-      })
+  //     .catch(err => console.log(err));
+  // };
+  // const Registration = async () => {
+  //   await axios
+  //     .post(
+  //       `${API_URL_USER}/hospital/ismark`,
+  //       {
+  //         hospitalId: `${basicInfo.hospitalTime.hospital.hospital_id}`,
+  //       },
+  //       { headers: { Authorization: `${token}` } },
+  //       // { withCredentials: true },
+  //     )
+  //     .then(res => {
+  //       if (res.data.status_code === 204) {
+  //         console.log(res, '204');
+  //         // } else if (trigger === true) {
+  //         //   setTrigger(trigger);
+  //         // } else if (trigger === false) {
+  //         //   setTrigger(trigger);
+  //         // }
+  //       }
+  //     })
+  //     .catch(err => console.log(err));
+  // };
 
-      .catch(err => console.log(err));
-  };
+  // const isLike = async () => {
+  //   await axios
+  //     .post(
+  //       `${API_URL_USER}/hospital/ismark`,
+  //       {
+  //         hospitalId: `${basicInfo.hospitalTime.hospital.hospital_id}`,
+  //       },
+  //       { headers: { Authorization: `${token}` } },
+  //       // { withCredentials: true },
+  //     )
+  //     .then(res => {
+  //       // console.log(like);
+  //       // if (like === undefined) {
+  //       console.log(res.data, 'like');
+  //       setTrigger(res.data.data);
+  //       // }
+  //     })
+
+  //     .catch(err => console.log(err));
+  // };
+
+  // useEffect(() => {
+  //   Registration();
+  //   isLike();
+  // }, []);
+
+  // const fetchIsLike = async () => {
+  //   try {
+  //     const res = await axios.post(
+  //       `${API_URL_USER}/hospital/ismark`,
+  //       { hospitalId: `${basicInfo.hospitalId}` },
+  //       { headers: { Authorization: `${token}` } },
+  //     );
+  //     setLike(!res.data.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   useEffect(() => {
-    Registration();
-    isLike();
-  }, []);
+    const fetchIsLike = async () => {
+      try {
+        const res = await axios.post(
+          `${API_URL_USER}/hospital/ismark`,
+          { hospitalId: `${basicInfo.hospitalId}` },
+          { headers: { Authorization: `${token}` } },
+        );
+        setLike(!res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchIsLike();
+  }, [basicInfo.hospitalId]);
 
   return (
     <SContainer>
       <FirstBox>
         <Treat>진료중</Treat>
-        {like !== false ? (
+        {like !== true ? (
           <Favorite
             src={RedFavorites}
-            alt="Favorite"
+            alt="RedFavorites"
             onClick={() => {
-              setTrigger(!trigger);
+              // setTrigger(!trigger);
               checkFavorite();
-              // Registration();
+              // fetchIsLike();
             }}
           />
         ) : (
           <Favorite
-            src={Favorites}
-            alt="RedFavorites"
+            src={Favorite}
+            alt="Favorite"
             onClick={() => {
-              setTrigger(!trigger);
+              // setTrigger(!trigger);
               checkFavorite();
-              // Registration();
             }}
           />
         )}
