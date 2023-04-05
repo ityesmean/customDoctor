@@ -11,7 +11,8 @@ public class MySQL8DialectCustom extends MySQL8Dialect {
 
         registerFunction(
                 "match",
-                new SQLFunctionTemplate(StandardBasicTypes.DOUBLE, "match (?1) against (?2)")
+                // new SQLFunctionTemplate(StandardBasicTypes.DOUBLE, "match (?1) against (?2)")
+                new SQLFunctionTemplate(StandardBasicTypes.DOUBLE, "match (?1) against (replace((?2), \"'\", \"\"))")
         );
     }
 }
