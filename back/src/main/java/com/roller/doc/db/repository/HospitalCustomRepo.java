@@ -29,10 +29,9 @@ public class HospitalCustomRepo {
      */
     public List<Hospital> searchByHospitalName(String word, double e, double w, double s, double n) {
         JPAQueryFactory query = querydslConfig.jpaQueryFactory();
-        String keyword="'+"+word+"*";
         return query.selectFrom(hospital)
                 .where(
-                        keywordSearch(keyword),
+                        keywordSearch(word),
                         locationBetween(e, w, s, n)
                 )
                 .fetch();
@@ -112,13 +111,14 @@ public class HospitalCustomRepo {
     /**
      * 이름 fulltext search
      */
-    public BooleanExpression keywordSearch(String keyword) {
-        if (keyword == null) {
+    public BooleanExpression keywordSearch(String word) {
+        if (word == null) {
             return null;
         } else {
-            NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,
-                    "function('match',{0},{1})", hospital.hospital_name, keyword);
-            return booleanTemplate.gt(0);
+            return hospital.hospital_name.contains(word);
+//            NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,
+//                    "function('match',{0},{1})", hospital.hospital_name, keyword);
+//            return booleanTemplate.gt(0);
         }
     }
 
