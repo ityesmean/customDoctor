@@ -100,7 +100,6 @@ function DrugCard({ card }) {
     }
     setMyBasket([...temp, willAddDrug]);
   };
-
   return (
     <div>
       <SPillCard>
