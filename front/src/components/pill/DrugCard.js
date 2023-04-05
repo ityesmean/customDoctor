@@ -19,13 +19,14 @@ const SPillCard = styled.div`
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   display: flex;
   align-items: center;
-  padding: 2vw 2vw 2vw 5vw;
+  padding: 2vw 0vw 2vw 3vw;
   border-radius: 4vw;
   z-index: 999;
+  margin: 5vw 0;
 `;
 
 const SImg = styled.img`
-  width: 50vw;
+  width: 40vw;
   height: 30vw;
   /* background-color: gray; */
   border-radius: 5vw;
@@ -37,8 +38,11 @@ const SLink = styled(Link)`
 `;
 
 const SRightBox = styled.div`
-  margin-left: 2vw;
+  width: 35vw;
+  margin-left: 3vw;
+  /* padding-right: 1vw; */
   /* display: block; */
+  /* padding: 1vw; */
 `;
 
 const SBasketButton = styled.button`
@@ -60,26 +64,43 @@ const SButtonImg = styled.img`
 `;
 
 const SBox = styled.div`
-  width: 40vw;
+  /* width: 30vw; */
   height: 10vw;
   display: flex;
   justify-content: space-between;
-  margin: 3vw 0;
+
   align-items: center;
 `;
 
 const SNameText = styled.div`
-  font-size: 5vw;
-  margin: 10vw 1vw;
+  /* width: 30vw; */
+  font-size: 4vw;
+  padding-bottom: 8vw;
+  /* margin-right: 2vw; */
+  /* display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px; */
 `;
 
 const SIngreText = styled.div`
   font-size: 3vw;
-  margin-right: 2vw;
+  /* margin-right: 2vw; */
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px;
 `;
 
 const SButtonText = styled.div`
-  font-size: 1vw;
+  font-size: 0.1vw;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px;
 `;
 
 function DrugCard({ card }) {
