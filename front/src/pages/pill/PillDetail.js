@@ -171,7 +171,8 @@ function PillDetail() {
         </STextBox>
       </SDetailBox>
       <SLine />
-      <PillTab />
+      {/* <div>{basicInfo}</div> */}
+      {/* <PillTab /> */}
     </SContainer>
   );
 }

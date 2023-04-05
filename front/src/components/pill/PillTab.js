@@ -103,11 +103,13 @@ function PillTab() {
             className={activeIndex === 3 ? 'active' : ''}
             onClick={() => tabClickHandler(3)}
           >
-            사용법
+            사용법C
           </STabLi>
         </STitleBox>
       </STabTitle>
-      {tabContArr[activeIndex].tabCont.props.children.length > 4 ? (
+
+      {tabContArr &&
+      tabContArr[activeIndex].tabCont.props.children.length > 4 ? (
         <STabContent>{tabContArr[activeIndex].tabCont}</STabContent>
       ) : (
         <STabContent>내용없음</STabContent>
