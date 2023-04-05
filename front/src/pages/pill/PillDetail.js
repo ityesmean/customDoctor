@@ -100,6 +100,7 @@ function PillDetail() {
   const [avoidInfo, setAvoidInfo] = useRecoilState(drugAvoidInfo);
 
   useEffect(() => {
+    console.log('here');
     axios
       .all([
         axios.get(
@@ -122,7 +123,6 @@ function PillDetail() {
           console.log(detailPassInfo, 'detailPassInfo');
           setAvoidInfo(res3.data);
           console.log(avoidInfo, 'avoidInfo');
-          // console.log(res1.data, 'basicInfo');
         }),
       )
       .catch(error => console.log(error));
@@ -150,7 +150,7 @@ function PillDetail() {
           <SSmallTextBox>
             <SBoldText>성분</SBoldText>
             {basicInfo &&
-              (basicInfo.data.drugIngre !== null ? (
+              (basicInfo.data.drugIngre !== 'null' ? (
                 <SText>{basicInfo.data.drugIngre}</SText>
               ) : (
                 <SText>정보없음</SText>
@@ -172,7 +172,10 @@ function PillDetail() {
       </SDetailBox>
       <SLine />
       {/* <div>{basicInfo}</div> */}
-      {/* <PillTab /> */}
+      {detailInfo && avoidInfo ? (
+        <PillTab detailInfo={detailInfo} avoidInfo={avoidInfo} />
+      ) : null}
+      {/* <PillTab detailInfo={detailInfo} avoidInfo={avoidInfo} /> */}
     </SContainer>
   );
 }

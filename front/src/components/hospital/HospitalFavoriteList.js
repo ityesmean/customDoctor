@@ -69,7 +69,7 @@ function hospitalFavoriteList() {
   }, []);
   return (
     <SContainer>
-      {favoriteList.map((faovrite, index) => (
+      {favoriteList?.map((faovrite, index) => (
         <SLink
           to={`/hospital/${faovrite.hospitalId}`}
           key={faovrite.hospitalName}
