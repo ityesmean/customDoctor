@@ -93,11 +93,12 @@ const SInputBasketName = styled.input`
   position: relative;
   width: 80vw;
   padding: 1vh;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   border-radius: 10px;
   border: none;
   margin-bottom: 3vh;
   margin-top: 1vh;
+  text-align: center;
 `;
 
 const SInputTextArea = styled.textarea`
@@ -107,13 +108,14 @@ const SInputTextArea = styled.textarea`
   position: relative;
   width: 80vw;
   padding: 1vh;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   border-radius: 10px;
   border: none;
   margin-bottom: 3vh;
   margin-top: 1vh;
   resize: none;
   height: 20vh;
+  padding: 2vh 0 0 2vw;
 `;
 
 const SSearchButtonWrapper = styled.div`
@@ -127,7 +129,7 @@ const SCreateBasketButton = styled.button`
   font-weight: bold;
   border: none;
   border-radius: 5px;
-  padding-top: 1vh;a
+  padding-top: 1vh;
   padding-bottom: 1vh;
   padding-left: 10vw;
   padding-right: 10vw;

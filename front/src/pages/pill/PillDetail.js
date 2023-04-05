@@ -115,14 +115,9 @@ function PillDetail() {
       .then(
         axios.spread((res1, res2, res3) => {
           setBasicInfo(res1.data);
-          console.log(basicInfo, 'basicInfo');
           setDetailInfo(res2.data);
-          console.log(detailInfo, 'detailInfo');
           setDetailPassInfo(res2.data);
-          console.log(detailPassInfo, 'detailPassInfo');
           setAvoidInfo(res3.data);
-          console.log(avoidInfo, 'avoidInfo');
-          // console.log(res1.data, 'basicInfo');
         }),
       )
       .catch(error => console.log(error));
@@ -150,7 +145,7 @@ function PillDetail() {
           <SSmallTextBox>
             <SBoldText>성분</SBoldText>
             {basicInfo &&
-              (basicInfo.data.drugIngre !== null ? (
+              (basicInfo.data.drugIngre !== 'null' ? (
                 <SText>{basicInfo.data.drugIngre}</SText>
               ) : (
                 <SText>정보없음</SText>
@@ -171,7 +166,11 @@ function PillDetail() {
         </STextBox>
       </SDetailBox>
       <SLine />
-      <PillTab />
+      {/* <div>{basicInfo}</div> */}
+      {detailInfo && avoidInfo ? (
+        <PillTab detailInfo={detailInfo} avoidInfo={avoidInfo} />
+      ) : null}
+      {/* <PillTab detailInfo={detailInfo} avoidInfo={avoidInfo} /> */}
     </SContainer>
   );
 }
