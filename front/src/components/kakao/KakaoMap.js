@@ -1,172 +1,201 @@
-/* eslint-disable no-var */
-/* eslint-disable no-undef */
-/* eslint-disable func-names */
-/* eslint-disable no-plusplus */
-/* eslint-disable vars-on-top */
-/* eslint-disable no-loop-func */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prefer-template */
-/* eslint-disable block-scoped-var */
-/* eslint-disable object-shorthand */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-inner-declarations */
-/* eslint-disable prefer-arrow-callback */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* global kakao */
-import React, { useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import axios from 'axios';
+import { CustomOverlayMap, Map, MapMarker } from 'react-kakao-maps-sdk';
+import {
+  hospitalSearchResultState,
+  myPositionState,
+  searchOptionState,
+} from '../../atoms';
 
-import { hospitalSearchResultState, myPositionState } from '../../atoms';
+import GreenHospital from '../../assets/mypage/GreenHospital.png';
 
 import './Overlay.css';
 
 const SReSearchButton = styled.button`
   position: absolute;
+  width: 150px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   z-index: 999;
   border: none;
   background: white;
+  padding: 0.5vw 2vw 0.5vw 2vw;
   font-weight: bold;
+  text-align: center;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2vh;
 `;
 
-const { kakao } = window;
-
 function KakaoMap({ lat, lng }) {
-  const myPosition = useRecoilValue(myPositionState);
+  const hospitalMap = useRef();
 
   const [hospitalSearchResult, setHospitalSearchResult] = useRecoilState(
     hospitalSearchResultState,
   );
+  const [selectedMarker, setSelectedMarker] = useState();
+  const [mapCenter, setMapCenter] = useState();
 
-  console.log(hospitalSearchResult);
+  const myPosition = useRecoilValue(myPositionState);
 
-  // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
-  function closeOverlay() {
-    overlay.setMap(null);
-  }
+  const [searchOption, setSearchOption] = useRecoilState(searchOptionState);
 
-  useEffect(() => {
-    var mapContainer = document.getElementById('map'); // 지도를 표시할 div
-    var mapOption = {
-      center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
-      level: 3, // 지도의 확대 레벨
-    };
+  const currentTime = new Date();
+  const currentDay = currentTime.getDay();
+  const currentHours = currentTime.getHours();
+  const currentMinutes = currentTime.getMinutes();
 
-    // console.log(mapContainer);
-    // console.log(mapOption);
+  // 거리 계산
+  const latPerKm = 0.0091;
+  const lngPerKm = 0.0113;
 
-    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-    var map = new kakao.maps.Map(mapContainer, mapOption);
+  // const newMyPosition = [mapCenter.lat, mapCenter.lng, mapCenter.lng + lngPerKm * 5, mapCenter.lng + lngPerKm - 5, mapCenter.lat - latPerKm * 5, mapCenter.lat - latPerKm - 5]
+  // console.log(myPosition)
 
-    // 마커 이미지 주소
-    var imageSrc =
-      'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
-
-    // console.log(hospitalSearchResult.lenght);
-    // 마커들을 생성합니다.
-    for (var i = 0; i < hospitalSearchResult.length; i++) {
-      var imageSize = new kakao.maps.Size(24, 35);
-
-      // 마커 이미지를 생성합니다.
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-      // 마커를 생성합니다.
-      var marker = new kakao.maps.Marker({
-        map, // 마커를 표시할 지도
-        position: new kakao.maps.LatLng(
-          hospitalSearchResult[i].hospitalY,
-          hospitalSearchResult[i].hospitalX,
-        ), // 마커를 표시할 위치
-
-        // title: hospitalSearchResult[i].hospitalName, // 마커의 타이틀
-        image: markerImage, // 마커 이미지
-      });
-
-      // var infowindow = new kakao.maps.InfoWindow({
-      //   // content:
-      //   //   '<div>' +
-      //   //   hospitalSearchResult[i].hospitalName +
-      //   //   '</div>' +
-      //   //   '<div>' +
-      //   //   hospitalSearchResult[i].hospitalTel +
-      //   //   '</div>',
-      // });
-
-      // 커스텀 오버레이를 표시할 좌표
-      var position = new kakao.maps.LatLng(
-        hospitalSearchResult[i].hospitalY,
-        hospitalSearchResult[i].hospitalX,
-      );
-
-      // 커스텀 오버레이에 들어갈 content
-      // var content =
-      //   '<div>' +
-      //   '  <div>' +
-      //   hospitalSearchResult[i].hospitalName +
-      //   '  </div>' +
-      //   '  <div onClick="closeOverlay()" title="닫아보자">' +
-      //   '    닫기' +
-      //   '  </div>' +
-      //   '</div>';
-
-      var content =
-        '<div class="wrap">' +
-        '    <div class="info">' +
-        '        <div class="title">' +
-        hospitalSearchResult[i].hospitalName +
-        '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-        '        </div>' +
-        '        <div class="body">' +
-        '            <div class="img">' +
-        '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
-        '           </div>' +
-        '            <div class="desc">' +
-        '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' +
-        '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' +
-        hospitalSearchResult[i].hospitalTel +
-        '            </div>' +
-        '        </div>' +
-        '    </div>' +
-        '</div>';
-
-      var overlay = new kakao.maps.CustomOverlay({
-        content,
-        map,
-        position,
-      });
-
-      marker.setMap(map);
-
-      // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-      kakao.maps.event.addListener(marker, 'click', function () {
-        overlay.setMap(map);
-      });
+  // 병원을 재 검색할때 실행되는 함수
+  const onClickReSearchHospitalListHandler = async () => {
+    console.log(
+      mapCenter.lat,
+      mapCenter.lng,
+      mapCenter.lng + lngPerKm * 1,
+      mapCenter.lng + lngPerKm - 1,
+      mapCenter.lat - latPerKm * 1,
+      mapCenter.lat - latPerKm - 1,
+    );
+    console.log(mapCenter);
+    if (searchOption[0] === 'keyWord') {
+      await axios
+        .get(
+          `${process.env.REACT_APP_URL}/hospital/search/${searchOption[1]}`,
+          {
+            e: mapCenter.lng + lngPerKm * 1,
+            w: mapCenter.lng - lngPerKm * 1,
+            s: mapCenter.lat - latPerKm * 1,
+            n: mapCenter.lat + latPerKm * 1,
+            hour: currentHours,
+            min: currentMinutes,
+            day: currentDay,
+          },
+        )
+        .then(res => {
+          if (res.data.status_code === 204) {
+            setHospitalSearchResult([]);
+          } else {
+            setHospitalSearchResult(res.data.data);
+          }
+        })
+        .catch(err => console.log(err));
+    } else if (searchOption[0] === 'option') {
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/hospital/find`, {
+          e: mapCenter.lng + lngPerKm * 3,
+          w: mapCenter.lng - lngPerKm * 3,
+          s: mapCenter.lat - latPerKm * 3,
+          n: mapCenter.lat + latPerKm * 3,
+          part: searchOption[1][0],
+          open: searchOption[1][1],
+          hour: currentHours,
+          min: currentMinutes,
+          day: currentDay,
+        })
+        .then(res => {
+          if (res.data.status_code === 200) {
+            setHospitalSearchResult(res.data.data);
+          } else if (res.data.status_code === 400) {
+            setHospitalSearchResult([]);
+          }
+        })
+        .catch(err => console.log(err));
     }
-  }, []);
+  };
 
-  // 1안 코드 -----------------------------------------------------------------
+  // useEffect(() => {
+  //   // location.reload();
+  // }, [hospitalSearchResult])
 
   return (
     <>
-      <SReSearchButton>현 위치에서 검색</SReSearchButton>
-      <div id="map" style={{ width: '100vw', height: '95vh' }}></div>
+      <SReSearchButton onClick={onClickReSearchHospitalListHandler}>
+        현 위치에서 검색
+      </SReSearchButton>
+      <Map
+        center={{ lat, lng }}
+        style={{ width: '100vw', height: '30vh' }}
+        onBoundsChanged={map =>
+          setMapCenter({
+            lat: map.getCenter().getLat(),
+            lng: map.getCenter().getLng(),
+          })
+        }
+        ref={hospitalMap}
+      >
+        {hospitalSearchResult.map((hospital, index) => (
+          <>
+            <MapMarker
+              key={`${hospital.hospitalName}-${hospital.hospitalX}`}
+              position={{ lat: hospital.hospitalY, lng: hospital.hospitalX }}
+              image={{
+                src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+                size: {
+                  width: 24,
+                  height: 35,
+                },
+              }}
+              // onClick={() => setSeleteMarker(index)}
+              onClick={() => setSelectedMarker(index)}
+              isClicked={selectedMarker === index}
+            />
+            {selectedMarker === index ? (
+              <CustomOverlayMap
+                position={{ lat: hospital.hospitalY, lng: hospital.hospitalX }}
+              >
+                <div className="wrap">
+                  <div className="info">
+                    <div className="title">
+                      {hospital.hospitalName.length >= 10
+                        ? hospital.hospitalName.substr(0, 10) + '...'
+                        : hospital.hospitalName}
+                      <div
+                        className="close"
+                        onClick={() => setSelectedMarker(false)}
+                        title="닫기"
+                      ></div>
+                    </div>
+                    <div className="body">
+                      <div className="img">
+                        <img
+                          src={GreenHospital}
+                          width="73"
+                          height="70"
+                          alt="카카오 스페이스닷원"
+                        />
+                      </div>
+                      <div className="desc">
+                        <div className="ellipsis">주소들어갈곳</div>
+                        <div className="tel">{hospital.hospitalTel}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                ;
+              </CustomOverlayMap>
+            ) : null}
+          </>
+        ))}
+      </Map>
     </>
   );
 }
-
-KakaoMap.propTypes = {
-  lat: PropTypes.number,
-  lng: PropTypes.number,
-};
-
-KakaoMap.defaultProps = {
-  lat: null,
-  lng: null,
-};
 
 export default KakaoMap;

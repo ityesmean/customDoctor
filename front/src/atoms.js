@@ -48,48 +48,7 @@ const drugAvoidInfo = atom({
 
 const myBasketState = atom({
   key: 'myBasketState',
-  default: [
-    // {
-    //   name: '약1',
-    //   isChecked: 'unChecked',
-    // },
-    // {
-    //   name: '약2',
-    //   isChecked: 'unChecked',
-    // },
-    // {
-    //   name: '약3',
-    //   isChecked: 'unChecked',
-    // },
-    // {
-    //   name: '약4',
-    //   isChecked: 'unChecked',
-    // },
-    // {
-    //   name: '약5',
-    //   isChecked: 'unChecked',
-    // },
-    // {
-    //   name: '약6',
-    //   isChecked: 'unChecked',
-    // },
-    // {
-    //   name: '약7',
-    //   isChecked: 'unChecked',
-    // },
-    // {
-    //   name: '약8',
-    //   isChecked: 'unChecked',
-    // },
-    // {
-    //   name: '가나모티에스알정15mg',
-    //   isChecked: 'unChecked',
-    // },
-    // {
-    //   name: '타이레놀',
-    //   isChecked: 'unChecked',
-    // },
-  ],
+  default: [],
   effects_UNSTABLE: [persistAtom],
   dangerouslyAllowMutability: true,
 });
@@ -137,8 +96,8 @@ const myPositionState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-const LoginState = atom({
-  key: 'LoginState',
+const loginState = atom({
+  key: 'loginState',
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
@@ -161,6 +120,16 @@ const hospitalFavoriteState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+const FavoriteState = atom({
+  key: 'FavoriteState',
+  default: null,
+});
+
+const searchOptionState = atom({
+  key: 'searchOptionState',
+  default: [],
+});
+
 export {
   isDarkModeAtom,
   isUserAtom,
@@ -174,8 +143,10 @@ export {
   checkedMedicineState,
   hospitalSearchResultState,
   myPositionState,
-  LoginState,
+  loginState,
   hospitalDescState,
   hospitalBasicState,
   hospitalFavoriteState,
+  FavoriteState,
+  searchOptionState,
 };

@@ -32,7 +32,9 @@ function HospitalDetail() {
       .get(`${process.env.REACT_APP_API_URL}/hospital/desc/${hospitalId}`)
       .then(
         res => setHospitalDesc(res.data.data),
+        console.log(hospitalDesc, 'hospitalDesc'),
         setHospitalBasic(information.state.information),
+        console.log(hospitalBasic, 'hospitalBasic'),
       )
       .catch(err => console.log(err));
   };

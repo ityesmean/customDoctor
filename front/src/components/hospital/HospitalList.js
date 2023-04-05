@@ -311,7 +311,7 @@ function HospitalList({
   const makeHospitalList = searchList => {
     const newList = searchList.map((h, index) => ({
       hospitalCode: h.hospitalCode,
-      hospitalId: h.hospitalName,
+      hospitalId: h.hospitalId,
       hospitalName: h.hospitalName,
       hospitalOpen: h.hospitalOpen,
       hospitalPart: h.hospitalPart,
@@ -333,7 +333,7 @@ function HospitalList({
   const makeHospitalDistanceList = searchList => {
     const newDistanceList = searchList.map((h, index) => ({
       hospitalCode: h.hospitalCode,
-      hospitalId: h.hospitalName,
+      hospitalId: h.hospitalId,
       hospitalName: h.hospitalName,
       hospitalOpen: h.hospitalOpen,
       hospitalPart: h.hospitalPart,
@@ -353,6 +353,7 @@ function HospitalList({
   };
 
   const getKeywordHospitalSearchResult = async () => {
+    console.log(value);
     await axios
       .post(`${process.env.REACT_APP_API_URL}/hospital/search/${value}`, {
         e: position[2],
@@ -372,32 +373,6 @@ function HospitalList({
           makeHospitalList(res.data.data);
           makeHospitalDistanceList(res.data.data);
           setHospitalSearchResult(res.data.data);
-        }
-      })
-      .catch(err => console.log(err));
-  };
-
-  const token = localStorage.getItem('accessToken');
-
-  const getFavoriteList = async () => {
-    await axios
-      .post(
-        `${API_URL_USER}/hospital/list`,
-        { withCredentials: true },
-        {
-          headers: { Authorization: `${token}`, Accept: 'application/json' },
-          body: {
-            hour: currentHours,
-            min: currentMinutes,
-            day: currentDay,
-          },
-        },
-      )
-      .then(res => {
-        if (res.data.status_code === 204) {
-          setFavoriteList([]);
-        } else {
-          setFavoriteList(res.data.data);
         }
       })
       .catch(err => console.log(err));
@@ -451,9 +426,6 @@ function HospitalList({
   }, [searchValue]);
 
   useEffect(() => {
-    if (token) {
-      getFavoriteList();
-    }
     if (hospitalList) {
       setStandardHospitalList(
         hospitalList.filter(hospital => hospital.hospitalDistance <= 3),

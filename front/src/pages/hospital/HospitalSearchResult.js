@@ -7,7 +7,11 @@ import Header from '../../components/common/Header';
 import HospitalList from '../../components/hospital/HospitalList';
 import BackButton from '../../components/common/BackButton';
 
-import { hospitalSearchSelectedOption, myPositionState } from '../../atoms';
+import {
+  hospitalSearchSelectedOption,
+  myPositionState,
+  searchOptionState,
+} from '../../atoms';
 import SearchBar from '../../components/common/SearchBar';
 
 const SLink = styled(Link)`
@@ -242,6 +246,10 @@ function HospitalSearchResult() {
   const navigate = useNavigate();
 
   const myPosition = useRecoilValue(myPositionState);
+
+  // 후에 지도에서 위치 이동했을대 병원 재검색 하기위해 옵션 Recoil에 저장
+  const [searchOption, setSearchOption] = useRecoilState(searchOptionState);
+  console.log(searchOption);
   const searchType = location.state.type;
   const searchValue = location.state.value;
   // const option = ['거리순', '별점순', '영업중'];
@@ -391,6 +399,9 @@ function HospitalSearchResult() {
       state: { type: 'option', value: options, selected: 'standard' },
     });
   };
+  useEffect(() => {
+    setSearchOption([searchType, searchValue]);
+  }, []);
 
   return (
     <>

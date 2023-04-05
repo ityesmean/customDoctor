@@ -3,13 +3,13 @@
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { LoginState } from '../atoms';
+import { loginState } from '../atoms';
 
 function Redirect() {
   // const location = useLocation();
   // console.log(location, 'location');
   // const code = new URL(window.location.href).searchParams.get('code');
-  const [tokenState, setTokenState] = useRecoilState(LoginState);
+  const [tokenState, setTokenState] = useRecoilState(loginState);
   const navigate = useNavigate();
 
   // useEffect(() => {

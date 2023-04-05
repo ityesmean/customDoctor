@@ -1,12 +1,14 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable arrow-body-style */
+/* eslint-disable react/prop-types */
+/* eslint-disable array-callback-return */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
 
-import { drugDetailInfo, drugAvoidInfo } from '../../atoms';
+// import { useRecoilValue } from 'recoil';
+
+// import { drugDetailInfo, drugAvoidInfo } from '../../atoms';
 
 const SContainer = styled.div``;
 
@@ -42,14 +44,17 @@ const STabContent = styled.div`
   background-color: #f1f3f4;
 `;
 
-function PillTab() {
+function PillTab({ detailInfo, avoidInfo }) {
+  console.log(detailInfo, '@@@@@@@@@@@@');
+  console.log(avoidInfo, '##################');
+
   const [activeIndex, setActiveIndex] = useState(0);
 
   const tabClickHandler = index => {
     setActiveIndex(index);
   };
-  const detailInfo = useRecoilValue(drugDetailInfo);
-  const avoidInfo = useRecoilValue(drugAvoidInfo);
+  // const detailInfo = useRecoilValue(drugDetailInfo);
+  // const avoidInfo = useRecoilValue(drugAvoidInfo);
 
   // console.log(detailInfo, 'detailInfo');
   // console.log(detailInfo.data, 'detailInfo.data');
@@ -62,7 +67,7 @@ function PillTab() {
     },
     {
       tabTitle: '탭2',
-      tabCont: <div> {detailInfo.data.drugDescSafety} </div>,
+      tabCont: <div>{detailInfo.data.drugDescSafety}</div>,
     },
     {
       tabTitle: '탭3',
@@ -70,35 +75,11 @@ function PillTab() {
     },
     {
       tabTitle: '탭4',
-      tabCont: <div> {detailInfo.data.drugDescUse} </div>,
+      tabCont: <div>{detailInfo.data.drugDescUse}</div>,
     },
   ];
-  // console.log(tabContArr[0].tabCont, 'tabContArr[0]');
-  // console.log(
-  //   tabContArr[0].tabCont.props.children,
-  //   'tabContArr[0]props.children',
-  // );
-  // console.log(
-  //   tabContArr[0].tabCont.props.children.length,
-  //   'tabContArr[0]props.children.length',
-  // );
-  // console.log(
-  //   tabContArr[1].tabCont.props.children,
-  //   'tabContArr[1]props.children',
-  // );
-  // console.log(
-  //   tabContArr[1].tabCont.props.children.length,
-  //   'tabContArr[1]props.children.length',
-  // );
-  // console.log(
-  //   tabContArr[2].tabCont.props.children.length,
-  //   'tabContArr[2]props.children.length',
-  // );
-  // console.log(
-  //   tabContArr[3].tabCont.props.children.length,
-  //   'tabContArr[3]props.children.length',
-  // );
-  // console.log(tabContArr[1].tabCont.children[2]);
+  console.log(tabContArr[activeIndex].tabCont.props.children.length, 'length');
+  console.log(tabContArr[activeIndex].tabCont.props.children, 'children');
 
   return (
     <SContainer>
@@ -131,7 +112,8 @@ function PillTab() {
           </STabLi>
         </STitleBox>
       </STabTitle>
-      {tabContArr[activeIndex].tabCont.props.children.length > 4 ? (
+
+      {tabContArr[activeIndex].tabCont.props.children !== 'null' ? (
         <STabContent>{tabContArr[activeIndex].tabCont}</STabContent>
       ) : (
         <STabContent>내용없음</STabContent>
