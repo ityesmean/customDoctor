@@ -116,10 +116,10 @@ public class HospitalCustomRepo {
         if (word == null) {
             return null;
         } else {
-            // return hospital.hospital_name.contains(word);
-           NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,
-                   "function('match',{0},{1})", hospital.hospital_name, word);
-           return booleanTemplate.gt(0);
+            return hospital.hospital_name.contains(word);
+           // NumberTemplate booleanTemplate = Expressions.numberTemplate(Double.class,
+           //         "function('match',{0},{1})", hospital.hospital_name, word);
+           // return booleanTemplate.gt(0);
         }
     }
 
