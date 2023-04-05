@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { hospitalFavoriteState } from '../../atoms';
 
+import HospitalFavoriteList from '../../components/hospital/HospitalFavoriteList';
 import BackButton from '../../components/common/BackButton';
-import HospitalList from '../../components/hospital/HospitalList';
 
 import Header from '../../components/common/Header';
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
@@ -65,6 +66,19 @@ const SLine = styled.div`
 `;
 
 function MyPageHospitalList() {
+  // const [list, setList] = useState();
+
+  // const getFavoriteList = async () => {
+  //   await axios
+  //     .post(`${API_URL_USER}/desc/list`)
+  //     .then(res => setList(res.data.data), console.log(list, 'list1'))
+  //     .catch(err => console.log(err));
+  // };
+  // useEffect(() => {
+  //   getFavoriteList();
+  //   console.log(list, 'list2');
+  // }, []);
+
   return (
     <>
       <Header />
@@ -102,7 +116,7 @@ function MyPageHospitalList() {
         </SPageBox>
       </SPageSelectBox>
       <SLine />
-      <HospitalList />
+      <HospitalFavoriteList />
     </>
   );
 }

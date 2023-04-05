@@ -32,7 +32,9 @@ function HospitalDetail() {
       .get(`${API_URL_HOSPITAL}/desc/${hospitalId}`)
       .then(
         res => setHospitalDesc(res.data.data),
+        console.log(hospitalDesc, 'hospitalDesc'),
         setHospitalBasic(information.state.information),
+        console.log(hospitalBasic, 'hospitalBasic'),
       )
       .catch(err => console.log(err));
   };
