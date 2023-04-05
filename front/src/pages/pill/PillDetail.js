@@ -100,6 +100,7 @@ function PillDetail() {
   const [avoidInfo, setAvoidInfo] = useRecoilState(drugAvoidInfo);
 
   useEffect(() => {
+    console.log('here');
     axios
       .all([
         axios.get(
@@ -118,6 +119,7 @@ function PillDetail() {
           setDetailInfo(res2.data);
           setDetailPassInfo(res2.data);
           setAvoidInfo(res3.data);
+          console.log(avoidInfo, 'avoidInfo');
         }),
       )
       .catch(error => console.log(error));
