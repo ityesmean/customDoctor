@@ -1,3 +1,6 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
@@ -142,6 +145,16 @@ function HospitalDesc() {
       console.log(err);
     }
   };
+
+  // 로그인 안한 상태일때 로그인하러 이동하는지 alert
+  const saveConfirm = function () {
+    if (confirm('로그인하시겠습니까?')) {
+      location.href = `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`;
+    } else {
+      console.log('남음');
+    }
+  };
+
   useEffect(() => {
     const fetchIsLike = async () => {
       try {
@@ -156,32 +169,39 @@ function HospitalDesc() {
       }
     };
     fetchIsLike();
-  }, [basicInfo.hospitalId]);
+  }, [like]);
 
   return (
     <SContainer>
       <FirstBox>
         <Treat>{basicInfo.hospitalOpen ? '진료중' : '진료 종료'}</Treat>
         {/* 로그인 했고 좋아요가 되어있을때 */}
-        {logininfo !== false && like !== true && like !== undefined ? (
-          // {logininfo !== false && like === false ? (
-          <Favorite
-            src={RedFavorites}
-            alt="RedFavorites"
-            onClick={() => {
-              // setTrigger(!trigger);
-              checkFavorite();
-              // fetchIsLike();
-            }}
-          />
+        {logininfo !== false ? (
+          like === false ? (
+            <Favorite
+              src={RedFavorites}
+              alt="RedFavorites"
+              onClick={() => {
+                checkFavorite();
+              }}
+            />
+          ) : (
+            <Favorite
+              src={Favorites}
+              alt="Favorites"
+              onClick={() => {
+                checkFavorite();
+              }}
+            />
+          )
         ) : (
+          <div> </div>
+        )}
+        {logininfo === false && (
           <Favorite
             src={Favorites}
             alt="Favorites"
-            onClick={() => {
-              // setTrigger(!trigger);
-              checkFavorite();
-            }}
+            onClick={() => saveConfirm()}
           />
         )}
       </FirstBox>
