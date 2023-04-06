@@ -18,7 +18,11 @@ import {
 } from '../../atoms';
 
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
+<<<<<<< HEAD
+import HospitalOff from '../../assets/HospitalOff.png';
+=======
 import HospitalOff from '../../assets/HospitalOff.png'
+>>>>>>> 404fe929a968dd28ff565f1fd53774453056699c
 
 import './Overlay.css';
 
@@ -127,7 +131,7 @@ function KakaoMap({ lat, lng }) {
     onClickReSearchHospitalListHandler();
     setMapCenter(lat, lng);
   }, []);
-
+ 
   return (
     <>
       <SReSearchButton onClick={onClickReSearchHospitalListHandler}>
