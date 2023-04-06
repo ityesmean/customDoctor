@@ -34,39 +34,46 @@ function hospitalFavoriteList() {
         // { withCredentials: true },
         { hour: currentHours, min: currentMinutes, day: currentDay },
         { headers: { Authorization: `${token}` } },
-      ).then(res => {
+      )
+      .then(res => {
         if (res.data.status_code === 204) {
           console.log(res.data.data, '204');
         } else {
-          setFavoriteList(res.data.data)
-          console.log(res.data, '200')
+          setFavoriteList(res.data.data);
+          console.log(res.data, '200');
         }
-      }).catch(err => {
-        console.log(err)
       })
-    // }, [token, currentHours, currentMinutes, currentDay]);
+      .catch(err => {
+        console.log(err);
+      });
   }, []);
 
+  // const makeList = favoriteList => {
+  //   const newList = favoriteList.map((h, index) => ({
+  //     hospitalCode: h.hospitalCode,
+  //     hospitalId: h.hospitalId,
+  //     hospitalName: h.hospitalName,
+  //     hospitalOpen: h.hospitalOpen,
+  //     hospitalPart: h.hospitalPart,
+  //     hospitalTel: h.hospitalTel,
+  //     hospitalTime: h.hospitalTime,
+  //     hospitalX: h.hospitalX,
+  //     hospitalY: h.hospitalY,
+  //     hospitalDistance: getDistance(
+  //       position[0],
+  //       position[1],
+  //       h.hospitalY,
+  //       h.hospitalX,
+  //     ),
+  //   }));
+  //   setHospitalList(newList);
+  // };
+  console.log(favoriteList, 'favoriteList');
+
   useEffect(() => {
-    // const getFavoriteList = async () => {
-    //   try {
-    //     const res = await axios.post(
-    //       `${process.env.REACT_APP_API_URL}/user/hospital/marklist`,
-    //       // { withCredentials: true },
-    //       { hour: currentHours, min: currentMinutes, day: currentDay },
-    //       { headers: { Authorization: `${token}` } },
-    //     );
-    //     // if (res.data.status_code === 204) {
-    //     //   console.log(res.data.data, '204');
-    //     // } else {
-    //     setFavoriteList(res.data.data);
-    //     console.log(res.data.data, '200');
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
     if (token) {
       getFavoriteList();
+      // makeList();
     }
   }, []);
   return (

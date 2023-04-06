@@ -228,6 +228,7 @@ const SWordSearchInput = styled.input`
   border: solid 1px #00c192;
   border-radius: 10vw;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  padding-left: 5vw;
 `;
 
 const SSearchForm = styled.form``;
@@ -304,7 +305,6 @@ function PillSearch() {
       color: '#F1F3F7',
     },
   ];
-  const colorname = '색상';
 
   const ShpaeImg = [
     Circle,
@@ -342,10 +342,13 @@ function PillSearch() {
   const [selectPillLine, setSelectPillLine] = useState('');
 
   const [pillList, setPillList] = useRecoilState(medicineSearchResult);
+  const [inputValue, setInputValue] = useState();
 
+  const [colorname, setColorName] = useState('');
   // 색상 선택
   const handleSelectedPillColor = e => {
     setSelectPillColor(e.target.value);
+    setColorName(e.target.value);
   };
 
   // 모양 선택
@@ -356,13 +359,17 @@ function PillSearch() {
   // 분할선 선택
   const handleSelectedPillLine = e => {
     setSelectPillLine(e.target.value);
+    setInputValue('-');
   };
 
   // 식별문자
-  const [inputValue, setInputValue] = useState('');
   const onChangeSearch = e => {
     setInputValue(e.target.value);
-    // console.log('INPUT', inputValue);
+    // if (e.target.value !== null) {
+    //   setInputValue(e.target.value);
+    // } else if (e.target.value === null) {
+    //   setInputValue('-');
+    // }
   };
 
   const LineType = ['a', 'b', 'c', 'd', 'e'];
@@ -393,9 +400,10 @@ function PillSearch() {
   };
 
   // console.log(pillList);
-  // console.log(selectPillShape);
+  console.log(selectPillColor);
+  console.log(selectPillShape);
   console.log(selectPillLine);
-  // console.log(inputValue);
+  console.log(inputValue);
 
   return (
     <>

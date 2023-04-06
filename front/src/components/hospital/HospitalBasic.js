@@ -113,10 +113,11 @@ const SListText = styled.div`
 
 function HospitalBasic(props) {
   const basicInfo = useRecoilValue(hospitalBasicState);
-  // console.log(basicInfo, 'basicInfo');
   const descInfo = useRecoilValue(hospitalDescState);
   const logininfo = useRecoilValue(loginState);
-  // console.log(LoginInfo, 'LoginInfo');
+
+  const currentTime = new Date();
+  const currentDay = currentTime.getDay();
 
   const departmentList = [];
   for (let i = 0; i < basicInfo.hospitalPart.length; i++) {
@@ -126,7 +127,7 @@ function HospitalBasic(props) {
   }
   // 즐겨찾기(찜하기) 기능
   const [like, setLike] = useState();
-  console.log(like);
+  // console.log(like);
   // const [trigger, setTrigger] = useState(like === 'like' ? true : false);
 
   const token = localStorage.getItem('accessToken');
@@ -149,6 +150,55 @@ function HospitalBasic(props) {
     }
   };
 
+  let word = '';
+  if (basicInfo.hospitalTime === null) {
+    word = '정보없음';
+  } else if (basicInfo.hospitalTime !== null) {
+    word = '휴진';
+  }
+  let todaytime = '';
+  if (basicInfo.hospitalTime !== null) {
+    if (basicInfo.hospitalTime.hospitalTimeMon !== null && currentDay === 1) {
+      todaytime = basicInfo.hospitalTime.hospitalTimeMon;
+    } else if (basicInfo.hospitalTime.hospitalTimeMon === null) {
+      todaytime = '정보없음';
+    }
+    if (basicInfo.hospitalTime.hospitalTimeTue !== null && currentDay === 2) {
+      todaytime = basicInfo.hospitalTime.hospitalTimeTue;
+    } else if (basicInfo.hospitalTime.hospitalTimeTue === null) {
+      todaytime = '정보없음';
+    }
+    if (basicInfo.hospitalTime.hospitalTimeWen !== null && currentDay === 3) {
+      todaytime = basicInfo.hospitalTime.hospitalTimeWen;
+    } else if (basicInfo.hospitalTime.hospitalTimeWen === null) {
+      todaytime = '정보없음';
+    }
+    if (basicInfo.hospitalTime.hospitalTimeThu !== null && currentDay === 4) {
+      todaytime = basicInfo.hospitalTime.hospitalTimeThu;
+    } else if (basicInfo.hospitalTime.hospitalTimeThu === null) {
+      todaytime = '정보없음';
+    }
+    if (basicInfo.hospitalTime.hospitalTimeFri !== null && currentDay === 5) {
+      todaytime = basicInfo.hospitalTime.hospitalTimeFri;
+    } else if (basicInfo.hospitalTime.hospitalTimeFri === null) {
+      todaytime = '정보없음';
+    }
+    if (basicInfo.hospitalTime.hospitalTimeSat !== null && currentDay === 6) {
+      todaytime = basicInfo.hospitalTime.hospitalTimeSat;
+    } else if (
+      basicInfo.hospitalTime.hospitalTimeSat === null &&
+      currentDay === 6
+    ) {
+      todaytime = '정보없음';
+    }
+    if (basicInfo.hospitalTime.hospitalTimeSun !== null && currentDay === 0) {
+      todaytime = basicInfo.hospitalTime.hospitalTimeSun;
+    } else if (basicInfo.hospitalTime.hospitalTimeSun === null) {
+      todaytime = '정보없음';
+    }
+  } else {
+    todaytime = '정보없음';
+  }
   useEffect(() => {
     const fetchIsLike = async () => {
       try {
@@ -163,14 +213,15 @@ function HospitalBasic(props) {
       }
     };
     fetchIsLike();
-  }, [basicInfo.hospitalId]);
+  }, [like]);
 
   return (
     <SContainer>
       <FirstBox>
         <Treat>{basicInfo.hospitalOpen ? '진료중' : '진료 종료'}</Treat>
         {/* 로그인 했고 좋아요가 되어있을때 */}
-        {logininfo !== false && like !== true ? (
+        {logininfo !== false && like !== true && like !== undefined ? (
+          // {logininfo !== false && like === false ? (
           <Favorite
             src={RedFavorites}
             alt="RedFavorites"
@@ -195,11 +246,7 @@ function HospitalBasic(props) {
       <SGreenBox>
         <SGreenSmallBox>
           <SGreenText>오늘</SGreenText>
-          <SGreenTime>9:00 ~ 19:00</SGreenTime>
-        </SGreenSmallBox>
-        <SGreenSmallBox>
-          <SGreenText>점심시간</SGreenText>
-          <SGreenTime>12:30 ~ 14: 00</SGreenTime>
+          <SGreenTime>{todaytime}</SGreenTime>
         </SGreenSmallBox>
       </SGreenBox>
       <STimeTable>
@@ -212,7 +259,7 @@ function HospitalBasic(props) {
         ) : (
           <STimeBox>
             <STimeRedText>월요일</STimeRedText>
-            <STimeRed>휴진</STimeRed>
+            <STimeRed>{word}</STimeRed>
           </STimeBox>
         )}
         {/* {basicInfo.hospitalTime !== null &&
@@ -236,7 +283,7 @@ function HospitalBasic(props) {
         ) : (
           <STimeBox>
             <STimeRedText>화요일</STimeRedText>
-            <STimeRed>휴진</STimeRed>
+            <STimeRed>{word}</STimeRed>
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
@@ -248,7 +295,7 @@ function HospitalBasic(props) {
         ) : (
           <STimeBox>
             <STimeRedText>수요일</STimeRedText>
-            <STimeRed>휴진</STimeRed>
+            <STimeRed>{word}</STimeRed>
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
@@ -260,7 +307,7 @@ function HospitalBasic(props) {
         ) : (
           <STimeBox>
             <STimeRedText>목요일</STimeRedText>
-            <STimeRed>휴진</STimeRed>
+            <STimeRed>{word}</STimeRed>
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
@@ -272,7 +319,7 @@ function HospitalBasic(props) {
         ) : (
           <STimeBox>
             <STimeRedText>금요일</STimeRedText>
-            <STimeRed>휴진</STimeRed>
+            <STimeRed>{word}</STimeRed>
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
@@ -284,7 +331,7 @@ function HospitalBasic(props) {
         ) : (
           <STimeBox>
             <STimeRedText>토요일</STimeRedText>
-            <STimeRed>휴진</STimeRed>
+            <STimeRed>{word}</STimeRed>
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
@@ -296,7 +343,7 @@ function HospitalBasic(props) {
         ) : (
           <STimeEndBox>
             <STimeRedText>일요일</STimeRedText>
-            <STimeRed>휴진</STimeRed>
+            <STimeRed>{word}</STimeRed>
           </STimeEndBox>
         )}
       </STimeTable>

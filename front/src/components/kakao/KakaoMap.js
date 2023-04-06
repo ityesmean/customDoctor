@@ -14,7 +14,7 @@ import {
   hospitalSearchResultState,
   myPositionState,
   searchOptionState,
-  hospitalBasicState
+  hospitalBasicState,
 } from '../../atoms';
 
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
@@ -64,11 +64,10 @@ function KakaoMap({ lat, lng }) {
   const latPerKm = 0.0091;
   const lngPerKm = 0.0113;
 
-
   // 병원을 재 검색할때 실행되는 함수
   const onClickReSearchHospitalListHandler = async () => {
-    console.log(searchOption)
-    console.log(mapCenter)
+    console.log(searchOption);
+    console.log(mapCenter);
     console.log(
       mapCenter.lat,
       mapCenter.lng,
@@ -98,9 +97,9 @@ function KakaoMap({ lat, lng }) {
           } else {
             setHospitalSearchResult(res.data.data);
           }
-        })
+        });
     } else if (searchOption[0] === 'option') {
-      console.log(searchOption)
+      console.log(searchOption);
       await axios
         .post(`${process.env.REACT_APP_API_URL}/hospital/find`, {
           e: mapCenter.lng + lngPerKm * 3,
@@ -125,10 +124,9 @@ function KakaoMap({ lat, lng }) {
   };
 
   useEffect(() => {
-    onClickReSearchHospitalListHandler()
-    setMapCenter(lat, lng)
-  }, [])
-
+    onClickReSearchHospitalListHandler();
+    setMapCenter(lat, lng);
+  }, []);
 
   return (
     <>
@@ -161,7 +159,7 @@ function KakaoMap({ lat, lng }) {
               // onClick={() => setSeleteMarker(index)}
               onClick={() => {
                 setSelectedMarker(index);
-                setBasicInfo(hospital)
+                setBasicInfo(hospital);
               }}
               isClicked={selectedMarker === index}
             />
