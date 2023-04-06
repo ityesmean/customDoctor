@@ -14,10 +14,11 @@ import {
   hospitalSearchResultState,
   myPositionState,
   searchOptionState,
-  hospitalBasicState
+  hospitalBasicState,
 } from '../../atoms';
 
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
+import HospitalOff from '../../assets/HospitalOff.png';
 
 import './Overlay.css';
 
@@ -63,11 +64,10 @@ function KakaoMap({ lat, lng }) {
   const latPerKm = 0.0091;
   const lngPerKm = 0.0113;
 
-
   // 병원을 재 검색할때 실행되는 함수
   const onClickReSearchHospitalListHandler = async () => {
-    console.log(searchOption)
-    console.log(mapCenter)
+    console.log(searchOption);
+    console.log(mapCenter);
     console.log(
       mapCenter.lat,
       mapCenter.lng,
@@ -97,9 +97,9 @@ function KakaoMap({ lat, lng }) {
           } else {
             setHospitalSearchResult(res.data.data);
           }
-        })
+        });
     } else if (searchOption[0] === 'option') {
-      console.log(searchOption)
+      console.log(searchOption);
       await axios
         .post(`${process.env.REACT_APP_API_URL}/hospital/find`, {
           e: mapCenter.lng + lngPerKm * 3,
@@ -124,10 +124,9 @@ function KakaoMap({ lat, lng }) {
   };
 
   useEffect(() => {
-    onClickReSearchHospitalListHandler()
-    setMapCenter(lat, lng)
-  }, [])
-
+    onClickReSearchHospitalListHandler();
+    setMapCenter(lat, lng);
+  }, []);
 
   return (
     <>
@@ -160,14 +159,13 @@ function KakaoMap({ lat, lng }) {
               // onClick={() => setSeleteMarker(index)}
               onClick={() => {
                 setSelectedMarker(index);
-                setBasicInfo(hospital)
+                setBasicInfo(hospital);
               }}
               isClicked={selectedMarker === index}
             />
             {selectedMarker === index ? (
               <CustomOverlayMap
                 position={{ lat: hospital.hospitalY, lng: hospital.hospitalX }}
-                xAnchor={-10.5}
               >
                 <div className="wrap">
                   <div className="info">
@@ -184,14 +182,22 @@ function KakaoMap({ lat, lng }) {
                     <div className="body">
                       <div className="img">
                         <img
-                          src={GreenHospital}
-                          width="73"
-                          height="70"
+                          // src={GreenHospital}
+                          src={
+                            hospital.hospitalOpen ? GreenHospital : HospitalOff
+                          }
+                          // width="73"
+                          // height="70"
                           alt="카카오 스페이스닷원"
                         />
                       </div>
                       <div className="desc">
-                        <div className="ellipsis">주소들어갈곳</div>
+                        {hospital.hospitalOpen ? (
+                          <div className="ellipsis">진료중</div>
+                        ) : (
+                          <div>진료 종료</div>
+                        )}
+                        {/* <div className="ellipsis">주소들어갈곳</div> */}
                         <div className="tel">{hospital.hospitalTel}</div>
                       </div>
                     </div>

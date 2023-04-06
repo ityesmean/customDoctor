@@ -11,7 +11,7 @@ const STabTitle = styled.ul`
   padding: 1vw 0;
   .active {
     font-weight: bold;
-    border-bottom: 1vw;
+    border-bottom: 1px solid black;
   }
 `;
 
@@ -64,7 +64,7 @@ function HospitalTab() {
             진료 정보
           </STabLi>
           <STabLi
-            className={activeIndex === 0 ? 'active' : ''}
+            className={activeIndex === 1 ? 'active' : ''}
             onClick={() => tabClickHandler(1)}
           >
             병원 정보
