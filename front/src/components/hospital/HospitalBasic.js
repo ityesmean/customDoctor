@@ -199,10 +199,7 @@ function HospitalBasic(props) {
   } else {
     todaytime = '정보없음';
   }
-<<<<<<< HEAD
 
-=======
->>>>>>> 404fe929a968dd28ff565f1fd53774453056699c
   useEffect(() => {
     const fetchIsLike = async () => {
       try {
@@ -218,7 +215,7 @@ function HospitalBasic(props) {
     };
     fetchIsLike();
   }, [like]);
- 
+
   return (
     <SContainer>
       <FirstBox>
