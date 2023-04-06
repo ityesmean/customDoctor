@@ -2,7 +2,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { loginState } from '../../atoms';
 
@@ -83,12 +83,13 @@ const SLogoutButton = styled.button`
 `;
 
 function Header() {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(loginState);
 
   const accessToken = localStorage.getItem('accessToken');
 
   const onClickLogoutHandler = async () => {
-    console.log('로그아웃')
+    console.log('로그아웃');
     await axios
       .get(`${process.env.REACT_APP_API_URL}/user/logout`, {
         headers: {
@@ -102,7 +103,7 @@ function Header() {
         console.log(res);
       })
       .catch(err => console.log(err));
-    console.log(isLogin)
+    navigate('/');
   };
 
   return (
