@@ -136,7 +136,7 @@ function SearchBar({ searchType }) {
       navigate('/hospital/search/result', {
         state: {
           type: 'keyWord',
-          value: "'" + inputValue,
+          value: inputValue,
           selected: 'standard',
         },
       });

@@ -19,7 +19,7 @@ const SPillCard = styled.div`
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   display: flex;
   align-items: center;
-  padding: 2vw 0vw 2vw 3vw;
+  padding: 0vw 2vw 0vw 3vw;
   border-radius: 4vw;
   z-index: 999;
   margin: 5vw 0;
@@ -28,6 +28,7 @@ const SPillCard = styled.div`
 const SImg = styled.img`
   width: 40vw;
   height: 30vw;
+  /* padding-left: 3vw; */
   /* background-color: gray; */
   border-radius: 5vw;
 `;
@@ -39,20 +40,24 @@ const SLink = styled(Link)`
 
 const SRightBox = styled.div`
   width: 35vw;
+  height: 30vw;
   margin-left: 3vw;
-  /* padding-right: 1vw; */
-  /* display: block; */
+  padding-top: 3vw;
+  display: block;
+  align-content: space-around;
   /* padding: 1vw; */
 `;
 
 const SBasketButton = styled.button`
   display: flex;
   align-items: center;
-  width: 15vw;
-  height: 7vw;
+  background-color: white;
+  /* width: 20vw; */
+  /* height: 7vw; */
   border: 1px solid #00c192;
-  border-radius: 3vw;
+  border-radius: 5vw;
   margin: 1vw 0;
+  padding: 1vw;
   justify-content: space-around;
   cursor: pointer;
 `;
@@ -64,43 +69,29 @@ const SButtonImg = styled.img`
 `;
 
 const SBox = styled.div`
-  /* width: 30vw; */
-  height: 10vw;
   display: flex;
   justify-content: space-between;
-
   align-items: center;
+  position: relative;
+  transform: translateY(-110%);
 `;
 
 const SNameText = styled.div`
   /* width: 30vw; */
   font-size: 4vw;
-  padding-bottom: 8vw;
-  /* margin-right: 2vw; */
-  /* display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100px; */
+  height: 100%;
 `;
 
 const SIngreText = styled.div`
   font-size: 3vw;
-  /* margin-right: 2vw; */
-  display: block;
+  width: 30vw;
   overflow: hidden;
+  white-space: normal;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100px;
-`;
-
-const SButtonText = styled.div`
-  font-size: 0.1vw;
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: keep-all; // 문단으로 끊어져서 줄바꿈 됨
 `;
 
 function DrugCard({ card }) {
@@ -137,7 +128,7 @@ function DrugCard({ card }) {
             )}
             <SBasketButton onClick={onClickAddDrugHandler}>
               <SButtonImg src={PillBasket} alt={PillBasket} />
-              <SButtonText>약바구니</SButtonText>
+              {/* <SButtonText>약바구니</SButtonText> */}
             </SBasketButton>
           </SBox>
         </SRightBox>
