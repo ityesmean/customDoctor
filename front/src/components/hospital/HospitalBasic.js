@@ -1,9 +1,13 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { hospitalBasicState, hospitalDescState, loginState } from '../../atoms';
 import { API_URL_USER } from '../../api/api';
@@ -103,6 +107,10 @@ const SParking = styled.div``;
 
 const SText = styled.div``;
 
+const SLink = styled.a`
+  text-decoration: none;
+`;
+
 const SListText = styled.div`
   display: inline-block;
   border-radius: 5px;
@@ -150,6 +158,7 @@ function HospitalBasic(props) {
     }
   };
 
+  // TimeTable 전체가 null 인지 아닌지 확인 하여 word 변경
   let word = '';
   if (basicInfo.hospitalTime === null) {
     word = '정보없음';
@@ -200,6 +209,16 @@ function HospitalBasic(props) {
     todaytime = '정보없음';
   }
 
+  // 로그인 안한 상태일때 로그인하러 이동하는지 alert
+  const saveConfirm = function () {
+    if (confirm('로그인하시겠습니까?')) {
+      location.href = `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`;
+      console.log('이동');
+    } else {
+      console.log('남음');
+    }
+  };
+
   useEffect(() => {
     const fetchIsLike = async () => {
       try {
@@ -221,25 +240,33 @@ function HospitalBasic(props) {
       <FirstBox>
         <Treat>{basicInfo.hospitalOpen ? '진료중' : '진료 종료'}</Treat>
         {/* 로그인 했고 좋아요가 되어있을때 */}
-        {logininfo !== false && like !== true && like !== undefined ? (
-          // {logininfo !== false && like === false ? (
-          <Favorite
-            src={RedFavorites}
-            alt="RedFavorites"
-            onClick={() => {
-              // setTrigger(!trigger);
-              checkFavorite();
-              // fetchIsLike();
-            }}
-          />
+        {/* {logininfo && like !== true && like !== undefined ? ( */}
+        {logininfo !== false ? (
+          like === false ? (
+            <Favorite
+              src={RedFavorites}
+              alt="RedFavorites"
+              onClick={() => {
+                checkFavorite();
+              }}
+            />
+          ) : (
+            <Favorite
+              src={Favorites}
+              alt="Favorites"
+              onClick={() => {
+                checkFavorite();
+              }}
+            />
+          )
         ) : (
+          <div> </div>
+        )}
+        {logininfo === false && (
           <Favorite
             src={Favorites}
             alt="Favorites"
-            onClick={() => {
-              // setTrigger(!trigger);
-              checkFavorite();
-            }}
+            onClick={() => saveConfirm()}
           />
         )}
       </FirstBox>

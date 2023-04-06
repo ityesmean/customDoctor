@@ -131,8 +131,8 @@ const SColorInput = styled.input.attrs({ type: 'radio' })`
   display: none;
 `;
 const SImg = styled.img`
-  width: 10vw;
-  height: 8vw;
+  width: 15vw;
+  height: 10vw;
 `;
 
 const SPillShapeBox = styled.div`

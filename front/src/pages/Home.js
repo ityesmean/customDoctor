@@ -9,13 +9,14 @@ import PillMain from '../assets/PillMain.png';
 import MypageMain from '../assets/MypageMain.png';
 
 import { loginState } from '../atoms';
+import Footer from '../components/Footer';
 
 const SSlogunBox = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 5vh;
   margin-left: 7vw;
-  margin-bottom: 15vh;
+  margin-bottom: 25vh;
   font-weight: bold;
   font-size: 5vw;
 `;
@@ -58,14 +59,13 @@ const SHomeImg = styled.img`
 `;
 
 function Home() {
+  const isLogin = useRecoilValue(loginState);
 
-  const isLogin = useRecoilValue(loginState)
-
-  const onClickCheckLoginStatus = (e) => {
+  const onClickCheckLoginStatus = e => {
     if (!isLogin) {
-      e.preventDefault()
+      e.preventDefault();
     }
-  }
+  };
 
   return (
     <>
@@ -98,6 +98,8 @@ function Home() {
           </SCardBox>
         </SLink>
       </SButtonBox>
+
+      <Footer />
     </>
   );
 }
