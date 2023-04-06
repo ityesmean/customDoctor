@@ -166,6 +166,7 @@ const SShapeInput = styled.input.attrs({ type: 'radio' })`
 // const SBox = styled.div``;
 const SPillLineBox = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const SLineLable = styled.label`
@@ -300,11 +301,6 @@ function PillSearch() {
       name: '투명',
       color: '#F1F3F4',
     },
-    {
-      name: '전체',
-      color: '#F1F3F7',
-      // 'linear-gradient(180deg,#e61414 0%,#f29912 18.54%,#faff00 37.81%,#009e8b 56.04%,#0057ff 73.75%,#3a20d9 85.73%,#bb03d9 100%)',
-    },
   ];
 
   const ShpaeImg = [
@@ -318,7 +314,6 @@ function PillSearch() {
     Pentagon,
     Hexagon,
     Octagon,
-    Entire,
   ];
   const ShapeName = [
     '원형',
@@ -331,7 +326,6 @@ function PillSearch() {
     '오각형',
     '육각형',
     '팔각형',
-    '전체',
   ];
 
   const LineImg = [None, Plus, Minus, Extra, Total];

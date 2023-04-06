@@ -274,7 +274,8 @@ function HospitalBasic(props) {
       <SGreenBox>
         <SGreenSmallBox>
           <SGreenText>오늘</SGreenText>
-          <SGreenTime>{todaytime}</SGreenTime>
+          {todaytime !== 'null' && <SGreenTime>{todaytime}</SGreenTime>}
+          {todaytime === 'null' && <SGreenTime>휴진</SGreenTime>}
         </SGreenSmallBox>
       </SGreenBox>
       <STimeTable>
