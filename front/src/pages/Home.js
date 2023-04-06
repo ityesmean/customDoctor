@@ -10,95 +10,142 @@ import MypageMain from '../assets/MypageMain.png';
 
 import { loginState } from '../atoms';
 
-const SSlogunBox = styled.div`
+const SMainBox = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 5vh;
-  margin-left: 7vw;
-  margin-bottom: 15vh;
+  background: #f1fdfa;
+  min-height: 100vh;
+`;
+
+const SHeaderBox = styled.div`
+  padding-top: 2vh;
+  flex-grow: 1;
+  margin-bottom: -1vh;
+`;
+
+const SFooterBox = styled.div`
+  flex-grow: 5;
+`;
+
+const SSlogunBox = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-left: 7vw;
   font-weight: bold;
   font-size: 5vw;
 `;
 
 const SSlogun1 = styled.div`
-  margin-bottom: 1vh;
+  font-size: 5vw;
 `;
-const SSlogun2 = styled.div``;
-
 const SButtonBox = styled.div`
+  flex-grow: 12;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  width: 100%;
 `;
 
 const SLink = styled(Link)`
   text-decoration: none;
+  width: 100%;
+  display: flex;
 `;
 
 const SCardBox = styled.div`
+  flex-grow: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 20vw;
+  width: 100%;
   font-weight: bold;
   margin-left: 2.5vw;
   margin-right: 2.5vw;
+
+  &:nth-child(1) {
+    background: #ddf6ee;
+  }
+  &:nth-child(3) {
+    background: #b7ecdc;
+  }
+  &:nth-child(2) {
+    background: #cff4de;
+  }
 `;
 const SSubTitle = styled.div`
-  text-align: center;
-  text-decoration: none;
-  font-size: 4vw;
-  margin-top: 2vh;
-  font-weight: bold;
+  flex-grow: 15;
+  font-size: 5vw;
   color: black;
+  display: flex;
+  justify-content: end;
+  padding-right: 6vw;
+  align-items: center;
+  font-weight: 400;
+`;
+
+const SSubImg = styled.div`
+  flex-grow: 1;
+  text-align: center;
+  padding-left: 5vw;
 `;
 
 const SHomeImg = styled.img`
-  width: 15vw;
+  width: 20vw;
 `;
 
 function Home() {
+  const isLogin = useRecoilValue(loginState);
 
-  const isLogin = useRecoilValue(loginState)
-
-  const onClickCheckLoginStatus = (e) => {
+  const onClickCheckLoginStatus = e => {
     if (!isLogin) {
-      e.preventDefault()
+      e.preventDefault();
     }
-  }
+  };
 
   return (
-    <>
-      <Header />
+    <SMainBox>
+      <SHeaderBox>
+        <Header />
+      </SHeaderBox>
 
       <SSlogunBox>
-        <SSlogun1>아플 때 언제까지 지도 보고 있을건가요 ?</SSlogun1>
-        <SSlogun2>맞닥에서 맞춤 의사를 찾아보세요</SSlogun2>
+        <SSlogun1>당신만의 맞춤 닥터</SSlogun1>
       </SSlogunBox>
 
       <SButtonBox>
-        <SLink to="/hospital/search">
-          <SCardBox>
-            <SHomeImg src={HospitalMain} alt="Hospital" />
-            <SSubTitle>병원 검색</SSubTitle>
-          </SCardBox>
-        </SLink>
+        <SCardBox>
+          <SLink to="/hospital/search">
+            <SSubImg>
+              <SHomeImg src={HospitalMain} alt="Hospital" />
+            </SSubImg>
+            <SSubTitle>이름, 진료과목으로 병원 검색</SSubTitle>
+          </SLink>
+        </SCardBox>
 
-        <SLink to="/pill/search">
-          <SCardBox>
-            <SHomeImg src={PillMain} alt="Pill" />
-            <SSubTitle>약 검색</SSubTitle>
-          </SCardBox>
-        </SLink>
+        <SCardBox>
+          <SLink to="/pill/search">
+            <SSubImg>
+              <SHomeImg src={PillMain} alt="Pill" />
+            </SSubImg>
 
-        <SLink to="/mypage/hospitallist" onClick={onClickCheckLoginStatus}>
-          <SCardBox>
-            <SHomeImg src={MypageMain} alt="Mypage" />
-            <SSubTitle>마이페이지</SSubTitle>
-          </SCardBox>
-        </SLink>
+            <SSubTitle>이름, 모양으로 약 검색</SSubTitle>
+          </SLink>
+        </SCardBox>
+
+        <SCardBox>
+          <SLink to="/mypage/hospitallist" onClick={onClickCheckLoginStatus}>
+            <SSubImg>
+              <SHomeImg src={MypageMain} alt="Mypage" />
+            </SSubImg>
+
+            <SSubTitle>즐겨찾기 병원, 복용 약 보러가기</SSubTitle>
+          </SLink>
+        </SCardBox>
       </SButtonBox>
-    </>
+
+      <SFooterBox />
+    </SMainBox>
   );
 }
 

@@ -17,7 +17,7 @@ const SLink = styled(Link)`
 `;
 
 const SLogo = styled.div`
-  font-size: 10vw;
+  font-size: 15vw;
   font-weight: bold;
   color: #00c192;
   margin-top: 5vh;
