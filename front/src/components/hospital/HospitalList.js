@@ -252,6 +252,34 @@ const SEmptyDistance3 = styled.div`
   }
 `;
 
+const searchAgainTyping = keyframes`
+  0.0000% { content: "상단 검색창에서 "; }
+  1.1395% { content: "상단 검색창에서 다"; }
+  2.2791% { content: "상단 검색창에서 다시"; }
+  3.4186% { content: "상단 검색창에서 다시 "; }
+  4.5581% { content: "상단 검색창에서 다시 검"; }
+  5.6977% { content: "상단 검색창에서 다시 검색"; }
+  6.8372% { content: "상단 검색창에서 다시 검색해"; }
+  7.9767% { content: "상단 검색창에서 다시 검색해주"; }
+  9.1163% { content: "상단 검색창에서 다시 검색해주세"; }
+  10.2558%{ content: "상단 검색창에서 다시 검색해주세요"; }
+  11.3958%{ content: "상단 검색창에서 다시 검색해주세요."; }
+`;
+
+const SSearchAgain = styled.div`
+  font-size: 4vmin;
+  color: #fff;
+  text-align: left;
+  font-weight: 500;
+  margin: 1rem 0 1rem 2.5rem;
+  --caret: currentcolor;
+
+  &:before {
+    content: '상단 검색창에서 다시 검색해주세요.';
+    animation: ${searchAgainTyping} 13.5s forwards;
+  }
+`;
+
 // props 로는 선택된 필터 버튼의 값이 전달된다. ex) distance, star, open
 function HospitalList({
   selectedValue,
@@ -486,6 +514,7 @@ function HospitalList({
             <Sbox>
               <SEmptyStandard />
               <SEnd />
+              <SSearchAgain />
             </Sbox>
           </SEmptyBox>
         )}
@@ -498,6 +527,7 @@ function HospitalList({
               <SEmptyStandard />
               <SMiddle />
               <SEnd />
+              <SSearchAgain />
             </Sbox>
           </SEmptyBox>
         )}
@@ -510,6 +540,7 @@ function HospitalList({
             <Sbox>
               <SEmptyDistance1 />
               <SEnd />
+              <SSearchAgain />
             </Sbox>
           </SEmptyBox>
         )}
@@ -522,6 +553,7 @@ function HospitalList({
               <SEmptyDistance1 />
               <SMiddle />
               <SEnd />
+              <SSearchAgain />
             </Sbox>
           </SEmptyBox>
         )}
@@ -534,6 +566,7 @@ function HospitalList({
             <Sbox>
               <SEmptyDistance2 />
               <SEnd />
+              <SSearchAgain />
             </Sbox>
           </SEmptyBox>
         )}
@@ -546,6 +579,7 @@ function HospitalList({
               <SEmptyDistance2 />
               <SMiddle />
               <SEnd />
+              <SSearchAgain />
             </Sbox>
           </SEmptyBox>
         )}
@@ -558,6 +592,7 @@ function HospitalList({
             <Sbox>
               <SEmptyDistance3 />
               <SEnd />
+              <SSearchAgain />
             </Sbox>
           </SEmptyBox>
         )}
@@ -570,6 +605,7 @@ function HospitalList({
               <SEmptyDistance3 />
               <SMiddle />
               <SEnd />
+              <SSearchAgain />
             </Sbox>
           </SEmptyBox>
         )}

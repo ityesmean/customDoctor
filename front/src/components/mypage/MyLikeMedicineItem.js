@@ -35,13 +35,16 @@ const SDeleteButton = styled.div`
   padding: 1vw;
   border-radius: 10px;
   font-size: small;
-  /* max-height: 10vh; */
+  height: 2vh;
+  line-height: 2vh;
 `;
 
 function MyLikeMedicineItem({
   medicine,
   onChangeCheckHandler,
   onClickDeleteHandler,
+  searchWord,
+  saveChangeSearchWordHandler,
 }) {
   const [myBasket, setMyBasket] = useRecoilState(deleteMyBasketSelector);
   // const [myBasketCheck, setMyBasketCheck] = useRecoilState(checkMyBasketSelector)
@@ -52,11 +55,13 @@ function MyLikeMedicineItem({
 
   const onClickDeleteItem = () => {
     onClickDeleteHandler(medicine);
+    saveChangeSearchWordHandler(searchWord);
   };
 
   const onChangeCheckItem = () => {
     setChecked(!bChecked);
     onChangeCheckHandler(medicine);
+    saveChangeSearchWordHandler(searchWord);
   };
 
   return (
@@ -82,12 +87,18 @@ MyLikeMedicineItem.propTypes = {
   }),
   onChangeCheckHandler: PropTypes.func,
   onClickDeleteHandler: PropTypes.func,
+  searchWord: PropTypes.shape({
+    value: PropTypes.string,
+  }),
+  saveChangeSearchWordHandler: PropTypes.func,
 };
 
 MyLikeMedicineItem.defaultProps = {
   medicine: null,
   onChangeCheckHandler: null,
   onClickDeleteHandler: null,
+  searchWord: null,
+  saveChangeSearchWordHandler: null,
 };
 
 export default MyLikeMedicineItem;
