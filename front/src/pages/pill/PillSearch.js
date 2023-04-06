@@ -360,7 +360,7 @@ function PillSearch() {
   // 분할선 선택
   const handleSelectedPillLine = e => {
     setSelectPillLine(e.target.value);
-    setInputValue('-');
+    // setInputValue('-');
   };
 
   // 식별문자
