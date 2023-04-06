@@ -93,11 +93,7 @@ function PillDetail() {
 
   // state 받아오기
   const location = useLocation();
-<<<<<<< Updated upstream
-  console.log(location.state.card);
-=======
   console.log(location.state);
->>>>>>> Stashed changes
   // 약 상세정보 가져오기
   const [basicInfo, setBasicInfo] = useState(null);
   const [detailInfo, setDetailInfo] = useState(null);
