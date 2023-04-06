@@ -1,10 +1,16 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-concat */
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { loginState } from '../../atoms';
+
+import LogoutButton from './LogoutButton';
+import LoginButton from './LoginButton';
+
+axios.defaults.withCredentials = true;
 
 const SContainer = styled.div`
   display: flex;
@@ -24,106 +30,19 @@ const SLogo = styled.div`
   margin-left: 6vw;
 `;
 
-const SLoginButton = styled.button`
-  font-size: 3vw;
-  font-weight: bold;
-  width: 25vw;
-  height: 5vw;
-  display: inline-block;
-  /* margin-top: 28px; */
-  color: #ffffff;
-  background-color: #16a085;
-  border: none;
-  border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
-  transition: 0.1s ease;
-  margin: 1vw 1vw;
-  cursor: pointer;
-  &:hover {
-    opacity: 1;
-    background-color: #00c192;
-    transition: 0.1s ease;
-  }
-`;
-
-const SLoginLink = styled.a`
-  color: white;
-  text-decoration: none;
-  width: 100%;
-  height: 100%;
-  display: inline-block;
-`;
-
-const SLogoutButton = styled.button`
-  font-size: 3vw;
-  font-weight: bold;
-  width: 25vw;
-  height: 5vw;
-  display: inline-block;
-  /* margin-top: 28px; */
-  color: white;
-  background-color: #16a085;
-  border: none;
-  border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
-  text-transform: uppercase;
-  transition: 0.1s ease;
-  margin: 1vw 1vw;
-  cursor: pointer;
-  &:hover {
-    opacity: 1;
-    background-color: #00c192;
-    transition: 0.1s ease;
-  }
-  button::after {
-    width: 150%;
-    height: 200%;
-  }
-`;
-
 function Header() {
+  axios.defaults.withCredentials = true;
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useRecoilState(loginState);
 
   const accessToken = localStorage.getItem('accessToken');
-
-  const onClickLogoutHandler = async () => {
-    console.log('로그아웃');
-    await axios
-      .get(`${process.env.REACT_APP_API_URL}/user/logout`, {
-        headers: {
-          Authorization: accessToken,
-        },
-        withCredentials: true,
-      })
-      .then(res => {
-        setIsLogin(false);
-        localStorage.removeItem('accessToken');
-        console.log(res);
-      })
-      .catch(err => console.log(err));
-    navigate('/');
-  };
 
   return (
     <SContainer>
       <SLink to="/">
         <SLogo>맞닥</SLogo>
       </SLink>
-      {accessToken ? (
-        <SLogoutButton type="button" onClick={onClickLogoutHandler}>
-          로그아웃
-        </SLogoutButton>
-      ) : (
-        <SLoginButton>
-          <SLoginLink
-            href={`${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`}
-          >
-            로그인
-          </SLoginLink>
-        </SLoginButton>
-      )}
+      {accessToken ? <LogoutButton /> : <LoginButton />}
     </SContainer>
   );
 }
