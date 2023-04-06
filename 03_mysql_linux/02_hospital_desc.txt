@@ -1,9 +1,0 @@
-create table if not exists hospital_desc(
-    hospital_id int,
-    hospital_desc_add varchar(300) default 'null',
-    hospital_desc_parking int default 0,
-    hospital_desc_device varchar(300) default 'null',
-    hospital_desc_special varchar(100) default 'null',
-    foreign key (hospital_id)
-    references hospital(hospital_id) on update cascade
-)ENGINE=MYISAM CHARSET=utf8;
