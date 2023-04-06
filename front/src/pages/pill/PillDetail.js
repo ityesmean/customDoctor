@@ -60,6 +60,7 @@ const STextBox = styled.div`
 
 const SSmallTextBox = styled.div`
   padding: 2vw 0;
+  width: 90%;
 `;
 
 const SBoldText = styled.div`
@@ -92,12 +93,16 @@ function PillDetail() {
 
   // state 받아오기
   const location = useLocation();
+<<<<<<< Updated upstream
   console.log(location.state.card);
+=======
+  console.log(location.state);
+>>>>>>> Stashed changes
   // 약 상세정보 가져오기
   const [basicInfo, setBasicInfo] = useState(null);
   const [detailInfo, setDetailInfo] = useState(null);
   const [detailPassInfo, setDetailPassInfo] = useRecoilState(drugDetailInfo);
-  const [avoidInfo, setAvoidInfo] = useRecoilState(drugAvoidInfo);
+  const [avoidInfo, setAvoidInfo] = useState(null);
 
   useEffect(() => {
     console.log('here');
@@ -118,12 +123,14 @@ function PillDetail() {
           setBasicInfo(res1.data);
           setDetailInfo(res2.data);
           setDetailPassInfo(res2.data);
-          setAvoidInfo(res3.data);
-          console.log(avoidInfo, 'avoidInfo');
+          setAvoidInfo(res3.data.data);
         }),
       )
       .catch(error => console.log(error));
   }, []);
+  console.log(basicInfo, 'basicInfo');
+  console.log(detailInfo, 'detailInfo');
+  console.log(avoidInfo, 'avoidInfo');
 
   return (
     <SContainer>
@@ -140,33 +147,44 @@ function PillDetail() {
           alt={basicInfo.data.drugImg}
         />
       )}
-      <SDetailBox>
-        {basicInfo && <SName>{basicInfo.data.drugName}</SName>}
-        <SThinLine />
-        <STextBox>
-          <SSmallTextBox>
-            <SBoldText>성분</SBoldText>
-            {basicInfo &&
-              (basicInfo.data.drugIngre !== 'null' ? (
+      {basicInfo && detailInfo && avoidInfo ? (
+        <SDetailBox>
+          <SName>{basicInfo.data.drugName}</SName>
+          <SThinLine />
+          <STextBox>
+            <SSmallTextBox>
+              <SBoldText>성분</SBoldText>
+              {basicInfo.data.drugIngre !== 'null' ? (
                 <SText>{basicInfo.data.drugIngre}</SText>
               ) : (
                 <SText>정보없음</SText>
-              ))}
-          </SSmallTextBox>
-          <SSmallTextBox>
-            <SBoldText>성상</SBoldText>
-            {basicInfo && <SText>{basicInfo.data.drugColorf}</SText>}
-          </SSmallTextBox>
-          <SSmallTextBox>
-            <SBoldText>제형</SBoldText>
-            {basicInfo && <SText>{basicInfo.data.drugType}</SText>}
-          </SSmallTextBox>
-          <SSmallTextBox>
-            <SBoldText>업체명</SBoldText>
-            {detailInfo && <SText>{detailInfo.data.drugDescCom}</SText>}
-          </SSmallTextBox>
-        </STextBox>
-      </SDetailBox>
+              )}
+            </SSmallTextBox>
+            <SSmallTextBox>
+              <SBoldText>성상</SBoldText>
+              <SText>{basicInfo.data.drugColorf}</SText>
+            </SSmallTextBox>
+            <SSmallTextBox>
+              <SBoldText>제형</SBoldText>
+              <SText>{basicInfo.data.drugType}</SText>
+            </SSmallTextBox>
+            <SSmallTextBox>
+              <SBoldText>업체명</SBoldText>
+              <SText>{detailInfo.data.drugDescCom}</SText>
+            </SSmallTextBox>
+            <SSmallTextBox>
+              <SBoldText>병용금기</SBoldText>
+              {avoidInfo.length !== 0 ? (
+                avoidInfo.map(avoid => <SText>{avoid.drugAvoidNameB}</SText>)
+              ) : (
+                <SText>병용금기 없음</SText>
+              )}
+            </SSmallTextBox>
+          </STextBox>
+        </SDetailBox>
+      ) : (
+        <div>약 상세정보 없음</div>
+      )}
       <SLine />
       {/* <div>{basicInfo}</div> */}
       {detailInfo && avoidInfo ? (
