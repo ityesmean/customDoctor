@@ -40,11 +40,14 @@ const SHeader = styled.div`
 
 const SImg = styled.img`
   margin-right: 2vw;
+  display: flex;
+  height: 10vw;
+  width: 10vw;
 `;
 
 const SMedicineImg = styled.img`
   width: 100vw;
-  height: 20vh;
+  height: 30vh;
   padding-top: 15vw;
 `;
 
@@ -66,16 +69,16 @@ const SSmallTextBox = styled.div`
 `;
 
 const SBoldText = styled.div`
-  font-size: 3vw;
+  font-size: 4vw;
   font-weight: bold;
   margin-bottom: 2vw;
-  font-size: medium;
+  /* font-size: medium; */
 `;
 
 const SText = styled.div`
   font-size: 3vw;
   margin-bottom: 2vw;
-  font-size: small;
+  /* font-size: small; */
 `;
 
 const SLine = styled.div`
