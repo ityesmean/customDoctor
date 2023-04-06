@@ -112,13 +112,11 @@ function DrugCard({ card }) {
     }
     setMyBasket([...temp, willAddDrug]);
   };
+  console.log(myBasket, 'myBasket');
   return (
     <div>
       <SPillCard>
-        <SLink
-          to={`/pill/${card.drugId}`}
-          state={{ drugId: `${card.drugId}`, card }}
-        >
+        <SLink to={`/pill/${card.drugId}`} state={card.drugId}>
           <SImg src={'https://' + card.drugImg} alt={card.drugImg} />
         </SLink>
         <SRightBox>

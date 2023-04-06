@@ -230,7 +230,7 @@ function PillsAccordian({ pillList }) {
       .get(`${process.env.REACT_APP_API_URL}/drug/mypill/${pillList.drugMyId}`)
       .then(res => {
         setPills(res.data.data);
-        console.log(res.data.data);
+        console.log(res.data.data, 'Pills');
       })
       .catch(err => console.log(err));
   };
@@ -252,8 +252,8 @@ function PillsAccordian({ pillList }) {
             {pills != null
               ? pills.map(pill => (
                   <SLink
-                    to={`/pill/${pill.drugMyPillId}`}
-                    state={`${pill.drugMyPillId}`}
+                    to={`/pill/${pill.drugId.drug_id}`}
+                    state={`${pill.drugId.drug_id}`}
                   >
                     <SRow key={pill.drugMyPillId}>
                       <SImage
@@ -262,11 +262,6 @@ function PillsAccordian({ pillList }) {
                       />
                       <div>
                         <SDrugName>{pill.drugId.drug_name}</SDrugName>
-                        {pill.drugId.drug_ingre === 'null' ? (
-                          <SIngre> </SIngre>
-                        ) : (
-                          <SIngre>{pill.drugId.drug_ingre}</SIngre>
-                        )}
                       </div>
                     </SRow>
                   </SLink>
