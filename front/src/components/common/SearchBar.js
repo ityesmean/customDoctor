@@ -84,7 +84,7 @@ function SearchBar({ searchType }) {
       const myTempSouth = lat - lngPerKm * 5;
       const myTempNorth = lat + lngPerKm * 5;
 
-      // console.log(lat, lng, '1');
+      console.log(lat, lng, '1');
 
       // // // 반경 5km 로 위치 계산
 
