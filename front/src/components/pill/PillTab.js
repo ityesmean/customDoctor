@@ -27,9 +27,7 @@ const STabTitle = styled.ul`
 
 const STitleBox = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-items: center;
-  align-items: center;
+  justify-content: space-around;
   /* justify-content: space-around; */
 `;
 const STabLi = styled.li`
