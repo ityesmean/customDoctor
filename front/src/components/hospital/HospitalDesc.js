@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
-import { hospitalDescState, hospitalBasicState } from '../../atoms';
+import { hospitalDescState, hospitalBasicState, loginState } from '../../atoms';
 import HospitalSpecialTal from './HospitalSpecialTal';
 import Favorites from '../../assets/Favorites.png';
 import RedFavorites from '../../assets/RedFavorites.png';
@@ -49,12 +49,13 @@ const SDoctorTable = styled.div``;
 
 function HospitalDesc() {
   const descInfo = useRecoilValue(hospitalDescState);
-  console.log(descInfo, 'descInfo');
+  console.log(descInfo, 'descInfo/Desc');
   const basicInfo = useRecoilValue(hospitalBasicState);
   // console.log(basicInfo, 'basicInfo');
+  const logininfo = useRecoilValue(loginState);
 
   const deviceItem = [];
-  if (descInfo !== null && descInfo.hospitalDevice !== null) {
+  if (descInfo !== null && descInfo.hospitalDevice === true) {
     const deviceList = descInfo.hospitalDevice.split('/');
     const result = {};
     deviceList.forEach(x => {
@@ -73,7 +74,7 @@ function HospitalDesc() {
   }
 
   const specialList = [];
-  if (descInfo !== null && descInfo.hospitalSpecial !== null) {
+  if (descInfo !== null && descInfo.hospitalSpecial === true) {
     const special = descInfo.hospitalSpecial.split('/');
     specialList.push(special);
   } else {
@@ -113,7 +114,7 @@ function HospitalDesc() {
     }
   }
   for (let i = 0; i < departmentCount.length; i++) {
-    if (departmentCount[i] !== 0) {
+    if (departmentCount[i] !== '0') {
       // console.log(departmentCount[i], i, 'i');
       departmentList.push({ Name: department[i], Count: departmentCount[i] });
       // console.log(departmentList, 'departmentList');
@@ -160,8 +161,10 @@ function HospitalDesc() {
   return (
     <SContainer>
       <FirstBox>
-        <Treat>진료중</Treat>
-        {like !== true ? (
+        <Treat>{basicInfo.hospitalOpen ? '진료중' : '진료 종료'}</Treat>
+        {/* 로그인 했고 좋아요가 되어있을때 */}
+        {logininfo !== false && like !== true && like !== undefined ? (
+          // {logininfo !== false && like === false ? (
           <Favorite
             src={RedFavorites}
             alt="RedFavorites"
@@ -182,7 +185,9 @@ function HospitalDesc() {
           />
         )}
       </FirstBox>
-      {descInfo !== null ? (
+      {descInfo !== null &&
+      (descInfo.hospitalSpecial === true ||
+        descInfo.hospitalDevice === true) ? (
         <SContainer>
           <SDeviceTable>
             <STitleText>의료 장비</STitleText>
@@ -193,7 +198,6 @@ function HospitalDesc() {
             {specialList.map(spe => (
               <SListText>{spe}</SListText>
             ))}
-            {/* <SListText>{descInfo.hospitalSpecial}</SListText> */}
           </SSpecialBox>
           <SDoctorTable>
             <STitleText>전문의</STitleText>
@@ -204,7 +208,23 @@ function HospitalDesc() {
           </SDoctorTable>
         </SContainer>
       ) : (
-        <SContainer>정보없음</SContainer>
+        <SContainer>
+          <SDeviceTable>
+            <STitleText>의료 장비</STitleText>
+            <SListText>의료 장비 없음</SListText>
+          </SDeviceTable>
+          <SSpecialBox>
+            <STitleText>특수 진료 정보</STitleText>
+            <SListText>없음</SListText>
+          </SSpecialBox>
+          <SDoctorTable>
+            <STitleText>전문의</STitleText>
+            <HospitalSpecialTal
+              headers={departmentHeaders}
+              items={departmentList}
+            />
+          </SDoctorTable>
+        </SContainer>
       )}
     </SContainer>
   );

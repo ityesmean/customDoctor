@@ -16,10 +16,10 @@ const SContainer = styled.div`
   position: relative;
   flex-direction: column;
   justify-content: center;
-  border-radius: 5px;
+  border-radius: 3vw;
   border: 1px solid gray;
   /* width: 100%; */
-  margin: 5vw 0 0 0;
+  margin: 5vw 0 5vw 0;
 `;
 
 const SHeader = styled.div`
@@ -49,19 +49,19 @@ const SContent = styled.div`
 const SLine = styled.div`
   width: 100%;
   text-align: center;
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid #f3f6fa;
   line-height: 0.1em;
 `;
 
 const SRow = styled.div`
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid #e1dcdc;
   display: flex;
   justify-content: space-around;
   align-items: center;
 `;
 
 const SImage = styled.img`
-  width: 20vw;
+  width: 30vw;
   padding: 1vh 0 1vh 0;
 `;
 
@@ -83,7 +83,13 @@ const SIngre = styled.div`
   padding: 1vh 0 1vh 0;
 `;
 
-const SMemo = styled.div``;
+const SMemoBox = styled.div`
+  margin: 1vw 3vw;
+`;
+
+const SMemo = styled.div`
+  padding: 1vw 0 0 1vw;
+`;
 
 // const StextBox = styled.div`
 //   width: 30vw;
@@ -99,12 +105,13 @@ const SButton = styled.div`
 `;
 
 const SDeleteButtonWrapper = styled.div`
+  margin: 2vw;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 `;
 
 const SPillListDeleteButton = styled.button`
-  color: #bdbdbd;
+  color: black;
   border: 1px solid #bdbdbd;
   padding: 1vw;
   background: none;
@@ -190,19 +197,23 @@ function PillsAccordian({ pillList }) {
                         src={`https://${pill.drugId.drug_img}`}
                         alt="drugImg"
                       />
-                      <SDrugName>{pill.drugId.drug_name}</SDrugName>
-                      {pill.drugId.drug_ingre === 'null' ? (
-                        <SIngre>정보 없음</SIngre>
-                      ) : (
-                        <SIngre>{pill.drugId.drug_ingre}</SIngre>
-                      )}
+                      <div>
+                        <SDrugName>{pill.drugId.drug_name}</SDrugName>
+                        {pill.drugId.drug_ingre === 'null' ? (
+                          <SIngre>정보 없음</SIngre>
+                        ) : (
+                          <SIngre>{pill.drugId.drug_ingre}</SIngre>
+                        )}
+                      </div>
                     </SRow>
                   </SLink>
                 ))
               : null}
           </SBox>
-          <SText>메모</SText>
-          <SMemo>{pillList.drugMyMemo}</SMemo>
+          <SMemoBox>
+            <SText>메모</SText>
+            <SMemo>{pillList.drugMyMemo}</SMemo>
+          </SMemoBox>
           <SDeleteButtonWrapper>
             <SPillListDeleteButton
               type="button"
