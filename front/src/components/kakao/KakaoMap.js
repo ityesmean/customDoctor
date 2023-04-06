@@ -18,7 +18,7 @@ import {
 } from '../../atoms';
 
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
-import HospitalOff from '../../assets/HospitalOff.png';
+import HospitalOff from '../../assets/HospitalOff.png'
 
 import './Overlay.css';
 
@@ -183,20 +183,14 @@ function KakaoMap({ lat, lng }) {
                       <div className="img">
                         <img
                           // src={GreenHospital}
-                          src={
-                            hospital.hospitalOpen ? GreenHospital : HospitalOff
-                          }
+                          src={hospital.hospitalOpen ? GreenHospital : HospitalOff}
                           // width="73"
                           // height="70"
                           alt="카카오 스페이스닷원"
                         />
                       </div>
                       <div className="desc">
-                        {hospital.hospitalOpen ? (
-                          <div className="ellipsis">진료중</div>
-                        ) : (
-                          <div>진료 종료</div>
-                        )}
+                        {hospital.hospitalOpen ? (<div className="ellipsis">진료중</div>) : (<div>진료 종료</div>)}
                         {/* <div className="ellipsis">주소들어갈곳</div> */}
                         <div className="tel">{hospital.hospitalTel}</div>
                       </div>

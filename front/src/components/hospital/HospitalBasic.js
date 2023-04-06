@@ -199,7 +199,6 @@ function HospitalBasic(props) {
   } else {
     todaytime = '정보없음';
   }
-
   useEffect(() => {
     const fetchIsLike = async () => {
       try {
@@ -252,7 +251,7 @@ function HospitalBasic(props) {
       </SGreenBox>
       <STimeTable>
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeMon.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeMon.length !== 4 ? (
           <STimeBox>
             <STimeText>월요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeMon}</STime>
@@ -276,7 +275,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )} */}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeTue.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeTue.length !== 4 ? (
           <STimeBox>
             <STimeText>화요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeTue}</STime>
@@ -288,7 +287,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeWed.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeWed.length !== 4 ? (
           <STimeBox>
             <STimeText>수요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeWed}</STime>
@@ -300,7 +299,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeThu.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeThu.length !== 4 ? (
           <STimeBox>
             <STimeText>목요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeThu}</STime>
@@ -312,7 +311,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeFri.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeFri.length !== 4 ? (
           <STimeBox>
             <STimeText>금요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeFri}</STime>
@@ -324,7 +323,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeSat.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeSat.length !== 4 ? (
           <STimeBox>
             <STimeText>토요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeSat}</STime>
@@ -336,7 +335,7 @@ function HospitalBasic(props) {
           </STimeBox>
         )}
         {basicInfo.hospitalTime !== null &&
-        basicInfo.hospitalTime.hospitalTimeSun.length !== 4 ? (
+          basicInfo.hospitalTime.hospitalTimeSun.length !== 4 ? (
           <STimeEndBox>
             <STimeText>일요일</STimeText>
             <STime>{basicInfo.hospitalTime.hospitalTimeSun}</STime>
