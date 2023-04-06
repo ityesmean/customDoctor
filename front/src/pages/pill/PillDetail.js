@@ -8,13 +8,14 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import axios from 'axios';
-import { drugDetailInfo, drugAvoidInfo } from '../../atoms';
+import { drugDetailInfo, drugAvoidInfo, myBasketState } from '../../atoms';
 import { API_URL_DRUG } from '../../api/api';
 
 import AddBasket from '../../assets/pilldata/AddBasket.png';
 import Back from '../../assets/Back.png';
 
 import PillTab from '../../components/pill/PillTab';
+import MyPageBasketButton from '../../components/pill/MyPageBasketButton';
 
 const SBack = styled.img`
   width: 8vw;
@@ -36,13 +37,6 @@ const SHeader = styled.div`
   align-items: center;
   position: fixed;
   background-color: white;
-`;
-
-const SImg = styled.img`
-  margin-right: 2vw;
-  display: flex;
-  height: 10vw;
-  width: 10vw;
 `;
 
 const SMedicineImg = styled.img`
@@ -93,9 +87,12 @@ const SThinLine = styled.div`
 // const SUnderTab = styled.div``;
 
 function PillDetail() {
+  // 약 바구니 recoilState
+  const [myBasket, setMyBasket] = useRecoilState(myBasketState);
+
   // state 받아오기
   const location = useLocation();
-
+  console.log(location.state.card);
   // 약 상세정보 가져오기
   const [basicInfo, setBasicInfo] = useState(null);
   const [detailInfo, setDetailInfo] = useState(null);
@@ -107,13 +104,13 @@ function PillDetail() {
     axios
       .all([
         axios.get(
-          `${process.env.REACT_APP_API_URL}/drug/info/${location.state}`,
+          `${process.env.REACT_APP_API_URL}/drug/info/${location.state.drugId}`,
         ),
         axios.get(
-          `${process.env.REACT_APP_API_URL}/drug/descinfo/${location.state}`,
+          `${process.env.REACT_APP_API_URL}/drug/descinfo/${location.state.drugId}`,
         ),
         axios.get(
-          `${process.env.REACT_APP_API_URL}/drug/avoidinfo/${location.state}`,
+          `${process.env.REACT_APP_API_URL}/drug/avoidinfo/${location.state.drugId}`,
         ),
       ])
       .then(
@@ -135,7 +132,7 @@ function PillDetail() {
           <SBack src={Back} alt="Back" />
         </SLink>
         <SName>정보</SName>
-        <SImg src={AddBasket} alt="AddBasket" />
+        <MyPageBasketButton drugName={location.state.card.drugName} />
       </SHeader>
       {basicInfo && (
         <SMedicineImg

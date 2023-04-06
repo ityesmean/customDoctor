@@ -139,17 +139,6 @@ function hospitalFavoriteList() {
   }, []);
   return (
     <SContainer>
-      {console.log(favoriteList)}
-      {/* {favoriteList ? ({favoriteList.map((faovrite, index) => (
-        <SLink
-          to={`/hospital/${faovrite.hospitalId}`}
-          key={faovrite.hospitalName}
-          state={{ information: faovrite }}
-        >
-          <HospitalCard hospital={faovrite} index={index} />
-        </SLink>
-      ))}) : null} */}
-
       {favoriteList &&
         favoriteList.map((faovrite, index) => (
           <SLink

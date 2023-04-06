@@ -115,7 +115,10 @@ function DrugCard({ card }) {
   return (
     <div>
       <SPillCard>
-        <SLink to={`/pill/${card.drugId}`} state={`${card.drugId}`}>
+        <SLink
+          to={`/pill/${card.drugId}`}
+          state={{ drugId: `${card.drugId}`, card }}
+        >
           <SImg src={'https://' + card.drugImg} alt={card.drugImg} />
         </SLink>
         <SRightBox>
