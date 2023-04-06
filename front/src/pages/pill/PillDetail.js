@@ -105,13 +105,13 @@ function PillDetail() {
     axios
       .all([
         axios.get(
-          `${process.env.REACT_APP_API_URL}/drug/info/${location.state.drugId}`,
+          `${process.env.REACT_APP_API_URL}/drug/info/${location.state}`,
         ),
         axios.get(
-          `${process.env.REACT_APP_API_URL}/drug/descinfo/${location.state.drugId}`,
+          `${process.env.REACT_APP_API_URL}/drug/descinfo/${location.state}`,
         ),
         axios.get(
-          `${process.env.REACT_APP_API_URL}/drug/avoidinfo/${location.state.drugId}`,
+          `${process.env.REACT_APP_API_URL}/drug/avoidinfo/${location.state}`,
         ),
       ])
       .then(
@@ -124,10 +124,6 @@ function PillDetail() {
       )
       .catch(error => console.log(error));
   }, []);
-  console.log(basicInfo, 'basicInfo');
-  console.log(detailInfo, 'detailInfo');
-  console.log(avoidInfo, 'avoidInfo');
-
   return (
     <SContainer>
       <SHeader>
@@ -135,7 +131,12 @@ function PillDetail() {
           <SBack src={Back} alt="Back" />
         </SLink>
         <SName>정보</SName>
-        <MyPageBasketButton drugName={location.state.card.drugName} />
+        {basicInfo && (
+          <MyPageBasketButton
+            drugName={basicInfo.data.drugName}
+            drugId={basicInfo.data.drugId}
+          />
+        )}
       </SHeader>
       {basicInfo && (
         <SMedicineImg

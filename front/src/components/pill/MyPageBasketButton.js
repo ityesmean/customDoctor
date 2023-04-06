@@ -15,11 +15,12 @@ const SMyBasketButtonImg = styled.img`
   margin-right: 3vw;
 `;
 
-function MyPageBasketButton({ drugName }) {
+function MyPageBasketButton({ drugName, drugId }) {
   const [myBasket, setMyBasket] = useRecoilState(myBasketState);
   console.log(drugName);
 
   const willAddDrug = {
+    id: drugId,
     name: drugName,
     isChecked: 'unChecked',
   };
@@ -28,6 +29,7 @@ function MyPageBasketButton({ drugName }) {
     setMyBasket([...temp, willAddDrug]);
     alert('약이 추가되었습니다.');
   };
+  console.log(myBasket, 'myBasket');
 
   return (
     <SMyBasketButtonImg src={MyBasketButton} onClick={onClickAddDrugHandler} />

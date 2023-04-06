@@ -98,7 +98,6 @@ const SInputBasketName = styled.input`
   border: none;
   margin-bottom: 3vh;
   margin-top: 1vh;
-  text-align: center;
 `;
 
 const SInputTextArea = styled.textarea`
