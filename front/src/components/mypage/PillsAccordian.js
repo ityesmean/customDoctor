@@ -16,7 +16,6 @@ const SContainer = styled.div`
   position: relative;
   flex-direction: column;
   justify-content: center;
-  border-radius: 3vw;
   border: 1px solid gray;
   /* width: 100%; */
   margin: 5vw 0 5vw 0;
@@ -25,9 +24,18 @@ const SContainer = styled.div`
 const SHeader = styled.div`
   display: flex;
   align-items: center;
-  height: 8vw;
+  /* height: 5vw; */
   width: 70vw;
-  margin: 0 10vw 0 2.5vw;
+  /* margin: 0 10vw 0 2.5vw; */
+  background-color: #00c192;
+  text-align: center;
+  font-weight: 700;
+  padding: 2vw;
+  display: block;
+  /* text-decoration: none; */
+  color: #fff;
+  /* transition: background-color 0.5s ease-in-out; */
+  /* border-bottom: 1px solid darken(#38cc70, 5%); */
 `;
 
 const SLink = styled(Link)`
@@ -39,11 +47,33 @@ const SContentsWrapper = styled.div`
   height: 0;
   width: 100%;
   overflow: hidden;
-  transition: height 0.35s ease;
+  transition: height 0.5s ease;
 `;
 
 const SContent = styled.div`
   padding: 1vw 0 1vw 0;
+  animation-name: loadEffect1;
+  animation-duration: 1s;
+  animation-delay: 0.6s;
+
+  @keyframes loadEffect1 {
+    0% {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    65% {
+      opacity: 0.65;
+      transform: scale(1.01);
+    }
+    85% {
+      opacity: 0.85;
+      transform: scale(0.97);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 `;
 
 const SLine = styled.div`
@@ -65,7 +95,31 @@ const SImage = styled.img`
   padding: 1vh 0 1vh 0;
 `;
 
-const SBox = styled.div``;
+const SBox = styled.div`
+  /* position: relative; */
+  animation-name: loadEffect1;
+  animation-duration: 1s;
+  animation-delay: 0.6s;
+
+  @keyframes loadEffect1 {
+    0% {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    65% {
+      opacity: 0.65;
+      transform: scale(1.01);
+    }
+    85% {
+      opacity: 0.85;
+      transform: scale(0.97);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+`;
 
 const SText = styled.div`
   font-weight: bold;
@@ -83,12 +137,19 @@ const SIngre = styled.div`
   padding: 1vh 0 1vh 0;
 `;
 
-const SMemoBox = styled.div`
+const SMemoBigBox = styled.div`
   margin: 1vw 3vw;
+  display: flex;
+  justify-content: space-evenly;
+`;
+
+const SMemoBox = styled.div`
+  /* margin: ;
+  border: 1px solid gray; */
 `;
 
 const SMemo = styled.div`
-  padding: 1vw 0 0 1vw;
+  padding: 1vw 0 0 4vw;
 `;
 
 // const StextBox = styled.div`
@@ -102,6 +163,7 @@ const SButton = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
+  /* transform: rotate(135deg); */
 `;
 
 const SDeleteButtonWrapper = styled.div`
@@ -160,6 +222,7 @@ function PillsAccordian({ pillList }) {
   };
 
   const parentRefHeight = parentRef.current?.style.height ?? '0px';
+
   const buttonText = parentRefHeight === '0px' ? '▲' : '▼';
   // const buttonText = parentRefHeight === '0px' ? '열기' : '닫기';
   const getPillAccordian = async () => {
@@ -200,7 +263,7 @@ function PillsAccordian({ pillList }) {
                       <div>
                         <SDrugName>{pill.drugId.drug_name}</SDrugName>
                         {pill.drugId.drug_ingre === 'null' ? (
-                          <SIngre>정보 없음</SIngre>
+                          <SIngre> </SIngre>
                         ) : (
                           <SIngre>{pill.drugId.drug_ingre}</SIngre>
                         )}
@@ -210,8 +273,10 @@ function PillsAccordian({ pillList }) {
                 ))
               : null}
           </SBox>
-          <SMemoBox>
+          <SMemoBigBox>
             <SText>메모</SText>
+          </SMemoBigBox>
+          <SMemoBox>
             <SMemo>{pillList.drugMyMemo}</SMemo>
           </SMemoBox>
           <SDeleteButtonWrapper>
