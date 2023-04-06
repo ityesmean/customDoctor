@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/prop-types */
 /* eslint-disable array-callback-return */
@@ -44,10 +45,7 @@ const STabContent = styled.div`
   background-color: #f1f3f4;
 `;
 
-function PillTab({ detailInfo, avoidInfo }) {
-  console.log(detailInfo, '@@@@@@@@@@@@');
-  console.log(avoidInfo, '##################');
-
+function PillTab({ detailInfo }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const tabClickHandler = index => {
@@ -55,10 +53,6 @@ function PillTab({ detailInfo, avoidInfo }) {
   };
   // const detailInfo = useRecoilValue(drugDetailInfo);
   // const avoidInfo = useRecoilValue(drugAvoidInfo);
-
-  // console.log(detailInfo, 'detailInfo');
-  // console.log(detailInfo.data, 'detailInfo.data');
-  // console.log(avoidInfo, 'avoidInfo');
 
   const tabContArr = [
     {
@@ -70,16 +64,10 @@ function PillTab({ detailInfo, avoidInfo }) {
       tabCont: <div>{detailInfo.data.drugDescSafety}</div>,
     },
     {
-      tabTitle: '탭3',
-      tabCont: <div>{avoidInfo.data}</div>,
-    },
-    {
       tabTitle: '탭4',
       tabCont: <div>{detailInfo.data.drugDescUse}</div>,
     },
   ];
-  console.log(tabContArr[activeIndex].tabCont.props.children.length, 'length');
-  console.log(tabContArr[activeIndex].tabCont.props.children, 'children');
 
   return (
     <SContainer>
@@ -100,13 +88,6 @@ function PillTab({ detailInfo, avoidInfo }) {
           <STabLi
             className={activeIndex === 2 ? 'active' : ''}
             onClick={() => tabClickHandler(2)}
-          >
-            병용금기
-          </STabLi>
-          {}
-          <STabLi
-            className={activeIndex === 3 ? 'active' : ''}
-            onClick={() => tabClickHandler(3)}
           >
             사용법
           </STabLi>
