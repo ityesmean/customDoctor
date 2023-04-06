@@ -1,6 +1,8 @@
 import React from 'react';
-
+import styled from 'styled-components';
 import PillsAccordian from './PillsAccordian';
+
+const SContainer = styled.div``;
 
 // props 로는 선택된 필터 버튼의 값이 전달된다. ex) distance, star, open
 function PillList({ pillList }) {
@@ -22,7 +24,7 @@ function PillList({ pillList }) {
   // ];
 
   return (
-    <div>
+    <SContainer>
       {pillLists ? (
         <>
           {pillLists.map(pilllist => (
@@ -30,7 +32,7 @@ function PillList({ pillList }) {
           ))}
         </>
       ) : null}
-    </div>
+    </SContainer>
   );
 }
 
