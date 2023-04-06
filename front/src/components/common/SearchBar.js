@@ -74,24 +74,13 @@ function SearchBar({ searchType }) {
     const successLocation = position => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
-      // console.log(lat, lng, 'here');
-      // const myNorth = 36.35887261465578;
-      // const mySouth = 36.34567675654588;
-      // const myEast = 127.35647601340733;
-      // const myWest = 127.29091439637051;
       const myTempEast = lng + latPerKm * 5;
       const myTempWest = lng - latPerKm * 5;
       const myTempSouth = lat - lngPerKm * 5;
       const myTempNorth = lat + lngPerKm * 5;
 
-      // console.log(lat, lng, '1');
+      console.log(lat, lng, '1');
 
-      // // // 반경 5km 로 위치 계산
-
-      // setMyEast(36.35887261465578);
-      // setMyWest(36.34567675654588);
-      // setMySouth(127.35647601340733);
-      // setMyNorth(127.29091439637051);
       const myPositions = [];
       myPositions.push(
         lat,
@@ -148,7 +137,6 @@ function SearchBar({ searchType }) {
           setMedicineList(res.data.data);
           setInputValue('');
           navigate('/pill/result');
-          // console.log(res.data.data[0]);
         })
         .catch(err => console.log(err));
     }

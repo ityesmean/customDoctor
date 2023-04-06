@@ -20,6 +20,7 @@ const SCard = styled.div`
 const SInformation = styled.div`
   display: flex;
   flex-direction: column;
+  width: 55vw;
 `;
 
 const SHospitalName = styled.div`
@@ -78,29 +79,6 @@ function HospitalCard({ hospital }) {
   const currentHours = currentTime.getHours();
   const currentMinutes = currentTime.getMinutes();
 
-  // console.log(currentTime);
-  // console.log(currentDay);
-  // console.log(currentHours);
-  // console.log(currentMinutes);
-
-  // 주소를 받아오기 위한 요청
-  // const getAddress = async () => {
-  //   await axios
-  //     .get(`${API_URL_HOSPITAL}/desc/${hospital.hospitalId}/`)
-  //     .then(res => {
-  //       if (res.data.data.hospitalAdd !== null) {
-  //         setAddress(res.data.data.hospitalAdd);
-  //       } else {
-  //         setAddress(null);
-  //       }
-  //     })
-  //     .catch(err => console.log(err));
-  // };
-
-  // useEffect(() => {
-  //   getAddress();
-  //   getStartAndEndTime();
-  // }, []);
   return (
     <>
       {hospital ? (
