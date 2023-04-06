@@ -100,7 +100,7 @@ const SColorLable = styled.label`
   ${props =>
     props.color === '#F1F3F7' &&
     css`
-      background-color: linear-gradient(
+      background: linear-gradient(
         180deg,
         #e61414 0%,
         #f29912 18.54%,
@@ -303,6 +303,7 @@ function PillSearch() {
     {
       name: '전체',
       color: '#F1F3F7',
+      // 'linear-gradient(180deg,#e61414 0%,#f29912 18.54%,#faff00 37.81%,#009e8b 56.04%,#0057ff 73.75%,#3a20d9 85.73%,#bb03d9 100%)',
     },
   ];
 
@@ -359,7 +360,7 @@ function PillSearch() {
   // 분할선 선택
   const handleSelectedPillLine = e => {
     setSelectPillLine(e.target.value);
-    setInputValue('-');
+    // setInputValue('-');
   };
 
   // 식별문자
@@ -422,7 +423,7 @@ function PillSearch() {
             <SText>{colorname}</SText>
           </STextBox>
           <SPillColorBox>
-            {PillColorName.map(value => (
+            {PillColorName.map((value, index) => (
               <SOption key={`${value.name}`}>
                 <SColorInput
                   type="radio"
@@ -433,6 +434,7 @@ function PillSearch() {
                 />
                 <SColorLable
                   style={{ backgroundColor: `${value.color}` }}
+                  color={`${value.color}`}
                   htmlFor={`${value.color}` + '색상'}
                 >
                   <STransText>{value.name}</STransText>

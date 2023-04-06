@@ -54,7 +54,7 @@ function HospitalDetail() {
         <BackButton />
       </SBackButton>
       <SContainer>
-        <KakaoMap lat={lat} lng={lng} /> 
+        <KakaoMap lat={lat} lng={lng} />
         {hospitalBasic !== null ? <HositalTotal /> : <div>렌더링중</div>}
       </SContainer>
     </>

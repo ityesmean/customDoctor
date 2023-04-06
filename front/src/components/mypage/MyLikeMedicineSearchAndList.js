@@ -104,6 +104,21 @@ function MyLikeMedicineSearchAndList() {
     setFilteredArr(result);
   };
 
+  const saveChangeSearchWordHandler = word => {
+    setSearchWord(word);
+
+    // filterdArr 가 랜더링 되기 위해 inputValue에 맞게 filtered Arr State 변경
+    const result = myBasket.filter(medicine => {
+      if (medicine.name.indexOf(word) === -1) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+
+    setFilteredArr(result);
+  };
+
   // 삭제 버튼 눌렀을때 실행되는 함수 (target은 장바구니 내의 해당 medicine)
   const onClickDeleteHandler = target => {
     // atom 직접 참조가 안되기 때문에 깊은 복사로 배열을 새로 만든 후에 filteredArr에 재 할당
@@ -184,6 +199,8 @@ function MyLikeMedicineSearchAndList() {
       <SListWrapper>
         {filteredArr.map(medicine => (
           <MyLikeMedicineItem
+            searchWord={searchWord}
+            saveChangeSearchWordHandler={saveChangeSearchWordHandler}
             key={medicine.name}
             medicine={medicine}
             onChangeCheckHandler={onChangeCheckHandler}

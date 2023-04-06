@@ -18,8 +18,7 @@ import {
 } from '../../atoms';
 
 import GreenHospital from '../../assets/mypage/GreenHospital.png';
-import HospitalOff from '../../assets/HospitalOff.png'
-
+import HospitalOff from '../../assets/HospitalOff.png';
 import './Overlay.css';
 
 const SReSearchButton = styled.button`
@@ -144,63 +143,75 @@ function KakaoMap({ lat, lng }) {
         }
         ref={hospitalMap}
       >
-        {hospitalSearchResult?.map((hospital, index) => (
-          <>
-            <MapMarker
-              key={`${hospital.hospitalName}-${hospital.hospitalX}`}
-              position={{ lat: hospital.hospitalY, lng: hospital.hospitalX }}
-              image={{
-                src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
-                size: {
-                  width: 24,
-                  height: 35,
-                },
-              }}
-              // onClick={() => setSeleteMarker(index)}
-              onClick={() => {
-                setSelectedMarker(index);
-                setBasicInfo(hospital);
-              }}
-              isClicked={selectedMarker === index}
-            />
-            {selectedMarker === index ? (
-              <CustomOverlayMap
+        {hospitalSearchResult &&
+          hospitalSearchResult.map((hospital, index) => (
+            <>
+              <MapMarker
+                key={`${hospital.hospitalName}-${hospital.hospitalX}`}
                 position={{ lat: hospital.hospitalY, lng: hospital.hospitalX }}
-              >
-                <div className="wrap">
-                  <div className="info">
-                    <div className="title">
-                      {hospital.hospitalName.length >= 10
-                        ? hospital.hospitalName.substr(0, 10) + '...'
-                        : hospital.hospitalName}
-                      <div
-                        className="close"
-                        onClick={() => setSelectedMarker(false)}
-                        title="닫기"
-                      ></div>
-                    </div>
-                    <div className="body">
-                      <div className="img">
-                        <img
-                          // src={GreenHospital}
-                          src={hospital.hospitalOpen ? GreenHospital : HospitalOff}
-                          // width="73"
-                          // height="70"
-                          alt="카카오 스페이스닷원"
-                        />
+                image={{
+                  src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png',
+                  size: {
+                    width: 24,
+                    height: 35,
+                  },
+                }}
+                // onClick={() => setSeleteMarker(index)}
+                onClick={() => {
+                  setSelectedMarker(index);
+                  setBasicInfo(hospital);
+                }}
+                isClicked={selectedMarker === index}
+              />
+              {selectedMarker === index ? (
+                <CustomOverlayMap
+                  position={{
+                    lat: hospital.hospitalY,
+                    lng: hospital.hospitalX,
+                  }}
+                >
+                  <div className="wrap">
+                    <div className="info">
+                      <div className="title">
+                        {hospital.hospitalName.length >= 10
+                          ? hospital.hospitalName.substr(0, 10) + '...'
+                          : hospital.hospitalName}
+                        <div
+                          className="close"
+                          onClick={() => setSelectedMarker(false)}
+                          title="닫기"
+                        ></div>
                       </div>
-                      <div className="desc">
-                        {hospital.hospitalOpen ? (<div className="ellipsis">진료중</div>) : (<div>진료 종료</div>)}
-                        {/* <div className="ellipsis">주소들어갈곳</div> */}
-                        <div className="tel">{hospital.hospitalTel}</div>
+                      <div className="body">
+                        <div className="img">
+                          <img
+                            // src={GreenHospital}
+                            src={
+                              hospital.hospitalOpen
+                                ? GreenHospital
+                                : HospitalOff
+                            }
+                            // width="73"
+                            // height="70"
+                            alt="카카오 스페이스닷원"
+                          />
+                        </div>
+                        <div className="desc">
+                          {hospital.hospitalOpen ? (
+                            <div className="ellipsis">진료중</div>
+                          ) : (
+                            <div>진료 종료</div>
+                          )}
+                          {/* <div className="ellipsis">주소들어갈곳</div> */}
+                          <div className="tel">{hospital.hospitalTel}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </CustomOverlayMap>
-            ) : null}
-          </>
-        ))}
+                </CustomOverlayMap>
+              ) : null}
+            </>
+          ))}
       </Map>
     </>
   );

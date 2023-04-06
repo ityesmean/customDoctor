@@ -8,13 +8,14 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import axios from 'axios';
-import { drugDetailInfo, drugAvoidInfo } from '../../atoms';
+import { drugDetailInfo, drugAvoidInfo, myBasketState } from '../../atoms';
 import { API_URL_DRUG } from '../../api/api';
 
 import AddBasket from '../../assets/pilldata/AddBasket.png';
 import Back from '../../assets/Back.png';
 
 import PillTab from '../../components/pill/PillTab';
+import MyPageBasketButton from '../../components/pill/MyPageBasketButton';
 
 const SBack = styled.img`
   width: 8vw;
@@ -38,13 +39,9 @@ const SHeader = styled.div`
   background-color: white;
 `;
 
-const SImg = styled.img`
-  margin-right: 2vw;
-`;
-
 const SMedicineImg = styled.img`
   width: 100vw;
-  height: 20vh;
+  height: 30vh;
   padding-top: 15vw;
 `;
 
@@ -63,19 +60,20 @@ const STextBox = styled.div`
 
 const SSmallTextBox = styled.div`
   padding: 2vw 0;
+  width: 90%;
 `;
 
 const SBoldText = styled.div`
-  font-size: 3vw;
+  font-size: 4vw;
   font-weight: bold;
   margin-bottom: 2vw;
-  font-size: medium;
+  /* font-size: medium; */
 `;
 
 const SText = styled.div`
   font-size: 3vw;
   margin-bottom: 2vw;
-  font-size: small;
+  /* font-size: small; */
 `;
 
 const SLine = styled.div`
@@ -90,27 +88,30 @@ const SThinLine = styled.div`
 // const SUnderTab = styled.div``;
 
 function PillDetail() {
+  // 약 바구니 recoilState
+  const [myBasket, setMyBasket] = useRecoilState(myBasketState);
+
   // state 받아오기
   const location = useLocation();
-
+  console.log(location.state);
   // 약 상세정보 가져오기
   const [basicInfo, setBasicInfo] = useState(null);
   const [detailInfo, setDetailInfo] = useState(null);
   const [detailPassInfo, setDetailPassInfo] = useRecoilState(drugDetailInfo);
-  const [avoidInfo, setAvoidInfo] = useRecoilState(drugAvoidInfo);
+  const [avoidInfo, setAvoidInfo] = useState(null);
 
   useEffect(() => {
     console.log('here');
     axios
       .all([
         axios.get(
-          `${process.env.REACT_APP_API_URL}/drug/info/${location.state}`,
+          `${process.env.REACT_APP_API_URL}/drug/info/${location.state.drugId}`,
         ),
         axios.get(
-          `${process.env.REACT_APP_API_URL}/drug/descinfo/${location.state}`,
+          `${process.env.REACT_APP_API_URL}/drug/descinfo/${location.state.drugId}`,
         ),
         axios.get(
-          `${process.env.REACT_APP_API_URL}/drug/avoidinfo/${location.state}`,
+          `${process.env.REACT_APP_API_URL}/drug/avoidinfo/${location.state.drugId}`,
         ),
       ])
       .then(
@@ -118,12 +119,14 @@ function PillDetail() {
           setBasicInfo(res1.data);
           setDetailInfo(res2.data);
           setDetailPassInfo(res2.data);
-          setAvoidInfo(res3.data);
-          console.log(avoidInfo, 'avoidInfo');
+          setAvoidInfo(res3.data.data);
         }),
       )
       .catch(error => console.log(error));
   }, []);
+  console.log(basicInfo, 'basicInfo');
+  console.log(detailInfo, 'detailInfo');
+  console.log(avoidInfo, 'avoidInfo');
 
   return (
     <SContainer>
@@ -132,7 +135,7 @@ function PillDetail() {
           <SBack src={Back} alt="Back" />
         </SLink>
         <SName>정보</SName>
-        <SImg src={AddBasket} alt="AddBasket" />
+        <MyPageBasketButton drugName={location.state.card.drugName} />
       </SHeader>
       {basicInfo && (
         <SMedicineImg
@@ -140,33 +143,44 @@ function PillDetail() {
           alt={basicInfo.data.drugImg}
         />
       )}
-      <SDetailBox>
-        {basicInfo && <SName>{basicInfo.data.drugName}</SName>}
-        <SThinLine />
-        <STextBox>
-          <SSmallTextBox>
-            <SBoldText>성분</SBoldText>
-            {basicInfo &&
-              (basicInfo.data.drugIngre !== 'null' ? (
+      {basicInfo && detailInfo && avoidInfo ? (
+        <SDetailBox>
+          <SName>{basicInfo.data.drugName}</SName>
+          <SThinLine />
+          <STextBox>
+            <SSmallTextBox>
+              <SBoldText>성분</SBoldText>
+              {basicInfo.data.drugIngre !== 'null' ? (
                 <SText>{basicInfo.data.drugIngre}</SText>
               ) : (
                 <SText>정보없음</SText>
-              ))}
-          </SSmallTextBox>
-          <SSmallTextBox>
-            <SBoldText>성상</SBoldText>
-            {basicInfo && <SText>{basicInfo.data.drugColorf}</SText>}
-          </SSmallTextBox>
-          <SSmallTextBox>
-            <SBoldText>제형</SBoldText>
-            {basicInfo && <SText>{basicInfo.data.drugType}</SText>}
-          </SSmallTextBox>
-          <SSmallTextBox>
-            <SBoldText>업체명</SBoldText>
-            {detailInfo && <SText>{detailInfo.data.drugDescCom}</SText>}
-          </SSmallTextBox>
-        </STextBox>
-      </SDetailBox>
+              )}
+            </SSmallTextBox>
+            <SSmallTextBox>
+              <SBoldText>성상</SBoldText>
+              <SText>{basicInfo.data.drugColorf}</SText>
+            </SSmallTextBox>
+            <SSmallTextBox>
+              <SBoldText>제형</SBoldText>
+              <SText>{basicInfo.data.drugType}</SText>
+            </SSmallTextBox>
+            <SSmallTextBox>
+              <SBoldText>업체명</SBoldText>
+              <SText>{detailInfo.data.drugDescCom}</SText>
+            </SSmallTextBox>
+            <SSmallTextBox>
+              <SBoldText>병용금기</SBoldText>
+              {avoidInfo.length !== 0 ? (
+                avoidInfo.map(avoid => <SText>{avoid.drugAvoidNameB}</SText>)
+              ) : (
+                <SText>병용금기 없음</SText>
+              )}
+            </SSmallTextBox>
+          </STextBox>
+        </SDetailBox>
+      ) : (
+        <div>약 상세정보 없음</div>
+      )}
       <SLine />
       {/* <div>{basicInfo}</div> */}
       {detailInfo && avoidInfo ? (

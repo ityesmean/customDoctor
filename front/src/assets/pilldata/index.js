@@ -21,4 +21,4 @@ export const Total = require('./line/Total.png');
 
 // 약바구니 버튼
 
-export const PillBasket = require('./ShoppingBasket.png');
+export const PillBasket = require('./AddBasket.png');
