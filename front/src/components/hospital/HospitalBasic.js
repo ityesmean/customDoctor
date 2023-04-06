@@ -218,7 +218,7 @@ function HospitalBasic(props) {
     };
     fetchIsLike();
   }, [like]);
-
+ 
   return (
     <SContainer>
       <FirstBox>
