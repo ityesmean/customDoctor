@@ -72,9 +72,25 @@
 ## 📺 [시연시나리오](./DOCS/시연시나리오.md)
 <br>
 
+### 배포(CI/CD)
+
+---
+
+- AWS EC2 - ubuntu os 20.04 LTS
+- Docker
+- k8s (kubeadm)
+- Nginx
+    - Nginx Ingress controller와 service로 분기처리 및 로드밸런싱
+- Jenkins
+    - Master/Agent로 병렬 처리
+    - pipeline 스크립트 작성으로 CI/CD 적용(GitOps)
+- ArgoCD
+- https
+    - cert-manager + letsencrypte를 통한 인증서 발급
+- Grafana + Prometheus
+
 <br>
 
-$$\color{#099E8B}\rule{1000px}{1px}$$
 # ✔ Cooperation
 - Git
 ![깃](/DOCS/images/git.png)
