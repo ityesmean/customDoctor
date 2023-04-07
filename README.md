@@ -19,7 +19,7 @@
 
 - 병원을 고를 떄 **신뢰성 있는** 병원 및 의약품 정보를 찾기 어려움
 - 내가 원하는 **니즈를 충족**하는 병원을 찾기 힘듦
-  ![Untitled](Docs/images/%ED%94%84%EB%A1%A4%EB%A1%9C%EA%B7%B81.png)
+  ![Untitled](Docs/images/start.png)
   ![Untitled](Docs/images/%ED%94%84%EB%A1%A4%EB%A1%9C%EA%B7%B82.png)
 
 <br>
@@ -92,7 +92,7 @@
 
 ## 📎 [최종 발표 PPT](./DOCS/%EB%A7%9E%EB%8B%A5-%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf)
 
-## 🏹 [포팅메뉴얼](./DOCS/포팅메뉴얼.md)
+## 🏹 [포팅메뉴얼](./DOCS/%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.md)
 
 ## 📺 [시연시나리오](./DOCS/시연시나리오.md)
 
