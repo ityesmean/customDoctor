@@ -6,7 +6,7 @@
 
 ### user_name
 
-이름 
+이름
 
 ### user_email
 
@@ -28,8 +28,13 @@
 
 자체적으로 생성한 고유 병원id
 
-### hospital_location
-point 형으로 저장된 병원의 좌표값
+### hospital_y
+
+저장된 병원의 위도
+
+### hospital_x
+
+저장된 병원의 경도
 
 ### hospital_name
 
@@ -42,10 +47,6 @@ point 형으로 저장된 병원의 좌표값
 ### hospital_tel
 
 전화번호
-
-### hospital_star
-
-크롤링한 별점
 
 ---
 
@@ -83,13 +84,21 @@ point 형으로 저장된 병원의 좌표값
 
 고유 병원 id
 
-### hospital_time_mon_s
+### hospital_time_mon ~ hospital_time_sun
 
-월요일 시작시간
+월요일 ~ 일요일 진료 시간
 
-### hospital_time_mon_e
+### hospital_time_mon_night ~ hospital_time_sun_night
 
-월요일 종료시간
+월요일 ~ 일요일 야간 진료 여부
+
+### hospital_time_holiday
+
+공휴일 진료 여부
+
+### hospital_time_etc
+
+병원 진료 시간 기타 정보
 
 ---
 
@@ -110,26 +119,6 @@ point 형으로 저장된 병원의 좌표값
 ### hospital_part_doctor
 
 해당 진료과목의 전문의
-
----
-
-## hospital_review
-
-### hospital_review_id
-
-병원리뷰 고유id
-
-### hospital_id
-
-고유 병원 id
-
-### hospial_review_con
-
-병원리뷰내용
-
-### hospital_review_time
-
-병원리뷰의 작성시간
 
 ---
 
@@ -167,7 +156,7 @@ point 형으로 저장된 병원의 좌표값
 
 약의 이미지 주소
 
-### drug_markf drug_markb
+### drug_markf, drug_markb
 
 약에 쓰여진 식별 문자
 
@@ -175,7 +164,7 @@ point 형으로 저장된 병원의 좌표값
 
 약의 모양(정방형, 타원형, 원형, 세모)
 
-### drug_colorf drug_colorb
+### drug_colorf, drug_colorb
 
 약의 색
 
@@ -235,6 +224,10 @@ point 형으로 저장된 병원의 좌표값
 
 약의 id, 피해야하는 약
 
+### drug_avoid_name_b
+
+피해야하는 약의 이름
+
 ### drug_avoid_desc
 
 같이 복용 시 부작용 설명
@@ -251,9 +244,9 @@ point 형으로 저장된 병원의 좌표값
 
 유저 id
 
-### drug_my_time
+### drug_my_title
 
-복용기간
+나의 약봉지에 적을 제목
 
 ### drug_my_memo
 
