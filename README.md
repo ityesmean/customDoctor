@@ -19,8 +19,8 @@
 
 - 병원을 고를 떄 **신뢰성 있는** 병원 및 의약품 정보를 찾기 어려움
 - 내가 원하는 **니즈를 충족**하는 병원을 찾기 힘듦
-  ![Untitled](Docs/images/start.png)
-  ![Untitled](Docs/images/%ED%94%84%EB%A1%A4%EB%A1%9C%EA%B7%B82.png)
+  ![Untitled](DOCS/images/start.png)
+  ![Untitled](DOCS/images/%ED%94%84%EB%A1%A4%EB%A1%9C%EA%B7%B82.png)
 
 <br>
 <br>
@@ -28,7 +28,7 @@
 ## 시장 분석
 
 - 사람들은 병원을 고를 때 **거리 > 영업시간 > 의료진 수** 순으로 병원을 알아봄
-  ![Untitled](Docs/images/%EC%8B%9C%EC%9E%A5%EB%B6%84%EC%84%9D.png)
+  ![Untitled](DOCS/images/%EC%8B%9C%EC%9E%A5%EB%B6%84%EC%84%9D.png)
 
   <br>
 
@@ -41,7 +41,7 @@
 - 증상에 따른 병원을 **필터링**
 - **신뢰성** 있는 병원 및 의약품 정보 제공
 - **사용자 맞춤** 서비스 제공
-  ![Untitled](Docs/images/%EC%84%9C%EB%B9%84%EC%8A%A4%EC%86%8C%EA%B0%9C2.png)
+  ![Untitled](DOCS/images/%EC%84%9C%EB%B9%84%EC%8A%A4%EC%86%8C%EA%B0%9C2.png)
 
 <br>
 
@@ -76,11 +76,11 @@
 
 ### ERD
 
-![Untitled](Docs/images/erd.png)
+![Untitled](DOCS/images/erd.png)
 
 ### Architecture
 
-![Untitled](Docs/images/%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.JPG)
+![Untitled](DOCS/images/%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.JPG)
 
 ## 🏣 [기획서](./DOCS/맞닥_기획서.md)
 
@@ -139,4 +139,4 @@
 
 ## 팀원 소개
 
-![Untitled](/Docs/images/%ED%8C%80%EC%9B%90%EC%86%8C%EA%B0%9C.png)
+![Untitled](/DOCS/images/%ED%8C%80%EC%9B%90%EC%86%8C%EA%B0%9C.png)
